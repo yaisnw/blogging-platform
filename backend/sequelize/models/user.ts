@@ -1,35 +1,35 @@
-import {
-    Attribute, PrimaryKey, AutoIncrement, NotNull,
-    HasMany
-} from "@sequelize/core/decorators-legacy"
-import {
-    DataTypes,
-    Model,
-    InferAttributes,
-    InferCreationAttributes,
-    CreationOptional,
-    NonAttribute,
-} from '@sequelize/core';
-import { Post } from "./post";
-import { Comment } from "./comment";
+import { Model, DataTypes, Sequelize } from 'sequelize';
 
-export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-    @Attribute(DataTypes.INTEGER)
-    @PrimaryKey
-    @AutoIncrement
-    declare id: CreationOptional<number>;
+export class User extends Model {
+  public id!: number;
+  public username!: string;
+  public password!: string;
 
-    @Attribute(DataTypes.STRING)
-    @NotNull
-    declare username: string;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
 
-    @Attribute(DataTypes.STRING)
-    @NotNull
-    declare password: string;
-
-    @HasMany(()=> Post, 'authorId')
-    declare posts?: NonAttribute<Post[]>;
-
-    @HasMany(() => Comment, 'authorId')
-    declare comments?: NonAttribute<Comment[]>;
+export function initUser(sequelize: Sequelize) {
+  User.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      tableName: 'users',
+      modelName: 'User',
+    }
+  );
 }

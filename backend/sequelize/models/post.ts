@@ -1,53 +1,46 @@
-import {
-    Attribute, PrimaryKey, AutoIncrement, NotNull,
-    BelongsTo,
-    Default,
-    HasMany
-} from "@sequelize/core/decorators-legacy"
-import {
-    DataTypes,
-    Model,
-    InferAttributes,
-    InferCreationAttributes,
-    CreationOptional,
-    NonAttribute
-} from '@sequelize/core';
-import { User } from "./user";
-import { Comment } from "./comment";
-import { Picture } from "./picture";
-export class Post extends Model<InferAttributes<Post>, InferCreationAttributes<Post>> {
-    @Attribute(DataTypes.INTEGER)
-    @PrimaryKey
-    @AutoIncrement
-    declare id: CreationOptional<number>;
+import { Model, DataTypes, Sequelize } from 'sequelize';
 
-    @Attribute(DataTypes.INTEGER)
-    @NotNull
-    declare authorId: number;
+export class Post extends Model {
+  public id!: number;
+  public authorId!: number;
+  public title!: string;
+  public content!: string;
+  public status!: 'uploaded' | 'pending';
 
-    @Attribute(DataTypes.TEXT)
-    @NotNull
-    declare title: string;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
 
-    @Attribute(DataTypes.TEXT)
-    @NotNull
-    declare content: string;
-
-    @Attribute(DataTypes.ENUM('uploaded', 'pending'))
-    @Default('pending')
-    declare status: CreationOptional<string>;
-
-    declare createdAt: CreationOptional<Date>;
-    declare updatedAt: CreationOptional<Date>;
-
-    @HasMany(() => Comment, "postId")
-    declare comments?: NonAttribute<Comment[]>;
-
-    @HasMany(()=> Picture, "postId")
-    declare pictures?: NonAttribute<Picture[]>;
-
-    @BelongsTo(() => User, "authorId")
-    declare author: NonAttribute<User>;
-
-
+export function initPost(sequelize: Sequelize) {
+  Post.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      authorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      title: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.ENUM('uploaded', 'pending'),
+        allowNull: false,
+        defaultValue: 'pending',
+      },
+    },
+    {
+      sequelize,
+      tableName: 'posts',
+      modelName: 'Post',
+    }
+  );
 }

@@ -1,37 +1,35 @@
-import {
-    Attribute, PrimaryKey, AutoIncrement, NotNull,
-    BelongsTo,
-    Default,
-    HasMany
-} from "@sequelize/core/decorators-legacy"
-import {
-    DataTypes,
-    Model,
-    InferAttributes,
-    InferCreationAttributes,
-    CreationOptional,
-    NonAttribute
-} from '@sequelize/core';
-import { User } from "./user";
-import { Comment } from "./comment";
-import { Post } from "./post";
+import { Model, DataTypes, Sequelize } from 'sequelize';
 
-export class Picture extends Model<InferAttributes<Picture>, InferCreationAttributes<Picture>> {
+export class Picture extends Model {
+  public id!: number;
+  public postId!: number;
+  public picture!: Buffer;
 
-@Attribute(DataTypes.INTEGER)
-@PrimaryKey
-@AutoIncrement
-declare id: CreationOptional<number>;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
 
-@Attribute(DataTypes.INTEGER)
-@NotNull
-declare postId: number;
-
-@Attribute(DataTypes.BLOB)
-@NotNull
-declare picture: Buffer;
-
-@BelongsTo(()=> Post, "postId")
-declare post: NonAttribute<Post>;
-
+export function initPicture(sequelize: Sequelize) {
+  Picture.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      postId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      picture: {
+        type: DataTypes.BLOB,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      tableName: 'pictures',
+      modelName: 'Picture',
+    }
+  );
 }

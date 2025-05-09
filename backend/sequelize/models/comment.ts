@@ -1,42 +1,40 @@
-import {
-    Attribute, PrimaryKey, AutoIncrement, NotNull,
-    BelongsTo,
-    Default
-} from "@sequelize/core/decorators-legacy"
-import {
-    DataTypes,
-    Model,
-    InferAttributes,
-    InferCreationAttributes,
-    CreationOptional,
-    NonAttribute
-} from '@sequelize/core';
-import { User } from "./user";
-import { Post } from "./post";
+import { Model, DataTypes, Sequelize } from 'sequelize';
 
-export class Comment extends Model<InferAttributes<Comment>, InferCreationAttributes<Comment>> {
-    @Attribute(DataTypes.INTEGER)
-    @AutoIncrement
-    @PrimaryKey
-    declare id: CreationOptional<number>;
+export class Comment extends Model {
+  public id!: number;
+  public authorId!: number;
+  public postId!: number;
+  public content!: string;
 
-    @Attribute(DataTypes.INTEGER)
-    @NotNull
-    declare authorId: number;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
 
-    @Attribute(DataTypes.INTEGER)
-    @NotNull
-    declare postId: number;
-
-    @Attribute(DataTypes.TEXT)
-    @NotNull
-    declare content: string;
-
-    declare createdAt: CreationOptional<Date>;
-
-    @BelongsTo(() => User, 'authorId')
-    declare author: NonAttribute<User>;
-
-    @BelongsTo(() => Post, 'postId')
-    declare post: NonAttribute<Post>;
+export function initComment(sequelize: Sequelize) {
+  Comment.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      authorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      postId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      tableName: 'comments',
+      modelName: 'Comment',
+    }
+  );
 }
