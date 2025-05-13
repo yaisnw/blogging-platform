@@ -1,10 +1,15 @@
-import express, { Request, Response } from "express";
+import express, { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import sequelize from "./sequelize/connection";
 import SequelizeStoreInit from "connect-session-sequelize";
 import authRouter from "./routes/auth";
+import userRouter from "./routes/user";
 import session from "express-session";
 import { initModels } from "./sequelize/models/index";
+
+export interface CustomError extends Error {
+  status: number;
+}
 
 dotenv.config();
 
@@ -31,9 +36,31 @@ app.use(
     },
   })
 );
+
+const isAuthenticated = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.session.user) next()
+  else {
+    const err = new Error("Please log in first") as CustomError
+    err.status = 401
+    next(err)
+  }
+}
+
 app.use(express.json());
 app.use('/auth', authRouter)
-
+app.use('/user', isAuthenticated, userRouter)
+app.use((
+  err: CustomError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.status(err.status || 400).send(err.message)
+})
 
 
 app.get("/", (req: Request, res: Response) => {
