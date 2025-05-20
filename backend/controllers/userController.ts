@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express"
 import { User } from "../sequelize/models/user"
-import { requestBody } from "../types/controllerTypes"
+import { userRequestBody } from "../types/controllerTypes"
 import { CustomError } from "../index"
 
 
 export const getUser = async (
-    req: Request<{ id: number }, {}, requestBody, {}>,
+    req: Request<{ id: number }, {}, userRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -27,7 +27,7 @@ export const getUser = async (
     }
 }
 export const deleteUser = async (
-    req: Request<{ id: number }, {}, requestBody, {}>,
+    req: Request<{ id: number }, {}, userRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {

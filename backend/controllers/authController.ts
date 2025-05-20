@@ -1,8 +1,8 @@
-import express, { NextFunction, Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { User } from "../sequelize/models/user"
 import bcrypt from "bcryptjs"
 import "express-session"
-import { requestBody } from "../types/controllerTypes"
+import { userRequestBody } from "../types/controllerTypes"
 import { CustomError } from ".."
 
 declare module 'express-session' {
@@ -18,7 +18,7 @@ declare module 'express-session' {
 
 
 export const registerUser = async (
-    req: Request<{}, {}, requestBody, {}>,
+    req: Request<{}, {}, userRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -56,7 +56,7 @@ export const registerUser = async (
 }
 
 export const loginUser = async (
-    req: Request<{}, {}, requestBody, {}>,
+    req: Request<{}, {}, userRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -64,8 +64,8 @@ export const loginUser = async (
 
     if (!username || !password) {
         const err = new Error("Enter username and password") as CustomError;
-            err.status = 400;
-            throw err;
+        err.status = 400;
+        throw err;
     }
 
     try {
@@ -95,4 +95,22 @@ export const loginUser = async (
     } catch (err) {
         next(err)
     }
+}
+
+export const logout = async (
+    req: Request<{}, {}, userRequestBody, {}>,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+
+    req.session.user = undefined;
+    req.session.save(function (err) {
+        if (err) next(err)
+
+
+        req.session.regenerate(function (err) {
+            if (err) next(err)
+            res.redirect('/')
+        })
+    })
 }

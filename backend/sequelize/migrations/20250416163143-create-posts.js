@@ -33,7 +33,7 @@ module.exports = {
         defaultValue: 'pending',
         allowNull: false,
       },
-      createAt: {
+      createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
       },

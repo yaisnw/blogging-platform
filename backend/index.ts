@@ -4,11 +4,14 @@ import sequelize from "./sequelize/connection";
 import SequelizeStoreInit from "connect-session-sequelize";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
+import postRouter from "./routes/post";
 import session from "express-session";
 import { initModels } from "./sequelize/models/index";
+import commentRouter from "./routes/comment";
 
 export interface CustomError extends Error {
   status: number;
+  payload: any
 }
 
 dotenv.config();
@@ -51,15 +54,17 @@ const isAuthenticated = (
 }
 
 app.use(express.json());
-app.use('/auth', authRouter)
-app.use('/user', isAuthenticated, userRouter)
+app.use('/auth', authRouter);
+app.use('/user', isAuthenticated, userRouter);
+app.use('/post', isAuthenticated, postRouter);
+app.use('/comment', isAuthenticated, commentRouter);
 app.use((
   err: CustomError,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res.status(err.status || 400).send(err.message)
+  res.status(err.status || 400).send({message: err.message, payload: err.payload})
 })
 
 
