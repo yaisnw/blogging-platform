@@ -14,3 +14,13 @@ export interface commentRequestBody {
     postId: number,
     authorId: number
 }
+
+export interface pictureRequestBody {
+    postId: string | number,
+}
+
+export interface PictureAttributes {
+  id: number;
+  imageUrl: string;
+  postId: number;
+}

@@ -3,7 +3,7 @@ import { Model, DataTypes, Sequelize } from 'sequelize';
 export class Picture extends Model {
   public id!: number;
   public postId!: number;
-  public picture!: Buffer;
+  public imageUrl!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -21,8 +21,8 @@ export function initPicture(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      picture: {
-        type: DataTypes.BLOB,
+      imageUrl: {
+        type: DataTypes.TEXT,
         allowNull: false,
       },
     },

@@ -64,11 +64,11 @@ export const getCommentById = async (
     }
 }
 export const getCommentsByPostId = async (
-    req: Request<{}, {}, commentRequestBody, {}>,
+    req: Request<{postId: number}, {}, commentRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const { postId } = req.body;
+    const { postId } = req.params;
     if (!postId) {
         const err = new Error("Please provide post ID") as CustomError;
         err.status = 400;
@@ -89,16 +89,18 @@ export const getCommentsByPostId = async (
 }
 
 export const getCommentsByAuthorId = async (
-    req: Request<{}, {}, commentRequestBody, {}>,
+    req: Request<{authorId: number}, {}, commentRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const { authorId } = req.body;
-    if (!authorId) {
-        const err = new Error("Please provide author ID") as CustomError;
-        err.status = 400;
-        throw err
+    let authorId;
+    if(req.params.authorId) {
+        authorId = req.params.authorId
     }
+    else{
+        authorId = req.session.user?.id;
+    }
+    
     try {
         const comments = await Comment.findAll({ where: { authorId } });
         if (!comments) {

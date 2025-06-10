@@ -68,10 +68,11 @@ export const getAllPostsByAuthorId = async (
     next: NextFunction
 ): Promise<Response | void> => {
     try {
+
         const posts = await Post.findAll({ where: { authorId: req.session.user!.id } })
         if (!posts) {
             const err = new Error("No posts by this author") as CustomError;
-            err.status = 204
+            err.status = 404
             throw err
         }
         res.status(200).json({ msg: "Posts retrieved successfully", posts })

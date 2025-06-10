@@ -8,6 +8,7 @@ import postRouter from "./routes/post";
 import session from "express-session";
 import { initModels } from "./sequelize/models/index";
 import commentRouter from "./routes/comment";
+import pictureRouter from "./routes/picture";
 
 export interface CustomError extends Error {
   status: number;
@@ -58,6 +59,7 @@ app.use('/auth', authRouter);
 app.use('/user', isAuthenticated, userRouter);
 app.use('/post', isAuthenticated, postRouter);
 app.use('/comment', isAuthenticated, commentRouter);
+app.use('/picture', isAuthenticated, pictureRouter)
 app.use((
   err: CustomError,
   req: Request,
