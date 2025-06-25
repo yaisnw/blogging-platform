@@ -9,6 +9,7 @@ import session from "express-session";
 import { initModels } from "./sequelize/models/index";
 import commentRouter from "./routes/comment";
 import pictureRouter from "./routes/picture";
+import cors from "cors"
 
 export interface CustomError extends Error {
   status: number;
@@ -40,6 +41,12 @@ app.use(
     },
   })
 );
+app.use(cors(
+  {
+    origin: 'http://localhost:5173',
+    credentials: true
+  }
+))
 
 const isAuthenticated = (
   req: Request,

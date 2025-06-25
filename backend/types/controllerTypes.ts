@@ -1,7 +1,9 @@
-export interface userRequestBody {
-    username: string,
-    password: string
+export type userRequestBody = {
+  username: string;
+  email?: string;
+  password: string;
 }
+
 
 export interface postRequestBody {
     title: string,

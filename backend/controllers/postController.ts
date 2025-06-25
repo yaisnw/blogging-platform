@@ -63,17 +63,24 @@ export const getPostById = async (
 }
 
 export const getAllPostsByAuthorId = async (
-    req: Request<{}, {}, postRequestBody, {}>,
+    req: Request<{ authorId: number }, {}, postRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
+    let authorId;
+    authorId  = req.params.authorId;
+    if(!authorId) {
+        authorId = req.session.user?.id
+    }
     try {
 
-        const posts = await Post.findAll({ where: { authorId: req.session.user!.id } })
-        if (!posts) {
-            const err = new Error("No posts by this author") as CustomError;
-            err.status = 404
-            throw err
+        const posts = await Post.findAll({
+            where: {
+                authorId,
+        }
+        })
+        if (posts.length === 0) {
+            return res.status(404).json({ msg: "No posts by this author." })
         }
         res.status(200).json({ msg: "Posts retrieved successfully", posts })
     }
@@ -108,7 +115,7 @@ export const editPost = async (
             }
         )
         if (editedPost[0] !== 0) {
-            res.status(201).json({msg: "Post updated successfully"})
+            res.status(201).json({ msg: "Post updated successfully" })
         }
         else {
             const err = new Error("Post could not be edited") as CustomError;
@@ -116,7 +123,7 @@ export const editPost = async (
             throw err
         }
     }
-    catch(err){
+    catch (err) {
         next(err)
     }
 }

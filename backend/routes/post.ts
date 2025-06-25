@@ -3,7 +3,7 @@ import { deleteAllPostsByAuthorId, deletePostById, getAllPostsByAuthorId, getPos
 const postRouter = express.Router();
 
 postRouter.post('/', addPost);
-postRouter.get('/getAllPosts', getAllPostsByAuthorId);
+postRouter.get('/getAllPosts/:authorId?', getAllPostsByAuthorId);
 postRouter.get('/:id', getPostById);
 postRouter.put('/update/:id', editPost);
 postRouter.delete('/delete/:id', deletePostById);

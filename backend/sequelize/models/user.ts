@@ -3,6 +3,7 @@ import { Model, DataTypes, Sequelize } from 'sequelize';
 export class User extends Model {
   public id!: number;
   public username!: string;
+  public email!: string;
   public password!: string;
 
   public readonly createdAt!: Date;
@@ -20,6 +21,15 @@ export function initUser(sequelize: Sequelize) {
       username: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
       },
       password: {
         type: DataTypes.STRING,
