@@ -16,14 +16,24 @@ export const authApi = createApi({
                     response.status === 201 && !result.isError,
             }),
         }),
-        logInUser: build.mutation<responseUser, logInUser>({
+        logInUser: build.mutation<string, logInUser>({
             query: (body) => ({
                 url: '/login',
                 method: 'POST',
                 body,
             }),
-            transformResponse: (data: {msg: string, user: responseUser}) => {
-                return (data).user
+            transformResponse: (response: { msg: string, token: string, user: responseUser }) => {
+                return response.token
+            }
+        }),
+        oAuthLogin: build.mutation<string, {code: string}>({
+            query: (body) => ({
+                url: '/googleOAuth',
+                method: 'POST',
+                body
+            }),
+            transformResponse: (response: {token: string}) => {
+                return response.token
             }
         })
 
@@ -33,5 +43,6 @@ export const authApi = createApi({
 
 export const {
     useSignUpUserMutation,
-    useLogInUserMutation
+    useLogInUserMutation,
+    useOAuthLoginMutation
 } = authApi

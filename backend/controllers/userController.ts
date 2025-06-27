@@ -42,7 +42,7 @@ export const deleteUser = async (
         }
         const deletedUsers = await User.destroy({ where: { id: userId } })
         if (deletedUsers !== 0) {
-            return res.status(200).json({ msg: "User deleted successfully" })
+            return res.status(200).json({ message: "User deleted successfully" })
         }
         else {
             const err = new Error("User could not be deleted") as CustomError;

@@ -9,6 +9,6 @@ export interface logInUser {
 }
 export interface responseUser {
     id: number,
-    username: string,
     email: string
+    username: string,
 }

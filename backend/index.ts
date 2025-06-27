@@ -1,7 +1,6 @@
-import express, { ErrorRequestHandler, NextFunction, Request, Response } from "express";
+import express, {  NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import sequelize from "./sequelize/connection";
-import SequelizeStoreInit from "connect-session-sequelize";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import postRouter from "./routes/post";
@@ -10,37 +9,24 @@ import { initModels } from "./sequelize/models/index";
 import commentRouter from "./routes/comment";
 import pictureRouter from "./routes/picture";
 import cors from "cors"
+import jwt from "jsonwebtoken"
 
 export interface CustomError extends Error {
   status: number;
   payload: any
 }
 
+export interface AuthRequest extends Request {
+  user?: { id: number; email: string; username: string };
+}
+
 dotenv.config();
 
 const app = express();
-const SequelizeStore = SequelizeStoreInit(session.Store);
-const store = new SequelizeStore({
-  db: sequelize,
-});
 
-store.sync();
 
 const PORT = process.env.PORT || 3000;
-app.use(
-  session({
-    name: "rid",
-    secret: process.env.SESSION_SECRET || "default_secret",
-    store: store,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    },
-  })
-);
+
 app.use(cors(
   {
     origin: 'http://localhost:5173',
@@ -48,25 +34,34 @@ app.use(cors(
   }
 ))
 
-const isAuthenticated = (
-  req: Request,
+export const verifyJWT = (
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
-  if (req.session.user) next()
-  else {
-    const err = new Error("Please log in first") as CustomError
-    err.status = 401
-    next(err)
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "No token provided" });
   }
-}
+
+  try {
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthRequest["user"];
+
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
 
 app.use(express.json());
 app.use('/auth', authRouter);
-app.use('/user', isAuthenticated, userRouter);
-app.use('/post', isAuthenticated, postRouter);
-app.use('/comment', isAuthenticated, commentRouter);
-app.use('/picture', isAuthenticated, pictureRouter)
+app.use('/user', verifyJWT, userRouter);
+app.use('/post', verifyJWT, postRouter);
+app.use('/comment', verifyJWT, commentRouter);
+app.use('/picture', verifyJWT, pictureRouter)
 app.use((
   err: CustomError,
   req: Request,

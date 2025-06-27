@@ -32,7 +32,7 @@ export const addComment = async (
             err.status = 400;
             throw err
         }
-        res.status(201).json({ msg: "Comment created successfully", comment })
+        res.status(201).json({ message: "Comment created successfully", comment })
     }
     catch (err) {
         next(err)
@@ -136,7 +136,7 @@ export const editComment = async (
             }
         )
         if (editedComment[0] !== 0) {
-            res.status(201).json({ msg: "Comment updated Successfully" })
+            res.status(201).json({ message: "Comment updated Successfully" })
         }
         else {
             const err = new Error("Comment could not be edited") as CustomError;
@@ -165,7 +165,7 @@ export const deleteCommentById = async (
     try {
         const deletedComment = await Comment.destroy({ where: { id } });
         if (deletedComment !== 0) {
-            return res.status(200).json({ msg: "Comment deleted successfully" })
+            return res.status(200).json({ message: "Comment deleted successfully" })
         }
         else {
             const err = new Error("Comment could not be deleted") as CustomError;
@@ -186,7 +186,7 @@ export const deleteAllCommentsByAuthorId = async (
     try {
         const deletedComments = await Comment.destroy({ where: { authorId: req.session.user?.id } });
         if (deletedComments !== 0) {
-            return res.status(200).json({ msg: "Comments deleted successfully" })
+            return res.status(200).json({ message: "Comments deleted successfully" })
         }
         else {
             const err = new Error("Could not delete comments") as CustomError;

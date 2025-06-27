@@ -5,6 +5,8 @@ import "express-session";
 import { userRequestBody } from "../types/controllerTypes";
 import { CustomError } from "..";
 import { Op } from "sequelize";
+import { OAuth2Client } from 'google-auth-library';
+import jwt from 'jsonwebtoken';
 
 declare module 'express-session' {
   interface SessionData {
@@ -15,6 +17,12 @@ declare module 'express-session' {
     };
   }
 }
+
+const client = new OAuth2Client({
+  clientId: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  redirectUri: 'http://localhost:5173/oauth'
+});
 
 export const signUpUser = async (
   req: Request<{}, {}, userRequestBody, {}>,
@@ -54,7 +62,7 @@ export const signUpUser = async (
     });
 
     return res.status(201).json({
-      msg: "Account created successfully!",
+      message: "Account created successfully!",
       user: { id: newUser.id, username: newUser.username, email: newUser.email }
     });
   } catch (err) {
@@ -91,35 +99,83 @@ export const loginUser = async (
       throw err;
     }
 
-    req.session.user = {
-      id: existingUser.id,
-      username: existingUser.username,
-      email: existingUser.email
-    };
+    const token = jwt.sign(
+      {
+        id: existingUser.id,
+        email: existingUser.email,
+        username: existingUser.username
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: '7d' }
+    );
 
-    return res.status(200).json({
-      msg: "You have logged in successfully!",
-      user: { id: existingUser.id, username: existingUser.username, email: existingUser.email },
+    res.status(200).json({
+      message: "You have logged in successfully!",
+      token,
+      user: {
+        id: existingUser.id,
+        email: existingUser.email,
+        username: existingUser.username,
+      }
     });
+
   } catch (err) {
     next(err);
   }
 };
-
-export const logout = async (
-  req: Request<{}, {}, userRequestBody, {}>,
+export const googleOAuth = async (
+  req: Request<{}, {}, { code: string }, {}>,
   res: Response,
   next: NextFunction
 ): Promise<Response | void> => {
-  req.session.user = undefined;
+  const { code } = req.body;
 
-  req.session.save(function (err) {
-    if (err) return next(err);
+  try {
+    const { tokens } = await client.getToken(code);
 
-    req.session.regenerate(function (err) {
-      if (err) return next(err);
-
-      res.redirect('/');
+    const ticket = await client.verifyIdToken({
+      idToken: tokens.id_token!,
+      audience: process.env.GOOGLE_CLIENT_ID
     });
-  });
-};
+
+    const payload = ticket.getPayload();
+    const email = payload?.email;
+    const username = payload?.name;
+    const googleId = payload?.sub
+
+    if (!email || !googleId) {
+      const err = new Error("Google authentication failed. Missing required user info.") as CustomError;
+      err.status = 400;
+      throw err;
+    }
+
+    let user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      user = await User.create({
+        email,
+        googleId,
+        username,
+        password: null,
+      });
+    }
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        username: user.username
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: '7d' }
+    );
+    res.status(200).json({
+      token
+    })
+  }
+  catch (err) {
+    next(err)
+  }
+
+}
+
+

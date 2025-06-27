@@ -56,7 +56,6 @@ export const getAllPicturesByPostId = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const { postId } = req.params;
-    console.log(postId)
     try {
         const picture = await Picture.findAll({
             where: { postId }
@@ -67,10 +66,10 @@ export const getAllPicturesByPostId = async (
             throw err
         }
         if (picture.length !== 0){
-            res.status(200).json({ msg: "Pictures found", picture })
+            res.status(200).json({ message: "Pictures found", picture })
         }
         else {
-            res.status(200).json({msg: "No pictures found"})
+            res.status(200).json({message: "No pictures found"})
         }
     }
     catch (err) {
@@ -109,7 +108,7 @@ export const deletePicturesByPostId = async (
 
         await Picture.destroy({ where: { postId } });
 
-        return res.status(200).json({ msg: `Deleted all pictures for postId ${postId}` });
+        return res.status(200).json({ message: `Deleted all pictures for postId ${postId}` });
 
     } catch (err) {
         next(err);

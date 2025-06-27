@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import SignupPage from './components/pages/SignupPage';
 import LoginPage from './components/pages/LoginPage';
+import OAuth from './components/pages/OAuth';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage/>
+  },
+  {
+    path: '/oauth',
+    element: <OAuth/>
   }
   
 

@@ -28,7 +28,7 @@ export const addPost = async (
             err.status = 400;
             throw err
         }
-        res.status(201).json({ msg: "Post successfully created", newPost })
+        res.status(201).json({ message: "Post successfully created", newPost })
     }
     catch (err) {
         next(err)
@@ -55,7 +55,7 @@ export const getPostById = async (
             err.status = 404
             throw err
         }
-        res.status(200).json({ msg: "Post retrieved successfully", post })
+        res.status(200).json({ message: "Post retrieved successfully", post })
     }
     catch (err) {
         next(err)
@@ -80,9 +80,9 @@ export const getAllPostsByAuthorId = async (
         }
         })
         if (posts.length === 0) {
-            return res.status(404).json({ msg: "No posts by this author." })
+            return res.status(404).json({ message: "No posts by this author." })
         }
-        res.status(200).json({ msg: "Posts retrieved successfully", posts })
+        res.status(200).json({ message: "Posts retrieved successfully", posts })
     }
     catch (err) {
         next(err)
@@ -115,7 +115,7 @@ export const editPost = async (
             }
         )
         if (editedPost[0] !== 0) {
-            res.status(201).json({ msg: "Post updated successfully" })
+            res.status(201).json({ message: "Post updated successfully" })
         }
         else {
             const err = new Error("Post could not be edited") as CustomError;
@@ -142,7 +142,7 @@ export const deletePostById = async (
     try {
         const deletedPost = await Post.destroy({ where: { id } });
         if (deletedPost !== 0) {
-            return res.status(200).json({ msg: "Post deleted successfully" })
+            return res.status(200).json({ message: "Post deleted successfully" })
         }
         else {
             const err = new Error("Post could not be deleted") as CustomError;
@@ -163,7 +163,7 @@ export const deleteAllPostsByAuthorId = async (
     try {
         const deletedPosts = await Post.destroy({ where: { authorId: req.session.user?.id } });
         if (deletedPosts !== 0) {
-            return res.status(200).json({ msg: "Posts deleted successfully" })
+            return res.status(200).json({ message: "Posts deleted successfully" })
         }
         else {
             const err = new Error("Could not delete posts") as CustomError;

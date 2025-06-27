@@ -1,3 +1,16 @@
+.google {
+    width: 50px;
+    height: 50px;
+}
+.googleButton {
+    background-color: white;
+    border: none;
+}
+
+.googleButton:hover{
+    cursor: pointer;
+}
+
 .loader {
   width: 48px;
   height: 48px;

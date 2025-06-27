@@ -1,11 +1,15 @@
 import React from "react";
 
-type AppButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+type AppButtonProps = {
+    imageClass?: string;
+    imageSrc?: string;
+    alt?: string;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const AppButton: React.FC<AppButtonProps> = ({children, ...props}) => {
+const AppButton: React.FC<AppButtonProps> = ({ imageClass, imageSrc, alt, children, ...props }) => {
     return (
         <button {...props}>
-            {children}
+            {imageSrc ? <img src={imageSrc} alt={alt} className={imageClass} /> : children}
         </button>
     )
 }
