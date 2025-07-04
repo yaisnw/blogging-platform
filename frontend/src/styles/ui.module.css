@@ -1,13 +1,24 @@
-.google {
+.googleImage {
     width: 50px;
     height: 50px;
 }
-.googleButton {
-    background-color: white;
+.googleFlex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border: none;
+    padding: 1vh 2vw;
+
+    background-color: white;
+}
+.googleContainer {
+  width: 15vw;
+  padding: 0;
+  margin:1rem 0;
+  font-size: 1rem;
 }
 
-.googleButton:hover{
+.googleContainer:hover{
     cursor: pointer;
 }
 

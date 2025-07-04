@@ -21,6 +21,14 @@ const OAuth = () => {
                 localStorage.setItem('token', token);
                 navigate('../home');
             } catch (err) {
+                if (error) {
+                    if ('error' in error) {
+                        setServerError(error.error)
+                    }
+                    else if ('status' in error) {
+                        setServerError((error.data as ErrorResponse).message)
+                    }
+                }
                 console.error(err)
                 setTimeout(() => navigate('../login'), 5000)
             }
@@ -28,15 +36,8 @@ const OAuth = () => {
         fetchToken();
     }, [navigate, oAuthLogin]);
 
-    if(error) {
-        if('error' in error){
-            setServerError(error.error)
-        }
-        else if ('status' in error) {
-            setServerError((error.data as ErrorResponse).message)
-        }
-    }
-    
+
+
     return (
         <div>
             {serverError ? (

@@ -1,4 +1,3 @@
-// src/routes.js
 import {
   createBrowserRouter,
   Navigate,
@@ -6,11 +5,13 @@ import {
 import SignupPage from './components/pages/SignupPage';
 import LoginPage from './components/pages/LoginPage';
 import OAuth from './components/pages/OAuth';
+import NavBar from './components/organisms/NavBar';
+import HomePage from './components/pages/HomePage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="signup"></Navigate>,
+    element: <Navigate to="home"></Navigate>,
   },
   {
     path: '/signup',
@@ -23,8 +24,17 @@ const router = createBrowserRouter([
   {
     path: '/oauth',
     element: <OAuth/>
+  },
+  {
+    path: '/home',
+    element: <NavBar/>,
+    children: [
+      {
+        path: '',
+        element: <HomePage/>
+      }
+    ]
   }
-  
 
 ]);
 

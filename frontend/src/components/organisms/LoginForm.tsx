@@ -51,6 +51,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
     else {
         return (
             <div>
+                <AppButton imageSrc='/google.svg' className={styles.googleContainer} imageContainer={styles.googleFlex} imageClass={styles.googleImage} onClick={() => login()}></AppButton>
                 <form onSubmit={handleSubmit} {...props}>
                     {justRegistered && <div>You have signed up!</div>}
                     {error && ('status' in error && <div style={{ color: 'red' }}>{'error' in error ? error.error : (error.data as ErrorResponse).message}</div>)}
@@ -60,7 +61,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
                     <AuthField name="password" label="Enter password:" autoComplete='current-password' type="password" value={formData.password} onChange={handleChange} />
                     <AppButton>Log in</AppButton>
                 </form>
-                <AppButton imageSrc='/google.svg' className={styles.googleButton} imageClass={styles.google} onClick={() => login()}></AppButton>
 
                 <Link to='/signup'>No account? Sign up here.</Link>
             </div>

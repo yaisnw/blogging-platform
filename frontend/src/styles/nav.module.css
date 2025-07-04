@@ -1,0 +1,16 @@
+.nav{
+    display: flex;
+    justify-content: space-between;
+    padding: 2vh 2vw;
+    text-decoration: none;
+
+}
+.nav1{
+    display: flex;
+    column-gap: 2rem;
+    font-size: 1.5rem;
+}
+a {
+    text-decoration: none;
+    color: black;
+}

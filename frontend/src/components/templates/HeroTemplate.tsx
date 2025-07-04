@@ -1,10 +1,10 @@
 import React from "react";
 
-type AuthTemplateProps = {
+type HeroTemplateProps = {
   children: React.ReactNode;
 };
 
-const AuthTemplate: React.FC<AuthTemplateProps> = ({children, ...props}) => {
+const HeroTemplate: React.FC<HeroTemplateProps> = ({children, ...props}) => {
     return (
         <div>
             <div {...props}>
@@ -14,4 +14,4 @@ const AuthTemplate: React.FC<AuthTemplateProps> = ({children, ...props}) => {
     )
 }
 
-export default AuthTemplate;
+export default HeroTemplate;

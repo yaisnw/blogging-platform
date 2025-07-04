@@ -7,6 +7,7 @@ import styles from '../../styles/ui.module.css'
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../../store';
 import { setJustRegistered } from '../../slices/authUiSlice';
+import { useGoogleLogin } from '@react-oauth/google';
 
 
 type SignupFormProps = React.FormHTMLAttributes<HTMLFormElement>;
@@ -23,6 +24,12 @@ const SignupForm: React.FC<SignupFormProps> = ({ ...props }) => {
     ])
     const [signUpUser, { isLoading, error }] = useSignUpUserMutation();
 
+    const login = useGoogleLogin({
+        flow: 'auth-code',
+        ux_mode: 'redirect',
+        scope: 'openid email profile',
+        redirect_uri: 'http://localhost:5173/oauth',
+    });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,19 +59,23 @@ const SignupForm: React.FC<SignupFormProps> = ({ ...props }) => {
         return (<span className={styles.loader}></span>)
     else {
         return (
-            <form onSubmit={handleSubmit} {...props}>
-                {error && ('status' in error && <div style={{ color: 'red' }}>{'error' in error ? error.error : (error.data as ErrorResponse).message}</div>)}
-                {errors.username && <div>{errors.username}</div>}
-                <AuthField name="username" label="Enter your username:" autoComplete="username" value={formData.username} onChange={handleChange} />
-                {errors.email && <div>{errors.email}</div>}
-                <AuthField name="email" label="Enter email:" autoComplete="email" type="email" value={formData.email} onChange={handleChange} />
-                {errors.password && <div>{errors.password}</div>}
-                <AuthField name="password" label="Enter password:"  type='password' value={formData.password} onChange={handleChange} />
-                {errors.confirmPassword ? <div>{errors.confirmPassword}</div> : (errors.confirmPasswordMatch && <div>{errors.confirmPasswordMatch}</div>)}
-                <AuthField name="confirmPassword" label="Confirm password:" autoComplete="new-password" type='password' value={formData.confirmPassword} onChange={handleChange} />
-                <AppButton disabled={isLoading}>Sign up</AppButton>
-                <Link to='/login'>Have an account already? Log in here.</Link>
-            </form>
+            <div>
+                <AppButton imageSrc='/google.svg' className={styles.googleContainer} imageContainer={styles.googleFlex} imageClass={styles.googleImage} onClick={() => login()}></AppButton>
+
+                <form onSubmit={handleSubmit} {...props}>
+                    {errors.username && <div>{errors.username}</div>}
+                    {error && ('status' in error && <div style={{ color: 'red' }}>{'error' in error ? error.error : (error.data as ErrorResponse).message}</div>)}
+                    <AuthField name="username" label="Enter your username:" autoComplete="username" value={formData.username} onChange={handleChange} />
+                    {errors.email && <div>{errors.email}</div>}
+                    <AuthField name="email" label="Enter email:" autoComplete="email" type="email" value={formData.email} onChange={handleChange} />
+                    {errors.password && <div>{errors.password}</div>}
+                    <AuthField name="password" label="Enter password:" type='password' value={formData.password} onChange={handleChange} />
+                    {errors.confirmPassword ? <div>{errors.confirmPassword}</div> : (errors.confirmPasswordMatch && <div>{errors.confirmPasswordMatch}</div>)}
+                    <AuthField name="confirmPassword" label="Confirm password:" autoComplete="new-password" type='password' value={formData.confirmPassword} onChange={handleChange} />
+                    <AppButton disabled={isLoading}>Sign up</AppButton>
+                    <Link to='/login'>Have an account already? Log in here.</Link>
+                </form>
+            </div>
         )
     }
 }
