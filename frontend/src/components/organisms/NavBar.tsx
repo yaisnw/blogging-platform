@@ -21,43 +21,62 @@ const NavBar = () => {
 
     }
 
-    if (!loggedIn) {
-        return (
-            <div>
+
+    return (
+        <>
+            <header>
                 <nav className={styles.nav}>
-                    <div className={styles.nav1}>
-                        <AppLink to='./home' >Home</AppLink>
-                        <AppLink to=''>Blogs</AppLink>
-                    </div>
-                    <div className={styles.nav1}>
-                        <AppLink to='../support' >Support</AppLink>
-                        <AppLink to='../login' >Log in</AppLink>
-                        <AppLink to='../signup'>Get Started</AppLink>
-                    </div>
+                    {loggedIn ? (
+                        <>
+                            <div className={styles.nav1}>
+                                <AppLink to="/home">Home</AppLink>
+                                <AppLink to="/blogs">Blogs</AppLink>
+                                <AppLink to="/myBlogs">My Blogs</AppLink>
+                            </div>
+                            <div className={styles.nav1}>
+                                <AppLink to="/profile">Profile</AppLink>
+                                <AppLink to="/support">Support</AppLink>
+                                <a href="#" onClick={logOutHandler}>Log out</a>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className={styles.nav1}>
+                                <AppLink to="/home">Home</AppLink>
+                                <AppLink to="/blogs">Blogs</AppLink>
+                            </div>
+                            <div className={styles.nav1}>
+                                <AppLink to="/support">Support</AppLink>
+                                <AppLink to="/login">Log in</AppLink>
+                                <AppLink to="/signup">Get Started</AppLink>
+                            </div>
+                        </>
+                    )}
                 </nav>
-                <Outlet />
-            </div>
-        )
-    }
-    else if (loggedIn) {
-        return (
-            <div>
-                <nav className={styles.nav}>
-                    <div className={styles.nav1}>
-                        <AppLink to='./home' >Home</AppLink>
-                        <AppLink to=''>Blogs</AppLink>
-                        <AppLink to='/myBlogs'>My Blogs</AppLink>
-                    </div>
-                    <div className={styles.nav1}>
-                        <AppLink to='../profile'>Profile</AppLink>
-                        <AppLink to='../support' >Support</AppLink>
-                        <a href='#' onClick={logOutHandler} >Log out</a>
-                    </div>
-                </nav>
-                <Outlet />
-            </div>
-        )
-    }
+            </header>
+            <Outlet />
+        </>
+    )
+
+    // else if (loggedIn) {
+    //     return (
+    //         <div>
+    //             <nav className={styles.nav}>
+    //                 <div className={styles.nav1}>
+    //                     <AppLink to='./home' >Home</AppLink>
+    //                     <AppLink to=''>Blogs</AppLink>
+    //                     <AppLink to='/myBlogs'>My Blogs</AppLink>
+    //                 </div>
+    //                 <div className={styles.nav1}>
+    //                     <AppLink to='../profile'>Profile</AppLink>
+    //                     <AppLink to='../support' >Support</AppLink>
+    //                     <a href='#' onClick={logOutHandler} >Log out</a>
+    //                 </div>
+    //             </nav>
+    //             <Outlet />
+    //         </div>
+    //     )
+    // }
 }
 
 export default NavBar

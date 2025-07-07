@@ -1,8 +1,18 @@
-.hero{
+body{
+    margin: 0;
+}
+.contentBox{
     display: flex;
     justify-content: center;
     align-items: center;
     column-gap: 10vw;
     padding: 10vh 0;
     background-color: gray;
+}
+.homeContent{
+    width: 30vw;
+}
+.contentImage{
+    width: 30vw;
+    height: 30vh;
 }

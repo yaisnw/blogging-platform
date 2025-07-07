@@ -1,16 +1,16 @@
 import AppHeader from '../atoms/AppHeader';
 import AppParagraph from '../atoms/AppParagraph';
-import AppButton from '../atoms/AppButton';
 import type React from 'react';
+import AppLink from '../atoms/AppLink';
 
 type AppHeroContentProps = React.HTMLProps<HTMLDivElement>;
 
 const HeroContent: React.FC<AppHeroContentProps> = ({ ...props }) => {
     return (
         <div {...props}>
-            <AppHeader>Write your own blog and post on our website!</AppHeader>
-            <AppParagraph>Our website enables users to write personal blog posts with detailed customization and image uploading.</AppParagraph>
-            <AppButton>Get Started</AppButton>
+            <AppHeader>Share Your Story with others.</AppHeader>
+            <AppParagraph>Create personalized blog posts with rich formatting and image uploads — all in one place.</AppParagraph>
+            <AppLink to='/signup'>Get Started</AppLink>
         </div>
     )
 }
