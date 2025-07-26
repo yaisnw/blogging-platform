@@ -12,3 +12,11 @@ export interface responseUser {
     email: string
     username: string,
 }
+export interface blogPost {
+    id: number,
+    authorId: number,
+    title: string,
+    content: string,
+    status: string,
+    likes: number
+}

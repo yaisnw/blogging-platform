@@ -1,0 +1,24 @@
+.blogCard {
+    margin: 1rem;
+    width: 30vw;
+    max-height: 60%;
+    padding: 1rem;
+    border: 1px black solid;
+}
+.interactionBox {
+    display: flex;
+    justify-content: space-evenly;
+}
+.interactionContent {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    font-size: 1.5rem;
+}
+.title {
+    font-size: 1.5rem;
+}
+.blogCardImage {
+    width: 30px;
+    height: 30px;
+}

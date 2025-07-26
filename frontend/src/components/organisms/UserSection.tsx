@@ -1,5 +1,5 @@
 import styles from '../../styles/home.module.css'
-import UserContent from '../molecules/userContent'
+import UserContent from '../molecules/UserContent'
 import AppImage from '../atoms/AppImage'
 
 const UserSection = ({}) => {

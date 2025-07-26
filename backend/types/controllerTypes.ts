@@ -8,7 +8,8 @@ export type userRequestBody = {
 export interface postRequestBody {
     title: string,
     content: string,
-    status: string
+    status: string,
+    likes: number
 }
 
 export interface commentRequestBody {

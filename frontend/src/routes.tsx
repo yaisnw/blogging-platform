@@ -7,6 +7,8 @@ import LoginPage from './components/pages/LoginPage';
 import OAuth from './components/pages/OAuth';
 import NavBar from './components/organisms/NavBar';
 import HomePage from './components/pages/HomePage';
+import MyBlogsPage from './components/pages/MyBlogsPage';
+import PostEditorPage from './components/pages/PostEditorPage';
 
 const router = createBrowserRouter([
   {
@@ -15,26 +17,37 @@ const router = createBrowserRouter([
   },
   {
     path: '/signup',
-    element: <SignupPage/>
+    element: <SignupPage />
   },
   {
     path: '/login',
-    element: <LoginPage/>
+    element: <LoginPage />
   },
   {
     path: '/oauth',
-    element: <OAuth/>
+    element: <OAuth />
   },
   {
     path: '/home',
-    element: <NavBar/>,
+    element: <NavBar />,
     children: [
       {
         path: '',
-        element: <HomePage/>
-      }
-    ]
+        element: <HomePage />
+      },
+      {
+        path: 'myBlogs',
+        element: <MyBlogsPage />,
+      },
+
+    ],
+  },
+  {
+    path: 'createPost',
+    element: <PostEditorPage />
   }
+
+
 
 ]);
 

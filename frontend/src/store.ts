@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './rootreducer';
 import { authApi } from './services/authApi';
+import { blogsApi } from './services/blogsApi';
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware),
+    getDefaultMiddleware().concat(authApi.middleware, blogsApi.middleware),
 });
 
 

@@ -68,21 +68,21 @@ export const getAllPostsByAuthorId = async (
     next: NextFunction
 ): Promise<Response | void> => {
     let authorId;
-    authorId  = req.params.authorId;
-    if(!authorId) {
-        authorId = req.session.user?.id
-    }
+    authorId = req.params.authorId;
     try {
 
         const posts = await Post.findAll({
             where: {
                 authorId,
-        }
+            }
         })
-        if (posts.length === 0) {
-            return res.status(404).json({ message: "No posts by this author." })
-        }
-        res.status(200).json({ message: "Posts retrieved successfully", posts })
+
+        return res.status(200).json({
+            message: posts.length === 0
+                ? "No posts found for this author."
+                : "Posts retrieved successfully",
+            posts: posts 
+        });
     }
     catch (err) {
         next(err)
@@ -95,7 +95,7 @@ export const editPost = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const { id } = req.params;
-    const { title, content, status } = req.body
+    const { title, content, status, likes } = req.body
     if (!id) {
         const err = new Error("Please provide an id for the post") as CustomError;
         err.status = 400;
@@ -106,7 +106,8 @@ export const editPost = async (
             {
                 ...(title && { title }),
                 ...(content && { content }),
-                ...(status && { status })
+                ...(status && { status }),
+                ...(likes && { likes })
             },
             {
                 where: {

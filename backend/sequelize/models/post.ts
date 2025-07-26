@@ -36,6 +36,11 @@ export function initPost(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: 'pending',
       },
+      likes: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      }
     },
     {
       sequelize,

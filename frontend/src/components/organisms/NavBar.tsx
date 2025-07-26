@@ -1,24 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AppLink from '../atoms/AppLink';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import styles from '../../styles/nav.module.css'
+import { jwtDecode } from 'jwt-decode';
+import { setTokenData } from '../../slices/authSlice';
+import { useAppDispatch } from '../../hooks';
+
+interface MyToken {
+    id: number;
+    username: string;
+    email: string;
+    exp?: number;
+    iat?: number;
+}
+
 
 const NavBar = () => {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const [loggedIn, setLoggedIn] = useState(false)
-    let token
+    const token = useRef<string | null>(null);
+
     useEffect(() => {
-        token = localStorage.getItem("token");
-        if (token) {
-            setLoggedIn(true)
+        token.current = localStorage.getItem("token");
+        if (token.current) {
+            setLoggedIn(true);
+            const decoded = jwtDecode<MyToken>(token.current);
+            dispatch(setTokenData({
+                id: decoded.id,
+                username: decoded.username,
+                email: decoded.email
+            }));
+        } else {
+            setLoggedIn(false);
         }
-        else {
-            setLoggedIn(false)
-        }
-    })
+    }, [dispatch])
+
     const logOutHandler = (e: React.MouseEvent) => {
         e.preventDefault();
-
-
+        localStorage.removeItem('token')
+        setLoggedIn(false)
+        navigate('/login')
     }
 
 
@@ -31,7 +53,7 @@ const NavBar = () => {
                             <div className={styles.nav1}>
                                 <AppLink to="/home">Home</AppLink>
                                 <AppLink to="/blogs">Blogs</AppLink>
-                                <AppLink to="/myBlogs">My Blogs</AppLink>
+                                <AppLink to="myBlogs">My Blogs</AppLink>
                             </div>
                             <div className={styles.nav1}>
                                 <AppLink to="/profile">Profile</AppLink>

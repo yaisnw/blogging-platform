@@ -1,10 +1,10 @@
 import React from "react";
 
-type HeroTemplateProps = {
+type HomeTemplateProps = {
   children: React.ReactNode;
 };
 
-const HeroTemplate: React.FC<HeroTemplateProps> = ({children, ...props}) => {
+const HomeTemplate: React.FC<HomeTemplateProps> = ({children, ...props}) => {
     return (
         <div>
             <div {...props}>
@@ -14,4 +14,4 @@ const HeroTemplate: React.FC<HeroTemplateProps> = ({children, ...props}) => {
     )
 }
 
-export default HeroTemplate;
+export default HomeTemplate;

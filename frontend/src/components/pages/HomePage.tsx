@@ -1,16 +1,18 @@
+import Footer from "../organisms/Footer"
 import HeroSection from "../organisms/HeroSection"
 import ServicesSection from "../organisms/ServicesSection"
 import UserSection from "../organisms/UserSection"
-import HeroTemplate from "../templates/HeroTemplate"
+import HomeTemplate from "../templates/HomeTemplate"
 
 const HomePage = () => {
     return (
         <div>
-            <HeroTemplate>
+            <HomeTemplate>
                 <HeroSection />
                 <ServicesSection />
                 <UserSection />
-            </HeroTemplate>
+            </HomeTemplate>
+            <Footer/>
         </div>
     )
 }
