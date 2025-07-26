@@ -1,10 +1,24 @@
+// import { useJwtAuth } from "@/hooks/useJwtAuth"
+import ToolBar from "../organisms/ToolBar"
 import PostEditorTemplate from "../templates/PostEditorTemplate"
-import {SimpleEditor} from '@/components/tiptap-templates/simple/simple-editor'
+// import { useEffect } from "react";
+// import { useNavigate } from "react-router";
+
 
 const PostEditorPage = () => {
+    
+    // const navigate = useNavigate();
+    // const {loggedIn, authChecked} = useJwtAuth();
+
+    // useEffect(() => {
+    //     if(authChecked && !loggedIn) {
+    //         navigate('/login')
+    //     }
+    // })
+
     return (
         <div>
-            <PostEditorTemplate panel={< div/>} editor={<SimpleEditor/>}/>
+            <PostEditorTemplate panel={< div/>} editor={<ToolBar/>} />
         </div>
     )
 }

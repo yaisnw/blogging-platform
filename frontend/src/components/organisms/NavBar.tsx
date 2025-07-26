@@ -1,45 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
 import AppLink from '../atoms/AppLink';
 import { Outlet, useNavigate } from 'react-router';
 import styles from '../../styles/nav.module.css'
-import { jwtDecode } from 'jwt-decode';
-import { setTokenData } from '../../slices/authSlice';
-import { useAppDispatch } from '../../hooks';
-
-interface MyToken {
-    id: number;
-    username: string;
-    email: string;
-    exp?: number;
-    iat?: number;
-}
-
+import { useJwtAuth } from '@/hooks/useJwtAuth';
+import { useAppDispatch } from '@/hooks';
+import { logOut } from '@/slices/authSlice';
 
 const NavBar = () => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const [loggedIn, setLoggedIn] = useState(false)
-    const token = useRef<string | null>(null);
-
-    useEffect(() => {
-        token.current = localStorage.getItem("token");
-        if (token.current) {
-            setLoggedIn(true);
-            const decoded = jwtDecode<MyToken>(token.current);
-            dispatch(setTokenData({
-                id: decoded.id,
-                username: decoded.username,
-                email: decoded.email
-            }));
-        } else {
-            setLoggedIn(false);
-        }
-    }, [dispatch])
-
+    const navigate = useNavigate();
+    const {loggedIn} = useJwtAuth();
+    
     const logOutHandler = (e: React.MouseEvent) => {
         e.preventDefault();
         localStorage.removeItem('token')
-        setLoggedIn(false)
+        dispatch(logOut())
         navigate('/login')
     }
 

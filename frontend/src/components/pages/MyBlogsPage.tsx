@@ -6,15 +6,24 @@ import MyBlogsTemplate from "../templates/MyBlogsTemplate"
 import UIstyles from "../../styles/ui.module.css"
 import styles from "../../styles/myBlogs.module.css"
 import { useNavigate } from "react-router"
+import { useJwtAuth } from "@/hooks/useJwtAuth"
+import { useEffect } from "react"
 
 const MyBlogsPage = () => {
     const navigate = useNavigate();
     const userId = useAppSelector((state) => state.auth.user.id);
     const { data, isLoading, error } = useGetMyPostsQuery(userId);
+    const { loggedIn, authChecked } = useJwtAuth();
+
+    useEffect(() => {
+        if (authChecked && !loggedIn) {
+            navigate('/login')
+        }
+    }, [loggedIn, navigate, authChecked])
 
     return (
         <div>
-            <MyBlogsTemplate panel={<BlogPanel createButton={()=> navigate('/createPost') } editButton={() => navigate('')} deleteButton={() => navigate('')}/>}
+            <MyBlogsTemplate panel={<BlogPanel createButton={() => navigate('/createPost')} editButton={() => navigate('')} deleteButton={() => navigate('')} />}
                 cards={
                     isLoading
                         ? [<div className={styles.centerWrapper}>
