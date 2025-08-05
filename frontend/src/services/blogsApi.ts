@@ -27,7 +27,9 @@ export const blogsApi = createApi({
                     : [{ type: 'Posts', id: 'LIST' }]
         }
         ),
-        
+        createPost: build.mutation<void, string>({
+            query: ()
+        })  
     })
 })
 

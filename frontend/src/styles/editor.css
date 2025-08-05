@@ -1,0 +1,89 @@
+.editor {
+  width: 50vw;
+  min-height: 90vh;
+  margin: 1rem auto;
+  border: solid 1px black;
+  padding: 1rem 2rem;
+}
+
+.toolBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.strike-through {
+  text-decoration: line-through;
+}
+.underline.strike-through {
+  text-decoration: underline line-through;
+}
+.font-bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.divider {
+  width: 1px;
+  height: 2rem;
+  background-color: blue;
+  margin: 0 0.5rem;
+}
+
+.ltr {
+  text-align: left;
+}
+
+.rtl {
+  text-align: right;
+}
+
+.toolBar .toolbar-button.active {
+  background-color: black;
+  color: white;
+}
+
+.toolbar-button {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.toolbar-button:hover {
+  background-color: rgb(226, 226, 226);
+}
+
+.editor-paragraph {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+
+.editor-heading-h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 1.5rem 0 1rem;
+}
+
+.editor-heading-h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.25rem 0 1rem;
+}
+
+.editor-heading-h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 1rem 0 0.75rem;
+}

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 import { postRequestBody } from "../types/controllerTypes"
-import { CustomError } from "../index"
+import { CustomError, AuthRequest } from "../index"
 import { Post } from "../sequelize/models"
 
 export const addPost = async (
-    req: Request<{}, {}, postRequestBody, {}>,
+    req: AuthRequest,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -18,7 +18,7 @@ export const addPost = async (
 
     try {
         const newPost = await Post.create({
-            authorId: req.session.user?.id,
+            authorId: req.user?.id,
             title,
             content,
             ...(status && { status }),

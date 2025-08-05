@@ -1,15 +1,17 @@
 // import { useJwtAuth } from "@/hooks/useJwtAuth"
-import ToolBar from "../organisms/ToolBar"
+import Editor from "../organisms/Editor"
 import PostEditorTemplate from "../templates/PostEditorTemplate"
-// import { useEffect } from "react";
+// import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router";
 
 
 const PostEditorPage = () => {
-    
+
     // const navigate = useNavigate();
     // const {loggedIn, authChecked} = useJwtAuth();
 
+    
+    
     // useEffect(() => {
     //     if(authChecked && !loggedIn) {
     //         navigate('/login')
@@ -18,7 +20,7 @@ const PostEditorPage = () => {
 
     return (
         <div>
-            <PostEditorTemplate panel={< div/>} editor={<ToolBar/>} />
+            <PostEditorTemplate panel={< div />} editor={<Editor />} />
         </div>
     )
 }
