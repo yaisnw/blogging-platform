@@ -41,12 +41,12 @@ const OAuth = () => {
     return (
         <div>
             {serverError ? (
-                <div style={{ color: 'red' }}>{serverError}</div>
+                <div style={styles.error}>{serverError}</div>
             ) : (
-                <>
+                <div className={styles.OAuthLoader}>
                     <div>Signing in with Google...</div>
                     <span className={styles.loader}></span>
-                </>
+                </div>
             )}
         </div>
     )

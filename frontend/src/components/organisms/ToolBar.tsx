@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { $setBlocksType } from '@lexical/selection'
 import "../../styles/editor.css"
 import { $createHeadingNode, $isHeadingNode } from '@lexical/rich-text';
+import ImageInsertButton from '../atoms/ImageInsertButton';
 
 function Divider() {
     return <div className="divider" />;
@@ -115,7 +116,8 @@ function ToolBar({ ...props }) {
             }
         })
     }
-
+    
+    
     return (
         <div {...props}>
             <button className={`toolbar-button ${isBold ? 'active' : ''}`} onClick={() => applyFormat('bold')}>
@@ -144,6 +146,8 @@ function ToolBar({ ...props }) {
             <button className={`toolbar-button ${activeBlockType === 'h2' ? 'active' : ''}`} onClick={() => applyBlockType('h2')}>H2</button>
             <button className={`toolbar-button ${activeBlockType === 'h3' ? 'active' : ''}`} onClick={() => applyBlockType('h3')}>H3</button>
             <button className={`toolbar-button ${activeBlockType === 'paragraph' ? 'active' : ''}`} onClick={() => applyBlockType('paragraph')} >Paragraph</button>
+            <Divider />
+            <ImageInsertButton />
         </div>
     );
 }

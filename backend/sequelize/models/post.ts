@@ -25,14 +25,14 @@ export function initPost(sequelize: Sequelize) {
       },
       title: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       content: {
         type: DataTypes.TEXT("long"),
-        allowNull: false,
+        allowNull: true,
       },
       status: {
-        type: DataTypes.ENUM('uploaded', 'pending'),
+        type: DataTypes.ENUM('completed', 'pending'),
         allowNull: false,
         defaultValue: 'pending',
       },
@@ -46,6 +46,17 @@ export function initPost(sequelize: Sequelize) {
       sequelize,
       tableName: 'posts',
       modelName: 'Post',
-    }
+      validate: {
+        uploadedMustHaveContent(this: Post) {
+          if (
+            this.status === "uploaded" &&
+            (!this.content || this.content.trim() === "")
+          ) {
+            throw new Error("Uploaded posts must have content.");
+          }
+        },
+      },
+    },
+
   );
 }

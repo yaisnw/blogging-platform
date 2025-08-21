@@ -6,9 +6,8 @@ import { Link, useNavigate } from 'react-router';
 import styles from '../../styles/ui.module.css'
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../../store';
-import { setJustRegistered } from '../../slices/authUiSlice';
 import { useGoogleLogin } from '@react-oauth/google';
-
+import { setJustRegistered } from '@/slices/uiSlice';
 
 type SignupFormProps = React.FormHTMLAttributes<HTMLFormElement>;
 type ErrorResponse = { message: string };

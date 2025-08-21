@@ -16,7 +16,7 @@ export const blogsApi = createApi({
     }),
     tagTypes: ['Posts'],
     endpoints: (build) => ({
-        getMyPosts: build.query<{posts: blogPost[], message: string}, number>({
+        getMyPosts: build.query<{ posts: blogPost[], message: string }, number>({
             query: (authorId) => `/getAllPosts/${authorId}`,
             providesTags: (result): { type: 'Posts'; id: number | 'LIST' }[] =>
                 Array.isArray(result)
@@ -27,12 +27,26 @@ export const blogsApi = createApi({
                     : [{ type: 'Posts', id: 'LIST' }]
         }
         ),
-        createPost: build.mutation<void, string>({
-            query: ()
-        })  
+        createPost: build.mutation<
+            blogPost
+            , { title: string, content: string, status: 'pending' | 'completed' }>
+            ({
+                query: ({ title, content, status }) => ({
+                    url: '/create',
+                    method: 'POST',
+                    body: {
+                        title,
+                        content,
+                        status
+                    },
+                }),
+                invalidatesTags: ['Posts']
+            }),
+
     })
 })
 
 export const {
-    useGetMyPostsQuery
+    useGetMyPostsQuery,
+    useCreatePostMutation,
 } = blogsApi

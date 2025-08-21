@@ -4,12 +4,37 @@ import styles from '../../styles/nav.module.css'
 import { useJwtAuth } from '@/hooks/useJwtAuth';
 import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
+import { useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+
+export function isTokenExpired(token: string | null) {
+    if (!token) return true;
+
+    try {
+        const { exp } = jwtDecode(token);
+        const currentTime = Math.floor(Date.now() / 1000);
+        return exp! < currentTime;
+    } catch (error) {
+        console.error(error)
+        return true;
+    }
+}
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const {loggedIn} = useJwtAuth();
-    
+    const { loggedIn } = useJwtAuth();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log(isTokenExpired(token))
+        if (isTokenExpired(token)) {
+            localStorage.removeItem('token');
+            dispatch(logOut())
+            navigate('/login')
+        }
+    }, [dispatch, navigate])
+
     const logOutHandler = (e: React.MouseEvent) => {
         e.preventDefault();
         localStorage.removeItem('token')

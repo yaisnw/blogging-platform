@@ -9,11 +9,12 @@ export const addPost = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const { title, content, status } = req.body;
-
-    if (!title || !content) {
-        const err = new Error("Title and content fields cannot be empty") as CustomError;
-        err.status = 400;
-        throw err
+    if (status === 'completed') {
+        if (!title || !content) {
+            const err = new Error("Title and content fields cannot be empty") as CustomError;
+            err.status = 400;
+            return next(err)
+        }
     }
 
     try {
@@ -21,14 +22,14 @@ export const addPost = async (
             authorId: req.user?.id,
             title,
             content,
-            ...(status && { status }),
+            status,
         });
         if (!newPost) {
             const err = new Error("Post creation failed") as CustomError;
             err.status = 400;
-            throw err
+            throw (err)
         }
-        res.status(201).json({ message: "Post successfully created", newPost })
+        res.status(201).json(newPost)
     }
     catch (err) {
         next(err)
@@ -45,7 +46,7 @@ export const getPostById = async (
     if (!id) {
         const err = new Error("Please provide an id for the post") as CustomError;
         err.status = 400;
-        throw err
+        return next(err)
     }
 
     try {
@@ -81,7 +82,7 @@ export const getAllPostsByAuthorId = async (
             message: posts.length === 0
                 ? "No posts found for this author."
                 : "Posts retrieved successfully",
-            posts: posts 
+            posts: posts
         });
     }
     catch (err) {
@@ -99,7 +100,7 @@ export const editPost = async (
     if (!id) {
         const err = new Error("Please provide an id for the post") as CustomError;
         err.status = 400;
-        throw err;
+        return next(err);
     }
     try {
         const editedPost = await Post.update(
@@ -138,7 +139,7 @@ export const deletePostById = async (
     if (!id) {
         const err = new Error("Please provide an id for the post") as CustomError;
         err.status = 400;
-        throw err;
+        return next(err);
     }
     try {
         const deletedPost = await Post.destroy({ where: { id } });
@@ -148,7 +149,7 @@ export const deletePostById = async (
         else {
             const err = new Error("Post could not be deleted") as CustomError;
             err.status = 404;
-            throw err;
+            throw err
         }
     }
     catch (err) {

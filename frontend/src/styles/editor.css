@@ -1,11 +1,16 @@
 .editor {
   width: 50vw;
   min-height: 90vh;
-  margin: 1rem auto;
   border: solid 1px black;
-  padding: 1rem 2rem;
+  padding: 1rem;
+  overflow: auto;
+  margin: 1rem 0;
 }
-
+.editor-container {
+  width: 100%;
+  display: grid;
+  justify-content: center;
+}
 .toolBar {
   display: flex;
   justify-content: center;
@@ -64,14 +69,15 @@
 .editor-paragraph {
   font-size: 1rem;
   line-height: 1.6;
-  margin: 0 0 1rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .editor-heading-h1 {
   font-size: 2.25rem;
   font-weight: 700;
   line-height: 1.2;
-  margin: 1.5rem 0 1rem;
+  margin: 1.5rem  1rem;
 }
 
 .editor-heading-h2 {
@@ -86,4 +92,27 @@
   font-weight: 500;
   line-height: 1.4;
   margin: 1rem 0 0.75rem;
+}
+.post-form {
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  margin: 1rem;
+}
+.submit-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.submit-error {
+  position: absolute;
+  right: -250px;
+}
+.post-input {
+  height: 3rem;
+  font-size: 2.25rem;
+  width: 50rem;
 }

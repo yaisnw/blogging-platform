@@ -1,0 +1,68 @@
+.image-wrapper.selected {
+  border: 2px solid blue;
+}
+.image-wrapper {
+  position: relative;
+  display: inline;
+  min-width: 300px;
+  z-index: 10;
+}
+.lexical-image {
+  width: 100%;
+  display: block;
+}
+
+.resize-handle {
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  background: white;
+  border: 1px solid gray;
+  cursor: ew-resize;
+  padding: 2px 4px;
+  user-select: none;
+  font-size: 16px;
+  z-index: 10;
+}
+.delete-handle {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  background-color: white;
+  padding: 2px 4px;
+  user-select: none;
+  border: 1px solid gray;
+  z-index: 10;
+}
+.alignment-buttons {
+  min-width:  200px;
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-around;
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+}
+.lexical-image-container.align-left {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  float: left;
+  margin-right: 1rem;
+}
+
+.lexical-image-container.align-center {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.lexical-image-container.align-right {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  float: right;
+  margin-left: 1rem;
+}

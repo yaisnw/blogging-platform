@@ -71,11 +71,9 @@ app.use((
   res.status(err.status || 400).send({message: err.message, payload: err.payload})
 })
 
-
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });
-
 
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);

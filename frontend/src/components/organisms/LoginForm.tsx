@@ -19,7 +19,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
     ])
     const [logInUser, { isLoading, error }] = useLogInUserMutation();
 
-    const justRegistered = useSelector((state: RootState) => state.authUi.justRegistered)
+    const justRegistered = useSelector((state: RootState) => state.ui.justRegistered)
 
     const login = useGoogleLogin({
         flow: 'auth-code',

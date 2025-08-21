@@ -32,6 +32,15 @@
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
+.error {
+  color:red
+}
+.OAuthLoader {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
 
 @keyframes rotation {
   0% {

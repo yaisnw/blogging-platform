@@ -1,5 +1,4 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
-
 export class Picture extends Model {
   public id!: number;
   public postId!: number;

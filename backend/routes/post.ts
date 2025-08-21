@@ -2,7 +2,7 @@ import express from "express";
 import { deleteAllPostsByAuthorId, deletePostById, getAllPostsByAuthorId, getPostById, addPost, editPost } from "../controllers/postController";
 const postRouter = express.Router();
 
-postRouter.post('/', addPost);
+postRouter.post('/create', addPost);
 postRouter.get('/getAllPosts/:authorId?', getAllPostsByAuthorId);
 postRouter.get('/:id', getPostById);
 postRouter.put('/update/:id', editPost);

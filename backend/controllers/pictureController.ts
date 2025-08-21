@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import express from 'express';
 import { Picture } from "../sequelize/models";
 import { PictureAttributes, pictureRequestBody } from "../types/controllerTypes";
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
@@ -12,7 +11,9 @@ export const addPicture = async (
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const { postId } = req.body
+    const postId = Number(req.body.postId)
+    console.log("File:", req.file);
+    console.log("Body:", req.body);
     try {
         if (!req.file) {
             const err = new Error('no file uploaded') as CustomError
@@ -64,11 +65,11 @@ export const getAllPicturesByPostId = async (
             err.status = 400;
             throw err
         }
-        if (picture.length !== 0){
+        if (picture.length !== 0) {
             res.status(200).json({ message: "Pictures found", picture })
         }
         else {
-            res.status(200).json({message: "No pictures found"})
+            res.status(200).json({ message: "No pictures found" })
         }
     }
     catch (err) {
