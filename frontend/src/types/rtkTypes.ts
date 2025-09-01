@@ -19,4 +19,12 @@ export interface blogPost {
     content: string,
     status: string,
     likes: number
+    createdAt: string
+}
+export interface comment {
+    id: number;
+    authorId: number;
+    postId: number;
+    content: string;
+    createdAt: Date;
 }

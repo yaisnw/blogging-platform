@@ -58,11 +58,10 @@ export default function LexicalImage({
     <div
       contentEditable={false}
       className={`lexical-image-container align-${currentAlignment}`}
-      onClick={() => setIsSelected(s => !s)}
     >
       <div
-        className={`image-wrapper ${isSelected ? ' selected' : ''}`} 
-        style={{ width }}
+        className={`image-wrapper ${isSelected ? ' selected' : ''}`}
+        style={{ width }} onClick={() => setIsSelected(s => !s)}
       >
         <img src={src} alt={altText} className="lexical-image" />
         {isSelected && (

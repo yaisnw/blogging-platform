@@ -1,27 +1,37 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 interface uiSlice {
     justRegistered: boolean;
-    pendingPostId: number
+    pendingPostId: number;
+    deletingPostIds: number[];
 }
 
-const initialState = {
+const initialState: uiSlice = {
     justRegistered: false,
     pendingPostId: 0,
-} satisfies uiSlice
+    deletingPostIds: [],
+}
 
 const uiSlice = createSlice({
     name: 'ui',
     initialState,
     reducers: {
-        setJustRegistered: (state, action) => {
+        setJustRegistered: (state, action: PayloadAction<boolean>) => {
             state.justRegistered = action.payload;
         },
-        setPostId: (state, action) => {
+        setPostId: (state, action: PayloadAction<number>) => {
             state.pendingPostId = action.payload;
+        },
+        addDeletingPostIds: (state, action: PayloadAction<number>) => {
+            const id = action.payload
+            if (state.deletingPostIds.includes(id)) {
+                state.deletingPostIds = state.deletingPostIds.filter(postId => postId !== id)
+            } else {
+                state.deletingPostIds.push(id)
+            }
         }
     },
 })
 
-export const { setJustRegistered, setPostId } = uiSlice.actions
+export const { setJustRegistered, setPostId, addDeletingPostIds } = uiSlice.actions
 export default uiSlice.reducer

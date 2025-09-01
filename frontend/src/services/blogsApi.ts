@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { blogPost } from "../types/rtkTypes";
-
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const blogsApi = createApi({
     reducerPath: 'blogsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:3000/post',
+        baseUrl: `${BASE_URL}/post`,
         prepareHeaders: (headers) => {
             const token = localStorage.getItem('token');
             if (token) {
@@ -14,9 +14,9 @@ export const blogsApi = createApi({
             return headers;
         }
     }),
-    tagTypes: ['Posts'],
+    tagTypes: ['Posts', 'Post'],
     endpoints: (build) => ({
-        getMyPosts: build.query<{ posts: blogPost[], message: string }, number>({
+        getMyPosts: build.query<{ posts: blogPost[], message: string, author: string }, number>({
             query: (authorId) => `/getAllPosts/${authorId}`,
             providesTags: (result): { type: 'Posts'; id: number | 'LIST' }[] =>
                 Array.isArray(result)
@@ -27,6 +27,11 @@ export const blogsApi = createApi({
                     : [{ type: 'Posts', id: 'LIST' }]
         }
         ),
+        getPostById: build.query<blogPost, number>({
+            query: (postId) => `/${postId}`,
+            providesTags: (result, error, postId) =>
+                result ? [{ type: "Post", id: postId }] : [],
+        }),
         createPost: build.mutation<
             blogPost
             , { title: string, content: string, status: 'pending' | 'completed' }>
@@ -42,11 +47,36 @@ export const blogsApi = createApi({
                 }),
                 invalidatesTags: ['Posts']
             }),
-
-    })
+        updatePost: build.mutation<
+            null
+            , { postId: number, title: string, content: string, status: 'pending' | 'completed' }>
+            ({
+                query: ({postId, title, content, status}) => ({
+                    url: `/update/${postId}`,
+                    method: 'PUT',
+                    body: {title, content, status}
+,
+                }),
+                invalidatesTags: ['Posts']
+            }),
+        deletePosts: build.mutation<
+        null,
+        number[]>({
+            query: (postIds) => ({
+                url: `/deletePosts`,
+                method: 'DELETE',
+                body: {postIds},
+            }),
+            invalidatesTags: ['Posts']
+        })
+    })  
 })
 
 export const {
     useGetMyPostsQuery,
     useCreatePostMutation,
+    useGetPostByIdQuery,
+    useLazyGetPostByIdQuery,
+    useUpdatePostMutation,
+    useDeletePostsMutation,
 } = blogsApi

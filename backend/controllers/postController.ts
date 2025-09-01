@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express"
 import { postRequestBody } from "../types/controllerTypes"
 import { CustomError, AuthRequest } from "../index"
-import { Post } from "../sequelize/models"
+import { Comment, Post, User } from "../sequelize/models"
+import { Op } from "sequelize"
 
 export const addPost = async (
     req: AuthRequest,
@@ -56,7 +57,7 @@ export const getPostById = async (
             err.status = 404
             throw err
         }
-        res.status(200).json({ message: "Post retrieved successfully", post })
+        res.status(200).json(post)
     }
     catch (err) {
         next(err)
@@ -71,26 +72,37 @@ export const getAllPostsByAuthorId = async (
     let authorId;
     authorId = req.params.authorId;
     try {
-
+        const author = await User.findOne({
+            where: {
+                id: authorId
+            }
+        })
         const posts = await Post.findAll({
             where: {
                 authorId,
             }
         })
-
-        return res.status(200).json({
-            message: posts.length === 0
-                ? "No posts found for this author."
-                : "Posts retrieved successfully",
-            posts: posts
-        });
+        if (!author) {
+            const err = new Error('Author could not be found') as CustomError
+            err.status = 404
+            throw err
+        }
+        else {
+            return res.status(200).json({
+                message: posts.length === 0
+                    ? "No posts found for this author."
+                    : "Posts retrieved successfully",
+                posts: posts,
+                author: author.username
+            });
+        }
     }
     catch (err) {
         next(err)
     }
 }
 
-export const editPost = async (
+export const updatePost = async (
     req: Request<{ id: number }, {}, postRequestBody, {}>,
     res: Response,
     next: NextFunction
@@ -130,40 +142,45 @@ export const editPost = async (
     }
 }
 
-export const deletePostById = async (
-    req: Request<{ id: number }, {}, postRequestBody, {}>,
+export const deletePosts = async (
+    req: Request<{}, {}, { postIds: number[] }, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const { id } = req.params;
-    if (!id) {
-        const err = new Error("Please provide an id for the post") as CustomError;
+    const { postIds } = req.body;
+    if (!postIds || postIds.length === 0) {
+        const err = new Error("Please provide an array of post IDs") as CustomError;
         err.status = 400;
         return next(err);
     }
+
     try {
-        const deletedPost = await Post.destroy({ where: { id } });
-        if (deletedPost !== 0) {
-            return res.status(200).json({ message: "Post deleted successfully" })
-        }
-        else {
-            const err = new Error("Post could not be deleted") as CustomError;
+        const deletedCount = await Post.destroy({
+            where: { id: { [Op.in]: postIds } }
+        });
+
+        if (deletedCount > 0) {
+            return res.status(200).json({
+                message: `Successfully deleted ${deletedCount} post(s)`,
+                deletedCount
+            });
+        } else {
+            const err = new Error("No posts found with the given IDs") as CustomError;
             err.status = 404;
-            throw err
+            throw err;
         }
+    } catch (err) {
+        next(err);
     }
-    catch (err) {
-        next(err)
-    }
-}
+};
 
 export const deleteAllPostsByAuthorId = async (
-    req: Request<{}, {}, postRequestBody, {}>,
+    req: AuthRequest,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     try {
-        const deletedPosts = await Post.destroy({ where: { authorId: req.session.user?.id } });
+        const deletedPosts = await Post.destroy({ where: { authorId: req.user?.id } });
         if (deletedPosts !== 0) {
             return res.status(200).json({ message: "Posts deleted successfully" })
         }

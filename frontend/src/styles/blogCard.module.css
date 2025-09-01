@@ -1,19 +1,29 @@
 .blogCard {
-    margin: 1rem;
-    width: 30vw;
-    max-height: 60%;
-    padding: 1rem;
+    display: grid;
+    grid-template-rows: 3fr;
+    margin: 2rem;
+    padding: 2rem;
     border: 1px black solid;
 }
-.interactionBox {
+.engagementBox {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: start;
+    gap: 8rem;
 }
-.interactionContent {
+.engagementContent {
     display: flex;
     align-items: center;
     column-gap: 15px;
     font-size: 1.5rem;
+}
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.interactionBox {
+    display: flex;
+    gap: 1rem
 }
 .title {
     font-size: 1.5rem;

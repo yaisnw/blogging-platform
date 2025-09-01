@@ -34,16 +34,16 @@ const OAuth = () => {
             }
         };
         fetchToken();
-    }, [navigate, oAuthLogin]);
+    }, [navigate, oAuthLogin, error]);
 
 
 
     return (
         <div>
             {serverError ? (
-                <div style={styles.error}>{serverError}</div>
+                <div >{serverError}</div>
             ) : (
-                <div className={styles.OAuthLoader}>
+                <div className={styles.loaderCenter}>
                     <div>Signing in with Google...</div>
                     <span className={styles.loader}></span>
                 </div>

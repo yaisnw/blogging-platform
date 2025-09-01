@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { persistor } from '@/store';
 
 export function isTokenExpired(token: string | null) {
     if (!token) return true;
@@ -27,7 +28,6 @@ const NavBar = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log(isTokenExpired(token))
         if (isTokenExpired(token)) {
             localStorage.removeItem('token');
             dispatch(logOut())
@@ -39,6 +39,7 @@ const NavBar = () => {
         e.preventDefault();
         localStorage.removeItem('token')
         dispatch(logOut())
+        persistor.purge();
         navigate('/login')
     }
 

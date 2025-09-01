@@ -6,6 +6,7 @@
   display: inline;
   min-width: 300px;
   z-index: 10;
+  margin: 1rem 0;
 }
 .lexical-image {
   width: 100%;

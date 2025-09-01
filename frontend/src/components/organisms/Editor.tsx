@@ -8,16 +8,14 @@ import ToolBar from './ToolBar';
 import '../../styles/editor.css'
 import { ParagraphNode, RootNode, TextNode } from 'lexical';
 import type { EditorState } from 'lexical'
-import { HeadingNode } from '@lexical/rich-text';
-import React, { useEffect, useRef, useState } from 'react';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import React, { useEffect, useState } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ImagePlugin } from '@/lexicalCustom/ImagePlugin';
 import { ImageNode } from '@/lexicalCustom/ImageNode';
-import { useCreatePostMutation } from '@/services/blogsApi';
-import { useNavigate } from 'react-router';
+import { useCreatePostMutation, useLazyGetPostByIdQuery, useUpdatePostMutation } from '@/services/blogsApi';
+import { useNavigate, useParams } from 'react-router';
 import styles from '../../styles/ui.module.css'
-import { setPostId } from '@/slices/uiSlice';
-import { useAppDispatch } from '@/hooks';
 import type { RootState } from "@/store";
 import { useSelector } from 'react-redux';
 
@@ -25,6 +23,7 @@ import { useSelector } from 'react-redux';
 const theme = {
     ltr: 'ltr',
     rtl: 'rtl',
+    quote: 'editor-quote',
     text: {
         bold: 'font-bold',
         italic: 'italic',
@@ -38,6 +37,7 @@ const theme = {
     },
     paragraph: 'editor-paragraph'
 }
+
 
 
 function onError(error: Error) {
@@ -54,40 +54,64 @@ function MyOnChangePlugin({ onChange }: { onChange: (editorState: EditorState) =
     return null;
 }
 
+function DraftPlugin({ draftResult }: { draftResult: string }) {
+    const [editor] = useLexicalComposerContext();
+    useEffect(() => {
+        if (!draftResult) return;
+        editor.update(() => {
+            const parsed = JSON.parse(draftResult)
+            const editorState = editor.parseEditorState(parsed);
+            editor.setEditorState(editorState);
+        });
+    }, [draftResult, editor])
+    return null
+}
+
 function Editor() {
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [status, setStatus] = useState<'pending' | 'completed'>('completed')
     const [title, setTitle] = useState<string>();
     const [editorState, setEditorState] = useState<string | undefined>();
-    const [createPost, { isLoading, error }] = useCreatePostMutation();
+    const [draftResult, setDraftResult] = useState<string>();
+    const [isUpdating, setIsUpdating] = useState<boolean>(false);
+    const [createPost, { isLoading: submitLoading, error: submitError }] = useCreatePostMutation();
+    const [updatePost, { isLoading: updateLoading, error: updateError }] = useUpdatePostMutation();
+    const [trigger, { isLoading: editLoading, error: editError }] = useLazyGetPostByIdQuery();
     const postId = useSelector((state: RootState) => state.ui.pendingPostId);
+    const { id } = useParams();
+
 
     useEffect(() => {
-        console.log(postId)
-        if(postId) return;
+        const getDraft = async () => {
+            if (id) {
+                const result = await trigger(Number(id));
+                if (result.data) {
+                    const draftJson = result.data.content;
+                    setTitle(result.data.title);
+                    setIsUpdating(true);
+                    if (typeof draftJson === "string") {
+                        console.log(draftJson)
+                        try {
+                            setDraftResult(draftJson)
 
-        const createDraft = async () => {
-            try {
-                const draft = await createPost({
-                    title: title ?? '',
-                    content: editorState ?? '',
-                    status: 'pending',
-                }).unwrap();
-                console.log(draft)
-                dispatch(setPostId(draft.id));
-            } catch (err) {
-                console.error("Failed to create draft", err);
+                        } catch (err) {
+                            console.error("Failed to parse draft JSON:", err);
+                            return;
+                        }
+                    }
+                }
             }
         };
 
-        createDraft();
-    }, [postId, createPost, dispatch, title, editorState]);
+        getDraft();
+    }, [id, trigger]);
+
 
     function onChange(editorState: EditorState) {
         const editorStateJson = editorState.toJSON();
         setEditorState(JSON.stringify(editorStateJson))
     }
+
     const initialConfig = {
         namespace: 'MyEditor',
         theme,
@@ -97,7 +121,8 @@ function Editor() {
             ParagraphNode,
             RootNode,
             HeadingNode,
-            ImageNode
+            ImageNode,
+            QuoteNode
         ]
     };
 
@@ -107,20 +132,41 @@ function Editor() {
             navigate('/home/myBlogs')
         }
     }
+    const handleUpdate = async (postId: number, title: string, content: string, status: 'pending' | 'completed') => {
+        const result = await updatePost({ postId, title, content, status }).unwrap();
+        if (result) {
+            navigate('/home/myBlogs')
+        }
+
+    }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setTitle(e.target.value)
     }
 
-    return isLoading ? (
-        <span className={styles.loader}></span>
+    return submitLoading || editLoading || updateLoading ? (
+        <div className={styles.loaderCenter}>
+            <span className={styles.loader}></span>
+        </div>
     ) : (
         <LexicalComposer initialConfig={initialConfig}>
             <ToolBar className='toolBar' />
             <form className='post-form'>
-                <input onChange={handleChange} value={title} type='text' max={20} className='post-input'></input>
-                <button className='submit-button' onClick={() => (editorState && title) && handleSubmit(title, editorState, status)}>Submit</button>
-                {error && <div className='submit-error'>Could not submit post.</div>}
+                <input maxLength={80} name='title' onChange={handleChange} value={title ?? ''} type='text' max={20} className='post-input'></input>
+                <button type='button' className='submit-button' onClick={(e) => {
+                    e.preventDefault();
+                    if (isUpdating && editorState && title) {
+                        handleUpdate(postId, title, editorState, status);
+                    } else if (editorState && title) {
+                        handleSubmit(title, editorState, status);
+                    }
+                }}>{isUpdating ? 'Update' : 'Submit'}</button>
+                <label>
+                    <input checked={status === 'completed'} onChange={() => setStatus(status === 'completed' ? 'pending' : 'completed')} type="checkbox" /> Save as draft
+                </label>
+                {submitError && <div className='submit-error'>Could not submit post.</div>}
+                {editError && <div className='submit-error'>Could not retrieve draft.</div>}
+                {updateError && <div className='submit-error'>Could not update post.</div>}
             </form>
             <div className='editor-container'>
                 <RichTextPlugin
@@ -133,6 +179,7 @@ function Editor() {
                     ErrorBoundary={LexicalErrorBoundary}
                 />
             </div>
+            <DraftPlugin draftResult={draftResult ? draftResult : ''} />
             <HistoryPlugin />
             <AutoFocusPlugin />
             <MyOnChangePlugin onChange={onChange} />

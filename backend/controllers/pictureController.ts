@@ -12,8 +12,7 @@ export const addPicture = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const postId = Number(req.body.postId)
-    console.log("File:", req.file);
-    console.log("Body:", req.body);
+
     try {
         if (!req.file) {
             const err = new Error('no file uploaded') as CustomError
@@ -43,7 +42,7 @@ export const addPicture = async (
             err.status = 400;
             throw err
         }
-        res.status(201).json({ url });
+        res.status(201).json(url);
     }
     catch (err) {
         next(err)

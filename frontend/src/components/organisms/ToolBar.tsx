@@ -4,7 +4,7 @@ import { mergeRegister } from "@lexical/utils"
 import { useCallback, useEffect, useState } from 'react';
 import { $setBlocksType } from '@lexical/selection'
 import "../../styles/editor.css"
-import { $createHeadingNode, $isHeadingNode } from '@lexical/rich-text';
+import { $createHeadingNode, $createQuoteNode, $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
 import ImageInsertButton from '../atoms/ImageInsertButton';
 
 function Divider() {
@@ -30,7 +30,10 @@ function ToolBar({ ...props }) {
                 const parent = node.getTopLevelElementOrThrow();
                 if ($isHeadingNode(parent)) {
                     blockType = parent.getTag();
-                } else if ($isParagraphNode(parent)) {
+                } else if ($isQuoteNode(parent)) {
+                    blockType = 'quote';
+                }
+                else if ($isParagraphNode(parent)) {
                     blockType = 'paragraph';
                 }
                 setActiveBlockType(blockType ?? 'paragraph');
@@ -102,7 +105,7 @@ function ToolBar({ ...props }) {
             editor.dispatchCommand(REDO_COMMAND, undefined)
         }
     }
-    const applyBlockType = (blockType: 'h1' | 'h2' | 'h3' | 'paragraph') => {
+    const applyBlockType = (blockType: 'h1' | 'h2' | 'h3' | 'paragraph' | 'quote') => {
         editor.focus();
         editor.update(() => {
             const selection = $getSelection();
@@ -110,14 +113,17 @@ function ToolBar({ ...props }) {
                 if (blockType === 'paragraph') {
                     $setBlocksType(selection, () => $createParagraphNode())
                 }
+                else if (blockType === 'quote') {
+                    $setBlocksType(selection, () => $createQuoteNode())
+                }
                 else {
                     $setBlocksType(selection, () => $createHeadingNode(blockType))
                 }
             }
         })
     }
-    
-    
+
+
     return (
         <div {...props}>
             <button className={`toolbar-button ${isBold ? 'active' : ''}`} onClick={() => applyFormat('bold')}>
@@ -139,13 +145,14 @@ function ToolBar({ ...props }) {
             <button className={'toolbar-button'} onClick={() => applyAlign('right')}>right</button>
             <button className={'toolbar-button'} onClick={() => applyAlign('justify')}>justify</button>
             <Divider />
-            <button className={'toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>undo</button>
-            <button className={'toolbar-button'} disabled={!canRedo} onClick={() => applyUndoRedo('redo')} >redo</button>
-            <Divider />
             <button className={`toolbar-button ${activeBlockType === 'h1' ? 'active' : ''}`} onClick={() => applyBlockType('h1')}>H1</button>
             <button className={`toolbar-button ${activeBlockType === 'h2' ? 'active' : ''}`} onClick={() => applyBlockType('h2')}>H2</button>
             <button className={`toolbar-button ${activeBlockType === 'h3' ? 'active' : ''}`} onClick={() => applyBlockType('h3')}>H3</button>
             <button className={`toolbar-button ${activeBlockType === 'paragraph' ? 'active' : ''}`} onClick={() => applyBlockType('paragraph')} >Paragraph</button>
+            <button className={`toolbar-button ${activeBlockType === 'quote' ? `active` : ''}`} onClick={() => applyBlockType('quote')}>Quote</button>
+            <Divider />
+            <button className={'toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>undo</button>
+            <button className={'toolbar-button'} disabled={!canRedo} onClick={() => applyUndoRedo('redo')} >redo</button>
             <Divider />
             <ImageInsertButton />
         </div>

@@ -1,7 +1,6 @@
 .myBlogsFlex {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
     align-self: center;
     gap: 4rem;
     margin: 2rem 5rem;
@@ -13,10 +12,6 @@
     gap: 2rem;
 }
 .blogCardsBox {
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
     width: 80vw;
     min-height: 15vw;
     gap: 0;
@@ -25,5 +20,5 @@
 }
 .centerWrapper {
     grid-column: 1 / -1;
-    margin: 0 auto;
+    display: grid;
 }

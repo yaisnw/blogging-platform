@@ -1,12 +1,12 @@
 import express from "express";
-import { deleteAllPostsByAuthorId, deletePostById, getAllPostsByAuthorId, getPostById, addPost, editPost } from "../controllers/postController";
+import { deleteAllPostsByAuthorId, deletePosts, getAllPostsByAuthorId, getPostById, addPost, updatePost } from "../controllers/postController";
 const postRouter = express.Router();
 
 postRouter.post('/create', addPost);
 postRouter.get('/getAllPosts/:authorId?', getAllPostsByAuthorId);
 postRouter.get('/:id', getPostById);
-postRouter.put('/update/:id', editPost);
-postRouter.delete('/delete/:id', deletePostById);
+postRouter.put('/update/:id', updatePost);
+postRouter.delete('/deletePosts', deletePosts);
 postRouter.delete('/deleteAllPosts', deleteAllPostsByAuthorId);
 
 export default postRouter
