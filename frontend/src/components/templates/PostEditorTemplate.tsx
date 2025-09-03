@@ -1,19 +1,16 @@
+import React from "react";
 
-type PostEditorProps = {
-  panel: React.ReactNode;
+
+type Props = {
   editor: React.ReactNode;
 };
 
-const PostEditorTemplate: React.FC<PostEditorProps>= ({panel, editor}) => {
-    return (
-        <div className={''}>
-            <section>
-                {panel}
-            </section>
-            <section className={'null'}>
-                {editor}
-            </section>
-        </div>
-    )
-}
+const PostEditorTemplate: React.FC<Props> = ({ editor }) => {
+  return (
+    <div>
+      <main >{editor}</main>
+    </div>
+  );
+};
+
 export default PostEditorTemplate;

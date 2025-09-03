@@ -4,7 +4,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getSelection, $isRangeSelection } from "lexical";
 import styles from '../../styles/ui.module.css'
 import '@/styles/editor.css'
-import { useCreatePostMutation } from "@/services/blogsApi";
+import { useCreatePostMutation } from "@/services/postsApi";
 
 function ImageInsertButton() {
     const [editor] = useLexicalComposerContext();

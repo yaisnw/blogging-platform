@@ -52,8 +52,8 @@ const NavBar = () => {
                         <>
                             <div className={styles.nav1}>
                                 <AppLink to="/home">Home</AppLink>
-                                <AppLink to="/blogs">Blogs</AppLink>
-                                <AppLink to="myBlogs">My Blogs</AppLink>
+                                <AppLink to="/posts">Posts</AppLink>
+                                <AppLink to="myPosts">My Posts</AppLink>
                             </div>
                             <div className={styles.nav1}>
                                 <AppLink to="/profile">Profile</AppLink>
@@ -65,7 +65,7 @@ const NavBar = () => {
                         <>
                             <div className={styles.nav1}>
                                 <AppLink to="/home">Home</AppLink>
-                                <AppLink to="/blogs">Blogs</AppLink>
+                                <AppLink to="/posts">Posts</AppLink>
                             </div>
                             <div className={styles.nav1}>
                                 <AppLink to="/support">Support</AppLink>

@@ -1,7 +1,7 @@
 import AppHeader from "../atoms/AppHeader";
 import AppImage from "../atoms/AppImage";
 import AppParagraph from "../atoms/AppParagraph";
-import styles from '../../styles/blogCard.module.css'
+import styles from '../../styles/postCard.module.css'
 import UIstyles from '@/styles/ui.module.css'
 import type { MouseEventHandler } from "react";
 import { useAppDispatch } from "@/hooks";
@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 
-type BlogCardProps = {
+type PostCardProps = {
     postId: number,
     title: string,
     likeCount: number,
@@ -20,7 +20,7 @@ type BlogCardProps = {
     isDeleting: boolean
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({ postId, title, editButton, likeCount, createdAt, viewButton, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, editButton, likeCount, createdAt, viewButton, isDeleting }) => {
     const dispatch = useAppDispatch();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
     const {data, isLoading} = useGetCommentsByPostIdQuery(postId);
@@ -35,17 +35,17 @@ const BlogCard: React.FC<BlogCardProps> = ({ postId, title, editButton, likeCoun
     }
 
     return (
-        <div className={styles.blogCard} >
+        <div className={styles.postCard} >
             <AppHeader className={styles.title}>{title}</AppHeader>
             <section className={styles.engagementBox}>
                 <div className={styles.engagementContent}>
                     <AppParagraph>{likeCount}</AppParagraph>
-                    <AppImage className={styles.blogCardImage} src="/heart.svg" alt="Heart" />
+                    <AppImage className={styles.postCardImage} src="/heart.svg" alt="Heart" />
                 </div>
                 <div className={styles.engagementContent}>
 
                     {isLoading ? <span className={`${UIstyles.loader} ${UIstyles.miniLoader}`} ></span> : <AppParagraph>{data?.comments.length}</AppParagraph>}
-                    <AppImage className={styles.blogCardImage} src="/comment.svg" alt='text box' />
+                    <AppImage className={styles.postCardImage} src="/comment.svg" alt='text box' />
                 </div>
             </section>
             <div className={styles.cardFooter} >
@@ -62,4 +62,4 @@ const BlogCard: React.FC<BlogCardProps> = ({ postId, title, editButton, likeCoun
     )
 }
 
-export default BlogCard;
+export default PostCard;

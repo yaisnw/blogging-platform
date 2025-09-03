@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './rootreducer';
 import { authApi } from './services/authApi';
-import { blogsApi } from './services/blogsApi';
+import { postsApi } from './services/postsApi';
 import { picturesApi } from './services/picturesApi';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -11,7 +11,7 @@ import { commentsApi } from './services/commentsApi';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth']
+  whitelist: ['auth', 'ui']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -19,7 +19,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({serializableCheck: false}).concat(authApi.middleware, blogsApi.middleware, picturesApi.middleware, commentsApi.middleware),
+    getDefaultMiddleware({serializableCheck: false}).concat(authApi.middleware, postsApi.middleware, picturesApi.middleware, commentsApi.middleware),
 });
 
 export const persistor = persistStore(store)

@@ -7,8 +7,9 @@ import LoginPage from './components/pages/LoginPage';
 import OAuth from './components/pages/OAuth';
 import NavBar from './components/organisms/NavBar';
 import HomePage from './components/pages/HomePage';
-import MyBlogsPage from './components/pages/MyBlogsPage';
+import MyPostsPage from './components/pages/MyPostsPage';
 import PostEditorPage from './components/pages/PostEditorPage';
+import PostViewerPage from './components/pages/PostViewerPage';
 
 const router = createBrowserRouter([
   {
@@ -36,9 +37,13 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: 'myBlogs',
-        element: <MyBlogsPage />,
+        path: 'myPosts',
+        element: <MyPostsPage />,
       },
+      {
+        path: 'posts/:id',
+        element: <PostViewerPage />
+      }
 
     ],
   },

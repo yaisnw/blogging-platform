@@ -2,13 +2,13 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 interface uiSlice {
     justRegistered: boolean;
-    pendingPostId: number;
+    postId: number;
     deletingPostIds: number[];
 }
 
 const initialState: uiSlice = {
     justRegistered: false,
-    pendingPostId: 0,
+    postId: 0,
     deletingPostIds: [],
 }
 
@@ -20,7 +20,7 @@ const uiSlice = createSlice({
             state.justRegistered = action.payload;
         },
         setPostId: (state, action: PayloadAction<number>) => {
-            state.pendingPostId = action.payload;
+            state.postId = action.payload;
         },
         addDeletingPostIds: (state, action: PayloadAction<number>) => {
             const id = action.payload

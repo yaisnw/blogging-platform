@@ -1,14 +1,14 @@
 import AppButton from "../atoms/AppButton"
-import styles from '../../styles/myBlogs.module.css'
+import styles from '../../styles/myPosts.module.css'
 
-type blogPanelProps = {
+type postPanelProps = {
     createButton: ()=> void;
     deleteButton: ()=> void;
     confirmDeleteButton: ()=> void;
     isDeleting: boolean,
 }
 
-const BlogPanel: React.FC<blogPanelProps> = ({ createButton, deleteButton, confirmDeleteButton, isDeleting }) => {
+const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confirmDeleteButton, isDeleting }) => {
     return (
         <div className={styles.panel}>
             <AppButton onClick={createButton} >Create a Post</AppButton>
@@ -18,4 +18,4 @@ const BlogPanel: React.FC<blogPanelProps> = ({ createButton, deleteButton, confi
     )
 }
 
-export default BlogPanel;
+export default PostPanel;

@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from "../../hooks"
-import { useDeletePostsMutation, useGetMyPostsQuery } from "../../services/blogsApi"
-import BlogCard from "../molecules/BlogCard"
-import BlogPanel from "../molecules/BlogPanel"
-import MyBlogsTemplate from "../templates/MyBlogsTemplate"
+import { useDeletePostsMutation, useGetMyPostsQuery } from "../../services/postsApi"
+import PostCard from "../molecules/PostCard"
+import PostPanel from "../molecules/PostPanel"
+import MyPostsTemplate from "../templates/MyPostsTemplate"
 import UIstyles from "../../styles/ui.module.css"
-import styles from "../../styles/myBlogs.module.css"
+import styles from "../../styles/myPosts.module.css"
 import { useNavigate } from "react-router"
 import { useJwtAuth } from "@/hooks/useJwtAuth"
 import { useEffect, useState } from "react"
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux"
 import type { RootState } from "@/store"
 
 
-const MyBlogsPage = () => {
+const MyPostsPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds);
@@ -29,10 +29,10 @@ const MyBlogsPage = () => {
             navigate('/login')
         }
     }, [loggedIn, navigate, authChecked])
-    // Viewing a public post functionality
-    // detailed blog card information
+
     const handlePostClick = async (id: number) => {
-        console.log(id)
+        dispatch(setPostId(id))
+        navigate(`/home/posts/${id}`)
     }
     const handleEditButton = async (id: number) => {
         dispatch(setPostId(id))
@@ -52,8 +52,8 @@ const MyBlogsPage = () => {
 
     return (
         <div>
-            <MyBlogsTemplate panel={<div>
-                <BlogPanel createButton={() => navigate('/createPost')} deleteButton={() => handleDeleteButton(isDeleting)} confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)} isDeleting={isDeleting} />
+            <MyPostsTemplate panel={<div>
+                <PostPanel createButton={() => navigate('/createPost')} deleteButton={() => handleDeleteButton(isDeleting)} confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)} isDeleting={isDeleting} />
                 {deletePostsError && <p>Failed to delete selected posts.</p>}    
             </div>}
                 cards={
@@ -72,7 +72,7 @@ const MyBlogsPage = () => {
 
                                 ])
                                 : data.posts.map((post) => (
-                                    <BlogCard
+                                    <PostCard
                                         key={post.id}
                                         postId={post.id}
                                         title={post.title ? post.title : 'This is an incomplete draft.'}
@@ -93,4 +93,4 @@ const MyBlogsPage = () => {
     )
 }
 
-export default MyBlogsPage
+export default MyPostsPage
