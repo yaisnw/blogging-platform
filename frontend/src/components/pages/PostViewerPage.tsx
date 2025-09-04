@@ -17,18 +17,11 @@ const PostViewerPage = () => {
         );
     }
 
-    if (error || !data) {
-        return (
-            <div className={styles.submitError}>
-                Could not load the post.
-            </div>
-        );
-    }
 
 
-    return (
+    return data && (
         <div>
-            {data.status === 'pending' &&
+            {data?.status === 'pending' &&
                 <div className={styles.pageError}>
                     <h1 className={styles.error}>This post is not completed</h1>
                     <Link className={styles.errorLink} to='/home/posts'>View other posts</Link>

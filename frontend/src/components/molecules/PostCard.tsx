@@ -15,16 +15,24 @@ type PostCardProps = {
     title: string,
     likeCount: number,
     createdAt: string,
-    editButton: () => void,
-    viewButton: MouseEventHandler<HTMLButtonElement>,
-    isDeleting: boolean
+    updatedAt: string,
+    author?: string,
+    editButton?: () => void,
+    viewButton?: MouseEventHandler<HTMLButtonElement>,
+    isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, editButton, likeCount, createdAt, viewButton, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, likeCount, createdAt, updatedAt, viewButton, isDeleting }) => {
     const dispatch = useAppDispatch();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
-    const {data, isLoading} = useGetCommentsByPostIdQuery(postId);
-    const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
+    const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
+    const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+
+    const formattedUpdatedAt = new Date(updatedAt).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -36,25 +44,35 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, editButton, likeCoun
 
     return (
         <div className={styles.postCard} >
-            <AppHeader className={styles.title}>{title}</AppHeader>
-            <section className={styles.engagementBox}>
-                <div className={styles.engagementContent}>
-                    <AppParagraph>{likeCount}</AppParagraph>
-                    <AppImage className={styles.postCardImage} src="/heart.svg" alt="Heart" />
-                </div>
-                <div className={styles.engagementContent}>
+            <AppHeader className={styles.title}>
+                {title}
+            </AppHeader>
+                <span className={styles.statusBadge} >Completed</span>
+            <section className={styles.postMeta} >
+                <section className={styles.engagementBox}>
+                    <div className={styles.engagementContent}>
+                        <AppParagraph>{likeCount}</AppParagraph>
+                        <AppImage className={styles.postCardImage} src="/heart.svg" alt="Heart" />
+                    </div>
+                    <div className={styles.engagementContent}>
+                        {isLoading ? <span className={`${UIstyles.loader} ${UIstyles.miniLoader}`} ></span> : <AppParagraph>{data?.comments.length}</AppParagraph>}
+                        <AppImage className={styles.postCardImage} src="/comment.svg" alt='text box' />
+                    </div>
+                </section>
 
-                    {isLoading ? <span className={`${UIstyles.loader} ${UIstyles.miniLoader}`} ></span> : <AppParagraph>{data?.comments.length}</AppParagraph>}
-                    <AppImage className={styles.postCardImage} src="/comment.svg" alt='text box' />
-                </div>
+                <p>By {author}</p>
+
             </section>
             <div className={styles.cardFooter} >
-                <p>{formattedDate}</p>
+                <div className={styles.footerDate} >
+                    <p>Created: {formattedCreatedAt}</p>
+                    <p>Updated: {formattedUpdatedAt}</p>
+                </div>
                 <div className={styles.interactionBox} >
                     {isDeleting && <label>
                         <input checked={deletingPostIds.includes(postId)} onChange={() => handleDeleteCheck(postId)} type="checkbox" /> Delete
                     </label>}
-                    <button onClick={editButton}>Edit Post</button>
+                    {editButton && <button onClick={editButton}>Edit Post</button>}
                     <button onClick={viewButton}>View Post</button>
                 </div>
             </div>

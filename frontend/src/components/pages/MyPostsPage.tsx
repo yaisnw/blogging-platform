@@ -54,7 +54,7 @@ const MyPostsPage = () => {
         <div>
             <MyPostsTemplate panel={<div>
                 <PostPanel createButton={() => navigate('/createPost')} deleteButton={() => handleDeleteButton(isDeleting)} confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)} isDeleting={isDeleting} />
-                {deletePostsError && <p>Failed to delete selected posts.</p>}    
+                {deletePostsError && <p>Failed to delete selected posts.</p>}
             </div>}
                 cards={
                     getPostsLoading || deletePostsLoading
@@ -86,7 +86,7 @@ const MyPostsPage = () => {
                         )
 
                 } />
-            
+
 
 
         </div>

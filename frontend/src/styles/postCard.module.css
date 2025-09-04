@@ -1,9 +1,17 @@
 .postCard {
+    max-width: 70vw;
     display: grid;
     grid-template-rows: 3fr;
     margin: 2rem;
     padding: 2rem;
     border: 1px black solid;
+    overflow: auto;
+}
+.statusBadge {
+    background-color: #a7f3d0;
+    color: black;
+    justify-self: start;
+    padding: 10px;
 }
 .engagementBox {
     display: flex;
@@ -16,10 +24,21 @@
     column-gap: 15px;
     font-size: 1.5rem;
 }
+.postMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: gray
+}
 .cardFooter {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
+    color: gray;
+}
+.footerDate {
+    display: flex;
+    gap: 2rem;
 }
 .interactionBox {
     display: flex;
@@ -27,6 +46,8 @@
 }
 .title {
     font-size: 1.5rem;
+    flex-wrap: wrap;
+    word-break: break-word;
 }
 .postCardImage {
     width: 30px;

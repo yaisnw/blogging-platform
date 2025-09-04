@@ -18,8 +18,12 @@ export interface blogPost {
     title: string,
     content: string,
     status: string,
-    likes: number
-    createdAt: string
+    likes: number,
+    User: {
+        username: string
+    }
+    createdAt: string,
+    updatedAt: string;
 }
 export interface comment {
     id: number;
@@ -27,4 +31,5 @@ export interface comment {
     postId: number;
     content: string;
     createdAt: Date;
+
 }

@@ -32,6 +32,21 @@ export const postsApi = createApi({
             providesTags: (result, error, postId) =>
                 result ? [{ type: "Post", id: postId }] : [],
         }),
+        getCompletedPosts: build.query<
+            { posts: blogPost[]; message: string },
+            void
+        >({
+            query: () => `/getAllCompletedPosts`,
+            providesTags: (result): { type: "Posts"; id: number | "LIST" }[] =>
+                result?.posts
+                    ? [
+                        { type: "Posts", id: "LIST" },
+                        ...result.posts.map(
+                            (post) => ({ type: "Posts", id: post.id } as const)
+                        ),
+                    ]
+                    : [{ type: "Posts", id: "LIST" }],
+        }),
         createPost: build.mutation<
             blogPost
             , { title: string, content: string, status: 'pending' | 'completed' }>
@@ -48,34 +63,35 @@ export const postsApi = createApi({
                 invalidatesTags: ['Posts']
             }),
         updatePost: build.mutation<
-            null
+            void
             , { postId: number, title: string, content: string, status: 'pending' | 'completed' }>
             ({
-                query: ({postId, title, content, status}) => ({
+                query: ({ postId, title, content, status }) => ({
                     url: `/update/${postId}`,
                     method: 'PUT',
-                    body: {title, content, status}
-,
+                    body: { title, content, status }
+                    ,
                 }),
                 invalidatesTags: ['Posts']
             }),
         deletePosts: build.mutation<
-        null,
-        number[]>({
-            query: (postIds) => ({
-                url: `/deletePosts`,
-                method: 'DELETE',
-                body: {postIds},
-            }),
-            invalidatesTags: ['Posts']
-        })
-    })  
+            void,
+            number[]>({
+                query: (postIds) => ({
+                    url: `/deletePosts`,
+                    method: 'DELETE',
+                    body: { postIds },
+                }),
+                invalidatesTags: ['Posts']
+            })
+    })
 })
 
 export const {
     useGetMyPostsQuery,
     useCreatePostMutation,
     useGetPostByIdQuery,
+    useGetCompletedPostsQuery,
     useLazyGetPostByIdQuery,
     useUpdatePostMutation,
     useDeletePostsMutation,
