@@ -7,12 +7,19 @@
     border: 1px black solid;
     overflow: auto;
 }
-.statusBadge {
+.publishedBadge {
     background-color: #a7f3d0;
     color: black;
     justify-self: start;
     padding: 10px;
 }
+.draftBadge {
+    background-color: #fa4f4f;
+    color: white;
+    justify-self: start;
+    padding: 10px;
+}
+
 .engagementBox {
     display: flex;
     justify-content: start;

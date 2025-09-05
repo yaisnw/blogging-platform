@@ -18,11 +18,11 @@ import ContentPlugin from "@/lexicalCustom/ContentPlugin";
 
 type Props = {
   title: string;
-  status: 'pending' | 'completed';
+  status: 'draft' | 'published';
   draftResult: string;
   isUpdating: boolean;
   onTitleChange: (val: string) => void;
-  onStatusChange: (val: 'pending' | 'completed') => void;
+  onStatusChange: (val: 'draft' | 'published') => void;
   onEditorChange: (val: string) => void;
   onSubmit: () => void;
 };
@@ -89,9 +89,9 @@ const Editor: React.FC<Props> = ({
         <label>
           <input
             type="checkbox"
-            checked={status === "completed"}
+            checked={status === "draft"}
             onChange={() =>
-              onStatusChange(status === "completed" ? "pending" : "completed")
+              onStatusChange(status === "published" ? "draft" : "published")
             }
           />{" "}
           Save as draft

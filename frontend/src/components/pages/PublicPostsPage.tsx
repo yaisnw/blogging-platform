@@ -1,14 +1,14 @@
-import { useGetCompletedPostsQuery } from "@/services/postsApi"
+import { useGetPublishedPostsQuery } from "@/services/postsApi"
 import PublicPostsTemplate from "../templates/PublicPostsTemplate"
 import PostCard from "../molecules/PostCard"
 import styles from '@/styles/ui.module.css'
 import { Link, useNavigate } from "react-router"
 import { useAppDispatch } from "@/hooks"
 import { setPostId } from "@/slices/uiSlice"
+import type { blogPost } from "@/types/rtkTypes"
 
 const PublicPostsPage = () => {
-    const { data, isLoading, isError } = useGetCompletedPostsQuery();
-    console.log(data)
+    const { data, isLoading, isError } = useGetPublishedPostsQuery();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const PublicPostsPage = () => {
 
     return (
         <PublicPostsTemplate cards={data?.posts.map(
-            (post) =>
+            (post: blogPost) =>
                 <PostCard
                     key={post.id}
                     postId={post.id}
@@ -49,6 +49,7 @@ const PublicPostsPage = () => {
                     likeCount={post.likes}
                     createdAt={post.createdAt}
                     updatedAt={post.updatedAt}
+                    status={post.status}
                     author={post.User.username}
                     viewButton={() => handlePostClick(post.id)}
                 />

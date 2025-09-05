@@ -13,7 +13,7 @@ const PostEditorPage = () => {
 
   const [title, setTitle] = useState<string>('');
   const [editorState, setEditorState] = useState<string>('');
-  const [status, setStatus] = useState<'pending' | 'completed'>('completed');
+  const [status, setStatus] = useState<'draft' | 'published'>('published');
   const [draftResult, setDraftResult] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -35,12 +35,13 @@ const PostEditorPage = () => {
   }, [id, trigger]);
 
   const handleChangeTitle = (val: string) => setTitle(val);
-  const handleChangeStatus = (val: 'pending' | 'completed') => setStatus(val);
+  const handleChangeStatus = (val: 'draft' | 'published') => setStatus(val);
   const handleChangeEditor = (val: string) => setEditorState(val);
 
   const handleSubmit = async () => {
     if (!title || !editorState) return;
     if (isUpdating) {
+      console.log(status)
       await updatePost({ postId, title, content: editorState, status }).unwrap();
     } else {
       await createPost({ title, content: editorState, status }).unwrap();

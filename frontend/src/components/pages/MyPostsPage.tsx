@@ -78,6 +78,8 @@ const MyPostsPage = () => {
                                         title={post.title ? post.title : 'This is an incomplete draft.'}
                                         likeCount={post.likes}
                                         createdAt={post.createdAt}
+                                        updatedAt={post.updatedAt}
+                                        status={post.status}
                                         editButton={() => handleEditButton(post.id)}
                                         viewButton={() => handlePostClick(post.id)}
                                         isDeleting={isDeleting}

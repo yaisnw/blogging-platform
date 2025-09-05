@@ -80,25 +80,6 @@ const NavBar = () => {
         </>
     )
 
-    // else if (loggedIn) {
-    //     return (
-    //         <div>
-    //             <nav className={styles.nav}>
-    //                 <div className={styles.nav1}>
-    //                     <AppLink to='./home' >Home</AppLink>
-    //                     <AppLink to=''>Blogs</AppLink>
-    //                     <AppLink to='/myBlogs'>My Blogs</AppLink>
-    //                 </div>
-    //                 <div className={styles.nav1}>
-    //                     <AppLink to='../profile'>Profile</AppLink>
-    //                     <AppLink to='../support' >Support</AppLink>
-    //                     <a href='#' onClick={logOutHandler} >Log out</a>
-    //                 </div>
-    //             </nav>
-    //             <Outlet />
-    //         </div>
-    //     )
-    // }
 }
 
 export default NavBar

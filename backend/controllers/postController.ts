@@ -10,7 +10,7 @@ export const addPost = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const { title, content, status } = req.body;
-    if (status === 'completed') {
+    if (status === 'published') {
         if (!title || !content) {
             const err = new Error("Title and content fields cannot be empty") as CustomError;
             err.status = 400;
@@ -110,7 +110,7 @@ export const getAllCompletedPosts = async (
   try {
     const posts = await Post.findAll({
       where: {
-        status: "completed",
+        status: "published",
       },
       include: [
         {
@@ -121,7 +121,7 @@ export const getAllCompletedPosts = async (
     });
     if (posts.length === 0) {
       return res.status(200).json({
-        message: "No completed posts found.",
+        message: "No Published posts found.",
         posts: [],
       });
     }

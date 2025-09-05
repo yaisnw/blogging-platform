@@ -16,13 +16,14 @@ type PostCardProps = {
     likeCount: number,
     createdAt: string,
     updatedAt: string,
+    status: 'draft' | 'published',
     author?: string,
     editButton?: () => void,
     viewButton?: MouseEventHandler<HTMLButtonElement>,
     isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, likeCount, createdAt, updatedAt, viewButton, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, likeCount, createdAt, updatedAt, status, viewButton, isDeleting }) => {
     const dispatch = useAppDispatch();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
     const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
@@ -47,7 +48,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, 
             <AppHeader className={styles.title}>
                 {title}
             </AppHeader>
-                <span className={styles.statusBadge} >Completed</span>
+                <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge} >{status?.charAt(0).toUpperCase() + status.slice(1)}</span>
             <section className={styles.postMeta} >
                 <section className={styles.engagementBox}>
                     <div className={styles.engagementContent}>
@@ -60,7 +61,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, 
                     </div>
                 </section>
 
-                <p>By {author}</p>
+                {author && <p>By {author}</p>}
 
             </section>
             <div className={styles.cardFooter} >

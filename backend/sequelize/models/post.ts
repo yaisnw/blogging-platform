@@ -5,7 +5,7 @@ export class Post extends Model {
   public authorId!: number;
   public title!: string;
   public content!: string;
-  public status!: 'uploaded' | 'pending';
+  public status!: 'published' | 'draft';
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -32,9 +32,9 @@ export function initPost(sequelize: Sequelize) {
         allowNull: true,
       },
       status: {
-        type: DataTypes.ENUM('completed', 'pending'),
+        type: DataTypes.ENUM('published', 'draft'),
         allowNull: false,
-        defaultValue: 'pending',
+        defaultValue: 'draft',
       },
       likes: {
         type: DataTypes.INTEGER,
@@ -49,7 +49,7 @@ export function initPost(sequelize: Sequelize) {
       validate: {
         uploadedMustHaveContent(this: Post) {
           if (
-            this.status === "uploaded" &&
+            this.status === "published" &&
             (!this.content || this.content.trim() === "")
           ) {
             throw new Error("Uploaded posts must have content.");

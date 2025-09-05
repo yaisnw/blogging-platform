@@ -17,7 +17,7 @@ export interface blogPost {
     authorId: number,
     title: string,
     content: string,
-    status: string,
+    status: 'draft' | 'published',
     likes: number,
     User: {
         username: string

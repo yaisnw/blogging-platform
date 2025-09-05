@@ -32,11 +32,11 @@ export const postsApi = createApi({
             providesTags: (result, error, postId) =>
                 result ? [{ type: "Post", id: postId }] : [],
         }),
-        getCompletedPosts: build.query<
+        getPublishedPosts: build.query<
             { posts: blogPost[]; message: string },
             void
         >({
-            query: () => `/getAllCompletedPosts`,
+            query: () => `/getAllPublishedPosts`,
             providesTags: (result): { type: "Posts"; id: number | "LIST" }[] =>
                 result?.posts
                     ? [
@@ -49,7 +49,7 @@ export const postsApi = createApi({
         }),
         createPost: build.mutation<
             blogPost
-            , { title: string, content: string, status: 'pending' | 'completed' }>
+            , { title: string, content: string, status: 'draft' | 'published' }>
             ({
                 query: ({ title, content, status }) => ({
                     url: '/create',
@@ -64,7 +64,7 @@ export const postsApi = createApi({
             }),
         updatePost: build.mutation<
             void
-            , { postId: number, title: string, content: string, status: 'pending' | 'completed' }>
+            , { postId: number, title: string, content: string, status: 'draft' | 'published' }>
             ({
                 query: ({ postId, title, content, status }) => ({
                     url: `/update/${postId}`,
@@ -91,7 +91,7 @@ export const {
     useGetMyPostsQuery,
     useCreatePostMutation,
     useGetPostByIdQuery,
-    useGetCompletedPostsQuery,
+    useGetPublishedPostsQuery,
     useLazyGetPostByIdQuery,
     useUpdatePostMutation,
     useDeletePostsMutation,
