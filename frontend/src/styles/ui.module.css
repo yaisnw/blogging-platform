@@ -1,25 +1,27 @@
 .googleImage {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
-.googleFlex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: none;
-    padding: 1vh 2vw;
 
-    background-color: white;
+.googleFlex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  padding: 1vh 2vw;
+
+  background-color: white;
 }
+
 .googleContainer {
   width: 15vw;
   padding: 0;
-  margin:1rem 0;
+  margin: 1rem 0;
   font-size: 1rem;
 }
 
-.googleContainer:hover{
-    cursor: pointer;
+.googleContainer:hover {
+  cursor: pointer;
 }
 
 .loader {
@@ -32,8 +34,9 @@
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
+
 .loaderCenter {
-  position: fixed;      
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -42,27 +45,32 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.5); 
-  z-index: 9999;        
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 9999;
 }
+
 .loaderContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
+
 .loaderMini {
   width: 3rem;
   height: 3rem;
 }
+
 .loaderText {
   display: block;
 }
+
 .error {
-  color:red
+  color: #DC2626
 }
+
 .pageError {
-   position: fixed;      
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -71,12 +79,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.5); 
-  z-index: 20;   
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 20;
+}
+.ctaButton {
+  padding: 5px 10px;
+  margin: 5px 0;
+  background-color: white;
+  border-radius: 10px;
 }
 .errorLink {
   text-decoration: underline;
   color: rgba(0, 124, 240, 0.986)
+}
+.errorLink:hover {
+  cursor: pointer;
 }
 
 
@@ -85,7 +102,8 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
-} 
+}

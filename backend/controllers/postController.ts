@@ -102,37 +102,38 @@ export const getAllPostsByAuthorId = async (
     }
 }
 
-export const getAllCompletedPosts = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+export const getAllPublishedPosts = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
 ): Promise<Response | void> => {
-  try {
-    const posts = await Post.findAll({
-      where: {
-        status: "published",
-      },
-      include: [
-        {
-          model: User,
-          attributes: ["username"], 
-        },
-      ]
-    });
-    if (posts.length === 0) {
-      return res.status(200).json({
-        message: "No Published posts found.",
-        posts: [],
-      });
-    }
 
-    return res.status(200).json({
-      message: "Completed posts retrieved successfully",
-      posts,
-    });
-  } catch (err) {
-    next(err);
-  }
+    try {
+        const posts = await Post.findAll({
+            where: {
+                status: "published",
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ["username"],
+                },
+            ]
+        });
+        if (posts.length === 0) {
+            return res.status(200).json({
+                message: "No Published posts found.",
+                posts: [],
+            });
+        }
+
+        return res.status(200).json({
+            message: "Published posts retrieved successfully",
+            posts,
+        });
+    } catch (err) {
+        next(err);
+    }
 };
 
 export const updatePost = async (

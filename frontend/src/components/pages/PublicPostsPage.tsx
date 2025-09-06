@@ -2,7 +2,7 @@ import { useGetPublishedPostsQuery } from "@/services/postsApi"
 import PublicPostsTemplate from "../templates/PublicPostsTemplate"
 import PostCard from "../molecules/PostCard"
 import styles from '@/styles/ui.module.css'
-import { Link, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 import { useAppDispatch } from "@/hooks"
 import { setPostId } from "@/slices/uiSlice"
 import type { blogPost } from "@/types/rtkTypes"
@@ -27,15 +27,22 @@ const PublicPostsPage = () => {
     if (isError) {
         return (
             <div className={styles.pageError}>
-                <h1 className={styles.error}>Failed to get posts</h1>
-                <Link className={styles.errorLink} to='/home/posts'>Please try again.</Link>
+                <h1 className={styles.error}>Something went wrong while fetching the posts.</h1>
+                <button className={styles.ctaButton} onClick={() => window.location.reload()}>
+                    <p >Try again</p>
+                </button>
+                <button onClick={() => navigate('/home')} className={styles.ctaButton}>
+                    <p>Go back to home page</p>
+                </button>
             </div>
         )
     }
     if (data?.posts.length === 0) {
         <div className={styles.pageError}>
             <h1 className={styles.error}>No Posts Available</h1>
-            <Link className={styles.errorLink} to='/home'>Return to the home page</Link>
+            <button onClick={() => navigate('/home')} className={styles.ctaButton}>
+            <p>Return to the home page</p>
+            </button>
         </div>
     }
 
