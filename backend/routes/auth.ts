@@ -1,5 +1,5 @@
 import express from "express";
-import { User } from "../sequelize/models/user";
+import { User } from "../sequelize/models/User";
 import { googleOAuth, loginUser, signUpUser } from "../controllers/authController";
 const authRouter = express.Router();
 

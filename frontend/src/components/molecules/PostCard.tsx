@@ -9,21 +9,24 @@ import { addDeletingPostIds } from "@/slices/uiSlice";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
+import HeartButton from "../atoms/HeartButton";
 
 type PostCardProps = {
     postId: number,
     title: string,
     likeCount: number,
+    hasLiked: boolean,
     createdAt: string,
     updatedAt: string,
     status: 'draft' | 'published',
     author?: string,
+    avatar_url?: string,
     editButton?: () => void,
     viewButton?: MouseEventHandler<HTMLButtonElement>,
     isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, likeCount, createdAt, updatedAt, status, viewButton, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status, viewButton, isDeleting }) => {
     const dispatch = useAppDispatch();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
     const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
@@ -53,7 +56,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, 
                 <section className={styles.engagementBox}>
                     <div className={styles.engagementContent}>
                         <AppParagraph>{likeCount}</AppParagraph>
-                        <AppImage className={styles.postCardImage} src="/heart.svg" alt="Heart" />
+                        <HeartButton liked={hasLiked} editable={false} />
                     </div>
                     <div className={styles.engagementContent}>
                         {isLoading ? <span className={`${UIstyles.loader} ${UIstyles.miniLoader}`} ></span> : <AppParagraph>{data?.comments.length}</AppParagraph>}
@@ -61,7 +64,12 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, editButton, 
                     </div>
                 </section>
 
-                {author && <p>By {author}</p>}
+                {author && 
+                    <div className={styles.authorBox} >
+                        <p>By {author}</p>
+                        <img className={UIstyles.avatar} src={avatar_url} alt="default avatar" />
+                    </div>
+                }
 
             </section>
             <div className={styles.cardFooter} >

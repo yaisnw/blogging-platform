@@ -7,6 +7,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { commentsApi } from './services/commentsApi';
+import { likesApi } from './services/likesApi';
 
 const persistConfig = {
   key: 'root',
@@ -19,7 +20,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({serializableCheck: false}).concat(authApi.middleware, postsApi.middleware, picturesApi.middleware, commentsApi.middleware),
+    getDefaultMiddleware({serializableCheck: false}).concat(authApi.middleware, postsApi.middleware, picturesApi.middleware, commentsApi.middleware, likesApi.middleware),
 });
 
 export const persistor = persistStore(store)

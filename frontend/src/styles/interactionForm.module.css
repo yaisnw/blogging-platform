@@ -1,0 +1,28 @@
+.commentForm {
+
+}
+.commentInputs {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.commentText {
+    width: 30vw;
+    height: 10vh;
+}
+.commentButton {
+    height: 2rem;
+}
+.interactionFlex {
+    margin: 0 auto;
+    margin-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+.heartContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}

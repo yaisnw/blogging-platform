@@ -95,7 +95,13 @@
 .errorLink:hover {
   cursor: pointer;
 }
-
+.avatar {
+  width: 2rem;
+  height: 2rem;
+}
+.heartButton {
+  cursor: pointer;
+}
 
 
 @keyframes rotation {

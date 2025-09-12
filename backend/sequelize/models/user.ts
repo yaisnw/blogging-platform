@@ -5,6 +5,7 @@ export class User extends Model {
   public username!: string;
   public email!: string;
   public password!: string;
+  public avatar_url!: string; 
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -21,7 +22,7 @@ export function initUser(sequelize: Sequelize) {
       username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       email: {
         type: DataTypes.STRING,
@@ -34,6 +35,12 @@ export function initUser(sequelize: Sequelize) {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      avatar_url: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue:
+          "https://blogplatform-images.s3.us-east-1.amazonaws.com/avatars/user-svgrepo-com.svg",
       },
     },
     {

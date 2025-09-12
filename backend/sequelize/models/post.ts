@@ -36,11 +36,6 @@ export function initPost(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: 'draft',
       },
-      likes: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
-      }
     },
     {
       sequelize,

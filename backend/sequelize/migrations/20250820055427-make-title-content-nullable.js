@@ -2,7 +2,6 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Make both title and content nullable
     await queryInterface.changeColumn('posts', 'title', {
       type: Sequelize.STRING,
       allowNull: true,
@@ -15,7 +14,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    // Rollback: make them NOT NULL again
     await queryInterface.changeColumn('posts', 'title', {
       type: Sequelize.STRING,
       allowNull: false,

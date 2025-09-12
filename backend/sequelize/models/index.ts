@@ -1,26 +1,32 @@
 import { Sequelize } from 'sequelize';
-import { User, initUser } from './user';
-import { Post, initPost } from './post';
-import { Comment, initComment } from './comment';
-import { Picture, initPicture } from './picture';
-
+import { User, initUser } from './User';
+import { Post, initPost } from './Post';
+import { Comment, initComment } from './Comment';
+import { Picture, initPicture } from './Picture';
+import { Like, initLike } from './Like'
 export function initModels(sequelize: Sequelize) {
   initUser(sequelize);
   initPost(sequelize);
   initComment(sequelize);
   initPicture(sequelize);
+  initLike(sequelize)
 
   User.hasMany(Post, { foreignKey: 'authorId' });
   User.hasMany(Comment, { foreignKey: 'authorId' });
+  User.hasMany(Like, {foreignKey: 'userId'});
 
   Post.belongsTo(User, { foreignKey: 'authorId' });
   Post.hasMany(Comment, { foreignKey: 'postId' });
   Post.hasMany(Picture, { foreignKey: 'postId' });
+  Post.hasMany(Like, {foreignKey: 'postId'});
 
   Comment.belongsTo(User, { foreignKey: 'authorId' });
   Comment.belongsTo(Post, { foreignKey: 'postId' });
 
   Picture.belongsTo(Post, { foreignKey: 'postId' });
+
+  Like.belongsTo(User, {foreignKey: 'userId'});
+  Like.belongsTo(Post, {foreignKey: 'postId'});
 }
 
-export { User, Post, Comment, Picture };
+export { User, Post, Comment, Picture, Like };

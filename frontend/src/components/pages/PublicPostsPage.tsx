@@ -53,11 +53,13 @@ const PublicPostsPage = () => {
                     key={post.id}
                     postId={post.id}
                     title={post.title}
-                    likeCount={post.likes}
+                    likeCount={post.likeCount}
+                    hasLiked={post.hasLiked}
                     createdAt={post.createdAt}
                     updatedAt={post.updatedAt}
                     status={post.status}
                     author={post.User.username}
+                    avatar_url={post.User.avatar_url}
                     viewButton={() => handlePostClick(post.id)}
                 />
         ) || []} />

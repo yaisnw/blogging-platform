@@ -63,17 +63,20 @@ export const postsApi = createApi({
                 invalidatesTags: ['Posts']
             }),
         updatePost: build.mutation<
-            void
-            , { postId: number, title: string, content: string, status: 'draft' | 'published' }>
-            ({
-                query: ({ postId, title, content, status }) => ({
-                    url: `/update/${postId}`,
-                    method: 'PUT',
-                    body: { title, content, status }
-                    ,
-                }),
-                invalidatesTags: ['Posts']
+            blogPost, 
+            { postId: number } & Partial<{
+                title: string;
+                content: string;
+                status: 'draft' | 'published';
+            }>
+        >({
+            query: ({ postId, ...updates }) => ({
+                url: `/update/${postId}`,
+                method: 'PUT',
+                body: updates, 
             }),
+            invalidatesTags: ['Posts'],
+        }),
         deletePosts: build.mutation<
             void,
             number[]>({
@@ -96,3 +99,10 @@ export const {
     useUpdatePostMutation,
     useDeletePostsMutation,
 } = postsApi
+
+
+
+
+
+
+// make a new likes table to track which user has liked which post

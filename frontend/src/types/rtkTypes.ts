@@ -18,18 +18,20 @@ export interface blogPost {
     title: string,
     content: string,
     status: 'draft' | 'published',
-    likes: number,
     User: {
-        username: string
+        username: string,
+        avatar_url: string
     }
+    likeCount: number,
+    hasLiked: boolean,
     createdAt: string,
-    updatedAt: string;
+    updatedAt: string,
 }
 export interface comment {
-    id: number;
-    authorId: number;
-    postId: number;
-    content: string;
-    createdAt: Date;
+    id: number,
+    authorId: number,
+    postId: number,
+    content: string,
+    createdAt: Date,
 
 }

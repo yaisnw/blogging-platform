@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express"
 import { postRequestBody } from "../types/controllerTypes"
 import { CustomError, AuthRequest } from "../index"
 import { Comment, Post, User } from "../sequelize/models"
-import { Op } from "sequelize"
+import { Op, Sequelize } from "sequelize"
+import { Like } from "../sequelize/models/Like"
 
 export const addPost = async (
     req: AuthRequest,
@@ -38,11 +39,12 @@ export const addPost = async (
 }
 
 export const getPostById = async (
-    req: Request<{ id: number }, {}, postRequestBody, {}>,
+    req: AuthRequest,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const { id } = req.params
+    const { id } = req.params;
+    const userId = req.user?.id
 
     if (!id) {
         const err = new Error("Please provide an id for the post") as CustomError;
@@ -51,7 +53,32 @@ export const getPostById = async (
     }
 
     try {
-        const post = await Post.findOne({ where: { id } })
+        const post = await Post.findOne(
+            {
+                where: { id },
+                attributes: {
+                    include: [[
+                        Sequelize.literal(`(SELECT COUNT(*)
+                        FROM likes
+                        WHERE likes."postId" = "Post"."id"
+                        )`),
+                        "likeCount"
+                    ],
+                    [
+                        Sequelize.literal(`(
+                        EXISTS(SELECT 1 
+                        FROM likes
+                        WHERE likes."postId" = "Post"."id"
+                        AND likes."userId" = ${userId}
+                        ))`),
+                        "hasLiked"
+                    ]]
+
+
+                }
+            },
+
+        )
         if (!post) {
             const err = new Error("Post does not exist") as CustomError;
             err.status = 404
@@ -102,27 +129,51 @@ export const getAllPostsByAuthorId = async (
     }
 }
 
+
 export const getAllPublishedPosts = async (
-    req: Request,
+    req: AuthRequest,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
+    const userId = req.user?.id;
 
     try {
         const posts = await Post.findAll({
             where: {
                 status: "published",
             },
+            attributes: {
+                include: [
+                    [
+                        Sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM likes
+              WHERE likes."postId" = "Post"."id"
+            )`),
+                        "likeCount",
+                    ],
+                    [
+                        Sequelize.literal(`EXISTS(
+              SELECT 1
+              FROM likes
+              WHERE likes."postId" = "Post"."id"
+              AND likes."userId" = ${userId || 0}
+            )`),
+                        "hasLiked",
+                    ],
+                ],
+            },
             include: [
                 {
                     model: User,
-                    attributes: ["username"],
+                    attributes: ["id", "username", "avatar_url"],
                 },
-            ]
+            ],
         });
+
         if (posts.length === 0) {
             return res.status(200).json({
-                message: "No Published posts found.",
+                message: "No published posts found.",
                 posts: [],
             });
         }
@@ -135,6 +186,7 @@ export const getAllPublishedPosts = async (
         next(err);
     }
 };
+
 
 export const updatePost = async (
     req: Request<{ id: number }, {}, postRequestBody, {}>,
@@ -149,26 +201,25 @@ export const updatePost = async (
         return next(err);
     }
     try {
-        const editedPost = await Post.update(
+        const [affectedCount, updatedPosts] = await Post.update(
             {
                 ...(title && { title }),
                 ...(content && { content }),
                 ...(status && { status }),
-                ...(likes && { likes })
+                ...(likes && { likes }),
             },
             {
-                where: {
-                    id
-                }
+                where: { id },
+                returning: true,
             }
-        )
-        if (editedPost[0] !== 0) {
-            res.status(201).json({ message: "Post updated successfully" })
-        }
-        else {
+        );
+
+        if (affectedCount !== 0) {
+            return res.status(200).json(updatedPosts[0]);
+        } else {
             const err = new Error("Post could not be edited") as CustomError;
             err.status = 400;
-            throw err
+            throw err;
         }
     }
     catch (err) {

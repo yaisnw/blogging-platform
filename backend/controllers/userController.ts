@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { User } from "../sequelize/models/user"
+import { User } from "../sequelize/models/User"
 import { userRequestBody } from "../types/controllerTypes"
 import { CustomError } from "../index"
 

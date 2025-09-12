@@ -37,6 +37,11 @@
     align-items: center;
     color: gray
 }
+.authorBox {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
 .cardFooter {
     display: flex;
     justify-content: space-between;

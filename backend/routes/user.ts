@@ -1,5 +1,5 @@
 import express from "express";
-import { User } from "../sequelize/models/user";
+import { User } from "../sequelize/models/User";
 import { getUser, deleteUser } from "../controllers/userController";
 const userRouter = express.Router();
 

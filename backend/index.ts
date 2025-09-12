@@ -10,6 +10,7 @@ import commentRouter from "./routes/comment";
 import pictureRouter from "./routes/picture";
 import cors from "cors"
 import jwt from "jsonwebtoken"
+import likeRouter from "./routes/like";
 
 export interface CustomError extends Error {
   status: number;
@@ -62,6 +63,7 @@ app.use('/user', verifyJWT, userRouter);
 app.use('/post', verifyJWT, postRouter);
 app.use('/comment', verifyJWT, commentRouter);
 app.use('/picture', verifyJWT, pictureRouter)
+app.use('/like', verifyJWT, likeRouter)
 app.use((
   err: CustomError,
   req: Request,
