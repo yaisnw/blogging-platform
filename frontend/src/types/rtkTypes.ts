@@ -11,6 +11,7 @@ export interface responseUser {
     id: number,
     email: string
     username: string,
+    avatar_url: string
 }
 export interface blogPost {
     id: number,
@@ -32,6 +33,9 @@ export interface comment {
     authorId: number,
     postId: number,
     content: string,
+    User: {
+        username: string,
+        avatar_url: string
+    }
     createdAt: Date,
-
 }

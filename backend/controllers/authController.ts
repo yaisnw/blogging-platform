@@ -103,7 +103,8 @@ export const loginUser = async (
       {
         id: existingUser.id,
         email: existingUser.email,
-        username: existingUser.username
+        username: existingUser.username,
+        avatar_url: existingUser.avatar_url
       },
       process.env.JWT_SECRET!,
       { expiresIn: '7d' }
@@ -116,6 +117,7 @@ export const loginUser = async (
         id: existingUser.id,
         email: existingUser.email,
         username: existingUser.username,
+        avatar_url: existingUser.avatar_url
       }
     });
 

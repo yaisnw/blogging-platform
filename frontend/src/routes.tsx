@@ -11,6 +11,7 @@ import MyPostsPage from './components/pages/MyPostsPage';
 import PostEditorPage from './components/pages/PostEditorPage';
 import PostViewerPage from './components/pages/PostViewerPage';
 import PublicPostsPage from './components/pages/PublicPostsPage';
+import ProfilePage from './components/pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: 'posts/:id',
         element: <PostViewerPage />
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />
       }
 
     ],

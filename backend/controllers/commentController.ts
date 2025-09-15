@@ -1,17 +1,17 @@
 import { Request, Response, NextFunction } from "express";
-import { Comment } from "../sequelize/models";
-import { CustomError } from "..";
+import { Comment, User } from "../sequelize/models";
+import { AuthRequest, CustomError } from "..";
 import { commentRequestBody } from "../types/controllerTypes";
 
 export const addComment = async (
-    req: Request<{}, {}, commentRequestBody, {}>,
+    req: AuthRequest,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const authorId = req.session.user?.id;
+    const authorId = req.user?.id;
     const { postId } = req.body;
     const { content } = req.body;
-    if(!postId) {
+    if (!postId) {
         const err = new Error("Please provide a post ID") as CustomError;
         err.status = 404;
         throw err
@@ -63,8 +63,9 @@ export const getCommentById = async (
         next(err)
     }
 }
+
 export const getCommentsByPostId = async (
-    req: Request<{postId: number}, {}, commentRequestBody, {}>,
+    req: Request<{ postId: number }, {}, commentRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -75,7 +76,15 @@ export const getCommentsByPostId = async (
         throw err
     }
     try {
-        const comments = await Comment.findAll({ where: { postId } });
+        const comments = await Comment.findAll({
+            where: { postId },
+            include: [
+                {
+                    model:User,
+                    attributes: ["id", "username", "avatar_url"]
+                }
+            ]
+        });
         if (!comments) {
             const err = new Error("Comment does not exist") as CustomError;
             err.status = 400;
@@ -89,18 +98,18 @@ export const getCommentsByPostId = async (
 }
 
 export const getCommentsByAuthorId = async (
-    req: Request<{authorId: number}, {}, commentRequestBody, {}>,
+    req: Request<{ authorId: number }, {}, commentRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     let authorId;
-    if(req.params.authorId) {
+    if (req.params.authorId) {
         authorId = req.params.authorId
     }
-    else{
+    else {
         authorId = req.session.user?.id;
     }
-    
+
     try {
         const comments = await Comment.findAll({ where: { authorId } });
         if (!comments) {

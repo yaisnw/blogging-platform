@@ -7,16 +7,19 @@ import HeartButton from "../atoms/HeartButton";
 type CommentFormProps = {
     likeCount: number,
     liked: boolean,
+    commentContent: string,
+    setCommentContent: React.Dispatch<React.SetStateAction<string | undefined>>,
+    submitComment: (commentContent: string) => Promise<void>,
     OnLike: () => void
 } & React.FormHTMLAttributes<HTMLFormElement>;
 
-const CommentForm: React.FC<CommentFormProps> = ({ likeCount, liked, OnLike, ...props }) => {
+const CommentForm: React.FC<CommentFormProps> = ({ likeCount, liked, OnLike, commentContent, setCommentContent, submitComment }) => {
     return (
         <div className={styles.interactionFlex}>
-            <form className={styles.commentForm} {...props}>
+            <form className={styles.commentForm} onSubmit={() => submitComment(commentContent)} >
                 <AppLabel htmlFor="comment" >Share your thoughts:</AppLabel>
                 <div className={styles.commentInputs} >
-                    <AppTextArea className={styles.commentText} name="comment" />
+                    <AppTextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} className={styles.commentText} name="comment" />
                     <AppButton className={styles.commentButton} >Submit</AppButton>
                 </div>
             </form>

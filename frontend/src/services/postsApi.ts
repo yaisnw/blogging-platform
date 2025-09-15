@@ -18,13 +18,15 @@ export const postsApi = createApi({
     endpoints: (build) => ({
         getMyPosts: build.query<{ posts: blogPost[], message: string, author: string }, number>({
             query: (authorId) => `/getAllPosts/${authorId}`,
-            providesTags: (result): { type: 'Posts'; id: number | 'LIST' }[] =>
-                Array.isArray(result)
+            providesTags: (result) =>
+                result?.posts
                     ? [
-                        { type: 'Posts', id: 'LIST' },
-                        ...result.map((post) => ({ type: 'Posts', id: post.id } as const))
+                        { type: "Posts", id: "LIST" },
+                        ...result.posts.map(
+                            (post) => ({ type: "Posts", id: post.id } as const)
+                        ),
                     ]
-                    : [{ type: 'Posts', id: 'LIST' }]
+                    : [{ type: "Posts", id: "LIST" }]
         }
         ),
         getPostById: build.query<blogPost, number>({
@@ -60,10 +62,10 @@ export const postsApi = createApi({
                         status
                     },
                 }),
-                invalidatesTags: ['Posts']
+                invalidatesTags: [{ type: "Posts", id: "LIST" }],
             }),
         updatePost: build.mutation<
-            blogPost, 
+            blogPost,
             { postId: number } & Partial<{
                 title: string;
                 content: string;
@@ -73,20 +75,23 @@ export const postsApi = createApi({
             query: ({ postId, ...updates }) => ({
                 url: `/update/${postId}`,
                 method: 'PUT',
-                body: updates, 
+                body: updates,
             }),
-            invalidatesTags: ['Posts'],
+            invalidatesTags: (result, error, { postId }) => [
+                { type: "Posts", id: postId },
+            ],
         }),
-        deletePosts: build.mutation<
-            void,
-            number[]>({
-                query: (postIds) => ({
-                    url: `/deletePosts`,
-                    method: 'DELETE',
-                    body: { postIds },
-                }),
-                invalidatesTags: ['Posts']
-            })
+        deletePosts: build.mutation<void, number[]>({
+            query: (postIds) => ({
+                url: `/deletePosts`,
+                method: "DELETE",
+                body: { postIds },
+            }),
+            invalidatesTags: (result, error, postIds) => [
+                { type: "Posts", id: "LIST" },
+                ...postIds.map((id) => ({ type: "Posts" as const, id })),
+            ],
+        })
     })
 })
 
@@ -101,8 +106,3 @@ export const {
 } = postsApi
 
 
-
-
-
-
-// make a new likes table to track which user has liked which post

@@ -82,7 +82,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, avatar_url, 
                         <input checked={deletingPostIds.includes(postId)} onChange={() => handleDeleteCheck(postId)} type="checkbox" /> Delete
                     </label>}
                     {editButton && <button onClick={editButton}>Edit Post</button>}
-                    <button onClick={viewButton}>View Post</button>
+                    {status === 'published' && <button onClick={viewButton}>View Post</button>}
                 </div>
             </div>
         </div>

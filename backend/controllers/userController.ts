@@ -7,7 +7,7 @@ import { CustomError } from "../index"
 export const getUser = async (
     req: Request<{ id: number }, {}, userRequestBody, {}>,
     res: Response,
-    next: NextFunction
+    next: NextFunction  
 ): Promise<Response | void> => {
     const userId = req.params.id;
 

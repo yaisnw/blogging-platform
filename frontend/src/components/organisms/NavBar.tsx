@@ -1,35 +1,26 @@
 import AppLink from '../atoms/AppLink';
 import { Outlet, useNavigate } from 'react-router';
 import styles from '../../styles/nav.module.css'
-import { useJwtAuth } from '@/hooks/useJwtAuth';
 import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
-import { useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
 import { persistor } from '@/store';
+import { isTokenExpired } from '@/hooks/useAuthStatus';
 
-export function isTokenExpired(token: string | null) {
-    if (!token) return true;
-
-    try {
-        const { exp } = jwtDecode(token);
-        const currentTime = Math.floor(Date.now() / 1000);
-        return exp! < currentTime;
-    } catch (error) {
-        console.error(error)
-        return true;
-    }
-}
 
 const NavBar = () => {
+    const [loggedIn, setLoggedIn] = useState(false)
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { loggedIn } = useJwtAuth();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (isTokenExpired(token)) {
+        if(token) {
+            setLoggedIn(true)
+        }
+        else if (isTokenExpired(token)) {
             localStorage.removeItem('token');
+            setLoggedIn(false)
             dispatch(logOut())
             navigate('/login')
         }
@@ -56,8 +47,8 @@ const NavBar = () => {
                                 <AppLink to="myPosts">My Posts</AppLink>
                             </div>
                             <div className={styles.nav1}>
-                                <AppLink to="/profile">Profile</AppLink>
-                                <AppLink to="/support">Support</AppLink>
+                                <AppLink to="/home/profile">Profile</AppLink>
+                                <AppLink to="/home/support">Support</AppLink>
                                 <a href="#" onClick={logOutHandler}>Log out</a>
                             </div>
                         </>
@@ -68,7 +59,7 @@ const NavBar = () => {
                                 <AppLink to="/home/posts">Posts</AppLink>
                             </div>
                             <div className={styles.nav1}>
-                                <AppLink to="/support">Support</AppLink>
+                                <AppLink to="/home/support">Support</AppLink>
                                 <AppLink to="/login">Log in</AppLink>
                                 <AppLink to="/signup">Get Started</AppLink>
                             </div>

@@ -1,0 +1,25 @@
+.authorBox {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+.commentCard {
+    margin: 2rem 0;
+    justify-self: center;
+    border: 1px solid black;
+}
+.commentContent {
+    margin: 0;
+    width: 30vw;
+    min-height: 3rem;
+    padding: 1rem;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.commentDate {
+    padding: 0 1rem;
+    text-align: start;
+    color: gray;
+}

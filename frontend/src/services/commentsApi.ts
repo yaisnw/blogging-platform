@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { comment } from "../types/rtkTypes"; 
+import type { comment } from "../types/rtkTypes";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -18,21 +18,34 @@ export const commentsApi = createApi({
   tagTypes: ["Comments"],
   endpoints: (build) => ({
     getCommentsByPostId: build.query<
-      { comments: comment[] }, 
+      { comments: comment[] },
       number
     >({
       query: (postId) => `/post/${postId}`,
-      providesTags: (result, error, postId) =>
+      providesTags: (result, postId) =>
         result
           ? [
-              ...result.comments.map(
-                (comment) => ({ type: "Comments", id: comment.id } as const)
-              ),
-              { type: "Comments", id: `POST-${postId}` },
-            ]
+            ...result.comments.map(
+              (comment) => ({ type: "Comments", id: comment.id } as const)
+            ),
+            { type: "Comments", id: `POST-${postId}` },
+          ]
           : [{ type: "Comments", id: `POST-${postId}` }],
+    }),
+    addComment: build.mutation<
+      comment, 
+      { postId: number; content: string }
+    >({
+      query: (body) => ({
+        url: "/",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: (result, error, { postId }) => [
+        { type: "Comments", id: `POST-${postId}` },
+      ],
     }),
   }),
 });
 
-export const { useGetCommentsByPostIdQuery } = commentsApi;
+export const { useGetCommentsByPostIdQuery, useAddCommentMutation } = commentsApi;

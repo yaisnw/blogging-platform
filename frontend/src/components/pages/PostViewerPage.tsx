@@ -6,13 +6,19 @@ import styles from '@/styles/ui.module.css'
 import InteractionForm from "../organisms/InteractionForm";
 import { useEffect, useState } from "react";
 import { useAddLikeMutation, useRemoveLikeMutation } from "@/services/likesApi";
+import { useAddCommentMutation, useGetCommentsByPostIdQuery } from "@/services/commentsApi";
+import type { comment } from "@/types/rtkTypes";
+import CommentCard from "../molecules/CommentCard";
 
 const PostViewerPage = () => {
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
+    const [commentContent, setCommentContent] = useState<string | undefined>('');
     const navigate = useNavigate();
     const { id } = useParams();
-    const { data: post, isLoading, isError } = useGetPostByIdQuery(Number(id));
+    const { data: post, isLoading: postLoading, isError: postError } = useGetPostByIdQuery(Number(id));
+    const { data: commentResponse, isLoading: commentsLoading, isError: commentsError } = useGetCommentsByPostIdQuery(Number(id));
+    const [ addComment, {isLoading: commentSubmitLoading, isError: commentSubmitError} ] = useAddCommentMutation();
     const [addLike] = useAddLikeMutation();
     const [removeLike] = useRemoveLikeMutation();
 
@@ -42,7 +48,21 @@ const PostViewerPage = () => {
         }
     };
 
-    if (isLoading) {
+    const handleCommentSubmit = async (commentContent: string) => {
+        try {
+            if(id) {
+                await addComment({postId: Number(id), content: commentContent})
+            }
+            else {
+                throw new Error('No postId available')
+            }
+        }
+        catch(e){
+            console.error(e)
+        }
+    }
+
+    if (postLoading || commentSubmitLoading) {
         return (
             <div className={styles.loaderCenter}>
                 <span className={styles.loader}></span>
@@ -59,10 +79,26 @@ const PostViewerPage = () => {
             </div>
         )
     }
-    if (!post || isError) {
+    if (!post || postError) {
         return (
             <div className={styles.pageError}>
-                <h1 className={styles.error}>Something went wrong while fetching the posts.</h1>
+                <h1 className={styles.error}>Something went wrong while fetching the post.</h1>
+                <button className={styles.ctaButton} onClick={() => window.location.reload()}>
+                                    <p >Try again</p>
+                                </button>
+                <button onClick={() => navigate('/home/posts')} className={styles.ctaButton}>
+                    <p>View other posts</p>
+                </button>
+            </div>
+        )
+    }
+    if(commentSubmitError) {
+        return (
+            <div className={styles.pageError}>
+                <h1 className={styles.error}>Something went wrong while posting the comment.</h1>
+                <button className={styles.ctaButton} onClick={() => window.location.reload()}>
+                                    <p >Try again</p>
+                                </button>
                 <button onClick={() => navigate('/home/posts')} className={styles.ctaButton}>
                     <p>View other posts</p>
                 </button>
@@ -75,8 +111,29 @@ const PostViewerPage = () => {
         <PostViewerTemplate
             title={post.title}
             viewer={<PostViewer content={post.content} />}
-            interactionBox={<InteractionForm likeCount={likeCount} liked={liked} OnLike={likeHandler} />}
-            comments={[<div></div>, <div></div>]}
+            interactionBox={<InteractionForm
+                likeCount={likeCount}
+                liked={liked}
+                OnLike={likeHandler}
+                commentContent={commentContent ?? ""}
+                setCommentContent={setCommentContent}
+                submitComment={handleCommentSubmit}
+            />}
+            comments={commentResponse?.comments.length === 0 ?
+                <div>
+                    <h2 className={styles.responseInfo} >There are no comments on this post</h2>
+                </div> :
+                commentResponse?.comments.map(
+                    (comment: comment) =>
+                        <CommentCard
+                            content={comment.content}
+                            username={comment.User.username}
+                            avatar_url={comment.User.avatar_url}
+                            createdAt={comment.createdAt}
+                            isLoading={commentsLoading}
+                            isError={commentsError}
+                        />
+                )}
         />
     );
 };
@@ -87,4 +144,3 @@ export default PostViewerPage;
 
 
 
-// add post comments and post liking feature

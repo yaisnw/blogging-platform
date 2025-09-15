@@ -5,7 +5,7 @@ type Props = {
   title: string,
   viewer: React.ReactNode,
   interactionBox: React.ReactNode,
-  comments: React.ReactNode[],
+  comments: React.ReactNode[] | React.ReactNode,
 };
 
 const PostViewerTemplate: React.FC<Props> = ({ title, viewer, interactionBox, comments }) => {
