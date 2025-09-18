@@ -1,35 +1,28 @@
 import AppLink from '../atoms/AppLink';
 import { Outlet, useNavigate } from 'react-router';
 import styles from '../../styles/nav.module.css'
+import { useEffect } from 'react';
+import { persistor } from '@/store';
+import { useAuthStatus } from '@/hooks/useAuthStatus';
 import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
-import { useEffect, useState } from 'react';
-import { persistor } from '@/store';
-import { isTokenExpired } from '@/hooks/useAuthStatus';
 
 
 const NavBar = () => {
-    const [loggedIn, setLoggedIn] = useState(false)
     const dispatch = useAppDispatch();
+    const { loggedIn, authChecked } = useAuthStatus();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if(token) {
-            setLoggedIn(true)
-        }
-        else if (isTokenExpired(token)) {
-            localStorage.removeItem('token');
-            setLoggedIn(false)
+        if (!loggedIn && authChecked) {
             dispatch(logOut())
             navigate('/login')
         }
-    }, [dispatch, navigate])
+    }, [dispatch, navigate, loggedIn, authChecked])
 
     const logOutHandler = (e: React.MouseEvent) => {
         e.preventDefault();
         localStorage.removeItem('token')
-        dispatch(logOut())
         persistor.purge();
         navigate('/login')
     }

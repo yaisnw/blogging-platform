@@ -27,6 +27,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ likeCount, liked, OnLike, com
                 <h2>{likeCount ?? 0}</h2>
                 <HeartButton OnLike={OnLike} editable={true} liked={liked} />
             </div>
+            <div></div>
         </div>
     )
 }

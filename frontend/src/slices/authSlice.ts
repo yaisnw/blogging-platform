@@ -2,11 +2,12 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 interface authSliceState {
     user: {
-        id: number ,
+        id: number,
         username: string,
         email: string,
         avatar_url: string
-    }
+    },
+    justRegistered: boolean;
 }
 
 const initialState = {
@@ -15,13 +16,17 @@ const initialState = {
         username: '',
         email: '',
         avatar_url: ''
-    }
+    },
+    justRegistered: false as boolean,
 } satisfies authSliceState
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        setJustRegistered: (state, action: PayloadAction<boolean>) => {
+            state.justRegistered = action.payload;
+        },
         setTokenData: (state, action: PayloadAction<{ id: number, username: string, email: string, avatar_url: string }>) => {
             state.user.id = action.payload.id;
             state.user.username = action.payload.username;
@@ -29,13 +34,11 @@ const authSlice = createSlice({
             state.user.avatar_url = action.payload.avatar_url
         },
         logOut: (state) => {
-            state.user.id = 0; 
-            state.user.username = '';
-            state.user.email = '';
-            state.user.avatar_url = '';
+            state.user = { id: 0, username: '', email: '', avatar_url: '' }
+            state.justRegistered = false;
         }
     }
 })
 
-export const { setTokenData, logOut } = authSlice.actions
+export const { setJustRegistered, setTokenData, logOut } = authSlice.actions
 export default authSlice.reducer

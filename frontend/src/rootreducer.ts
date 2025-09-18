@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 import { authApi, } from './services/authApi'
 import uiSliceReducer from './slices/uiSlice'
 import authSliceReducer from './slices/authSlice'
+import postSliceReducer from './slices/draftPostSlice'
 import { postsApi } from './services/postsApi'
 import { picturesApi } from './services/picturesApi'
 import { commentsApi } from './services/commentsApi'
@@ -16,6 +17,7 @@ export const rootReducer = combineReducers({
   [likesApi.reducerPath]: likesApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   ui: uiSliceReducer,
-  auth: authSliceReducer
+  auth: authSliceReducer,
+  post: postSliceReducer
 })
 

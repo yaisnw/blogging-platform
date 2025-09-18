@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import AppImage from "../atoms/AppImage";
 import UIstyles from "@/styles/ui.module.css";
-import styles from "@/styles/comments.module.css"
-
+import styles from "@/styles/comments.module.css";
+import AppTextArea from "../atoms/AppTextArea";
+import AppButton from "../atoms/AppButton";
 
 type CommentCardProps = {
+    commentId: number,
     content: string,
     username: string,
     avatar_url: string,
     createdAt: Date,
-    isLoading: boolean,
-    isError: boolean
+    updatedAt: Date,
+    editComment: (commentContent: string, commentId: number) => Promise<void>,
+    deleteComment: (commentId: number) => Promise<void>
 } & React.HTMLProps<HTMLDivElement>;
 
-const CommentCard: React.FC<CommentCardProps> = ({ content, username, avatar_url, createdAt, isLoading, isError }) => {
+const CommentCard: React.FC<CommentCardProps> = ({
+    commentId,
+    content,
+    username,
+    avatar_url,
+    createdAt,
+    updatedAt,
+    editComment,
+    deleteComment
+}) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editContent, setEditContent] = useState(content)
 
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
         year: "numeric",
@@ -21,48 +35,44 @@ const CommentCard: React.FC<CommentCardProps> = ({ content, username, avatar_url
         day: "numeric",
     });
 
-    let commentContent;
-
-    switch (true) {
-        case isLoading:
-            commentContent = (
-                <div className={UIstyles.loaderCenter}>
-                    <span className={UIstyles.loader}></span>
+    const formattedUpdatedAt = new Date(updatedAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+    return (
+        <div className={styles.commentCard}>
+            <div className={styles.authorBox}>
+                <AppImage className={UIstyles.avatar} src={avatar_url} />
+                <h3>{username}</h3>
+            </div>
+            <div className={styles.commentBody}>
+                {
+                    isEditing
+                        ?
+                        <div className={styles.editBox} >
+                            <AppTextArea value={editContent} onChange={(e) => {
+                                setEditContent(e.target.value)
+                                e.currentTarget.style.height = "auto"; 
+                                e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
+                            }} className={styles.commentTextArea} name="comment" />
+                        </div>
+                        :
+                        <p >{content}</p>
+                }
+            </div>
+            <div className={styles.footer}>
+                <p className={styles.commentDate}>{formattedCreatedAt}</p>
+                {createdAt !== updatedAt && <p className={styles.commentDate}>Edited: {formattedUpdatedAt}</p>}
+                <div className={styles.interactionBox}>
+                    {!isEditing && <button onClick={() => setIsEditing(true)} >Edit</button>}
+                    {!isEditing && <button onClick={() => deleteComment(commentId)} >Delete</button>}
+                    {isEditing && <button onClick={() => setIsEditing(false)} >Cancel</button>}
+                    {isEditing && <AppButton onClick={() => editComment(editContent, commentId)} className={styles.commentButton} >Submit</AppButton>}
                 </div>
-            );
-            break;
-
-        case isError:
-            commentContent = (
-                <div className={UIstyles.pageError}>
-                    <h1 className={UIstyles.error}>
-                        Something went wrong while fetching the comments.
-                    </h1>
-                    <button
-                        className={UIstyles.ctaButton}
-                        onClick={() => window.location.reload()}
-                    >
-                        <p>Try again</p>
-                    </button>
-                </div>
-            );
-            break;
-
-        default:
-            commentContent = (
-                <div className={styles.commentCard}>
-                    <div className={styles.authorBox} >
-                        <AppImage className={UIstyles.avatar} src={avatar_url} />
-                        <h3>{username}</h3>
-                    </div>
-                    <p className={styles.commentContent} >{content}</p>
-                    <p className={styles.commentDate} >{formattedCreatedAt}</p>
-                </div>
-            );
-    }
-
-    return commentContent;
-
-}
+            </div>
+        </div>
+    );
+};
 
 export default CommentCard;

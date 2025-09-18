@@ -84,6 +84,12 @@
   background: rgba(255, 255, 255, 0.5);
   z-index: 20;
 }
+.componentError {
+  width: 25vw;
+  margin: 2rem auto;
+  display: flex;
+  gap: 2rem
+}
 .ctaButton {
   cursor: pointer;
   padding: 5px 10px;

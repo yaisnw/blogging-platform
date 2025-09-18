@@ -144,7 +144,7 @@ export const editComment = async (
                 where: { id }
             }
         )
-        if (editedComment[0] !== 0) {
+        if (editedComment[0]) {
             res.status(201).json({ message: "Comment updated Successfully" })
         }
         else {

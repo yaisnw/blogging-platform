@@ -60,6 +60,7 @@ const Editor: React.FC<Props> = ({
   onEditorChange,
   onSubmit,
 }) => {
+  
   const initialConfig = {
     namespace: "MyEditor",
     theme,

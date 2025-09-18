@@ -10,7 +10,7 @@
     justify-self: center;
     border: 1px solid black;
 }
-.commentContent {
+.commentBody {
     margin: 0;
     width: 30vw;
     min-height: 3rem;
@@ -22,4 +22,27 @@
     padding: 0 1rem;
     text-align: start;
     color: gray;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
+.interactionBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+.editBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.commentTextArea {
+    width: 90%;
+    max-height: 20vh;
+    padding: 1rem;
+    overflow-y: auto;
+    resize: none;
 }

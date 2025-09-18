@@ -15,37 +15,69 @@ export const commentsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Comments"],
+  tagTypes: ["Comments", "Comment"],
   endpoints: (build) => ({
-    getCommentsByPostId: build.query<
-      { comments: comment[] },
-      number
-    >({
+    getCommentsByPostId: build.query<{ comments: comment[] }, number>({
       query: (postId) => `/post/${postId}`,
-      providesTags: (result, postId) =>
+      providesTags: (result, _, postId) =>
         result
           ? [
-            ...result.comments.map(
-              (comment) => ({ type: "Comments", id: comment.id } as const)
-            ),
-            { type: "Comments", id: `POST-${postId}` },
-          ]
+              ...result.comments.map(
+                (comment) => ({ type: "Comment", id: comment.id } as const)
+              ),
+              { type: "Comments", id: `POST-${postId}` },
+            ]
           : [{ type: "Comments", id: `POST-${postId}` }],
     }),
-    addComment: build.mutation<
-      comment, 
-      { postId: number; content: string }
-    >({
+
+    addComment: build.mutation<comment, { postId: number; content: string }>({
       query: (body) => ({
         url: "/",
         method: "POST",
         body,
       }),
-      invalidatesTags: (result, error, { postId }) => [
+      invalidatesTags: (_result, _error, { postId }) => [
+        { type: "Comments", id: `POST-${postId}` },
+      ],
+    }),
+
+
+    editComment: build.mutation<
+      { message: string },
+      { commentId: number; content: string; postId: number }
+    >({
+      query: ({ commentId, content }) => ({
+        url: `/${commentId}`,
+        method: "PUT", 
+        body: { content },
+      }),
+      invalidatesTags: (_result, _error, { commentId, postId }) => [
+        { type: "Comment", commentId },
+        { type: "Comments", id: `POST-${postId}` },
+      ],
+    }),
+
+    deleteComment: build.mutation<
+      { message: string },
+      { commentId: number; postId: number }
+    >({
+      query: ({ commentId }) => ({
+        url: `/${commentId}`,
+        method: "DELETE",
+      }),
+
+      
+      invalidatesTags: (_result, _error, { commentId, postId }) => [ 
+        { type: "Comment", commentId },
         { type: "Comments", id: `POST-${postId}` },
       ],
     }),
   }),
 });
 
-export const { useGetCommentsByPostIdQuery, useAddCommentMutation } = commentsApi;
+export const {
+  useGetCommentsByPostIdQuery,
+  useAddCommentMutation,
+  useEditCommentMutation,
+  useDeleteCommentMutation,
+} = commentsApi;

@@ -6,7 +6,7 @@ import styles from '@/styles/ui.module.css'
 import InteractionForm from "../organisms/InteractionForm";
 import { useEffect, useState } from "react";
 import { useAddLikeMutation, useRemoveLikeMutation } from "@/services/likesApi";
-import { useAddCommentMutation, useGetCommentsByPostIdQuery } from "@/services/commentsApi";
+import { useAddCommentMutation, useDeleteCommentMutation, useEditCommentMutation, useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 import type { comment } from "@/types/rtkTypes";
 import CommentCard from "../molecules/CommentCard";
 
@@ -18,7 +18,9 @@ const PostViewerPage = () => {
     const { id } = useParams();
     const { data: post, isLoading: postLoading, isError: postError } = useGetPostByIdQuery(Number(id));
     const { data: commentResponse, isLoading: commentsLoading, isError: commentsError } = useGetCommentsByPostIdQuery(Number(id));
-    const [ addComment, {isLoading: commentSubmitLoading, isError: commentSubmitError} ] = useAddCommentMutation();
+    const [editComment, { isLoading: editCommentsLoading, isError: editCommentError }] = useEditCommentMutation();
+    const [deleteComment, { isLoading: deleteCommentsLoading, isError: deleteCommentError }] = useDeleteCommentMutation();
+    const [addComment, { isLoading: commentSubmitLoading, isError: submitCommentError }] = useAddCommentMutation();
     const [addLike] = useAddLikeMutation();
     const [removeLike] = useRemoveLikeMutation();
 
@@ -29,7 +31,7 @@ const PostViewerPage = () => {
         }
     }, [post]);
 
-    const likeHandler = async () => {
+    const handleLike = async () => {
         if (!id) return;
         const newLiked = !liked;
 
@@ -50,19 +52,34 @@ const PostViewerPage = () => {
 
     const handleCommentSubmit = async (commentContent: string) => {
         try {
-            if(id) {
-                await addComment({postId: Number(id), content: commentContent})
+            if (id) {
+                await addComment({ postId: Number(id), content: commentContent })
             }
             else {
                 throw new Error('No postId available')
             }
         }
-        catch(e){
+        catch (e) {
             console.error(e)
         }
     }
 
-    if (postLoading || commentSubmitLoading) {
+    const handleCommentEdit = async (commentContent: string, commentId: number,) => {
+        if (id) {
+            await editComment({ commentId, content: commentContent, postId: Number(id) })
+        }
+        else {
+            throw new Error('No postId available')
+        }
+    }
+
+    const handleCommentDelete = async (commentId: number) => {
+        if (id) {
+            await deleteComment({ commentId, postId: Number(id) })
+        }
+    }
+
+    if (postLoading || commentsLoading || editCommentsLoading || commentSubmitLoading || deleteCommentsLoading) {
         return (
             <div className={styles.loaderCenter}>
                 <span className={styles.loader}></span>
@@ -84,26 +101,53 @@ const PostViewerPage = () => {
             <div className={styles.pageError}>
                 <h1 className={styles.error}>Something went wrong while fetching the post.</h1>
                 <button className={styles.ctaButton} onClick={() => window.location.reload()}>
-                                    <p >Try again</p>
-                                </button>
+                    <p >Try again</p>
+                </button>
                 <button onClick={() => navigate('/home/posts')} className={styles.ctaButton}>
                     <p>View other posts</p>
                 </button>
             </div>
         )
     }
-    if(commentSubmitError) {
-        return (
-            <div className={styles.pageError}>
-                <h1 className={styles.error}>Something went wrong while posting the comment.</h1>
-                <button className={styles.ctaButton} onClick={() => window.location.reload()}>
-                                    <p >Try again</p>
-                                </button>
-                <button onClick={() => navigate('/home/posts')} className={styles.ctaButton}>
-                    <p>View other posts</p>
+
+
+    let commentsSection;
+    if (commentsError || editCommentError || submitCommentError || deleteCommentError) {
+        commentsSection = (
+            <div className={styles.componentError}>
+                <h1 className={styles.error}>{
+                    commentsError ? "Something went wrong while loading comments." :
+                        (editCommentError ? "Something went wrong while editing comment." :
+                            (submitCommentError ? "Something went wrong while posting the comment." :
+                                (deleteCommentError && "Something went wrong while deleting the comment.")))}</h1>
+                <button
+                    className={styles.ctaButton}
+                    onClick={() => window.location.reload()}
+                >
+                    <p>Try again</p>
                 </button>
             </div>
-        )
+        );
+    } else if (!commentResponse?.comments || commentResponse.comments.length === 0) {
+        commentsSection = (
+            <div>
+                <h2 className={styles.responseInfo}>There are no comments on this post</h2>
+            </div>
+        );
+    } else {
+        commentsSection = commentResponse.comments.map((comment: comment) => (
+            <CommentCard
+                key={comment.id}
+                commentId={comment.id}
+                content={comment.content}
+                username={comment.User.username}
+                avatar_url={comment.User.avatar_url}
+                createdAt={comment.createdAt}
+                updatedAt={comment.updatedAt}
+                editComment={handleCommentEdit}
+                deleteComment={handleCommentDelete}
+            />
+        ));
     }
 
 
@@ -114,26 +158,12 @@ const PostViewerPage = () => {
             interactionBox={<InteractionForm
                 likeCount={likeCount}
                 liked={liked}
-                OnLike={likeHandler}
+                OnLike={handleLike}
                 commentContent={commentContent ?? ""}
                 setCommentContent={setCommentContent}
                 submitComment={handleCommentSubmit}
             />}
-            comments={commentResponse?.comments.length === 0 ?
-                <div>
-                    <h2 className={styles.responseInfo} >There are no comments on this post</h2>
-                </div> :
-                commentResponse?.comments.map(
-                    (comment: comment) =>
-                        <CommentCard
-                            content={comment.content}
-                            username={comment.User.username}
-                            avatar_url={comment.User.avatar_url}
-                            createdAt={comment.createdAt}
-                            isLoading={commentsLoading}
-                            isError={commentsError}
-                        />
-                )}
+            comments={commentsSection}
         />
     );
 };

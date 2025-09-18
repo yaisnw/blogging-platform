@@ -4,7 +4,7 @@ import { useAuthForm } from "../../hooks/useAuthForm";
 import { useSignUpUserMutation } from "../../services/authApi";
 import { useNavigate, Link } from "react-router";
 import { useDispatch } from "react-redux";
-import { setJustRegistered } from "@/slices/uiSlice";
+import { setJustRegistered } from "@/slices/authSlice";
 import { useGoogleLogin } from "@react-oauth/google";
 import type { AppDispatch } from "../../store";
 import type { ErrorResponse } from "./LoginPage";

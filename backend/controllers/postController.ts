@@ -96,33 +96,49 @@ export const getAllPostsByAuthorId = async (
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    let authorId;
-    authorId = req.params.authorId;
+    const authorId = req.params.authorId;
     try {
-        const author = await User.findOne({
-            where: {
-                id: authorId
-            }
-        })
         const posts = await Post.findAll({
             where: {
                 authorId,
-            }
+            },
+            attributes: {
+                include: [
+                    [
+                        Sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM likes
+              WHERE likes."postId" = "Post"."id"
+            )`),
+                        "likeCount",
+                    ],
+                    [
+                        Sequelize.literal(`EXISTS(
+              SELECT 1
+              FROM likes
+              WHERE likes."postId" = "Post"."id"
+              AND likes."userId" = ${authorId || 0}
+            )`),
+                        "hasLiked",
+                    ],
+                ],
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ["id", "username", "avatar_url"],
+                },
+            ],
         })
-        if (!author) {
-            const err = new Error('Author could not be found') as CustomError
-            err.status = 404
-            throw err
-        }
-        else {
-            return res.status(200).json({
-                message: posts.length === 0
-                    ? "No posts found for this author."
-                    : "Posts retrieved successfully",
-                posts: posts,
-                author: author.username
-            });
-        }
+
+
+        return res.status(200).json({
+            message: posts.length === 0
+                ? "No posts found for this author."
+                : "Posts retrieved successfully",
+            posts: posts,
+        });
+
     }
     catch (err) {
         next(err)

@@ -1,5 +1,5 @@
 .postCard {
-    max-width: 70vw;
+    max-width: 100%;
     display: grid;
     grid-template-rows: 3fr;
     margin: 2rem;

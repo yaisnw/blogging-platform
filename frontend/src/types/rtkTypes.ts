@@ -38,4 +38,5 @@ export interface comment {
         avatar_url: string
     }
     createdAt: Date,
+    updatedAt: Date
 }

@@ -21,7 +21,7 @@ const LoginPage = () => {
     const [logInUser, { isLoading, error }] = useLogInUserMutation();
 
     const justRegistered = useSelector(
-        (state: RootState) => state.ui.justRegistered
+        (state: RootState) => state.auth.justRegistered
     );
 
     const login = useGoogleLogin({
@@ -34,23 +34,20 @@ const LoginPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validate()) return;
-        try {
-            const response = await logInUser({
-                email: formData.email,
-                password: formData.password,
-            }).unwrap();
-            localStorage.setItem("token", response.token);
-            dispatch(setTokenData({
-                id: response.user.id,
-                username: response.user.username,
-                email: response.user.email,
-                avatar_url: response.user.avatar_url
-            }));
-            
-            navigate("../home");
-        } catch {
-            //
-        }
+        const response = await logInUser({
+            email: formData.email,
+            password: formData.password,
+        }).unwrap();
+        localStorage.setItem("token", response.token);
+        dispatch(setTokenData({
+            id: response.user.id,
+            username: response.user.username,
+            email: response.user.email,
+            avatar_url: response.user.avatar_url
+        }));
+
+        navigate("../home");
+
     };
 
     return (

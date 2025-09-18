@@ -111,6 +111,8 @@ const MyPostsPage = () => {
                     createdAt={post.createdAt}
                     updatedAt={post.updatedAt}
                     status={post.status}
+                    author={post.User.username}
+                    avatar_url={post.User.avatar_url}
                     editButton={() => handleEditButton(post.id)}
                     viewButton={() => handlePostClick(post.id)}
                     isDeleting={isDeleting}
