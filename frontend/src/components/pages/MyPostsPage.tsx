@@ -4,7 +4,6 @@ import PostCard from "../molecules/PostCard";
 import PostPanel from "../molecules/PostPanel";
 import MyPostsTemplate from "../templates/MyPostsTemplate";
 import UIstyles from "../../styles/ui.module.css";
-import styles from "../../styles/myPosts.module.css";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { setPostId } from "@/slices/uiSlice";
@@ -16,8 +15,8 @@ const MyPostsPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds);
-    const userId = useAppSelector((state) => state.auth.user.id);
-    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery(userId);
+    const authorId = useAppSelector((state: RootState) => state.auth.user.id);
+    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({authorId, publishedOnly: false});
     const [deletePosts, { isLoading: deletePostsLoading, isError: deletePostsError }] = useDeletePostsMutation();
     const { loggedIn, authChecked } = useAuthStatus();
     const [isDeleting, setIsDeleting] = useState(false);
@@ -35,7 +34,7 @@ const MyPostsPage = () => {
 
     const handleEditButton = (id: number) => {
         dispatch(setPostId(id));
-        navigate(`/createPost/${id}`);
+        navigate(`/home/createPost/${id}`);
     };
 
     const handleDeleteButton = () => {
@@ -60,8 +59,8 @@ const MyPostsPage = () => {
 
     if (getPostsError) {
         return (
-            <div className={styles.centerWrapper}>
-                <h1 className={styles.error}>Failed to load posts.</h1>
+            <div className={UIstyles.componentError}>
+                <h1 className={UIstyles.error}>Failed to load posts.</h1>
                 <button className={UIstyles.ctaButton} onClick={() => window.location.reload()}>
                     <p>Try again</p>
                 </button>
@@ -71,8 +70,8 @@ const MyPostsPage = () => {
 
     if (deletePostsError) {
         return (
-            <div className={styles.centerWrapper}>
-                <h1 className={styles.error}>Failed to delete selected posts.</h1>
+            <div className={UIstyles.componentError}>
+                <h1 className={UIstyles.error}>Failed to delete selected posts.</h1>
                 <button className={UIstyles.ctaButton} onClick={() => window.location.reload()}>
                     <p>Try again</p>
                 </button>
@@ -82,7 +81,7 @@ const MyPostsPage = () => {
 
     if (!data?.posts?.length) {
         return (
-            <div className={styles.centerWrapper}>
+            <div className={UIstyles.componentError}>
                 <h1>No posts available</h1>
                 <button className={UIstyles.ctaButton} onClick={() => navigate("/createPost")}>
                     <p>Create your first post</p>
@@ -95,7 +94,7 @@ const MyPostsPage = () => {
         <MyPostsTemplate
             panel={
                 <PostPanel
-                    createButton={() => navigate("/createPost")}
+                    createButton={() => navigate("/home/createPost")}
                     deleteButton={handleDeleteButton}
                     confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)}
                     isDeleting={isDeleting}

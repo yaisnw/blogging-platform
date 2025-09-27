@@ -2,16 +2,16 @@ import React from "react";
 import '@/styles/editor.css'
 
 type Props = {
-  title: string,
+  header: React.ReactNode,
   viewer: React.ReactNode,
   interactionBox: React.ReactNode,
   comments: React.ReactNode[] | React.ReactNode,
 };
 
-const PostViewerTemplate: React.FC<Props> = ({ title, viewer, interactionBox, comments }) => {
+const PostViewerTemplate: React.FC<Props> = ({ header, viewer, interactionBox, comments }) => {
   return (
     <div >
-      <h1 className="post-title" >{title}</h1>
+      {header}
       <div>
         {viewer}
         {interactionBox}

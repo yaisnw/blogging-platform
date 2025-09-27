@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import styles from '../../styles/ui.module.css'
 import { useOAuthLoginMutation } from '../../services/authApi';
 import { useNavigate } from 'react-router';
-import type { ErrorResponse } from '../organisms/LoginForm';
+import type { ErrorResponse } from '../pages/LoginPage';
+import { useAppDispatch } from '@/hooks';
+import { setTokenData } from '@/slices/authSlice';
 
 const OAuth = () => {
+    const dispatch = useAppDispatch(); 
     const navigate = useNavigate();
     const [oAuthLogin, { error }] = useOAuthLoginMutation();
     const [serverError, setServerError] = useState<string | null>(null);
@@ -17,8 +20,14 @@ const OAuth = () => {
         }
         const fetchToken = async () => {
             try {
-                const token = await oAuthLogin({ code }).unwrap();
-                localStorage.setItem('token', token);
+                const response = await oAuthLogin({ code }).unwrap();
+                localStorage.setItem('token', response.token);
+                dispatch(setTokenData({
+                            id: response.user.id,
+                            username: response.user.username,
+                            email: response.user.email,
+                            avatar_url: response.user.avatar_url
+                        }))
                 navigate('../home');
             } catch (err) {
                 if (error) {

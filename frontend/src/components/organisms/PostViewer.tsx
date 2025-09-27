@@ -14,19 +14,21 @@ type Props = {
 };
 
 const theme = {
-    paragraph: "viewer-paragraph",
-    heading: {
-        h1: "viewer-heading-h1",
-        h2: "viewer-heading-h2",
-        h3: "viewer-heading-h3",
-    },
-    quote: "viewer-quote",
+    ltr: "ltr",
+    rtl: "rtl",
+    quote: "editor-quote",
     text: {
         bold: "font-bold",
         italic: "italic",
         underline: "underline",
         strikethrough: "strike-through",
     },
+    heading: {
+        h1: "editor-heading-h1",
+        h2: "editor-heading-h2",
+        h3: "editor-heading-h3",
+    },
+    paragraph: "editor-paragraph",
 };
 
 const Viewer: React.FC<Props> = ({ content }) => {

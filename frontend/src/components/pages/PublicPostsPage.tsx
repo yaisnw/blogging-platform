@@ -58,6 +58,7 @@ const PublicPostsPage = () => {
                     createdAt={post.createdAt}
                     updatedAt={post.updatedAt}
                     status={post.status}
+                    authorId={post.authorId}
                     author={post.User.username}
                     avatar_url={post.User.avatar_url}
                     viewButton={() => handlePostClick(post.id)}

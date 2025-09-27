@@ -3,6 +3,7 @@ import "../../styles/lexicalImage.css"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getNodeByKey } from "lexical";
 import { $isImageNode, } from "@/lexicalCustom/ImageNode";
+import { useDeleteImageMutation } from "@/services/picturesApi";
 
 
 
@@ -21,6 +22,8 @@ export default function LexicalImage({
   const [isSelected, setIsSelected] = useState(false);
   const [width, setWidth] = useState(300);
   const [currentAlignment, setCurrentAlignment] = useState(alignment);
+  const [deleteImage] = useDeleteImageMutation();
+
 
   useEffect(() => {
     return editor.registerUpdateListener(() => {
@@ -33,7 +36,7 @@ export default function LexicalImage({
     });
   }, [editor, nodeKey]);
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleDelete = async (e: React.MouseEvent) => {
     console.log('clicked')
     e.preventDefault();
     e.stopPropagation();
@@ -41,6 +44,8 @@ export default function LexicalImage({
       const node = $getNodeByKey(nodeKey);
       if (node) node.remove();
     });
+    
+    await deleteImage(src)
   };
 
   const handleAlignmentChange = (newAlignment: 'left' | 'center' | 'right') => {

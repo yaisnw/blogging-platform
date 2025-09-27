@@ -29,15 +29,13 @@ export const authApi = createApi({
                 }
             }
         }),
-        oAuthLogin: build.mutation<string, { code: string }>({
+        oAuthLogin: build.mutation<{token: string, user: responseUser}, { code: string }>({
             query: (body) => ({
                 url: '/googleOAuth',
                 method: 'POST',
                 body
             }),
-            transformResponse: (response: { token: string }) => {
-                return response.token
-            }
+            
         })
 
     })

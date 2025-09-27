@@ -171,7 +171,8 @@ export const googleOAuth = async (
       { expiresIn: '7d' }
     );
     res.status(200).json({
-      token
+      token,
+      user
     })
   }
   catch (err) {

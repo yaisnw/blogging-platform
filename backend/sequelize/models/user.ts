@@ -40,7 +40,7 @@ export function initUser(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue:
-          "https://blogplatform-images.s3.us-east-1.amazonaws.com/avatars/user-svgrepo-com.svg",
+          process.env.DEFAULT_AVATAR,
       },
     },
     {

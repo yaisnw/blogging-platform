@@ -5,15 +5,20 @@ import { $getSelection, $isRangeSelection } from "lexical";
 import styles from '../../styles/ui.module.css'
 import '@/styles/editor.css'
 import { useCreatePostMutation } from "@/services/postsApi";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
+import { useAppDispatch } from "@/hooks";
+import { setPostId } from "@/slices/uiSlice";
 
 function ImageInsertButton() {
+    const dispatch = useAppDispatch();
+    const postId = useSelector((state: RootState) => state.ui.postId)
     const [editor] = useLexicalComposerContext();
     const [createPost, { isLoading: submitLoading, error: submitError }] = useCreatePostMutation();
     const [uploadImage, { isLoading: imageLoading, error: imageError }] = useUploadImageMutation();
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        let postId;
         if (!file) return;
         console.log(file)
 
@@ -22,15 +27,17 @@ function ImageInsertButton() {
             return;
         }
         try {
-            try {
-                const draft = await createPost({
-                    title: '',
-                    content: '',
-                    status: 'pending',
-                }).unwrap();
-                postId = draft.id
-            } catch (err) {
-                console.error("Failed to create draft", err);
+            if (!postId) {
+                try {
+                    const draft = await createPost({
+                        title: '',
+                        content: '',
+                        status: 'draft',
+                    }).unwrap();
+                    dispatch(setPostId(draft.id))
+                } catch (err) {
+                    console.error("Failed to create draft", err);
+                }
             }
 
             if (postId) {

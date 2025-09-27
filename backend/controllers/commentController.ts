@@ -111,7 +111,15 @@ export const getCommentsByAuthorId = async (
     }
 
     try {
-        const comments = await Comment.findAll({ where: { authorId } });
+        const comments = await Comment.findAll({ 
+            where: { authorId },
+            include: [
+                {
+                    model:User,
+                    attributes: ["id", "username", "avatar_url"]
+                }
+            ]
+         });
         if (!comments) {
             const err = new Error("Comment does not exist") as CustomError;
             err.status = 400;

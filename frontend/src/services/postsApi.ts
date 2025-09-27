@@ -16,22 +16,23 @@ export const postsApi = createApi({
     }),
     tagTypes: ['Posts', 'Post'],
     endpoints: (build) => ({
-        getMyPosts: build.query<{ posts: blogPost[], message: string, author: string }, number>({
-            query: (authorId) => `/getAllPosts/${authorId}`,
+        getMyPosts: build.query<
+            { posts: blogPost[]; message: string; author: string },
+            { authorId: number; publishedOnly?: boolean }
+        >({
+            query: ({ authorId, publishedOnly }) =>
+                `/getAllPosts/${authorId}?publishedOnly=${publishedOnly ? "true" : "false"}`,
             providesTags: (result) =>
                 result?.posts
                     ? [
                         { type: "Posts", id: "LIST" },
-                        ...result.posts.map(
-                            (post) => ({ type: "Posts", id: post.id } as const)
-                        ),
+                        ...result.posts.map((post) => ({ type: "Posts", id: post.id } as const)),
                     ]
-                    : [{ type: "Posts", id: "LIST" }]
-        }
-        ),
+                    : [{ type: "Posts", id: "LIST" }],
+        }),
         getPostById: build.query<blogPost, number>({
             query: (postId) => `/${postId}`,
-            providesTags: (result, error, postId) =>
+            providesTags: (result, _error, postId) =>
                 result ? [{ type: "Post", id: postId }] : [],
         }),
         getPublishedPosts: build.query<

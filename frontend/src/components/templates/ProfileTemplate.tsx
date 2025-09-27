@@ -1,13 +1,16 @@
 type ProfileTemplateProps = {
     profileCard: React.ReactNode,
-    userPosts: React.ReactNode[] | React.ReactNode
+    tabPanel: React.ReactNode,
+    tabContent: React.ReactNode,
 }
 
-const ProfileTemplate: React.FC<ProfileTemplateProps> = ({profileCard, userPosts}) => {
+const ProfileTemplate: React.FC<ProfileTemplateProps> = ({profileCard, tabPanel, tabContent}) => {
     return (
         <div>
             {profileCard}
-            {userPosts}
+            {tabPanel}
+            {tabContent}
+
         </div>
     )
 }

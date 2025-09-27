@@ -1,12 +1,17 @@
 .nav {
+    background-color: black;
     display: flex;
     justify-content: space-between;
     text-decoration: none;
     border-bottom: 1px solid black;
     height: 5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .nav1 {
+    
     display: flex;
     align-items: center;
     column-gap: 2rem;
@@ -14,13 +19,13 @@
     height: 100%;
 }
 
-a {
+.nav a {
+    color: white;
     width: 100px;
     align-content: center;
     text-align: center;
     height: 100%;
     text-decoration: none;
-    color: black;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
+    border-right: 1px solid white;
+    border-left: 1px solid white;
 }

@@ -1,0 +1,48 @@
+.profilePicture {
+    width: 10rem;
+    height: 10rem;
+}
+
+.profileCard {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+    gap: 5rem;
+}
+.editingProfileCard {
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5rem auto;
+    text-align: left;
+    gap: 2rem;
+}
+
+.userInfoBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.userInfo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 1rem;
+}
+.tabPanel {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.tabPanelButton  {
+    padding: 0.5rem 1rem;
+    border: none;
+    
+}
+.tabPanelButton:hover {
+    cursor: pointer;
+}
+.activeTab {
+    background-color: black;
+    color: white
+}

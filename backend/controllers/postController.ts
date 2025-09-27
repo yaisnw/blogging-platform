@@ -3,7 +3,7 @@ import { postRequestBody } from "../types/controllerTypes"
 import { CustomError, AuthRequest } from "../index"
 import { Comment, Post, User } from "../sequelize/models"
 import { Op, Sequelize } from "sequelize"
-import { Like } from "../sequelize/models/Like"
+
 
 export const addPost = async (
     req: AuthRequest,
@@ -73,9 +73,13 @@ export const getPostById = async (
                         ))`),
                         "hasLiked"
                     ]]
-
-
-                }
+                },
+                include: [
+                {
+                    model: User,
+                    attributes: ["id", "username", "avatar_url"],
+                },
+            ]
             },
 
         )
@@ -92,15 +96,17 @@ export const getPostById = async (
 }
 
 export const getAllPostsByAuthorId = async (
-    req: Request<{ authorId: number }, {}, postRequestBody, {}>,
+    req: Request<{ authorId: number }, {}, postRequestBody, {publishedOnly?: string}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     const authorId = req.params.authorId;
+    const publishedOnly = req.query.publishedOnly === "true";
     try {
         const posts = await Post.findAll({
             where: {
                 authorId,
+                 ...(publishedOnly ? { status: "published" } : {})
             },
             attributes: {
                 include: [

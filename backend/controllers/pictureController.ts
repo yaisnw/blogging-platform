@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { Picture } from "../sequelize/models";
+import { Picture, User } from "../sequelize/models";
 import { PictureAttributes, pictureRequestBody } from "../types/controllerTypes";
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import s3 from '../s3';
 import { CustomError } from "..";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { AuthRequest } from "../index"
 
-export const addPicture = async (
+export const addPictureWithPost = async (
     req: Request<{}, {}, pictureRequestBody, {}>,
     res: Response,
     next: NextFunction
@@ -49,6 +50,8 @@ export const addPicture = async (
     }
 }
 
+
+
 export const getAllPicturesByPostId = async (
     req: Request<{ postId: number }, {}, pictureRequestBody, {}>,
     res: Response,
@@ -75,6 +78,45 @@ export const getAllPicturesByPostId = async (
         next(err)
     }
 }
+
+export const deletePictureByUrl = async (
+    req: Request<{}, {}, { imageUrl: string }, {}>,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    const { imageUrl } = req.body;
+    console.log(imageUrl)
+
+    try {
+        if (!imageUrl) {
+            const err = new Error("No image URL provided") as CustomError;
+            err.status = 400;
+            throw err;
+        }
+
+
+        const urlParts = new URL(imageUrl);
+        const key = urlParts.pathname.slice(1); 
+
+        const deleteCommand = new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: key,
+        });
+        await s3.send(deleteCommand);
+
+        const deletedCount = await Picture.destroy({ where: { imageUrl } });
+
+        if (deletedCount === 0) {
+            const err = new Error("Picture not found in database") as CustomError;
+            err.status = 404;
+            throw err;
+        }
+
+        return res.status(200).json({ message: "Picture deleted successfully" });
+    } catch (err) {
+        next(err);
+    }
+};
 
 export const deletePicturesByPostId = async (
     req: Request<{ postId: number }, {}, {}, {}>,

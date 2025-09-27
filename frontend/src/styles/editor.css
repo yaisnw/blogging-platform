@@ -14,7 +14,7 @@
 .toolbar {
   background-color: rgb(95, 93, 93);
   position: sticky;
-  top: 0;
+  top: 5rem;
   z-index: 100;
   margin: 0 auto;
   display: flex;
@@ -130,11 +130,7 @@
   resize: none;
   overflow: hidden;
 }
-.post-title {
-  display: flex;
-  justify-content: center;
-  
-}
+
 .image-inputBox {
   display: flex;
   flex-direction: column;

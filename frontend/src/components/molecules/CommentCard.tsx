@@ -12,8 +12,8 @@ type CommentCardProps = {
     avatar_url: string,
     createdAt: Date,
     updatedAt: Date,
-    editComment: (commentContent: string, commentId: number) => Promise<void>,
-    deleteComment: (commentId: number) => Promise<void>
+    editComment?: (commentContent: string, commentId: number) => Promise<void>,
+    deleteComment?: (commentId: number) => Promise<void>
 } & React.HTMLProps<HTMLDivElement>;
 
 const CommentCard: React.FC<CommentCardProps> = ({
@@ -66,9 +66,9 @@ const CommentCard: React.FC<CommentCardProps> = ({
                 {createdAt !== updatedAt && <p className={styles.commentDate}>Edited: {formattedUpdatedAt}</p>}
                 <div className={styles.interactionBox}>
                     {!isEditing && <button onClick={() => setIsEditing(true)} >Edit</button>}
-                    {!isEditing && <button onClick={() => deleteComment(commentId)} >Delete</button>}
+                    {(!isEditing && deleteComment) && <button onClick={() => deleteComment(commentId)} >Delete</button>}
                     {isEditing && <button onClick={() => setIsEditing(false)} >Cancel</button>}
-                    {isEditing && <AppButton onClick={() => editComment(editContent, commentId)} className={styles.commentButton} >Submit</AppButton>}
+                    {(isEditing && editComment) && <AppButton onClick={() => editComment(editContent, commentId)} className={styles.commentButton} >Submit</AppButton>}
                 </div>
             </div>
         </div>

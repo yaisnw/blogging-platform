@@ -22,12 +22,25 @@ export const commentsApi = createApi({
       providesTags: (result, _, postId) =>
         result
           ? [
-              ...result.comments.map(
-                (comment) => ({ type: "Comment", id: comment.id } as const)
-              ),
-              { type: "Comments", id: `POST-${postId}` },
-            ]
+            ...result.comments.map(
+              (comment) => ({ type: "Comment", id: comment.id } as const)
+            ),
+            { type: "Comments", id: `POST-${postId}` },
+          ]
           : [{ type: "Comments", id: `POST-${postId}` }],
+    }),
+    
+    getCommentsByAuthorId: build.query<{ comments: comment[] }, number>({
+      query: (authorId) => `/author/${authorId}`,
+      providesTags: (result, _, authorId) =>
+        result
+          ? [
+            ...result.comments.map(
+              (comment) => ({ type: "Comment", id: comment.id } as const)
+            ),
+            { type: "Comments", id: `AUTHOR-${authorId}` },
+          ]
+          : [{ type: "Comments", id: `AUTHOR-${authorId}` }],
     }),
 
     addComment: build.mutation<comment, { postId: number; content: string }>({
@@ -41,14 +54,13 @@ export const commentsApi = createApi({
       ],
     }),
 
-
     editComment: build.mutation<
       { message: string },
       { commentId: number; content: string; postId: number }
     >({
       query: ({ commentId, content }) => ({
         url: `/${commentId}`,
-        method: "PUT", 
+        method: "PUT",
         body: { content },
       }),
       invalidatesTags: (_result, _error, { commentId, postId }) => [
@@ -66,8 +78,8 @@ export const commentsApi = createApi({
         method: "DELETE",
       }),
 
-      
-      invalidatesTags: (_result, _error, { commentId, postId }) => [ 
+
+      invalidatesTags: (_result, _error, { commentId, postId }) => [
         { type: "Comment", commentId },
         { type: "Comments", id: `POST-${postId}` },
       ],
@@ -77,6 +89,7 @@ export const commentsApi = createApi({
 
 export const {
   useGetCommentsByPostIdQuery,
+  useGetCommentsByAuthorIdQuery,
   useAddCommentMutation,
   useEditCommentMutation,
   useDeleteCommentMutation,

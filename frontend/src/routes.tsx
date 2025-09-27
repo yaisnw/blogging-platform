@@ -51,20 +51,21 @@ const router = createBrowserRouter([
         element: <PostViewerPage />
       },
       {
-        path: 'profile',
+        path: 'profile/:id?',
         element: <ProfilePage />
+      },
+      {
+        path: 'createPost',
+        element: <PostEditorPage />
+      },
+      {
+        path: 'createPost/:id',
+        element: <PostEditorPage />
       }
 
     ],
   },
-  {
-    path: 'createPost',
-    element: <PostEditorPage />
-  },
-  {
-    path: '/createPost/:id',
-    element: <PostEditorPage />
-  }
+
 
 
 

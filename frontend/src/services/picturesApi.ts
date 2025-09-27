@@ -15,12 +15,19 @@ export const picturesApi = createApi({
   endpoints: (build) => ({
     uploadImage: build.mutation<string, FormData>({
       query: (formData) => ({
-        url: "/", 
+        url: "/",
         method: "POST",
         body: formData,
       }),
     }),
+    deleteImage: build.mutation<string, string>({
+      query: (imageUrl) => ({
+        url: "/deleteByUrl",
+        method: "DELETE",
+        body: { imageUrl }
+      })
+    })
   }),
 });
 
-export const { useUploadImageMutation } = picturesApi;
+export const { useUploadImageMutation, useDeleteImageMutation } = picturesApi;

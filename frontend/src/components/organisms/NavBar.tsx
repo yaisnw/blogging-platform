@@ -30,36 +30,36 @@ const NavBar = () => {
 
     return (
         <>
-            <header>
-                <nav className={styles.nav}>
-                    {loggedIn ? (
-                        <>
-                            <div className={styles.nav1}>
-                                <AppLink to="/home">Home</AppLink>
-                                <AppLink to="/home/posts">Posts</AppLink>
-                                <AppLink to="myPosts">My Posts</AppLink>
-                            </div>
-                            <div className={styles.nav1}>
-                                <AppLink to="/home/profile">Profile</AppLink>
-                                <AppLink to="/home/support">Support</AppLink>
-                                <a href="#" onClick={logOutHandler}>Log out</a>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className={styles.nav1}>
-                                <AppLink to="/home">Home</AppLink>
-                                <AppLink to="/home/posts">Posts</AppLink>
-                            </div>
-                            <div className={styles.nav1}>
-                                <AppLink to="/home/support">Support</AppLink>
-                                <AppLink to="/login">Log in</AppLink>
-                                <AppLink to="/signup">Get Started</AppLink>
-                            </div>
-                        </>
-                    )}
-                </nav>
-            </header>
+
+            <nav className={styles.nav}>
+                {loggedIn ? (
+                    <>
+                        <div className={styles.nav1}>
+                            <AppLink to="/home">Home</AppLink>
+                            <AppLink to="/home/posts">Posts</AppLink>
+                            <AppLink to="myPosts">My Posts</AppLink>
+                        </div>
+                        <div className={styles.nav1}>
+                            <AppLink to="/home/profile">Profile</AppLink>
+                            <AppLink to="/home/support">Support</AppLink>
+                            <a href="#" onClick={logOutHandler}>Log out</a>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className={styles.nav1}>
+                            <AppLink to="/home">Home</AppLink>
+                            <AppLink to="/home/posts">Posts</AppLink>
+                        </div>
+                        <div className={styles.nav1}>
+                            <AppLink to="/home/support">Support</AppLink>
+                            <AppLink to="/login">Log in</AppLink>
+                            <AppLink to="/signup">Get Started</AppLink>
+                        </div>
+                    </>
+                )}
+            </nav>
+
             <Outlet />
         </>
     )

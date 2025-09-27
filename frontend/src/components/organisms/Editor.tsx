@@ -82,7 +82,9 @@ const Editor: React.FC<Props> = ({
           maxLength={80}
           className="post-input"
           value={title}
+          required
           onChange={(e) => onTitleChange(e.target.value)}
+          
         />
         <button type="button" className="submit-button" onClick={onSubmit}>
           {isUpdating ? "Update" : "Submit"}

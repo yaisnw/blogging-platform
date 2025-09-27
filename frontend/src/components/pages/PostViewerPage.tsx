@@ -3,12 +3,13 @@ import PostViewerTemplate from "../templates/PostViewerTemplate";
 import PostViewer from "../organisms/PostViewer";
 import { useGetPostByIdQuery, } from "@/services/postsApi";
 import styles from '@/styles/ui.module.css'
-import InteractionForm from "../organisms/InteractionForm";
+import InteractionForm from "../organisms/CommentForm";
 import { useEffect, useState } from "react";
 import { useAddLikeMutation, useRemoveLikeMutation } from "@/services/likesApi";
 import { useAddCommentMutation, useDeleteCommentMutation, useEditCommentMutation, useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 import type { comment } from "@/types/rtkTypes";
 import CommentCard from "../molecules/CommentCard";
+import PostHeader from "../organisms/PostHeader";
 
 const PostViewerPage = () => {
     const [liked, setLiked] = useState(false);
@@ -153,12 +154,9 @@ const PostViewerPage = () => {
 
     return (
         <PostViewerTemplate
-            title={post.title}
+            header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} />}
             viewer={<PostViewer content={post.content} />}
             interactionBox={<InteractionForm
-                likeCount={likeCount}
-                liked={liked}
-                OnLike={handleLike}
                 commentContent={commentContent ?? ""}
                 setCommentContent={setCommentContent}
                 submitComment={handleCommentSubmit}

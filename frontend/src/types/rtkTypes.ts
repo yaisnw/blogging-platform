@@ -9,8 +9,9 @@ export interface logInUser {
 }
 export interface responseUser {
     id: number,
-    email: string
     username: string,
+    password?: string,
+    email: string,
     avatar_url: string
 }
 export interface blogPost {

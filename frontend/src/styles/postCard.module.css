@@ -1,6 +1,7 @@
 .postCard {
-    max-width: 100%;
+    width: 60vw;
     display: grid;
+    justify-self: center;
     grid-template-rows: 3fr;
     margin: 2rem;
     padding: 2rem;
@@ -64,4 +65,9 @@
 .postCardImage {
     width: 30px;
     height: 30px;
+}
+.postCard a {
+    color: black;
+    text-decoration: underline;
+    
 }

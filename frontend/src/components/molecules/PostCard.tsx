@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 import HeartButton from "../atoms/HeartButton";
+import { Link } from "react-router";
 
 type PostCardProps = {
     postId: number,
@@ -20,13 +21,14 @@ type PostCardProps = {
     updatedAt: string,
     status: 'draft' | 'published',
     author?: string,
+    authorId?: number,
     avatar_url?: string,
     editButton?: () => void,
     viewButton?: MouseEventHandler<HTMLButtonElement>,
     isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status, viewButton, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status, viewButton, isDeleting }) => {
     const dispatch = useAppDispatch();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
     const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
@@ -41,7 +43,6 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, avatar_url, 
         month: "long",
         day: "numeric",
     });
-
     const handleDeleteCheck = (id: number) => {
         dispatch(addDeletingPostIds(id))
     }
@@ -51,7 +52,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, avatar_url, 
             <AppHeader className={styles.title}>
                 {title}
             </AppHeader>
-                <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge} >{status?.charAt(0).toUpperCase() + status.slice(1)}</span>
+            <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge} >{status?.charAt(0).toUpperCase() + status.slice(1)}</span>
             <section className={styles.postMeta} >
                 <section className={styles.engagementBox}>
                     <div className={styles.engagementContent}>
@@ -64,9 +65,9 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, author, avatar_url, 
                     </div>
                 </section>
 
-                {author && 
+                {author &&
                     <div className={styles.authorBox} >
-                        <p>By {author}</p>
+                        <p>By <Link to={`/home/profile/${authorId}`} >{author}</Link></p>
                         <img className={UIstyles.avatar} src={avatar_url} alt="default avatar" />
                     </div>
                 }

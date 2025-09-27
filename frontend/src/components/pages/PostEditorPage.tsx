@@ -7,6 +7,7 @@ import type { RootState } from "@/store";
 import { useCreatePostMutation, useLazyGetPostByIdQuery, useUpdatePostMutation } from "@/services/postsApi";
 import styles from "@/styles/ui.module.css"
 import { setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
+import { setPostId } from "@/slices/uiSlice";
 
 const PostEditorPage = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,6 @@ const PostEditorPage = () => {
   const content = useSelector((state: RootState) => state.post.content)
   const { id } = useParams();
   const [status, setStatus] = useState<'draft' | 'published'>('published');
-  const [draftResult, setDraftResult] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState(false);
   const [createPost, { isLoading: createPostLoading, isError: createPostError }] = useCreatePostMutation();
   const [updatePost, { isLoading: updatePostLoading, isError: updatePostError }] = useUpdatePostMutation();
@@ -27,12 +27,13 @@ const PostEditorPage = () => {
     const fetchDraft = async () => {
       const result = await trigger(Number(id));
       if (result.data) {
-        setDraftResult(result.data.content);
+        dispatch(setDraftContent(result.data.content))
+        dispatch(setDraftTitle(result.data.title))
         setIsUpdating(true);
       }
     };
     fetchDraft();
-  }, [id, trigger]);
+  }, [id, trigger, dispatch]);
 
   const handleChangeTitle = (val: string) => {
     dispatch(setDraftTitle(val));
@@ -46,13 +47,13 @@ const PostEditorPage = () => {
 
   const handleSubmit = async () => {
     if (!title || !content) return;
-
+    
     if (isUpdating) {
-      console.log(status)
       await updatePost({ postId, title, content, status }).unwrap();
     } else {
       await createPost({ title, content, status }).unwrap();
     }
+    dispatch(setPostId(0))
     navigate("/home/myPosts");
   };
 
@@ -64,7 +65,7 @@ const PostEditorPage = () => {
     );
   }
 
-  if (!createPostError || updatePostError) {
+  if (createPostError || updatePostError) {
     return (
       <div className={styles.pageError}>
         <h1 className={styles.error}>Something went wrong while uploading the post.</h1>
@@ -84,7 +85,7 @@ const PostEditorPage = () => {
         <Editor
           title={title}
           status={status}
-          draftResult={draftResult}
+          draftResult={content}
           onTitleChange={handleChangeTitle}
           onStatusChange={handleChangeStatus}
           onEditorChange={handleChangeEditor}
