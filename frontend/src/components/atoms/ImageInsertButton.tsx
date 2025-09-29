@@ -18,9 +18,9 @@ function ImageInsertButton() {
     const [uploadImage, { isLoading: imageLoading, error: imageError }] = useUploadImageMutation();
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        editor.focus();
         const file = e.target.files?.[0];
         if (!file) return;
-        console.log(file)
 
         if (!file.type.startsWith("image/")) {
             alert("Please upload an image file");
@@ -64,11 +64,10 @@ function ImageInsertButton() {
     return (
         <div className="image-inputBox">
             <input id="imageUpload" className="image-input" type="file" accept="image/*" onChange={handleFileChange} />
-            <button className="toolbar-button">
-                <label htmlFor="imageUpload" className="custom-file-label">
-                    Add Image
-                </label>
-            </button>
+            <label htmlFor="imageUpload" className="custom-file-label toolbar-button">
+                Add Image
+            </label>
+
             {(submitError || imageError) && <p>Failed to upload image.</p>}
             {(submitLoading || imageLoading) && (
                 <div className={styles.loaderCenter}>

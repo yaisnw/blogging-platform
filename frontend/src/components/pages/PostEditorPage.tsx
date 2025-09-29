@@ -47,7 +47,7 @@ const PostEditorPage = () => {
 
   const handleSubmit = async () => {
     if (!title || !content) return;
-    
+
     if (isUpdating) {
       await updatePost({ postId, title, content, status }).unwrap();
     } else {
@@ -80,20 +80,18 @@ const PostEditorPage = () => {
   }
 
   return (
-    <PostEditorTemplate
-      editor={
-        <Editor
-          title={title}
-          status={status}
-          draftResult={content}
-          onTitleChange={handleChangeTitle}
-          onStatusChange={handleChangeStatus}
-          onEditorChange={handleChangeEditor}
-          onSubmit={handleSubmit}
-          isUpdating={isUpdating}
-        />
-      }
-    />
+    <PostEditorTemplate>
+      <Editor
+        title={title}
+        status={status}
+        draftResult={content}
+        onTitleChange={handleChangeTitle}
+        onStatusChange={handleChangeStatus}
+        onEditorChange={handleChangeEditor}
+        onSubmit={handleSubmit}
+        isUpdating={isUpdating}
+      />
+    </PostEditorTemplate>
   );
 };
 

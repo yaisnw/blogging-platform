@@ -42,11 +42,7 @@ const MyPostsPage = () => {
     };
 
     const handleConfirmDelete = async (ids: number[]) => {
-        try {
             await deletePosts(ids).unwrap();
-        } catch {
-            // handled by deletePostsError state
-        }
     };
 
     if (getPostsLoading || deletePostsLoading) {

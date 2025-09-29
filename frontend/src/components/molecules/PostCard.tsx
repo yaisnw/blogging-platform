@@ -32,6 +32,9 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     const dispatch = useAppDispatch();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
     const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
+    const createdDate = new Date(createdAt);
+    const updatedDate = new Date(updatedAt);
+
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -43,6 +46,8 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
         month: "long",
         day: "numeric",
     });
+
+    const isEdited = createdDate.getTime() !== updatedDate.getTime();
     const handleDeleteCheck = (id: number) => {
         dispatch(addDeletingPostIds(id))
     }
@@ -76,7 +81,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
             <div className={styles.cardFooter} >
                 <div className={styles.footerDate} >
                     <p>Created: {formattedCreatedAt}</p>
-                    <p>Updated: {formattedUpdatedAt}</p>
+                    {isEdited && <p>Updated: {formattedUpdatedAt}</p>}
                 </div>
                 <div className={styles.interactionBox} >
                     {isDeleting && <label>

@@ -2,13 +2,13 @@ import React from "react";
 
 
 type Props = {
-  editor: React.ReactNode;
+  children: React.ReactNode[] | React.ReactNode;
 };
 
-const PostEditorTemplate: React.FC<Props> = ({ editor }) => {
+const PostEditorTemplate: React.FC<Props> = ({ children }) => {
   return (
     <div>
-      <main >{editor}</main>
+      {children}
     </div>
   );
 };
