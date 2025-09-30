@@ -17,8 +17,19 @@ export interface CustomError extends Error {
   payload: any
 }
 
-export interface AuthRequest extends Request {
-  user?: { id: number; email: string; username: string };
+interface AuthUser {
+  id: number;
+  email: string;
+  username: string;
+}
+
+export interface AuthRequest<
+  P = any,
+  ResBody = any,
+  ReqBody = any,
+  ReqQuery = any
+> extends Request<P, ResBody, ReqBody, ReqQuery> {
+  user?: AuthUser;
 }
 
 dotenv.config();

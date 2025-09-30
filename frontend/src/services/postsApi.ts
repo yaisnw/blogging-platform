@@ -50,6 +50,22 @@ export const postsApi = createApi({
                     ]
                     : [{ type: "Posts", id: "LIST" }],
         }),
+        searchPosts: build.query<
+            { posts: blogPost[]; message: string },
+            string
+        >({
+            query: (searchTerm) => `/search?q=${encodeURIComponent(searchTerm)}`,
+            providesTags: (result) =>
+                result?.posts
+                    ? [
+                        { type: "Posts", id: "LIST" },
+                        ...result.posts.map((post) => ({
+                            type: "Posts" as const,
+                            id: post.id,
+                        })),
+                    ]
+                    : [{ type: "Posts", id: "LIST" }],
+        }),
         createPost: build.mutation<
             blogPost
             , { title: string, content: string, status: 'draft' | 'published' }>
@@ -102,6 +118,7 @@ export const {
     useGetPostByIdQuery,
     useGetPublishedPostsQuery,
     useLazyGetPostByIdQuery,
+    useSearchPostsQuery,
     useUpdatePostMutation,
     useDeletePostsMutation,
 } = postsApi

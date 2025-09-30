@@ -5,9 +5,10 @@ import PostEditorTemplate from "../templates/PostEditorTemplate";
 import Editor from "../organisms/Editor";
 import type { RootState } from "@/store";
 import { useCreatePostMutation, useLazyGetPostByIdQuery, useUpdatePostMutation } from "@/services/postsApi";
-import styles from "@/styles/ui.module.css"
 import { setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
 import { setPostId } from "@/slices/uiSlice";
+import AppLoader from "../atoms/AppLoader";
+import ErrorState from "../atoms/ErrorState";
 
 const PostEditorPage = () => {
   const dispatch = useDispatch();
@@ -53,29 +54,19 @@ const PostEditorPage = () => {
     } else {
       await createPost({ title, content, status }).unwrap();
     }
-    dispatch(setPostId(0))
+    dispatch(setDraftTitle(''), setDraftContent(''), setPostId(0))
     navigate("/home/myPosts");
   };
 
   if (createPostLoading || updatePostLoading) {
     return (
-      <div className={styles.loaderCenter}>
-        <span className={styles.loader}></span>
-      </div>
+      <AppLoader mode="page" />
     );
   }
 
   if (createPostError || updatePostError) {
     return (
-      <div className={styles.pageError}>
-        <h1 className={styles.error}>Something went wrong while uploading the post.</h1>
-        <button className={styles.ctaButton} onClick={() => window.location.reload()}>
-          <p >Try again</p>
-        </button>
-        <button onClick={() => navigate('/home/posts')} className={styles.ctaButton}>
-          <p>View other posts</p>
-        </button>
-      </div>
+      <ErrorState message='Something went wrong while uploading the post.' onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={()=> navigate('/home/posts')} />
     )
   }
 

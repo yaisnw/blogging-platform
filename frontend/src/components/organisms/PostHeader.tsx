@@ -2,6 +2,8 @@ import { Link } from "react-router";
 import AppHeader from "../atoms/AppHeader";
 import HeartButton from "../atoms/HeartButton";
 import styles from "@/styles/postViewer.module.css"
+import UIstyles from "@/styles/ui.module.css"
+import AppImage from "../atoms/AppImage";
 
 type Props = {
     OnLike: () => void
@@ -9,10 +11,11 @@ type Props = {
     liked: boolean,
     title: string,
     authorId: number,
-    author: string
+    author: string,
+    avatar_url: string
 }
 
-const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId, author }) => {
+const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId, author, avatar_url }) => {
     return (
         <div className={styles.headerBox} >
             <AppHeader className={styles.postTitle}>{title}</AppHeader>
@@ -21,7 +24,10 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
                     <h2>{likeCount ?? 0}</h2>
                     <HeartButton OnLike={OnLike} editable={true} liked={liked} />
                 </div>
-                <Link to={`/home/profile/${authorId}`} >By {author}</Link>
+                <div className={styles.authorContainer}>
+                    <p>By <Link to={`/home/profile/${authorId}`} >{author}</Link></p>
+                    <AppImage src={avatar_url} className={UIstyles.avatar} />
+                </div>
             </div>
         </div>
     )
@@ -42,4 +48,3 @@ export default PostHeader
 
 
 
-// redirect to profile page when clicked on author name

@@ -39,7 +39,7 @@ export const addPost = async (
 }
 
 export const getPostById = async (
-    req: AuthRequest,
+    req: AuthRequest<any, any, any, { q?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -75,11 +75,11 @@ export const getPostById = async (
                     ]]
                 },
                 include: [
-                {
-                    model: User,
-                    attributes: ["id", "username", "avatar_url"],
-                },
-            ]
+                    {
+                        model: User,
+                        attributes: ["id", "username", "avatar_url"],
+                    },
+                ]
             },
 
         )
@@ -96,7 +96,7 @@ export const getPostById = async (
 }
 
 export const getAllPostsByAuthorId = async (
-    req: Request<{ authorId: number }, {}, postRequestBody, {publishedOnly?: string}>,
+    req: Request<{ authorId: number }, {}, postRequestBody, { publishedOnly?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -106,7 +106,7 @@ export const getAllPostsByAuthorId = async (
         const posts = await Post.findAll({
             where: {
                 authorId,
-                 ...(publishedOnly ? { status: "published" } : {})
+                ...(publishedOnly ? { status: "published" } : {})
             },
             attributes: {
                 include: [
@@ -209,6 +209,64 @@ export const getAllPublishedPosts = async (
     }
 };
 
+export const searchPosts = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    const { q } = req.query;
+    const userId = req.user?.id
+
+    if (!q || q.trim() === "") {
+        return res.status(400).json({ message: "Search query is required" });
+    }
+
+    try {
+        const posts = await Post.findAll({
+            where: {
+                [Op.or]: [
+                    { title: { [Op.iLike]: `%${q}%` } },
+                    { content: { [Op.iLike]: `%${q}%` } }
+                ],
+                status: "published",
+            },
+            attributes: {
+                include: [
+                    [
+                        Sequelize.literal(`(
+              SELECT COUNT(*)
+              FROM likes
+              WHERE likes."postId" = "Post"."id"
+            )`),
+                        "likeCount",
+                    ],
+                    [
+                        Sequelize.literal(`EXISTS(
+              SELECT 1
+              FROM likes
+              WHERE likes."postId" = "Post"."id"
+              AND likes."userId" = ${userId || 0}
+            )`),
+                        "hasLiked",
+                    ],
+                ],
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ["id", "username", "avatar_url"],
+                },
+            ],
+        });
+
+        return res.status(200).json({
+            message: posts.length === 0 ? "No posts found" : "Posts retrieved",
+            posts,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
 
 export const updatePost = async (
     req: Request<{ id: number }, {}, postRequestBody, {}>,

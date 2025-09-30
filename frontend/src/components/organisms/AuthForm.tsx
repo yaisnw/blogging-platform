@@ -1,6 +1,8 @@
 import AuthField from '../molecules/AuthField';
 import AppButton from '../atoms/AppButton';
 import styles from '../../styles/ui.module.css';
+import AppLoader from '../atoms/AppLoader';
+import ErrorMessage from '../atoms/ErrorState';
 
 type AuthFormProps = {
   mode: "login" | "signup";
@@ -29,9 +31,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   return (
     <div>
       {isLoading && 
-      <div className={styles.loaderCenter}>
-        <span className={styles.loader}></span>
-      </div>}
+      <AppLoader />}
       <AppButton
         imageSrc='/google.svg'
         className={styles.googleContainer}
@@ -43,7 +43,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
       <form onSubmit={onSubmit}>
         {mode === "signup" && (
           <>
-            {errors.username && <div>{errors.username}</div>}
+            {errors.username && <ErrorMessage message={errors.username} />}
             <AuthField
               name="username"
               label="Enter your username:"
@@ -54,7 +54,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           </>
         )}
 
-        {errorMsg && <div style={{ color: "red" }}>{errorMsg}</div>}
+        {errorMsg && <ErrorMessage message={errorMsg} />}
         {errors.email && <div>{errors.email}</div>}
         <AuthField
           name="email"
@@ -65,7 +65,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           onChange={onChange}
         />
 
-        {errors.password && <div>{errors.password}</div>}
+        {errors.password && <ErrorMessage message={errors.password} />}
         <AuthField
           name="password"
           label="Enter your password:"
@@ -77,9 +77,9 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
         {mode === "signup" && (
           <>
-            {errors.confirmPassword && <div>{errors.confirmPassword}</div>}
+            {errors.confirmPassword && <ErrorMessage message={errors.confirmPassword} />}
             {errors.confirmPasswordMatch && (
-              <div>{errors.confirmPasswordMatch}</div>
+             <ErrorMessage message={errors.confirmPasswordMatch} />
             )}
             <AuthField
               name="confirmPassword"

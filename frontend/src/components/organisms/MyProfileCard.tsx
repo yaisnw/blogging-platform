@@ -6,10 +6,13 @@ import AppInput from "../atoms/AppInput";
 import AppButton from "../atoms/AppButton";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useEffect, useState } from "react";
-import {  isFetchBaseQueryError } from "@/utils/isFetchBaseQueryError";
+import { isFetchBaseQueryError } from "@/utils/isFetchBaseQueryError";
 import type { SerializedError } from "@reduxjs/toolkit";
+import AppLabel from "../atoms/AppLabel";
+import AppLoader from "../atoms/AppLoader";
+import ErrorMessage from "../atoms/ErrorState";
 
-type ProfileCardProps = {
+type MyProfileCardProps = {
     username: string,
     email: string,
     password: string | undefined,
@@ -30,7 +33,7 @@ type ProfileCardProps = {
 
 
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ username, email, avatar_url, formData, passwordForm, avatarLoading, updateUserLoading, changePasswordLoading, updateUserError, changePasswordError, handleTextInputChange, handleImageInputChange, handlePasswordInputChange, updateUser, changePassword }) => {
+const MyProfileCard: React.FC<MyProfileCardProps> = ({ username, email, avatar_url, formData, passwordForm, avatarLoading, updateUserLoading, changePasswordLoading, updateUserError, changePasswordError, handleTextInputChange, handleImageInputChange, handlePasswordInputChange, updateUser, changePassword }) => {
     const [errorMessage, setErrorMessage] = useState('')
     const [isEditing, setIsEditing] = useState(false)
     const [isChangingPassword, setIsChangingPassword] = useState(false)
@@ -38,26 +41,26 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, email, avatar_url, 
     useEffect(() => {
         setErrorMessage('')
         const error = changePasswordError || updateUserError
-        console.log(error)
         if (!error) {
             setIsChangingPassword(false)
             setIsEditing(false)
         }
-        
+
         if (isFetchBaseQueryError(error)) {
             const errData = error.data as { message?: string }
             setErrorMessage(errData?.message ?? 'Something went wrong')
         }
-        else {
-            setErrorMessage('Unknown error')
-        }
     }, [changePasswordError, updateUserError])
+
+    useEffect(() => {
+        return () => {
+            setErrorMessage('')
+        }
+    }, [setErrorMessage])
 
     if (updateUserLoading || changePasswordLoading) {
         return (
-            <div className={UIstyles.loaderContainer}>
-                <span className={UIstyles.loader}></span>
-            </div>
+            <AppLoader mode="page" />
         )
     }
     return !isEditing ?
@@ -74,9 +77,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, email, avatar_url, 
         )
             :
             (<>
-                <form className={styles.editingProfileCard} onSubmit={(e: React.FormEvent) => { changePassword(e); }}>
-                    <AppButton type="button" onClick={() => { setIsChangingPassword(false); setIsEditing(false) }} >Cancel</AppButton>
-                    {errorMessage && <p>{errorMessage}</p>}
+                <form className={styles.passwordFormContainer} onSubmit={(e: React.FormEvent) => { changePassword(e); }}>
+                    
+                    {errorMessage &&<ErrorMessage message={errorMessage} />}
                     <AuthField
                         name="currentPassword"
                         label="Enter your current password:"
@@ -101,6 +104,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, email, avatar_url, 
                         value={passwordForm.confirmPassword || ""}
                         onChange={handlePasswordInputChange}
                     />
+                    <AppButton type="button" onClick={() => { setIsChangingPassword(false); setIsEditing(false) }} >Cancel</AppButton>
                     <AppButton>Change Password</AppButton>
                 </form>
             </>)
@@ -110,40 +114,44 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, email, avatar_url, 
         (
             <>
                 <form className={styles.editingProfileCard} onSubmit={(e: React.FormEvent) => { updateUser(e); setIsEditing(false) }}>
-                <AppButton type="button" onClick={() => setIsEditing(false)} >Cancel</AppButton>
+
                     {avatarLoading
                         ?
-                        <span className={UIstyles.loader}></span>
+                        <AppLoader />
                         :
-                        <>
+                        <div className={styles.avatarContainer}>
                             <AppImage className={styles.profilePicture} src={avatar_url} />
-                            <AppInput id="avatar" type="file" accept="image/*" onChange={handleImageInputChange} />
-                        </>
+                            <AppLabel className={UIstyles.labelButton} htmlFor="avatar">Choose Image</AppLabel>
+                            <AppInput style={{ display: 'none' }} id="avatar" name="avatar" type="file" accept="image/*" onChange={handleImageInputChange} />
+                        </div>
                     }
-                    <AuthField
-                        name="username"
-                        label="Enter your username:"
-                        autoComplete="username"
-                        value={formData.username || ""}
-                        onChange={handleTextInputChange}
-                    />
+                    <div className={styles.formContainer}>
+                        <AuthField
+                            name="username"
+                            label="Enter your username:"
+                            autoComplete="username"
+                            value={formData.username || ""}
+                            onChange={handleTextInputChange}
+                        />
 
+                        <AuthField
+                            name="email"
+                            label="Enter your email:"
+                            type="email"
+                            autoComplete="email"
+                            value={formData.email || ""}
+                            onChange={handleTextInputChange}
+                        />
+                        <AppButton type="button" onClick={() => setIsEditing(false)} >Cancel</AppButton>
+                        <AppButton>Update</AppButton>
+                    </div>
 
-                    <AuthField
-                        name="email"
-                        label="Enter your email:"
-                        type="email"
-                        autoComplete="email"
-                        value={formData.email || ""}
-                        onChange={handleTextInputChange}
-                    />
-                    <AppButton>Update</AppButton>
                 </form>
             </>
         )
 }
 
-export default ProfileCard  
+export default MyProfileCard
 
 
 

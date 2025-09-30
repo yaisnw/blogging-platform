@@ -12,6 +12,7 @@ import PostEditorPage from './components/pages/PostEditorPage';
 import PostViewerPage from './components/pages/PostViewerPage';
 import PublicPostsPage from './components/pages/PublicPostsPage';
 import ProfilePage from './components/pages/ProfilePage';
+import SearchPage from './components/pages/SearchPage';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: 'createPost/:id',
         element: <PostEditorPage />
+      },
+      {
+        path: 'search',
+        element: <SearchPage />
       }
 
     ],

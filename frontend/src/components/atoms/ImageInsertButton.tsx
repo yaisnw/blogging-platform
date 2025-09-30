@@ -1,21 +1,22 @@
 import { INSERT_IMAGE_COMMAND } from "@/lexicalCustom/ImageCommand";
 import { useUploadImageMutation } from "@/services/picturesApi";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getSelection, $isRangeSelection } from "lexical";
-import styles from '../../styles/ui.module.css'
+import { $getNodeByKey, $getSelection, $insertNodes, $isRangeSelection, $setSelection, type RangeSelection } from "lexical";
 import '@/styles/editor.css'
 import { useCreatePostMutation } from "@/services/postsApi";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useAppDispatch } from "@/hooks";
 import { setPostId } from "@/slices/uiSlice";
+import { $createLoaderNode } from "@/lexicalCustom/LoaderNode";
+import ErrorState from "./ErrorState";
 
 function ImageInsertButton() {
     const dispatch = useAppDispatch();
     const postId = useSelector((state: RootState) => state.ui.postId)
     const [editor] = useLexicalComposerContext();
-    const [createPost, { isLoading: submitLoading, error: submitError }] = useCreatePostMutation();
-    const [uploadImage, { isLoading: imageLoading, error: imageError }] = useUploadImageMutation();
+    const [createPost, {  error: submitError }] = useCreatePostMutation();
+    const [uploadImage, {  error: imageError }] = useUploadImageMutation();
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         editor.focus();
@@ -26,40 +27,63 @@ function ImageInsertButton() {
             alert("Please upload an image file");
             return;
         }
+
+        let savedSelection: RangeSelection | null = null;
+
+        editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+                savedSelection = selection.clone();
+            }
+        });
+
+        let loaderKey: string | null = null;
+        editor.update(() => {
+            if (savedSelection) {
+                $setSelection(savedSelection);
+            }
+            const loaderNode = $createLoaderNode();
+            $insertNodes([loaderNode]);
+            loaderKey = loaderNode.getKey();
+        });
+
         try {
-            if (!postId) {
-                try {
-                    const draft = await createPost({
-                        title: '',
-                        content: '',
-                        status: 'draft',
-                    }).unwrap();
-                    dispatch(setPostId(draft.id))
-                } catch (err) {
-                    console.error("Failed to create draft", err);
-                }
+            let postIdValue = postId;
+            if (!postIdValue) {
+                const draft = await createPost({
+                    title: '',
+                    content: '',
+                    status: 'draft',
+                }).unwrap();
+                dispatch(setPostId(draft.id));
+                postIdValue = draft.id;
             }
 
-            if (postId) {
-                const formData = new FormData();
-                formData.append('image', file);
-                formData.append('postId', postId.toString());
-                const response = await uploadImage(formData).unwrap();
-                editor.update(() => {
-                    const selection = $getSelection();
-                    if ($isRangeSelection(selection)) {
-                        editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                            src: response,
-                            alt: file.name,
-                        });
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('postId', postIdValue.toString());
+            const response = await uploadImage(formData).unwrap();
+                
+            editor.update(() => {
+                if (loaderKey) {
+                    const loaderNode = $getNodeByKey(loaderKey);
+                    if (loaderNode) {
+                        loaderNode.remove();
                     }
-                })
-            }
-        }
-        catch (e) {
-            console.error(e)
+                }
+                if (savedSelection) {
+                    $setSelection(savedSelection);
+                }
+                editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                    src: response,
+                    alt: file.name,
+                });
+            });
+        } catch (err) {
+            console.error(err);
         }
     };
+
 
     return (
         <div className="image-inputBox">
@@ -68,14 +92,19 @@ function ImageInsertButton() {
                 Add Image
             </label>
 
-            {(submitError || imageError) && <p>Failed to upload image.</p>}
-            {(submitLoading || imageLoading) && (
-                <div className={styles.loaderCenter}>
-                    <p className={styles.loaderText}>Loading image...</p>
-                    <span className={`${styles.loader} ${styles.loaderMini}`}></span>
-                </div>
-            )}
+            {(submitError || imageError) && <ErrorState message="failed to add image" />}
         </div>
     )
 }
 export default ImageInsertButton
+
+
+
+
+
+
+
+
+
+
+// find new method of image uploading that doesnt rely on an existent postId

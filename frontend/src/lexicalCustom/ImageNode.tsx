@@ -1,5 +1,5 @@
 import { $applyNodeReplacement, DecoratorNode } from "lexical";
-import type {LexicalNode} from 'lexical'
+import type { LexicalNode } from 'lexical'
 import type { ReactNode } from "react";
 import LexicalImage from "@/components/atoms/LexicalImage";
 
@@ -85,9 +85,9 @@ export class ImageNode extends DecoratorNode<ReactNode> {
 }
 
 export function $isImageNode(node: LexicalNode | null | undefined): node is ImageNode {
-  return node instanceof ImageNode;
+    return node instanceof ImageNode;
 }
 
 export function $createImageNode(src: string, altText: string): ImageNode {
     return $applyNodeReplacement(new ImageNode(src, altText));
-}
+}   

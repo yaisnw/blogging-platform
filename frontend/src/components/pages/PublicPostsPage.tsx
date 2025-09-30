@@ -1,49 +1,30 @@
 import { useGetPublishedPostsQuery } from "@/services/postsApi"
 import PublicPostsTemplate from "../templates/PublicPostsTemplate"
 import PostCard from "../molecules/PostCard"
-import styles from '@/styles/ui.module.css'
 import { useNavigate } from "react-router"
-import { useAppDispatch } from "@/hooks"
-import { setPostId } from "@/slices/uiSlice"
+
 import type { blogPost } from "@/types/rtkTypes"
+import AppLoader from "../atoms/AppLoader"
+import ErrorState from "../atoms/ErrorState"
 
 const PublicPostsPage = () => {
     const { data, isLoading, isError } = useGetPublishedPostsQuery();
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const handlePostClick = async (id: number) => {
-        dispatch(setPostId(id))
-        navigate(`/home/posts/${id}`)
-    }
+
 
     if (isLoading) {
         return (
-            <div className={styles.loaderCenter}>
-                <span className={styles.loader}></span>
-            </div>
+            <AppLoader mode="page" />
         );
     }
     if (isError) {
         return (
-            <div className={styles.pageError}>
-                <h1 className={styles.error}>Something went wrong while fetching the posts.</h1>
-                <button className={styles.ctaButton} onClick={() => window.location.reload()}>
-                    <p >Try again</p>
-                </button>
-                <button onClick={() => navigate('/home')} className={styles.ctaButton}>
-                    <p>Go back to home page</p>
-                </button>
-            </div>
+            <ErrorState message='Something went wrong while fetching the posts.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
         )
     }
     if (data?.posts.length === 0) {
-        <div className={styles.pageError}>
-            <h1 className={styles.error}>No Posts Available</h1>
-            <button onClick={() => navigate('/home')} className={styles.ctaButton}>
-            <p>Return to the home page</p>
-            </button>
-        </div>
+        <ErrorState message='There are no posts currently' actionLabel="Go back to home page" onAction={() => navigate('/home')} />
     }
 
     return (
@@ -61,7 +42,6 @@ const PublicPostsPage = () => {
                     authorId={post.authorId}
                     author={post.User.username}
                     avatar_url={post.User.avatar_url}
-                    viewButton={() => handlePostClick(post.id)}
                 />
         ) || []} />
     )

@@ -3,20 +3,21 @@ import { useDeletePostsMutation, useGetMyPostsQuery } from "../../services/posts
 import PostCard from "../molecules/PostCard";
 import PostPanel from "../molecules/PostPanel";
 import MyPostsTemplate from "../templates/MyPostsTemplate";
-import UIstyles from "../../styles/ui.module.css";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { setPostId } from "@/slices/uiSlice";
 import type { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { useAuthStatus } from "@/hooks/useAuthStatus";
+import AppLoader from "../atoms/AppLoader";
+import ErrorState from "../atoms/ErrorState";
 
 const MyPostsPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds);
     const authorId = useAppSelector((state: RootState) => state.auth.user.id);
-    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({authorId, publishedOnly: false});
+    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({ authorId, publishedOnly: false });
     const [deletePosts, { isLoading: deletePostsLoading, isError: deletePostsError }] = useDeletePostsMutation();
     const { loggedIn, authChecked } = useAuthStatus();
     const [isDeleting, setIsDeleting] = useState(false);
@@ -26,11 +27,6 @@ const MyPostsPage = () => {
             navigate("/login");
         }
     }, [loggedIn, navigate, authChecked]);
-
-    const handlePostClick = (id: number) => {
-        dispatch(setPostId(id));
-        navigate(`/home/posts/${id}`);
-    };
 
     const handleEditButton = (id: number) => {
         dispatch(setPostId(id));
@@ -42,47 +38,30 @@ const MyPostsPage = () => {
     };
 
     const handleConfirmDelete = async (ids: number[]) => {
-            await deletePosts(ids).unwrap();
+        await deletePosts(ids).unwrap();
     };
 
     if (getPostsLoading || deletePostsLoading) {
         return (
-            <div className={UIstyles.loaderCenter}>
-                <span className={UIstyles.loader}></span>
-            </div>
+            <AppLoader mode="page" />
         );
     }
 
     if (getPostsError) {
         return (
-            <div className={UIstyles.componentError}>
-                <h1 className={UIstyles.error}>Failed to load posts.</h1>
-                <button className={UIstyles.ctaButton} onClick={() => window.location.reload()}>
-                    <p>Try again</p>
-                </button>
-            </div>
+            <ErrorState message='Failed to load posts.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')}  />
         );
     }
 
     if (deletePostsError) {
         return (
-            <div className={UIstyles.componentError}>
-                <h1 className={UIstyles.error}>Failed to delete selected posts.</h1>
-                <button className={UIstyles.ctaButton} onClick={() => window.location.reload()}>
-                    <p>Try again</p>
-                </button>
-            </div>
+            <ErrorState message='Failed to delete posts.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
         );
     }
 
     if (!data?.posts?.length) {
         return (
-            <div className={UIstyles.componentError}>
-                <h1>No posts available</h1>
-                <button className={UIstyles.ctaButton} onClick={() => navigate("/createPost")}>
-                    <p>Create your first post</p>
-                </button>
-            </div>
+            <ErrorState mode="normal" message="No posts available" actionLabel="Create your first post" onAction={()=> navigate('/home/createPost')} />
         );
     }
 
@@ -109,7 +88,6 @@ const MyPostsPage = () => {
                     author={post.User.username}
                     avatar_url={post.User.avatar_url}
                     editButton={() => handleEditButton(post.id)}
-                    viewButton={() => handlePostClick(post.id)}
                     isDeleting={isDeleting}
                 />
             ))}

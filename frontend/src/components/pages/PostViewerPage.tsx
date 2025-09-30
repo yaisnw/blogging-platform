@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router";
 import PostViewerTemplate from "../templates/PostViewerTemplate";
 import PostViewer from "../organisms/PostViewer";
 import { useGetPostByIdQuery, } from "@/services/postsApi";
-import styles from '@/styles/ui.module.css'
 import InteractionForm from "../organisms/CommentForm";
 import { useEffect, useState } from "react";
 import { useAddLikeMutation, useRemoveLikeMutation } from "@/services/likesApi";
@@ -10,6 +9,8 @@ import { useAddCommentMutation, useDeleteCommentMutation, useEditCommentMutation
 import type { comment } from "@/types/rtkTypes";
 import CommentCard from "../molecules/CommentCard";
 import PostHeader from "../organisms/PostHeader";
+import AppLoader from "../atoms/AppLoader";
+import ErrorState from "../atoms/ErrorState";
 
 const PostViewerPage = () => {
     const [liked, setLiked] = useState(false);
@@ -55,6 +56,7 @@ const PostViewerPage = () => {
         try {
             if (id) {
                 await addComment({ postId: Number(id), content: commentContent })
+                setCommentContent('')
             }
             else {
                 throw new Error('No postId available')
@@ -82,32 +84,17 @@ const PostViewerPage = () => {
 
     if (postLoading || commentsLoading || editCommentsLoading || commentSubmitLoading || deleteCommentsLoading) {
         return (
-            <div className={styles.loaderCenter}>
-                <span className={styles.loader}></span>
-            </div>
+            <AppLoader mode="page" />
         );
     }
     if (post?.status === 'draft') {
         return (
-            <div className={styles.pageError}>
-                <h1 className={styles.error}>This post is not completed.</h1>
-                <button onClick={() => navigate('/home/posts')} className={styles.ctaButton}>
-                    <p>View other posts</p>
-                </button>
-            </div>
+            <ErrorState message="This post is not completed." actionLabel="View other posts" onAction={() => navigate('/home/posts')} />
         )
     }
     if (!post || postError) {
         return (
-            <div className={styles.pageError}>
-                <h1 className={styles.error}>Something went wrong while fetching the post.</h1>
-                <button className={styles.ctaButton} onClick={() => window.location.reload()}>
-                    <p >Try again</p>
-                </button>
-                <button onClick={() => navigate('/home/posts')} className={styles.ctaButton}>
-                    <p>View other posts</p>
-                </button>
-            </div>
+            <ErrorState message='Something went wrong while fetching the post.' onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={() => navigate('/home/posts')} />
         )
     }
 
@@ -115,25 +102,19 @@ const PostViewerPage = () => {
     let commentsSection;
     if (commentsError || editCommentError || submitCommentError || deleteCommentError) {
         commentsSection = (
-            <div className={styles.componentError}>
-                <h1 className={styles.error}>{
-                    commentsError ? "Something went wrong while loading comments." :
-                        (editCommentError ? "Something went wrong while editing comment." :
-                            (submitCommentError ? "Something went wrong while posting the comment." :
-                                (deleteCommentError && "Something went wrong while deleting the comment.")))}</h1>
-                <button
-                    className={styles.ctaButton}
-                    onClick={() => window.location.reload()}
-                >
-                    <p>Try again</p>
-                </button>
-            </div>
+            <ErrorState mode="normal" message={
+                commentsError
+                    ? "Something went wrong while loading comments."
+                    : editCommentError
+                        ? "Something went wrong while editing comment."
+                        : submitCommentError
+                            ? "Something went wrong while posting the comment."
+                            : "Something went wrong while deleting the comment."
+            } onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={() => navigate('/home/posts')} />
         );
     } else if (!commentResponse?.comments || commentResponse.comments.length === 0) {
         commentsSection = (
-            <div>
-                <h2 className={styles.responseInfo}>There are no comments on this post</h2>
-            </div>
+            <ErrorState mode="normal" message="There are no comments on this post" />
         );
     } else {
         commentsSection = commentResponse.comments.map((comment: comment) => (
@@ -154,7 +135,7 @@ const PostViewerPage = () => {
 
     return (
         <PostViewerTemplate
-            header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} />}
+            header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} avatar_url={post.User.avatar_url} />}
             viewer={<PostViewer content={post.content} />}
             interactionBox={<InteractionForm
                 commentContent={commentContent ?? ""}

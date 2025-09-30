@@ -5,7 +5,7 @@ import { CustomError, AuthRequest } from "../index"
 import bcrypt from "bcryptjs"
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3"
 import s3 from "../s3"
-import { UniqueConstraintError } from "sequelize"
+import { Op, UniqueConstraintError } from "sequelize"
 
 export const getUser = async (
     req: Request<{ id: number }, {}, userRequestBody, {}>,
@@ -28,6 +28,36 @@ export const getUser = async (
         next(err)
     }
 }
+
+export const searchUsers = async (
+    req: Request<{}, {}, {}, { q?: string }>,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    const { q } = req.query;
+
+    if (!q || q.trim() === "") {
+        return res.status(400).json({ message: "Search query is required" });
+    }
+
+    try {
+        const users = await User.findAll({
+            where: {
+                username: { [Op.iLike]: `%${q}%` },
+            },
+            attributes: ["id", "username", "avatar_url", "email"],
+        });
+
+        return res.status(200).json(
+            users.length === 0
+                ? { message: "No users found", users: [] }
+                : { message: "Users retrieved", users }
+        );
+    } catch (err) {
+        next(err);
+    }
+};
+
 
 export const updateUser = async (
     req: AuthRequest,

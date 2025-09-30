@@ -6,12 +6,15 @@ import { persistor } from '@/store';
 import { useAuthStatus } from '@/hooks/useAuthStatus';
 import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
+import SearchBar from '../molecules/SearchBar';
 
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
     const { loggedIn, authChecked } = useAuthStatus();
     const navigate = useNavigate();
+    
+
 
     useEffect(() => {
         if (!loggedIn && authChecked) {
@@ -30,36 +33,19 @@ const NavBar = () => {
 
     return (
         <>
-
             <nav className={styles.nav}>
-                {loggedIn ? (
-                    <>
-                        <div className={styles.nav1}>
-                            <AppLink to="/home">Home</AppLink>
-                            <AppLink to="/home/posts">Posts</AppLink>
-                            <AppLink to="myPosts">My Posts</AppLink>
-                        </div>
-                        <div className={styles.nav1}>
-                            <AppLink to="/home/profile">Profile</AppLink>
-                            <AppLink to="/home/support">Support</AppLink>
-                            <a href="#" onClick={logOutHandler}>Log out</a>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className={styles.nav1}>
-                            <AppLink to="/home">Home</AppLink>
-                            <AppLink to="/home/posts">Posts</AppLink>
-                        </div>
-                        <div className={styles.nav1}>
-                            <AppLink to="/home/support">Support</AppLink>
-                            <AppLink to="/login">Log in</AppLink>
-                            <AppLink to="/signup">Get Started</AppLink>
-                        </div>
-                    </>
-                )}
+                <div className={styles.nav1}>
+                    <AppLink to="/home">Home</AppLink>
+                    <AppLink to="/home/posts">Posts</AppLink>
+                    {loggedIn && <AppLink to="myPosts">My Posts</AppLink>}
+                </div>
+                <SearchBar />
+                <div className={styles.nav1}>
+                    {loggedIn && <AppLink to="/home/profile">Profile</AppLink>}
+                    <AppLink to="/home/support">Support</AppLink>
+                    <a href="#" onClick={logOutHandler}>Log out</a>
+                </div>
             </nav>
-
             <Outlet />
         </>
     )

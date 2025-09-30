@@ -3,14 +3,14 @@ import AppImage from "../atoms/AppImage";
 import AppParagraph from "../atoms/AppParagraph";
 import styles from '../../styles/postCard.module.css'
 import UIstyles from '@/styles/ui.module.css'
-import type { MouseEventHandler } from "react";
 import { useAppDispatch } from "@/hooks";
-import { addDeletingPostIds } from "@/slices/uiSlice";
+import { addDeletingPostIds, setPostId } from "@/slices/uiSlice";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 import HeartButton from "../atoms/HeartButton";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import AppLoader from "../atoms/AppLoader";
 
 type PostCardProps = {
     postId: number,
@@ -24,16 +24,22 @@ type PostCardProps = {
     authorId?: number,
     avatar_url?: string,
     editButton?: () => void,
-    viewButton?: MouseEventHandler<HTMLButtonElement>,
     isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status, viewButton, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status,  isDeleting }) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
     const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
     const createdDate = new Date(createdAt);
     const updatedDate = new Date(updatedAt);
+
+    const handlePostClick = async (id: number) => {
+        dispatch(setPostId(id))
+        navigate(`/home/posts/${id}`)
+    }
+
 
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
         year: "numeric",
@@ -65,7 +71,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                         <HeartButton liked={hasLiked} editable={false} />
                     </div>
                     <div className={styles.engagementContent}>
-                        {isLoading ? <span className={`${UIstyles.loader} ${UIstyles.miniLoader}`} ></span> : <AppParagraph>{data?.comments.length}</AppParagraph>}
+                        {isLoading ? <AppLoader mode="mini" /> : <AppParagraph>{data?.comments.length}</AppParagraph>}
                         <AppImage className={styles.postCardImage} src="/comment.svg" alt='text box' />
                     </div>
                 </section>
@@ -88,7 +94,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                         <input checked={deletingPostIds.includes(postId)} onChange={() => handleDeleteCheck(postId)} type="checkbox" /> Delete
                     </label>}
                     {editButton && <button onClick={editButton}>Edit Post</button>}
-                    {status === 'published' && <button onClick={viewButton}>View Post</button>}
+                    {status === 'published' && <button onClick={() => handlePostClick(postId)}>View Post</button>}
                 </div>
             </div>
         </div>

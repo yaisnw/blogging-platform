@@ -21,7 +21,16 @@ export const userApi = createApi({
             query: (id) => `/${id}`,
             providesTags: (_result, _error, id) => [{ type: "User", id }],
         }),
-
+        searchUsers: build.query<{users: responseUser[], message: string}, string>({
+            query: (searchTerm) => `/search?q=${encodeURIComponent(searchTerm)}`,
+            providesTags: (result) =>
+                result
+                    ? [
+                        { type: "User", id: "LIST" },
+                        ...result.users.map((u: responseUser) => ({ type: "User" as const, id: u.id })),
+                    ]
+                    : [{ type: "User", id: "LIST" }],
+        }),
         deleteUser: build.mutation<{ msg: string }, number>({
             query: (id) => ({
                 url: `/${id}`,
@@ -62,6 +71,7 @@ export const {
     useLazyGetUserQuery,
     useDeleteUserMutation,
     useUpdateUserMutation,
+    useSearchUsersQuery,
     useChangePasswordMutation,
     useChangeAvatarMutation,
 } = userApi;

@@ -1,7 +1,6 @@
 .headerBox {
     width: 50vw;
     margin: 0 auto;
-
 }
 
 .commentInputs {
@@ -21,9 +20,7 @@
 
 .interactionFlex {
     margin: 0 auto;
-
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 2rem;
 }
@@ -33,13 +30,18 @@
     align-items: center;
     gap: 1rem;
 }
-
+.authorContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 .postTitle {
     display: flex;
     justify-content: center;
+    margin: 3rem;
 }
 .postInfo {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     gap: 5rem;
 }

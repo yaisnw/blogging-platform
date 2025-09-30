@@ -9,7 +9,6 @@
   align-items: center;
   border: none;
   padding: 1vh 2vw;
-
   background-color: white;
 }
 
@@ -24,9 +23,8 @@
   cursor: pointer;
 }
 
+/* Loader Styles */
 .loader {
-  width: 10rem;
-  height: 10rem;
   border-radius: 50%;
   display: inline-block;
   border-top: 3px solid #000000;
@@ -35,7 +33,8 @@
   animation: rotation 1s linear infinite;
 }
 
-.loaderCenter {
+/* Loader Modes */
+.loaderPageWrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -46,15 +45,27 @@
   justify-content: center;
   align-items: center;
   background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
   z-index: 9999;
 }
 
-.loaderContainer {
+.loaderNormalWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
   margin: 5rem 0;
+}
+
+.loaderMiniWrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loader Sizes */
+.loaderNormal {
+  width: 10rem;
+  height: 10rem;
 }
 
 .loaderMini {
@@ -64,13 +75,17 @@
 
 .loaderText {
   display: block;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #333;
 }
 
+/* Error + Empty States */
 .error {
   color: #DC2626;
+  text-align: center;
+  font-weight: 600;
 }
-
-
 
 .pageError {
   position: fixed;
@@ -85,37 +100,88 @@
   background: rgba(255, 255, 255, 0.5);
   z-index: 20;
 }
+
+.componentErrorWrapper {
+  width: 25vw;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+}
+
 .componentError {
   width: 25vw;
   margin: 2rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem
+  gap: 2rem;
 }
+
+/* ✅ Missing: emptyBox for EmptyState */
+.emptyBox {
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  text-align: center;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
 .ctaButton {
   cursor: pointer;
-  padding: 5px 10px;
+  padding: 0.75rem 1.5rem;
   margin: 5px 0;
   background-color: white;
   border-radius: 10px;
+  border: 1px solid #333;
+  transition: background 0.2s ease;
 }
+
+.ctaButton:hover {
+  background-color: #f3f3f3;
+}
+
+.labelButton {
+  border: 1px solid black;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
 .errorLink {
   text-decoration: underline;
-  color: rgba(0, 124, 240, 0.986)
+  color: rgba(0, 124, 240, 0.986);
 }
+
 .errorLink:hover {
   cursor: pointer;
 }
+
 .avatar {
   width: 2rem;
   height: 2rem;
 }
+
 .heartButton {
   cursor: pointer;
 }
-.responseInfo{
+
+.responseInfo {
   text-align: center;
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 @keyframes rotation {

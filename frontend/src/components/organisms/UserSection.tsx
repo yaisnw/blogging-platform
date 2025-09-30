@@ -2,7 +2,7 @@ import styles from '../../styles/home.module.css'
 import UserContent from '../molecules/UserContent'
 import AppImage from '../atoms/AppImage'
 
-const UserSection = ({}) => {
+const UserSection = () => {
     return (
         <section className={styles.contentBox}>
             <UserContent className={styles.homeContent}/>
