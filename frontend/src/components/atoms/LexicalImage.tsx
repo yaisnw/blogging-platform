@@ -6,19 +6,19 @@ import { $isImageNode, } from "@/lexicalCustom/ImageNode";
 import { useDeleteImageMutation } from "@/services/picturesApi";
 
 
-
 export default function LexicalImage({
   src,
   altText,
   nodeKey,
-  alignment
+  alignment,
 }: {
   src: string;
   altText: string;
   nodeKey: string;
-  alignment: 'left' | 'center' | 'right'
+  alignment: 'left' | 'center' | 'right';
 }) {
   const [editor] = useLexicalComposerContext();
+  const readOnly = !editor.isEditable();
   const [isSelected, setIsSelected] = useState(false);
   const [width, setWidth] = useState(300);
   const [currentAlignment, setCurrentAlignment] = useState(alignment);
@@ -37,7 +37,6 @@ export default function LexicalImage({
   }, [editor, nodeKey]);
 
   const handleDelete = async (e: React.MouseEvent) => {
-    console.log('clicked')
     e.preventDefault();
     e.stopPropagation();
     editor.update(() => {
@@ -50,7 +49,6 @@ export default function LexicalImage({
 
   const handleAlignmentChange = (newAlignment: 'left' | 'center' | 'right') => {
     setCurrentAlignment(newAlignment);
-    console.log('apply alignment', newAlignment);
     editor.update(() => {
       const node = $getNodeByKey(nodeKey);
       if ($isImageNode(node)) {
@@ -66,7 +64,7 @@ export default function LexicalImage({
     >
       <div
         className={`image-wrapper ${isSelected ? ' selected' : ''}`}
-        style={{ width }} onClick={() => setIsSelected(s => !s)}
+        style={{ width }} onClick={() => readOnly ? undefined : setIsSelected(s => !s)}
       >
         <img src={src} alt={altText} className="lexical-image" />
         {isSelected && (

@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import PostViewerTemplate from "../templates/PostViewerTemplate";
 import PostViewer from "../organisms/PostViewer";
 import { useGetPostByIdQuery, } from "@/services/postsApi";
-import InteractionForm from "../organisms/CommentForm";
+import CommentForm from "../organisms/CommentForm";
 import { useEffect, useState } from "react";
 import { useAddLikeMutation, useRemoveLikeMutation } from "@/services/likesApi";
 import { useAddCommentMutation, useDeleteCommentMutation, useEditCommentMutation, useGetCommentsByPostIdQuery } from "@/services/commentsApi";
@@ -28,7 +28,7 @@ const PostViewerPage = () => {
 
     useEffect(() => {
         if (post) {
-            setLikeCount(post.likeCount ?? 0);
+            setLikeCount(Number(post.likeCount));
             setLiked(post.hasLiked ?? false);
         }
     }, [post]);
@@ -38,7 +38,10 @@ const PostViewerPage = () => {
         const newLiked = !liked;
 
         setLiked(newLiked);
-        setLikeCount(prev => (newLiked ? prev + 1 : Math.max(0, prev - 1)));
+        setLikeCount(prev => {
+            const count = Number(prev);
+            return newLiked ? count + 1 : Math.max(0, count - 1);
+        });
 
         try {
             if (newLiked) {
@@ -48,9 +51,10 @@ const PostViewerPage = () => {
             }
         } catch {
             setLiked(!newLiked);
-            setLikeCount(post?.likeCount || 0);
+            setLikeCount(Number(post?.likeCount) || 0);
         }
     };
+
 
     const handleCommentSubmit = async (commentContent: string) => {
         try {
@@ -137,7 +141,7 @@ const PostViewerPage = () => {
         <PostViewerTemplate
             header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} avatar_url={post.User.avatar_url} />}
             viewer={<PostViewer content={post.content} />}
-            interactionBox={<InteractionForm
+            interactionBox={<CommentForm
                 commentContent={commentContent ?? ""}
                 setCommentContent={setCommentContent}
                 submitComment={handleCommentSubmit}

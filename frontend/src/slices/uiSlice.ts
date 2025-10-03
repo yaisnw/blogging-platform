@@ -1,17 +1,19 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
-interface uiSlice {
+interface UiState {
   postId: number
   deletingPostIds: number[]
   tabState: "posts" | "comments" | "users"
   searchQuery: string
+  imageUploading: boolean
 }
 
-const initialState: uiSlice = {
+const initialState: UiState = {
   postId: 0,
   deletingPostIds: [],
   tabState: "posts",
   searchQuery: "",
+  imageUploading: false,
 }
 
 const uiSlice = createSlice({
@@ -40,6 +42,9 @@ const uiSlice = createSlice({
     clearSearchQuery: (state) => {
       state.searchQuery = ""
     },
+    setImageUploading: (state, action: PayloadAction<boolean>) => {
+      state.imageUploading = action.payload
+    },
   },
 })
 
@@ -49,5 +54,8 @@ export const {
   setTabState,
   setSearchQuery,
   clearSearchQuery,
+  setImageUploading
 } = uiSlice.actions
 export default uiSlice.reducer
+
+export type { UiState };

@@ -15,6 +15,8 @@ import { ImageNode } from "@/lexicalCustom/ImageNode";
 import { ParagraphNode, RootNode, TextNode, type EditorState } from "lexical";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import ContentPlugin from "@/lexicalCustom/ContentPlugin";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 
 type Props = {
   title: string;
@@ -49,7 +51,6 @@ function onError(error: Error) {
   console.error(error);
 }
 
-
 const Editor: React.FC<Props> = ({
   title,
   status,
@@ -60,12 +61,13 @@ const Editor: React.FC<Props> = ({
   onEditorChange,
   onSubmit,
 }) => {
+  const loading = useSelector((state: RootState) => state.ui.imageUploading)
   
   const initialConfig = {
     namespace: "MyEditor",
     theme,
     onError,
-    nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode],
+    nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode, ],
   };
 
   const handleChangeEditor = (editorState: EditorState) => {
@@ -84,7 +86,7 @@ const Editor: React.FC<Props> = ({
           value={title}
           required
           onChange={(e) => onTitleChange(e.target.value)}
-          
+
         />
         <button type="button" className="submit-button" onClick={onSubmit}>
           {isUpdating ? "Update" : "Submit"}
@@ -101,7 +103,7 @@ const Editor: React.FC<Props> = ({
         </label>
       </form>
 
-      <div className="editor-container">
+      <div className="editor-container" style={{pointerEvents: loading ? 'none' : 'auto'}}>
         <RichTextPlugin contentEditable={<ContentEditable className="editor" />} ErrorBoundary={LexicalErrorBoundary} />
       </div>
 

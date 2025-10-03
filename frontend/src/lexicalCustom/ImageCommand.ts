@@ -1,9 +1,10 @@
 import { createCommand } from "lexical";
 
-type InsertImagePayload = {
-    src: string;
-    alt?: string;
+export type InsertImagePayload = {
+  file?: File;       
+  src?: string;      
+  alt?: string;
+  alignment?: "left" | "center" | "right";
 };
 
-
-export const INSERT_IMAGE_COMMAND = createCommand<InsertImagePayload>("INSERT_IMAGE_COMMAND");
+export const INSERT_IMAGE_COMMAND = createCommand<InsertImagePayload>();

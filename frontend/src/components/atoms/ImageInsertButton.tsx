@@ -1,22 +1,24 @@
-import { INSERT_IMAGE_COMMAND } from "@/lexicalCustom/ImageCommand";
 import { useUploadImageMutation } from "@/services/picturesApi";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getNodeByKey, $getSelection, $insertNodes, $isRangeSelection, $setSelection, type RangeSelection } from "lexical";
+import { $getSelection, $isRangeSelection, $setSelection, type BaseSelection } from "lexical";
 import '@/styles/editor.css'
 import { useCreatePostMutation } from "@/services/postsApi";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useAppDispatch } from "@/hooks";
-import { setPostId } from "@/slices/uiSlice";
-import { $createLoaderNode } from "@/lexicalCustom/LoaderNode";
+import { setImageUploading, setPostId } from "@/slices/uiSlice";
 import ErrorState from "./ErrorState";
+import { INSERT_IMAGE_COMMAND } from "@/lexicalCustom/ImageCommand";
+import AppLoader from "./AppLoader";
+import { createPortal } from "react-dom";
 
 function ImageInsertButton() {
     const dispatch = useAppDispatch();
     const postId = useSelector((state: RootState) => state.ui.postId)
     const [editor] = useLexicalComposerContext();
-    const [createPost, {  error: submitError }] = useCreatePostMutation();
-    const [uploadImage, {  error: imageError }] = useUploadImageMutation();
+    const [createPost, { error: submitError }] = useCreatePostMutation();
+    const [uploadImage, { error: imageError }] = useUploadImageMutation();
+    const loading = useSelector((state: RootState) => state.ui.imageUploading)
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         editor.focus();
@@ -27,26 +29,12 @@ function ImageInsertButton() {
             alert("Please upload an image file");
             return;
         }
-
-        let savedSelection: RangeSelection | null = null;
-
+        let savedSelection: BaseSelection | undefined = undefined;
         editor.update(() => {
-            const selection = $getSelection();
-            if ($isRangeSelection(selection)) {
-                savedSelection = selection.clone();
-            }
-        });
+            savedSelection = $getSelection()?.clone();
 
-        let loaderKey: string | null = null;
-        editor.update(() => {
-            if (savedSelection) {
-                $setSelection(savedSelection);
-            }
-            const loaderNode = $createLoaderNode();
-            $insertNodes([loaderNode]);
-            loaderKey = loaderNode.getKey();
-        });
-
+        })  
+        dispatch(setImageUploading(true))
         try {
             let postIdValue = postId;
             if (!postIdValue) {
@@ -63,22 +51,19 @@ function ImageInsertButton() {
             formData.append('image', file);
             formData.append('postId', postIdValue.toString());
             const response = await uploadImage(formData).unwrap();
-                
-            editor.update(() => {
-                if (loaderKey) {
-                    const loaderNode = $getNodeByKey(loaderKey);
-                    if (loaderNode) {
-                        loaderNode.remove();
+            editor.focus(() => {
+                editor.update(() => {
+                    if ($isRangeSelection(savedSelection)) {
+                        $setSelection(savedSelection)
+                        editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                            src: response,
+                            alt: file.name,
+                        });
                     }
-                }
-                if (savedSelection) {
-                    $setSelection(savedSelection);
-                }
-                editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                    src: response,
-                    alt: file.name,
                 });
-            });
+            })
+
+            dispatch(setImageUploading(false))
         } catch (err) {
             console.error(err);
         }
@@ -93,18 +78,12 @@ function ImageInsertButton() {
             </label>
 
             {(submitError || imageError) && <ErrorState message="failed to add image" />}
+            {loading && createPortal(
+                <AppLoader mode="page" />,
+                document.body
+            )}
         </div>
     )
 }
 export default ImageInsertButton
 
-
-
-
-
-
-
-
-
-
-// find new method of image uploading that doesnt rely on an existent postId

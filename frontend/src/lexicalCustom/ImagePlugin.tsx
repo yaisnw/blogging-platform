@@ -5,23 +5,23 @@ import { $createImageNode } from "./ImageNode";
 import { INSERT_IMAGE_COMMAND } from "./ImageCommand";
 
 export function ImagePlugin() {
-    const [editor] = useLexicalComposerContext();
+  const [editor] = useLexicalComposerContext();
 
-    useEffect(() => {
+  useEffect(() => {
     return editor.registerCommand(
       INSERT_IMAGE_COMMAND,
       ({ src, alt }) => {
-        const imageNode = $createImageNode(src, alt ?? "");
-        const selection = $getSelection();
-
-        if ($isRangeSelection(selection)) {
-          selection.insertNodes([imageNode]);
-
+        editor.update(() => {
+          const imageNode = $createImageNode(src ?? "", alt ?? "");
           const paragraphNode = $createParagraphNode();
-          imageNode.insertAfter(paragraphNode);
+          const selection = $getSelection();
 
-          paragraphNode.select();
-        }
+          if ($isRangeSelection(selection)) {
+            selection.insertNodes([imageNode, paragraphNode]);
+
+            paragraphNode.select();
+          }
+        });
 
         return true;
       },
@@ -29,5 +29,5 @@ export function ImagePlugin() {
     );
   }, [editor]);
 
-    return null;
+  return null;
 }

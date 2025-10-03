@@ -2,9 +2,9 @@ import styles from '@/styles/ui.module.css';
 
 type LoaderMode = "page" | "normal" | "mini";
 
-interface AppLoaderProps {
+type AppLoaderProps = {
     mode?: LoaderMode;
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 const AppLoader = ({ mode = "normal" }: AppLoaderProps) => {
     if (mode === "page") {

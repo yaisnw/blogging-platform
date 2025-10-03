@@ -12,6 +12,7 @@
 .commentText {
     width: 30vw;
     height: 10vh;
+    padding: 1rem;
 }
 
 .commentButton {
@@ -21,6 +22,7 @@
 .interactionFlex {
     margin: 0 auto;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 2rem;
 }
