@@ -11,6 +11,8 @@ import CommentCard from "../molecules/CommentCard";
 import PostHeader from "../organisms/PostHeader";
 import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
+import SEO from "../atoms/SEO";
+import { PlainTextFromEditorState } from "@/utils/plainTextFromEditorState";
 
 const PostViewerPage = () => {
     const [liked, setLiked] = useState(false);
@@ -138,6 +140,8 @@ const PostViewerPage = () => {
 
 
     return (
+        <>
+        <SEO title={post.title ? post.title : 'Post Viewer'} description={post.content ? PlainTextFromEditorState(post.content).slice(0, 150) : 'View any post'} author={post.User.username}/>
         <PostViewerTemplate
             header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} avatar_url={post.User.avatar_url} />}
             viewer={<PostViewer content={post.content} />}
@@ -148,6 +152,7 @@ const PostViewerPage = () => {
             />}
             comments={commentsSection}
         />
+        </>
     );
 };
 

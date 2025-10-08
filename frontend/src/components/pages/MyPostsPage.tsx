@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { useAuthStatus } from "@/hooks/useAuthStatus";
 import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
+import SEO from "../atoms/SEO";
 
 const MyPostsPage = () => {
     const dispatch = useAppDispatch();
@@ -66,6 +67,8 @@ const MyPostsPage = () => {
     }
 
     return (
+        <>
+        <SEO title="My Posts" description="Manage and view your own posts." />
         <MyPostsTemplate
             panel={
                 <PostPanel
@@ -91,7 +94,7 @@ const MyPostsPage = () => {
                     isDeleting={isDeleting}
                 />
             ))}
-        />
+        /></>
     );
 };
 

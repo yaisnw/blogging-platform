@@ -11,16 +11,16 @@ import { likesApi } from './services/likesApi';
 import { userApi } from './services/userApi';
 import type { UiState } from './slices/uiSlice';
 
-//only select postId to rehydrate
 const uiTransform = createTransform<UiState, Partial<UiState>>(
   (inboundState) => ({
     postId: inboundState.postId,
+    searchQuery: inboundState.searchQuery
   }),
   (outboundState) => ({
     postId: outboundState.postId ?? 0,
     deletingPostIds: [],
     tabState: "posts",
-    searchQuery: "",
+    searchQuery: outboundState.searchQuery ?? "",
     imageUploading: false,
   }),
   { whitelist: ["ui"] }

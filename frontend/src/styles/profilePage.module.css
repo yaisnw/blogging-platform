@@ -4,8 +4,10 @@
 }
 
 .profileCard {
+    width: 20vw;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 5rem;
     gap: 5rem;
 }

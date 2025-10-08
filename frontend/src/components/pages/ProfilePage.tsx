@@ -16,6 +16,7 @@ import { useAuthForm } from "@/hooks/useAuthForm"
 import PublicProfileCard from "../organisms/PublicProfileCard"
 import AppLoader from "../atoms/AppLoader"
 import ErrorState from "../atoms/ErrorState"
+import SEO from "../atoms/SEO"
 
 
 const ProfilePage = () => {
@@ -170,36 +171,39 @@ const ProfilePage = () => {
 
 
     return (
-        <ProfileTemplate
-            profileCard={user.id === Number(id) || !Number(id) ?
-                <ProfileCard
-                    username={activeUser?.username}
-                    email={activeUser?.email}
-                    password={Number(id) === user?.id ? currentUser?.password : undefined}
-                    avatar_url={activeUser?.avatar_url}
-                    formData={formData}
-                    passwordForm={passwordForm}
-                    avatarLoading={avatarLoading}
-                    updateUserLoading={updateUserLoading}
-                    changePasswordLoading={changePasswordLoading}
-                    updateUserError={updateUserError && updateUserError}
-                    changePasswordError={changePasswordError}
-                    handleImageInputChange={handleImageInputChange}
-                    handleTextInputChange={handleChange}
-                    handlePasswordInputChange={handlePasswordInputChange}
-                    updateUser={handleUpdateUser}
-                    changePassword={handleChangePassword}
-                /> :
-                <PublicProfileCard
-                    id={activeUser?.id}
-                    username={activeUser?.username}
-                    email={activeUser?.email}
-                    avatar_url={activeUser?.avatar_url}
-                />
-            }
-            tabPanel={<TabPanel mode="profile" />}
-            tabContent={contentTab}
-        />
+        <>
+            <SEO title="Profile"  description={`View ${activeUser.username}'s profile to explore their activity.`} />
+            <ProfileTemplate
+                profileCard={user.id === Number(id) || !Number(id) ?
+                    <ProfileCard
+                        username={activeUser?.username}
+                        email={activeUser?.email}
+                        password={Number(id) === user?.id ? currentUser?.password : undefined}
+                        avatar_url={activeUser?.avatar_url}
+                        formData={formData}
+                        passwordForm={passwordForm}
+                        avatarLoading={avatarLoading}
+                        updateUserLoading={updateUserLoading}
+                        changePasswordLoading={changePasswordLoading}
+                        updateUserError={updateUserError && updateUserError}
+                        changePasswordError={changePasswordError}
+                        handleImageInputChange={handleImageInputChange}
+                        handleTextInputChange={handleChange}
+                        handlePasswordInputChange={handlePasswordInputChange}
+                        updateUser={handleUpdateUser}
+                        changePassword={handleChangePassword}
+                    /> :
+                    <PublicProfileCard
+                        id={activeUser?.id}
+                        username={activeUser?.username}
+                        email={activeUser?.email}
+                        avatar_url={activeUser?.avatar_url}
+                    />
+                }
+                tabPanel={<TabPanel mode="profile" />}
+                tabContent={contentTab}
+            />
+        </>
     )
 
 }

@@ -8,6 +8,7 @@ import type { RootState } from "../../store";
 import AuthTemplate from "../templates/AuthTemplate";
 import { useAppDispatch } from "@/hooks";
 import { setTokenData } from "@/slices/authSlice";
+import SEO from "../atoms/SEO";
 
 export type ErrorResponse = { message: string };
 
@@ -52,6 +53,7 @@ const LoginPage = () => {
 
     return (
         <AuthTemplate>
+            <SEO title="Login" description="Log in to your account to manage your own posts" />
             {justRegistered && <div>You have signed up!</div>}
             <AuthForm
                 mode="login"

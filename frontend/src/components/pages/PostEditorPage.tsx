@@ -9,6 +9,8 @@ import { setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
 import { setPostId } from "@/slices/uiSlice";
 import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
+import SEO from "../atoms/SEO";
+import { PlainTextFromEditorState } from "@/utils/plainTextFromEditorState";
 
 const PostEditorPage = () => {
   const dispatch = useDispatch();
@@ -66,12 +68,13 @@ const PostEditorPage = () => {
 
   if (createPostError || updatePostError) {
     return (
-      <ErrorState message='Something went wrong while uploading the post.' onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={()=> navigate('/home/posts')} />
+      <ErrorState message='Something went wrong while uploading the post.' onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={() => navigate('/home/posts')} />
     )
   }
 
   return (
     <PostEditorTemplate>
+      <SEO title={title ? title : 'Post Editor'} description={content ? PlainTextFromEditorState(content).slice(0, 150) : 'Create or edit your post'} />
       <Editor
         title={title}
         status={status}

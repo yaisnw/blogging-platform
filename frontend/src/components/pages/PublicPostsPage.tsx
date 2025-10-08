@@ -6,6 +6,7 @@ import { useNavigate } from "react-router"
 import type { blogPost } from "@/types/rtkTypes"
 import AppLoader from "../atoms/AppLoader"
 import ErrorState from "../atoms/ErrorState"
+import SEO from "../atoms/SEO"
 
 const PublicPostsPage = () => {
     const { data, isLoading, isError } = useGetPublishedPostsQuery();
@@ -28,22 +29,25 @@ const PublicPostsPage = () => {
     }
 
     return (
-        <PublicPostsTemplate cards={data?.posts.map(
-            (post: blogPost) =>
-                <PostCard
-                    key={post.id}
-                    postId={post.id}
-                    title={post.title}
-                    likeCount={post.likeCount}
-                    hasLiked={post.hasLiked}
-                    createdAt={post.createdAt}
-                    updatedAt={post.updatedAt}
-                    status={post.status}
-                    authorId={post.authorId}
-                    author={post.User.username}
-                    avatar_url={post.User.avatar_url}
-                />
-        ) || []} />
+        <>
+            <SEO title="Public posts" description="Explore the latest posts by other writers." />
+            <PublicPostsTemplate cards={data?.posts.map(
+                (post: blogPost) =>
+                    <PostCard
+                        key={post.id}
+                        postId={post.id}
+                        title={post.title}
+                        likeCount={post.likeCount}
+                        hasLiked={post.hasLiked}
+                        createdAt={post.createdAt}
+                        updatedAt={post.updatedAt}
+                        status={post.status}
+                        authorId={post.authorId}
+                        author={post.User.username}
+                        avatar_url={post.User.avatar_url}
+                    />
+            ) || []} />
+        </>
     )
 }
 

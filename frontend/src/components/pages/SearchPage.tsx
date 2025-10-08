@@ -11,6 +11,7 @@ import { useSearchPostsQuery } from "@/services/postsApi"
 import { useSearchUsersQuery } from "@/services/userApi"
 import AppLoader from "../atoms/AppLoader"
 import ErrorState from "../atoms/ErrorState"
+import SEO from "../atoms/SEO"
 
 const SearchPage = () => {
     const navigate = useNavigate();
@@ -41,23 +42,24 @@ const SearchPage = () => {
         (tabState === "users" && (!usersResponse?.users || usersResponse?.users.length === 0))
     ) {
         contentTab = (
-             <ErrorState mode="normal" message={`There are no ${tabState === "posts" ? "posts" : "users"} matching  '${searchQuery}'`}  />
+            <ErrorState mode="normal" message={`There are no ${tabState === "posts" ? "posts" : "users"} matching  '${searchQuery}'`} />
         )
     } else {
         contentTab =
             tabState === "posts" ? (
                 postsResponse?.posts.map((post: blogPost) => (
                     <PostCard
-                        key={post.id}
-                        postId={post.id}
-                        title={post.title}
-                        likeCount={post.likeCount}
-                        hasLiked={post.hasLiked}
-                        createdAt={post.createdAt}
-                        updatedAt={post.updatedAt}
-                        status={post.status}
-
-                    />
+                    key={post.id}
+                    postId={post.id}
+                    title={post.title || "This is an incomplete draft."}
+                    likeCount={post.likeCount}
+                    hasLiked={post.hasLiked}
+                    createdAt={post.createdAt}
+                    updatedAt={post.updatedAt}
+                    status={post.status}
+                    author={post.User.username}
+                    avatar_url={post.User.avatar_url}
+                />
                 ))
             ) : (
                 usersResponse?.users.map((user: responseUser) => (
@@ -73,10 +75,17 @@ const SearchPage = () => {
     }
 
     return (
-        <SearchPageTemplate
-            tabPanel={<TabPanel mode="search" />}
-            tabContent={contentTab}
-        />
+        <>
+            <SEO
+                title={`Search: ${searchQuery}`}
+                description={`Results for '${searchQuery}' on MyBlog. Discover posts and articles matching your search.`}
+            />
+
+            <SearchPageTemplate
+                tabPanel={<TabPanel mode="search" />}
+                tabContent={contentTab}
+            />
+        </>
     )
 }
 

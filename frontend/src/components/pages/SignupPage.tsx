@@ -8,6 +8,7 @@ import { setJustRegistered } from "@/slices/authSlice";
 import { useGoogleLogin } from "@react-oauth/google";
 import type { AppDispatch } from "../../store";
 import type { ErrorResponse } from "./LoginPage";
+import SEO from "../atoms/SEO";
 
 const SignupPage = () => {
     const navigate = useNavigate();
@@ -56,6 +57,7 @@ const SignupPage = () => {
 
     return (
         <AuthTemplate>
+            <SEO title="Signup" description="Create an account today to start making your personal blog posts." />
             <AuthForm
                 mode="signup"
                 formData={formData}

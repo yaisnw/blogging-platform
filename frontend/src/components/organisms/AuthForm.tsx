@@ -31,7 +31,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   return (
     <div>
       {isLoading && 
-      <AppLoader />}
+      <AppLoader mode='page' />}
       <AppButton
         imageSrc='/google.svg'
         className={styles.googleContainer}
