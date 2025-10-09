@@ -12,7 +12,7 @@ const AppButton: React.FC<AppButtonProps> = ({ imageContainer, imageClass, image
         <button {...props}>
             {imageSrc ? 
                 <div className={imageContainer}>
-                    <img src={imageSrc} alt={alt} className={imageClass} />
+                    <img loading="lazy" src={imageSrc} alt={alt} className={imageClass} />
                     <p>Login with Google</p>
                 </div>
              : children}

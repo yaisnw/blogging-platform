@@ -82,7 +82,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 {author &&
                     <div className={styles.authorBox} >
                         <p>By <Link to={`/home/profile/${authorId}`} >{author}</Link></p>
-                        <img className={UIstyles.avatar} src={avatar_url} alt="default avatar" />
+                        <img loading="lazy" className={UIstyles.avatar} src={avatar_url} alt="default avatar" />
                     </div>
                 }
 

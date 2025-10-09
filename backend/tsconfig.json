@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "typeRoots": [
       "./src/types",
-      "./node_modules/@types"
+      "./node_modules/@types",
+      "./types"
     ],
     "types": [
       "node",
@@ -22,6 +23,8 @@
     "src",
     "types",
     "controllers",
-    "routes"
+    "routes",
+    "types/**/*.d.ts",
+    "**/*.ts"
   ]
 }

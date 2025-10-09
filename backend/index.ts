@@ -1,16 +1,19 @@
-import express, {  NextFunction, Request, Response } from "express";
+/// <reference path="./types/xss-clean.d.ts" />
+import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import sequelize from "./sequelize/connection";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import postRouter from "./routes/post";
-import session from "express-session";
 import { initModels } from "./sequelize/models/index";
 import commentRouter from "./routes/comment";
 import pictureRouter from "./routes/picture";
 import cors from "cors"
 import jwt from "jsonwebtoken"
 import likeRouter from "./routes/like";
+import { authLimiter, apiLimiter } from "./middleware/rateLimiter"
+import helmet from "helmet";
+import xss from "xss-clean";
 
 export interface CustomError extends Error {
   status: number;
@@ -36,7 +39,6 @@ dotenv.config();
 
 const app = express();
 
-
 const PORT = process.env.PORT || 3000;
 
 app.use(cors(
@@ -45,6 +47,11 @@ app.use(cors(
     credentials: true
   }
 ))
+
+app.use(helmet()); 
+app.use(xss()); 
+app.use(express.json());
+app.use(apiLimiter)
 
 export const verifyJWT = (
   req: AuthRequest,
@@ -68,8 +75,8 @@ export const verifyJWT = (
   }
 };
 
-app.use(express.json());
-app.use('/auth', authRouter);
+
+app.use('/auth', authLimiter, authRouter);
 app.use('/user', verifyJWT, userRouter);
 app.use('/post', verifyJWT, postRouter);
 app.use('/comment', verifyJWT, commentRouter);
@@ -81,7 +88,7 @@ app.use((
   res: Response,
   next: NextFunction
 ) => {
-  res.status(err.status || 400).send({message: err.message, payload: err.payload})
+  res.status(err.status || 400).send({ message: err.message, payload: err.payload })
 })
 
 app.get("/", (req: Request, res: Response) => {
