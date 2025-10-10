@@ -12,7 +12,7 @@ import PostHeader from "../organisms/PostHeader";
 import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
-import { PlainTextFromEditorState } from "@/utils/plainTextFromEditorState";
+import { PlainTextFromEditorState } from "@/utils/PlainTextFromEditorState";
 
 const PostViewerPage = () => {
     const [liked, setLiked] = useState(false);

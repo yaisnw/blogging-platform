@@ -7,6 +7,7 @@ import { useAuthStatus } from '@/hooks/useAuthStatus';
 import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
 import SearchBar from '../molecules/SearchBar';
+import AppButton from '../atoms/AppButton';
 
 
 const NavBar = () => {
@@ -43,7 +44,7 @@ const NavBar = () => {
                 <div className={styles.nav1}>
                     {loggedIn && <AppLink to="/home/profile">Profile</AppLink>}
                     <AppLink to="/home/support">Support</AppLink>
-                    <a href="#" onClick={logOutHandler}>Log out</a>
+                    <AppButton  onClick={logOutHandler}>Log out</AppButton>
                 </div>
             </nav>
             <Outlet />

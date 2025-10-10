@@ -1,17 +1,17 @@
 type ProfileTemplateProps = {
-    profileCard: React.ReactNode,
-    tabPanel: React.ReactNode,
-    tabContent: React.ReactNode,
-}
+    profileCard: React.ReactNode;
+    tabPanel: React.ReactNode;
+    tabContent: React.ReactNode;
+};
 
-const ProfileTemplate: React.FC<ProfileTemplateProps> = ({profileCard, tabPanel, tabContent}) => {
+const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ profileCard, tabPanel, tabContent }) => {
     return (
-        <div>
+        <main>
             {profileCard}
-            {tabPanel}
-            {tabContent}
+            <nav>{tabPanel}</nav>
+            <section>{tabContent}</section>
+        </main>
+    );
+};
 
-        </div>
-    )
-}
-export default ProfileTemplate
+export default ProfileTemplate;

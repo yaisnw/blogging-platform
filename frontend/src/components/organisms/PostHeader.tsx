@@ -17,7 +17,7 @@ type Props = {
 
 const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId, author, avatar_url }) => {
     return (
-        <div className={styles.headerBox} >
+        <header className={styles.headerBox} >
             <AppHeader className={styles.postTitle}>{title}</AppHeader>
             <div className={styles.postInfo}>
                 <div className={styles.heartContainer} >
@@ -29,7 +29,7 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
                     <AppImage src={avatar_url} className={UIstyles.avatar} />
                 </div>
             </div>
-        </div>
+        </header>
     )
 }
 

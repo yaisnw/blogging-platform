@@ -41,37 +41,68 @@ const CommentCard: React.FC<CommentCardProps> = ({
         day: "numeric",
     });
     return (
-        <div className={styles.commentCard}>
-            <div className={styles.authorBox}>
-                <AppImage className={UIstyles.avatar} src={avatar_url} />
-                <h3>{username}</h3>
-            </div>
+        <article className={styles.commentCard} aria-labelledby={`comment-${commentId}-author`}>
+            <header className={styles.authorBox}>
+                <AppImage className={UIstyles.avatar} src={avatar_url} alt={`${username} avatar`} />
+                <h3 id={`comment-${commentId}-author`}>{username}</h3>
+            </header>
+
             <div className={styles.commentBody}>
-                {
-                    isEditing
-                        ?
-                        <div className={styles.editBox} >
-                            <AppTextArea value={editContent} onChange={(e) => {
-                                setEditContent(e.target.value)
-                                e.currentTarget.style.height = "auto"; 
+                {isEditing ? (
+                    <form
+                        className={styles.editBox}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            if (editComment) editComment(editContent, commentId);
+                            setIsEditing(false);
+                        }}
+                    >
+                        <AppTextArea
+                            value={editContent}
+                            onChange={(e) => {
+                                setEditContent(e.target.value);
+                                e.currentTarget.style.height = "auto";
                                 e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
-                            }} className={styles.commentTextArea} name="comment" />
+                            }}
+                            className={styles.commentTextArea}
+                            name="comment"
+                            aria-label="Edit comment"
+                        />
+                        <div className={styles.editActions}>
+                            <AppButton type="submit">Submit</AppButton>
+                            <AppButton type="button" onClick={() => setIsEditing(false)}>
+                                Cancel
+                            </AppButton>
                         </div>
-                        :
-                        <p >{content}</p>
-                }
+                    </form>
+                ) : (
+                    <p>{content}</p>
+                )}
             </div>
-            <div className={styles.footer}>
-                <p className={styles.commentDate}>{formattedCreatedAt}</p>
-                {createdAt !== updatedAt && <p className={styles.commentDate}>Edited: {formattedUpdatedAt}</p>}
+
+            <footer className={styles.footer}>
+                <time className={styles.commentDate} dateTime={new Date(createdAt).toISOString()}>
+                    {formattedCreatedAt}
+                </time>
+                {createdAt !== updatedAt && (
+                    <time className={styles.commentDate} dateTime={new Date(updatedAt).toISOString()}>
+                        Edited: {formattedUpdatedAt}
+                    </time>
+                )}
                 <div className={styles.interactionBox}>
-                    {!isEditing && <button onClick={() => setIsEditing(true)} >Edit</button>}
-                    {(!isEditing && deleteComment) && <button onClick={() => deleteComment(commentId)} >Delete</button>}
-                    {isEditing && <button onClick={() => setIsEditing(false)} >Cancel</button>}
-                    {(isEditing && editComment) && <AppButton onClick={() => editComment(editContent, commentId)} className={styles.commentButton} >Submit</AppButton>}
+                    {!isEditing && (
+                        <button type="button" onClick={() => setIsEditing(true)}>
+                            Edit
+                        </button>
+                    )}
+                    {!isEditing && deleteComment && (
+                        <button type="button" onClick={() => deleteComment(commentId)}>
+                            Delete
+                        </button>
+                    )}
                 </div>
-            </div>
-        </div>
+            </footer>
+        </article>
     );
 };
 

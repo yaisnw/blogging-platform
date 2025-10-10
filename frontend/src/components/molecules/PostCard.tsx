@@ -29,7 +29,7 @@ type PostCardProps = {
     isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status,  isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status, isDeleting }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
@@ -40,7 +40,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     const handlePostClick = async (title: string, id: number) => {
         dispatch(setPostId(id))
         dispatch(setDraftTitle(title))
-        navigate(`/home/posts/${id}/${slugify(title, {lower: true, strict: true})}`)
+        navigate(`/home/posts/${id}/${slugify(title, { lower: true, strict: true })}`)
     }
 
 
@@ -62,46 +62,71 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     }
 
     return (
-        <div className={styles.postCard} >
-            <AppHeader className={styles.title}>
-                {title}
-            </AppHeader>
-            <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge} >{status?.charAt(0).toUpperCase() + status.slice(1)}</span>
-            <section className={styles.postMeta} >
-                <section className={styles.engagementBox}>
+        <article className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
+            <header>
+                <AppHeader id={`post-${postId}-title`} className={styles.title}>
+                    {title}
+                </AppHeader>
+                <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
+                    {status?.charAt(0).toUpperCase() + status.slice(1)}
+                </span>
+            </header>
+
+            <section className={styles.postMeta} aria-label="Post meta">
+                <div className={styles.engagementBox}>
                     <div className={styles.engagementContent}>
                         <AppParagraph>{likeCount}</AppParagraph>
                         <HeartButton liked={hasLiked} editable={false} />
                     </div>
+
                     <div className={styles.engagementContent}>
-                        {isLoading ? <AppLoader mode="mini" /> : <AppParagraph>{data?.comments.length}</AppParagraph>}
-                        <AppImage className={styles.postCardImage} src="/comment.svg" alt='text box' />
+                        {isLoading ? <AppLoader mode="mini" /> : <AppParagraph>{data?.comments.length ?? 0}</AppParagraph>}
+                        <AppImage className={styles.postCardImage} src="/comment.svg" alt="comment icon" />
                     </div>
-                </section>
+                </div>
 
-                {author &&
-                    <div className={styles.authorBox} >
-                        <p>By <Link to={`/home/profile/${authorId}`} >{author}</Link></p>
-                        <img loading="lazy" className={UIstyles.avatar} src={avatar_url} alt="default avatar" />
+                {author && (
+                    <div className={styles.authorBox}>
+                        <p>
+                            By <Link to={`/home/profile/${authorId}`}>{author}</Link>
+                        </p>
+                        <img loading="lazy" className={UIstyles.avatar} src={avatar_url} alt={`${author} avatar`} />
                     </div>
-                }
-
+                )}
             </section>
-            <div className={styles.cardFooter} >
-                <div className={styles.footerDate} >
-                    <p>Created: {formattedCreatedAt}</p>
-                    {isEdited && <p>Updated: {formattedUpdatedAt}</p>}
+
+            <footer className={styles.cardFooter}>
+                <div className={styles.footerDate}>
+                    <time dateTime={new Date(createdAt).toISOString()}>Created: {formattedCreatedAt}</time>
+                    {isEdited && <time dateTime={new Date(updatedAt).toISOString()}>Updated: {formattedUpdatedAt}</time>}
                 </div>
-                <div className={styles.interactionBox} >
-                    {isDeleting && <label>
-                        <input checked={deletingPostIds.includes(postId)} onChange={() => handleDeleteCheck(postId)} type="checkbox" /> Delete
-                    </label>}
-                    {editButton && <button onClick={editButton}>Edit Post</button>}
-                    {status === 'published' && <button onClick={() => handlePostClick(title, postId)}>View Post</button>}
+
+                <div className={styles.interactionBox}>
+                    {isDeleting && (
+                        <label>
+                            <input
+                                checked={deletingPostIds.includes(postId)}
+                                onChange={() => handleDeleteCheck(postId)}
+                                type="checkbox"
+                                aria-label="Select post for deletion"
+                            />{" "}
+                            Delete
+                        </label>
+                    )}
+                    {editButton && (
+                        <button type="button" onClick={editButton}>
+                            Edit Post
+                        </button>
+                    )}
+                    {status === 'published' && (
+                        <button type="button" onClick={() => handlePostClick(title, postId)}>
+                            View Post
+                        </button>
+                    )}
                 </div>
-            </div>
-        </div>
-    )
+            </footer>
+        </article>
+    );
 }
 
 export default PostCard;

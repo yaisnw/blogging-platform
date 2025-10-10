@@ -3,6 +3,7 @@ import AppButton from '../atoms/AppButton';
 import styles from '../../styles/ui.module.css';
 import AppLoader from '../atoms/AppLoader';
 import ErrorMessage from '../atoms/ErrorState';
+import AppLink from '../atoms/AppLink';
 
 type AuthFormProps = {
   mode: "login" | "signup";
@@ -30,8 +31,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
   return (
     <div>
-      {isLoading && 
-      <AppLoader mode='page' />}
+      {isLoading &&
+        <AppLoader mode='page' />}
       <AppButton
         imageSrc='/google.svg'
         className={styles.googleContainer}
@@ -79,7 +80,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           <>
             {errors.confirmPassword && <ErrorMessage message={errors.confirmPassword} />}
             {errors.confirmPasswordMatch && (
-             <ErrorMessage message={errors.confirmPasswordMatch} />
+              <ErrorMessage message={errors.confirmPasswordMatch} />
             )}
             <AuthField
               name="confirmPassword"
@@ -96,6 +97,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           {mode === "login" ? "Log in" : "Sign up"}
         </AppButton>
       </form>
+      <AppLink to={mode === 'login' ? '/login' : '/signup'}>No account? Sign up here.</AppLink>
     </div>
   );
 };

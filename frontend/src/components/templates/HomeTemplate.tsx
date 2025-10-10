@@ -4,14 +4,12 @@ type HomeTemplateProps = {
   children: React.ReactNode;
 };
 
-const HomeTemplate: React.FC<HomeTemplateProps> = ({children, ...props}) => {
-    return (
-        <div>
-            <div {...props}>
-                {children}
-            </div>
-        </div>
-    )
-}
+const HomeTemplate: React.FC<HomeTemplateProps> = ({ children, ...props }) => {
+  return (
+    <main {...props}>
+      {children}
+    </main>
+  );
+};
 
 export default HomeTemplate;

@@ -12,21 +12,21 @@ const Footer = () => {
         else {
             setLoggedIn(false)
         }
-    })
+    }, [setLoggedIn])
 
     return (
         <footer className={styles.footer}>
             <nav className={styles.navSection}>
-                <div className={styles.linkGroupLeft}>
-                    <AppLink to="/home">Home</AppLink>
-                    <AppLink to="/blogs">Blogs</AppLink>
-                    {loggedIn ? <AppLink to="/profile">Profile</AppLink> : <AppLink to="/signup">Sign Up</AppLink>}
-                </div>
-                <div className={styles.linkGroupRight}>
-                    <AppLink to="/support">Support</AppLink>
-                    <AppLink to="/contact">Contact Us</AppLink>
-                    <AppLink to="/about">About</AppLink>
-                </div>
+                <ul className={styles.linkGroupLeft}>
+                    <li><AppLink to="/home">Home</AppLink></li>
+                    <li><AppLink to="/blogs">Blogs</AppLink></li>
+                    {loggedIn ? <li><AppLink to="/profile">Profile</AppLink></li> : <li><AppLink to="/signup">Sign Up</AppLink></li>}
+                </ul>
+                <ul className={styles.linkGroupRight}>
+                    <li><AppLink to="/support">Support</AppLink></li>
+                    <li><AppLink to="/contact">Contact Us</AppLink></li>
+                    <li><AppLink to="/about">About</AppLink></li>
+                </ul>
             </nav>
             <p className={styles.copy}>&copy; {new Date().getFullYear()} YourSiteName. All rights reserved.</p>
         </footer>

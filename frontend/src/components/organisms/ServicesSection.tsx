@@ -3,7 +3,7 @@ import styles from '../../styles/home.module.css'
 import ServicesContent from "../molecules/ServicesContent";
 
 
-const ServicesSection = ({ }) => {
+const ServicesSection = () => {
     return (
         <section className={styles.contentBox}>
             <AppImage src='/service.svg' alt="text and image customisation" className={styles.contentImage} />

@@ -1,17 +1,15 @@
 import React from "react";
 
 type AuthTemplateProps = {
-  children: React.ReactNode;
+    children: React.ReactNode;
 };
 
-const AuthTemplate: React.FC<AuthTemplateProps> = ({children, ...props}) => {
+const AuthTemplate: React.FC<AuthTemplateProps> = ({ children, ...props }) => {
     return (
-        <div>
-            <div {...props}>
-                {children}
-            </div>
-        </div>
-    )
-}
+        <main {...props}>
+            <section>{children}</section>
+        </main>
+    );
+};
 
 export default AuthTemplate;

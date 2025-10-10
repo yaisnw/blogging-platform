@@ -2,7 +2,7 @@ import AuthTemplate from "../templates/AuthTemplate";
 import AuthForm from "../organisms/AuthForm";
 import { useAuthForm } from "../../hooks/useAuthForm";
 import { useSignUpUserMutation } from "../../services/authApi";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { setJustRegistered } from "@/slices/authSlice";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -72,7 +72,6 @@ const SignupPage = () => {
                 onSubmit={handleSubmit}
                 onGoogleLogin={() => googleLogin()}
             />
-            <Link to="/login">Already have an account? Log in here.</Link>
         </AuthTemplate>
     );
 };

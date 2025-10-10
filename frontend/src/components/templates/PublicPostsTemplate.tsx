@@ -1,16 +1,15 @@
-import styles from '@/styles/publicPosts.module.css'
-
+import styles from "@/styles/publicPosts.module.css";
 
 type Props = {
-    cards: React.ReactNode[]
-}
+    cards: React.ReactNode[];
+};
 
 const PublicPostsTemplate: React.FC<Props> = ({ cards }) => {
     return (
-        <div className={styles.cardsContainer} >
+        <main className={styles.cardsContainer}>
             {cards}
-        </div>
-    )
-}
+        </main>
+    );
+};
 
-export default PublicPostsTemplate
+export default PublicPostsTemplate;

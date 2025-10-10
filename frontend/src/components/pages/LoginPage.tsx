@@ -1,7 +1,7 @@
 import AuthForm from "../organisms/AuthForm";
 import { useAuthForm } from "../../hooks/useAuthForm";
 import { useLogInUserMutation } from "../../services/authApi";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
@@ -69,7 +69,6 @@ const LoginPage = () => {
                 onSubmit={handleSubmit}
                 onGoogleLogin={() => login()}
             />
-            <Link to="/signup">No account? Sign up here.</Link>
         </AuthTemplate>
     );
 };

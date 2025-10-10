@@ -20,25 +20,35 @@ const SearchBar = () => {
   }
 
   return (
-    <div className={styles.searchBar}>
+    <form
+      className={styles.searchBar}
+      onSubmit={(e) => {
+        e.preventDefault();
+        navigate("search");
+      }}
+      role="search"
+      aria-label="Search posts and users"
+    >
       <div className={styles.inputWrapper}>
         <AppInput
-          type="text"
+          type="search"
           placeholder="Search posts or users..."
           value={searchQuery}
           onChange={handleChange}
           className={styles.searchInput}
+          aria-label="Search input"
         />
         {searchQuery && (
-          <AppButton onClick={handleClear}>
+          <AppButton type="button" onClick={handleClear}>
             X
           </AppButton>
         )}
       </div>
-      <img onClick={() => navigate('search')} src="/search.svg" />
-
-    </div>
-  )
+      <button type="submit" aria-label="Go to search">
+        <img src="/search.svg" alt="" aria-hidden="true" />
+      </button>
+    </form>
+  );
 }
 
 export default SearchBar

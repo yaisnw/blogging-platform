@@ -7,19 +7,20 @@ import HomeTemplate from "../templates/HomeTemplate"
 
 const HomePage = () => {
     return (
-        <div>
-            <SEO
-                title="Home"
-                description="Discover inspiring stories, tutorials, and personal insights from many writers."
-            />
-
-            <HomeTemplate>
-                <HeroSection />
-                <ServicesSection />
-                <UserSection />
-            </HomeTemplate>
+        <>
+            <main>
+                <SEO
+                    title="Home"
+                    description="Discover inspiring stories, tutorials, and personal insights from many writers."
+                />
+                <HomeTemplate>
+                    <HeroSection />
+                    <ServicesSection />
+                    <UserSection />
+                </HomeTemplate>
+            </main>
             <Footer />
-        </div>
+        </>
     )
 }
 

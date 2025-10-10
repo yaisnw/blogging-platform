@@ -10,13 +10,14 @@ type AuthFieldProps = {
 
 const AuthField: React.FC<AuthFieldProps> = ({ name, label, ...props }) => {
     return (
-        <div>
-            <div  >
+        <fieldset>
+            <legend className="visually-hidden">{label}</legend>
+            <div>
                 <AppLabel htmlFor={name}>{label}</AppLabel>
-                <AppInput id={name} name={name} type="text" {...props}></AppInput>
+                <AppInput id={name} name={name} type="text" {...props} />
             </div>
-        </div>
-    )
-}
+        </fieldset>
+    );
+};
 
 export default AuthField;

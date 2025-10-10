@@ -1,20 +1,19 @@
-import AppHeader from '../atoms/AppHeader';
-import AppLink from '../atoms/AppLink';
-import AppParagraph from '../atoms/AppParagraph';
-import type React from 'react';
+import AppHeader from '../atoms/AppHeader'
+import AppParagraph from '../atoms/AppParagraph'
+import AppLink from '../atoms/AppLink'
 
-type AppServiceContentProps = React.HTMLProps<HTMLDivElement>;
-
-const ServiceContent: React.FC<AppServiceContentProps> = ({ ...props }) => {
+const UserContent = (props: React.HTMLAttributes<HTMLElement>) => {
     return (
-        <div {...props}>
-            <AppHeader>Fast, Elegant Text Styling with Image Uploads</AppHeader>
+        <article {...props}>
+            <header>
+                <AppHeader>Explore Author Profiles</AppHeader>
+            </header>
             <AppParagraph>
-                Customize your blog with sleek, responsive text formatting and seamlessly upload images to enhance your content.
+                Create and customize your own profile, or browse others to get inspired.
             </AppParagraph>
-            <AppLink to="../blogs">See Examples</AppLink>
-        </div>
+            <AppLink to="/signup">Get Started</AppLink>
+        </article>
     )
 }
 
-export default ServiceContent;
+export default UserContent

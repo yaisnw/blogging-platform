@@ -65,15 +65,16 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({ username, email, avatar_u
     }
     return !isEditing ?
         (!isChangingPassword ? (
-            <section className={styles.profileCard}>
+            <article className={styles.profileCard}>
                 <AppImage className={styles.profilePicture} src={avatar_url} />
                 <div className={styles.userInfoBox}>
+                    <h2>Profile</h2>
                     <p>Username: <span className={styles.userInfo}>{username}</span></p>
                     <p>Email: <span className={styles.userInfo}>{email}</span></p>
                 </div>
                 <button onClick={() => setIsEditing(true)} >Edit Profile</button>
                 <AppButton onClick={() => setIsChangingPassword(true)} >Change Password</AppButton>
-            </section>
+            </article>
         )
             :
             (<>
@@ -105,7 +106,7 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({ username, email, avatar_u
                         onChange={handlePasswordInputChange}
                     />
                     <AppButton type="button" onClick={() => { setIsChangingPassword(false); setIsEditing(false) }} >Cancel</AppButton>
-                    <AppButton>Change Password</AppButton>
+                    <AppButton type="submit">Change Password</AppButton>
                 </form>
             </>)
 
@@ -143,7 +144,7 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({ username, email, avatar_u
                             onChange={handleTextInputChange}
                         />
                         <AppButton type="button" onClick={() => setIsEditing(false)} >Cancel</AppButton>
-                        <AppButton>Update</AppButton>
+                        <AppButton type="submit">Update</AppButton>
                     </div>
 
                 </form>
