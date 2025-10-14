@@ -1,19 +1,28 @@
 import AppHeader from '../atoms/AppHeader'
 import AppParagraph from '../atoms/AppParagraph'
 import AppLink from '../atoms/AppLink'
+import { useAuthStatus } from '@/hooks/useAuthStatus'
 
-const UserContent = (props: React.HTMLAttributes<HTMLElement>) => {
+const ServicesContent = (props: React.HTMLAttributes<HTMLElement>) => {
+    const { loggedIn } = useAuthStatus();
+
     return (
         <article {...props}>
             <header>
-                <AppHeader>Explore Author Profiles</AppHeader>
+                <AppHeader>
+                    {loggedIn ? 'Your Tools & Insights' : 'Discover Our Features'}
+                </AppHeader>
             </header>
             <AppParagraph>
-                Create and customize your own profile, or browse others to get inspired.
+                {loggedIn
+                    ? 'Access tools to write, edit, and track your posts — all in one place.'
+                    : 'Explore features that make writing, sharing, and connecting effortless.'}
             </AppParagraph>
-            <AppLink to="/signup">Get Started</AppLink>
+            <AppLink to={loggedIn ? '/home/dashboard' : '/signup'}>
+                {loggedIn ? 'Go to Dashboard' : 'Get Started'}
+            </AppLink>
         </article>
-    )
-}
+    );
+};
 
-export default UserContent
+export default ServicesContent;

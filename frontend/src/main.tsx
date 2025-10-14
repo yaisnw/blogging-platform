@@ -8,6 +8,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { PersistGate } from 'redux-persist/integration/react';
 import AppLoader from './components/atoms/AppLoader';
 import { HelmetProvider } from '@dr.pogodin/react-helmet'; 
+import "@/index.css"
 
 const helmetContext = {};
 

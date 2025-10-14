@@ -1,9 +1,12 @@
 import AuthField from '../molecules/AuthField';
 import AppButton from '../atoms/AppButton';
-import styles from '../../styles/ui.module.css';
+import styles from "@/styles/auth.module.css"
 import AppLoader from '../atoms/AppLoader';
 import ErrorMessage from '../atoms/ErrorState';
 import AppLink from '../atoms/AppLink';
+import AppImage from '../atoms/AppImage';
+import AppHeader from '../atoms/AppHeader';
+import AppParagraph from '../atoms/AppParagraph';
 
 type AuthFormProps = {
   mode: "login" | "signup";
@@ -26,22 +29,14 @@ const AuthForm: React.FC<AuthFormProps> = ({
   onSubmit,
   onGoogleLogin
 }) => {
-
-
-
   return (
     <div>
       {isLoading &&
         <AppLoader mode='page' />}
-      <AppButton
-        imageSrc='/google.svg'
-        className={styles.googleContainer}
-        imageContainer={styles.googleFlex}
-        imageClass={styles.googleImage}
-        onClick={onGoogleLogin}
-      />
 
-      <form onSubmit={onSubmit}>
+
+      <form onSubmit={onSubmit} className={styles.authForm}>
+        <AppHeader>{mode === 'login' ? 'Enter your credentials to log in:' : 'Create your account:'}</AppHeader>
         {mode === "signup" && (
           <>
             {errors.username && <ErrorMessage message={errors.username} />}
@@ -51,6 +46,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
               autoComplete="username"
               value={formData.username || ""}
               onChange={onChange}
+
             />
           </>
         )}
@@ -96,8 +92,17 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <AppButton disabled={isLoading}>
           {mode === "login" ? "Log in" : "Sign up"}
         </AppButton>
+        <div className={styles.divider}><span>or</span></div>
+        <div className={styles.oAuthContainer}>
+          <AppParagraph>{mode === 'login' ? 'Login with:' : 'Sign up with:'}</AppParagraph>
+          <AppButton
+            type='button'
+            className={styles.googleContainer}
+            onClick={onGoogleLogin}
+          ><AppImage className={styles.googleImage} src='./google.svg' /></AppButton>
+        </div>
+        <AppLink to={mode === 'login' ? '/signup' : '/login'}>{mode === 'login' ? "No account? Sign up here." : 'Have an account already? Log in here.'}</AppLink>
       </form>
-      <AppLink to={mode === 'login' ? '/login' : '/signup'}>No account? Sign up here.</AppLink>
     </div>
   );
 };

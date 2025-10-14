@@ -19,8 +19,8 @@ const Footer = () => {
             <nav className={styles.navSection}>
                 <ul className={styles.linkGroupLeft}>
                     <li><AppLink to="/home">Home</AppLink></li>
-                    <li><AppLink to="/blogs">Blogs</AppLink></li>
-                    {loggedIn ? <li><AppLink to="/profile">Profile</AppLink></li> : <li><AppLink to="/signup">Sign Up</AppLink></li>}
+                    <li><AppLink to="/home/posts">Posts</AppLink></li>
+                    {loggedIn ? <li><AppLink to="/home/profile">Profile</AppLink></li> : <li><AppLink to="/signup">Sign Up</AppLink></li>}
                 </ul>
                 <ul className={styles.linkGroupRight}>
                     <li><AppLink to="/support">Support</AppLink></li>

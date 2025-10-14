@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import styles from "@/styles/ui.module.css"
 
 type AppLinkProps = {
     to: string
@@ -7,7 +8,7 @@ type AppLinkProps = {
 
 const AppLink: React.FC<AppLinkProps> = ({ to, children, ...props}) => {
     return (
-        <Link {...props} to={to}>
+        <Link className={styles.appLink} {...props} to={to}>
             {children}
         </Link>
     )

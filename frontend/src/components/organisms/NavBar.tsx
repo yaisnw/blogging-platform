@@ -36,15 +36,15 @@ const NavBar = () => {
         <>
             <nav className={styles.nav}>
                 <div className={styles.nav1}>
-                    <AppLink to="/home">Home</AppLink>
-                    <AppLink to="/home/posts">Posts</AppLink>
-                    {loggedIn && <AppLink to="myPosts">My Posts</AppLink>}
+                    <AppLink className={styles.navButton} to="/home">Home</AppLink>
+                    <AppLink className={styles.navButton} to="/home/posts">Posts</AppLink>
+                    {loggedIn && <AppLink className={styles.navButton} to="dashboard">Dashboard</AppLink>}
                 </div>
                 <SearchBar />
                 <div className={styles.nav1}>
-                    {loggedIn && <AppLink to="/home/profile">Profile</AppLink>}
-                    <AppLink to="/home/support">Support</AppLink>
-                    <AppButton  onClick={logOutHandler}>Log out</AppButton>
+                    {loggedIn && <AppLink className={styles.navButton} to="/home/profile">Profile</AppLink>}
+                    <AppLink className={styles.navButton} to="/home/support">Support</AppLink>
+                    <AppButton className={styles.navButton}  onClick={logOutHandler}>Log out</AppButton>
                 </div>
             </nav>
             <Outlet />

@@ -1,9 +1,10 @@
 .nav {
-    background-color: black;
+    background-color: var(--color-surface);
     display: flex;
     justify-content: space-between;
     text-decoration: none;
-    border-bottom: 1px solid black;
+    border-bottom: 3px solid var(--color-accent);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     height: 5rem;
     position: sticky;
     top: 0;
@@ -19,41 +20,50 @@
     height: 100%;
 }
 
-.nav a {
-    color: white;
-    width: 100px;
+.navButton {
+    cursor: pointer;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    width: 150px;
     align-content: center;
     text-align: center;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: normal;
     height: 100%;
     text-decoration: none;
-    border-right: 1px solid white;
-    border-left: 1px solid white;
+    border: none;
+    border-right: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
 }
 
+.navButton:hover {}
+
 .searchBar {
+    position: relative;
     display: flex;
     align-self: center;
     gap: 1rem;
 }
 
 .searchBar input {
-
     width: 30vw;
     font-size: x-large;
     padding: 1rem;
 }
 
-.searchBar button {
+.searchButton {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     position: absolute;
-    right: 1rem;
+    right: -5rem;
     top: 50%;
     transform: translateY(-50%);
     font-size: x-large;
-    color: black;
-    background-color: white;
+    background-color: var(--color-surface);
     border: none;
-
 }
 
 .inputWrapper {

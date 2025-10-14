@@ -1,0 +1,94 @@
+.visuallyHidden {
+    display: none;
+}
+
+.googleImage {
+    width: 30px;
+    height: 30px;
+}
+
+.googleFlex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    padding: 1vh 2vw;
+}
+
+.googleContainer {
+    background-color: var(--color-bg) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.googleContainer:hover {
+    cursor: pointer;
+}
+
+.authForm {
+    width: 30vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.oAuthContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authFieldContainer {
+    width: 70%;
+}
+
+.authField {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: var(--color-border);
+    transform: translateY(-50%);
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.divider span {
+    background-color: var(--color-background);
+    padding: 0 1rem;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 1;
+    position: relative;
+}

@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: 'myPosts',
+        path: 'dashboard',
         element: <MyPostsPage />,
       },
       {

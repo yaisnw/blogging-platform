@@ -1,23 +1,22 @@
 import React from "react";
+import styles from "@/styles/ui.module.css";
 
 type AppButtonProps = {
-    imageContainer?: string;
-    imageClass?: string;
-    imageSrc?: string;
-    alt?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const AppButton: React.FC<AppButtonProps> = ({ imageContainer, imageClass, imageSrc, alt, children, ...props }) => {
+const AppButton: React.FC<AppButtonProps> = ({
+    className,      
+    children,
+    ...props
+}) => {
     return (
-        <button {...props}>
-            {imageSrc ? 
-                <div className={imageContainer}>
-                    <img loading="lazy" src={imageSrc} alt={alt} className={imageClass} />
-                    <p>Login with Google</p>
-                </div>
-             : children}
+        <button
+            className={`${styles.appButton} ${className || ""}`}   
+            {...props}
+        >
+            {children}
         </button>
-    )
-}
+    );
+};
 
-export default AppButton
+export default AppButton;

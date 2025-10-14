@@ -44,7 +44,7 @@ const SearchBar = () => {
           </AppButton>
         )}
       </div>
-      <button type="submit" aria-label="Go to search">
+      <button className={styles.searchButton} type="submit" aria-label="Go to search">
         <img src="/search.svg" alt="" aria-hidden="true" />
       </button>
     </form>

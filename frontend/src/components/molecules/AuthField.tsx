@@ -1,6 +1,7 @@
 import React from "react";
 import AppLabel from "../atoms/AppLabel";
 import AppInput from "../atoms/AppInput";
+import styles from "@/styles/auth.module.css"
 
 type AuthFieldProps = {
     label: string,
@@ -10,9 +11,9 @@ type AuthFieldProps = {
 
 const AuthField: React.FC<AuthFieldProps> = ({ name, label, ...props }) => {
     return (
-        <fieldset>
-            <legend className="visually-hidden">{label}</legend>
-            <div>
+        <fieldset className={styles.authFieldContainer}>
+            <legend className={styles.visuallyHidden}>{label}</legend>
+            <div className={styles.authField}>
                 <AppLabel htmlFor={name}>{label}</AppLabel>
                 <AppInput id={name} name={name} type="text" {...props} />
             </div>
