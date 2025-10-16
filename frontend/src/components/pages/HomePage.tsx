@@ -1,5 +1,4 @@
 import SEO from "../atoms/SEO"
-import Footer from "../organisms/Footer"
 import HeroSection from "../organisms/HeroSection"
 import ServicesSection from "../organisms/ServicesSection"
 import UserSection from "../organisms/UserSection"
@@ -19,7 +18,6 @@ const HomePage = () => {
                     <UserSection />
                 </HomeTemplate>
             </main>
-            <Footer />
         </>
     )
 }

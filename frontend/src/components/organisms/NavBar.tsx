@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
 import SearchBar from '../molecules/SearchBar';
 import AppButton from '../atoms/AppButton';
+import Footer from './Footer';
 
 
 const NavBar = () => {
@@ -43,11 +44,12 @@ const NavBar = () => {
                 <SearchBar />
                 <div className={styles.nav1}>
                     {loggedIn && <AppLink className={styles.navButton} to="/home/profile">Profile</AppLink>}
-                    <AppLink className={styles.navButton} to="/home/support">Support</AppLink>
+                    <AppLink className={styles.navButton} to="/home/about">About</AppLink>
                     <AppButton className={styles.navButton}  onClick={logOutHandler}>Log out</AppButton>
                 </div>
             </nav>
             <Outlet />
+            <Footer />
         </>
     )
 

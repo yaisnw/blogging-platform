@@ -1,7 +1,7 @@
 import AppParagraph from '../atoms/AppParagraph'
 import AppLink from '../atoms/AppLink'
 import { useAuthStatus } from '@/hooks/useAuthStatus';
-import AppHeader from '../atoms/AppHeader';
+import AppHeader from '../atoms/AppHeading';
 
 const UserContent = (props: React.HTMLAttributes<HTMLElement>) => {
     const { loggedIn } = useAuthStatus();

@@ -1,5 +1,5 @@
 import AppLink from "../atoms/AppLink";
-import styles from '../../styles/home.module.css';
+import styles from '../../styles/footer.module.css';
 import { useEffect, useState } from "react";
 
 const Footer = () => {

@@ -1,0 +1,18 @@
+.aboutContainer {
+
+    margin: 10rem auto;
+    width: 70vw;
+    text-align: center;
+}
+.linksContainer {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+.linksContainer a {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}

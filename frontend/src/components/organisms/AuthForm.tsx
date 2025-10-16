@@ -1,11 +1,12 @@
 import AuthField from '../molecules/AuthField';
 import AppButton from '../atoms/AppButton';
 import styles from "@/styles/auth.module.css"
+import UIstyles from "@/styles/ui.module.css"
 import AppLoader from '../atoms/AppLoader';
 import ErrorMessage from '../atoms/ErrorState';
 import AppLink from '../atoms/AppLink';
 import AppImage from '../atoms/AppImage';
-import AppHeader from '../atoms/AppHeader';
+import AppHeader from '../atoms/AppHeading';
 import AppParagraph from '../atoms/AppParagraph';
 
 type AuthFormProps = {
@@ -92,7 +93,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <AppButton disabled={isLoading}>
           {mode === "login" ? "Log in" : "Sign up"}
         </AppButton>
-        <div className={styles.divider}><span>or</span></div>
+        <div className={UIstyles.divider}><span>or</span></div>
         <div className={styles.oAuthContainer}>
           <AppParagraph>{mode === 'login' ? 'Login with:' : 'Sign up with:'}</AppParagraph>
           <AppButton

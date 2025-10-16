@@ -1,4 +1,4 @@
-import AppHeader from '../atoms/AppHeader'
+import AppHeader from '../atoms/AppHeading'
 import AppParagraph from '../atoms/AppParagraph'
 import AppLink from '../atoms/AppLink'
 import { useAuthStatus } from '@/hooks/useAuthStatus'

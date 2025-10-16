@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import AppHeader from "../atoms/AppHeader";
+import AppHeader from "../atoms/AppHeading";
 import HeartButton from "../atoms/HeartButton";
 import styles from "@/styles/postViewer.module.css"
 import UIstyles from "@/styles/ui.module.css"

@@ -13,6 +13,7 @@ import PostViewerPage from './components/pages/PostViewerPage';
 import PublicPostsPage from './components/pages/PublicPostsPage';
 import ProfilePage from './components/pages/ProfilePage';
 import SearchPage from './components/pages/SearchPage';
+import AboutPage from './components/pages/AboutPage';
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: 'search',
         element: <SearchPage />
+      },
+      {
+        path: 'about',
+        element: <AboutPage />
       }
 
     ],

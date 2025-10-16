@@ -1,4 +1,4 @@
-import AppHeader from "../atoms/AppHeader";
+import AppHeader from "../atoms/AppHeading";
 import AppImage from "../atoms/AppImage";
 import AppParagraph from "../atoms/AppParagraph";
 import styles from '../../styles/postCard.module.css'
