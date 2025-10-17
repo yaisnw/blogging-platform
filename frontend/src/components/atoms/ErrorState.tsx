@@ -4,7 +4,6 @@ type ErrorMode = "page" | "normal";
 
 interface ErrorStateProps {
   message: string;
-  retryLabel?: string;
   onRetry?: () => void;
   actionLabel?: string;
   onAction?: () => void;
@@ -13,7 +12,6 @@ interface ErrorStateProps {
 
 export default function ErrorState({
   message,
-  retryLabel,
   onRetry,
   actionLabel,
   onAction,
@@ -26,9 +24,9 @@ export default function ErrorState({
     <div className={wrapperClass}>
       <h1 className={styles.error}>{message}</h1>
       <div className={styles.componentError}>
-        {onRetry && retryLabel && (
+        {onRetry && (
           <button className={styles.ctaButton} onClick={onRetry}>
-            <p>{retryLabel}</p>
+            <p>Try again</p>
           </button>
         )}
         {onAction && actionLabel && (

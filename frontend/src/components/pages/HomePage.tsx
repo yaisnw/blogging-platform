@@ -6,8 +6,8 @@ import HomeTemplate from "../templates/HomeTemplate"
 
 const HomePage = () => {
     return (
-        <>
-            <main>
+        <div >
+            <main >
                 <SEO
                     title="Home"
                     description="Discover inspiring stories, tutorials, and personal insights from many writers."
@@ -18,7 +18,7 @@ const HomePage = () => {
                     <UserSection />
                 </HomeTemplate>
             </main>
-        </>
+        </div>
     )
 }
 

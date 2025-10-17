@@ -90,17 +90,20 @@ const PostViewerPage = () => {
 
     if (postLoading || commentsLoading || editCommentsLoading || commentSubmitLoading || deleteCommentsLoading) {
         return (
-            <AppLoader mode="page" />
-        );
+            <main>
+                <AppLoader mode="page" />
+            </main>
+        )
     }
+
     if (post?.status === 'draft') {
         return (
-            <ErrorState message="This post is not completed." actionLabel="View other posts" onAction={() => navigate('/home/posts')} />
+            <main><ErrorState message="This post is not completed." actionLabel="View other posts" onAction={() => navigate('/home/posts')} /></main>
         )
     }
     if (!post || postError) {
         return (
-            <ErrorState message='Something went wrong while fetching the post.' onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={() => navigate('/home/posts')} />
+            <main><ErrorState message='Something went wrong while fetching the post.' onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={() => navigate('/home/posts')} /></main>
         )
     }
 
@@ -141,17 +144,17 @@ const PostViewerPage = () => {
 
     return (
         <>
-        <SEO title={post.title ? post.title : 'Post Viewer'} description={post.content ? PlainTextFromEditorState(post.content).slice(0, 150) : 'View any post'} author={post.User.username}/>
-        <PostViewerTemplate
-            header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} avatar_url={post.User.avatar_url} />}
-            viewer={<PostViewer content={post.content} />}
-            interactionBox={<CommentForm
-                commentContent={commentContent ?? ""}
-                setCommentContent={setCommentContent}
-                submitComment={handleCommentSubmit}
-            />}
-            comments={commentsSection}
-        />
+            <SEO title={post.title ? post.title : 'Post Viewer'} description={post.content ? PlainTextFromEditorState(post.content).slice(0, 150) : 'View any post'} author={post.User.username} />
+            <PostViewerTemplate
+                header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} avatar_url={post.User.avatar_url} />}
+                viewer={<PostViewer content={post.content} />}
+                interactionBox={<CommentForm
+                    commentContent={commentContent ?? ""}
+                    setCommentContent={setCommentContent}
+                    submitComment={handleCommentSubmit}
+                />}
+                comments={commentsSection}
+            />
         </>
     );
 };

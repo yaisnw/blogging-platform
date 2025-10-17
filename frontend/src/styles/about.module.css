@@ -1,5 +1,5 @@
 .aboutContainer {
-
+    flex: 1;
     margin: 10rem auto;
     width: 70vw;
     text-align: center;

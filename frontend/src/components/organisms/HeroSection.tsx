@@ -6,7 +6,7 @@ const HeroSection = () => {
     return (
         <header className={styles.contentBox}>
             <HeroContent className={styles.homeContent} />
-            <AppImage src='/hero.svg' alt="Person typing on a keyboard" />
+            <AppImage className={styles.contentImage} src='/hero.svg' alt="Person typing on a keyboard" />
         </header>
     )
 }

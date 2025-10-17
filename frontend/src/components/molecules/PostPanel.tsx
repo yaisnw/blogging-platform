@@ -1,5 +1,5 @@
 import AppButton from "../atoms/AppButton"
-import styles from '../../styles/myPosts.module.css'
+import styles from '../../styles/dashboardPage.module.css'
 
 type postPanelProps = {
     createButton: () => void;

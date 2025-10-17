@@ -1,4 +1,4 @@
-import styles from "../../styles/myPosts.module.css";
+import styles from "../../styles/dashboardPage.module.css";
 
 type MyPostsProps = {
     panel: React.ReactNode;

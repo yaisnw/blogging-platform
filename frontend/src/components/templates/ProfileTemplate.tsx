@@ -1,3 +1,5 @@
+import styles from "@/styles/profilePage.module.css"
+
 type ProfileTemplateProps = {
     profileCard: React.ReactNode;
     tabPanel: React.ReactNode;
@@ -6,7 +8,7 @@ type ProfileTemplateProps = {
 
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ profileCard, tabPanel, tabContent }) => {
     return (
-        <main>
+        <main className={styles.profileContainer}>
             {profileCard}
             <nav>{tabPanel}</nav>
             <section>{tabContent}</section>

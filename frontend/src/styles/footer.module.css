@@ -1,7 +1,6 @@
 .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100vw;
+    position: relative;
+    width: 100%;
     background-color: var(--color-surface);
     color: var(--color-text);
     border-top: 1px solid #444;
@@ -11,7 +10,6 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    padding: 1rem 2rem;
 }
 
 .footer a {

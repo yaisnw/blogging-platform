@@ -70,11 +70,6 @@ const ProfilePage = () => {
     }, [id, trigger, user.id]);
 
 
-    if (postsLoading || commentsLoading || currentUserLoading) {
-        return (
-            <AppLoader mode="page" />
-        );
-    }
 
     const handleImageInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -118,12 +113,12 @@ const ProfilePage = () => {
         })
     }
 
-    if (!activeUser) {
-        return (
-            <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
-
-        )
+    if (currentUserLoading || postsLoading || commentsLoading) {
+        return (<main>
+            <AppLoader mode="page" />
+        </main>)
     }
+
     const emptyPostsResponse = postsResponse?.posts.length === 0 || !postsResponse?.posts;
     const emptyCommentsReponse = commentsResponse?.comments.length === 0 || !commentsResponse?.comments
     let contentTab;
@@ -168,11 +163,21 @@ const ProfilePage = () => {
 
     }
 
+    if (!activeUser) {
+        return (
 
+            <main>
+                <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+            </main>
+
+        )
+    }
 
     return (
         <>
-            <SEO title="Profile"  description={`View ${activeUser.username}'s profile to explore their activity.`} />
+            <SEO title="Profile" description={`View ${activeUser.username}'s profile to explore their activity.`} />
+            {(postsLoading || commentsLoading || currentUserLoading) && <AppLoader mode="page" />}
+            {!activeUser && <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />}
             <ProfileTemplate
                 profileCard={user.id === Number(id) || !Number(id) ?
                     <ProfileCard

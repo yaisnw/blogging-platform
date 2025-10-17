@@ -13,23 +13,24 @@ const PublicPostsPage = () => {
     const navigate = useNavigate();
 
 
-
-    if (isLoading) {
-        return (
-            <AppLoader mode="page" />
-        );
-    }
     if (isError) {
         return (
-            <ErrorState message='Something went wrong while fetching the posts.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+            <main>
+                <ErrorState message='Something went wrong while fetching the posts.'  onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+            </main>
         )
     }
     if (data?.posts.length === 0) {
-        <ErrorState message='There are no posts currently' actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+        <main>
+            <ErrorState message='There are no posts currently' actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+        </main>
     }
 
     return (
         <>
+            {isLoading &&
+                <AppLoader mode="page" />
+            }
             <SEO title="Public posts" description="Explore the latest posts by other writers." />
             <PublicPostsTemplate cards={data?.posts.map(
                 (post: blogPost) =>
