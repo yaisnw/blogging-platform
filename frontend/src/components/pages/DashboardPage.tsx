@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useDeletePostsMutation, useGetMyPostsQuery } from "../../services/postsApi";
 import PostCard from "../molecules/PostCard";
 import PostPanel from "../molecules/PostPanel";
-import MyPostsTemplate from "../templates/DashboardTemplate";
+import DashboardTemplate from "../templates/DashboardTemplate";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { setPostId } from "@/slices/uiSlice";
@@ -31,7 +31,7 @@ const DashboardPage = () => {
 
     const handleEditButton = (id: number) => {
         dispatch(setPostId(id));
-        navigate(`/home/createPost/${id}`);
+        navigate(`/createPost/${id}`);
     };
 
     const handleDeleteButton = () => {
@@ -59,10 +59,10 @@ const DashboardPage = () => {
         <>
             <SEO title="My Posts" description="Manage and view your own posts." />
             {(getPostsLoading || deletePostsLoading) && <AppLoader mode="page" />}
-            <MyPostsTemplate
+            <DashboardTemplate
                 panel={
                     <PostPanel
-                        createButton={() => navigate("/home/createPost")}
+                        createButton={() => navigate("/createPost")}
                         deleteButton={handleDeleteButton}
                         confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)}
                         isDeleting={isDeleting}
@@ -79,6 +79,7 @@ const DashboardPage = () => {
                         updatedAt={post.updatedAt}
                         status={post.status}
                         author={post.User.username}
+                        authorId={post.User.id}
                         avatar_url={post.User.avatar_url}
                         editButton={() => handleEditButton(post.id)}
                         isDeleting={isDeleting}

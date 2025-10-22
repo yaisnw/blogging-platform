@@ -11,9 +11,9 @@ type postPanelProps = {
 const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confirmDeleteButton, isDeleting }) => {
     return (
         <nav className={styles.panel} aria-label="Post actions">
-            <AppButton onClick={createButton}>Create a Post</AppButton>
+            <AppButton onClick={createButton}>Create Post</AppButton>
             <AppButton onClick={deleteButton}>{isDeleting ? 'Cancel Delete' : 'Delete Posts'}</AppButton>
-            {isDeleting && <AppButton onClick={confirmDeleteButton}>Delete Selected</AppButton>}
+            {isDeleting && <AppButton className={styles.deleteButton} onClick={confirmDeleteButton}>Delete Selected</AppButton>}
         </nav>
     );
 };

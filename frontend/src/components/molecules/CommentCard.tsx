@@ -91,14 +91,14 @@ const CommentCard: React.FC<CommentCardProps> = ({
                 )}
                 <div className={styles.interactionBox}>
                     {!isEditing && (
-                        <button type="button" onClick={() => setIsEditing(true)}>
+                        <AppButton type="button" onClick={() => setIsEditing(true)}>
                             Edit
-                        </button>
+                        </AppButton>
                     )}
                     {!isEditing && deleteComment && (
-                        <button type="button" onClick={() => deleteComment(commentId)}>
+                        <AppButton type="button" onClick={() => deleteComment(commentId)}>
                             Delete
-                        </button>
+                        </AppButton>
                     )}
                 </div>
             </footer>

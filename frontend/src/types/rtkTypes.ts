@@ -12,7 +12,8 @@ export interface responseUser {
     username: string,
     password?: string,
     email: string,
-    avatar_url: string
+    avatar_url: string,
+    createdAt?: string
 }
 export interface blogPost {
     id: number,
@@ -21,6 +22,7 @@ export interface blogPost {
     content: string,
     status: 'draft' | 'published',
     User: {
+        id: number,
         username: string,
         avatar_url: string
     }
@@ -35,6 +37,7 @@ export interface comment {
     postId: number,
     content: string,
     User: {
+        id: number,
         username: string,
         avatar_url: string
     }

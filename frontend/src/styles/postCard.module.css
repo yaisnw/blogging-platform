@@ -1,22 +1,31 @@
 .postCard {
     width: 60vw;
     display: grid;
+    gap: 2rem;
     justify-self: center;
     grid-template-rows: 3fr;
     margin: 2rem;
     padding: 2rem;
-    border: 1px black solid;
+    border: 1px black var(--color-border);
     overflow: auto;
+    background-color: var(--color-surface);
+
+}
+.postCard header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    gap: 1rem;
 }
 .publishedBadge {
-    background-color: #a7f3d0;
-    color: black;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
     justify-self: start;
     padding: 10px;
 }
 .draftBadge {
-    background-color: #fa4f4f;
-    color: white;
+    background-color: var(--color-warning);
+    color: var(--color-on-accent);
     justify-self: start;
     padding: 10px;
 }
@@ -29,6 +38,7 @@
 .engagementContent {
     display: flex;
     align-items: center;
+    justify-content: center;
     column-gap: 15px;
     font-size: 1.5rem;
 }
@@ -55,9 +65,11 @@
 }
 .interactionBox {
     display: flex;
+    align-items: center;
     gap: 1rem
 }
 .title {
+    margin: 1rem 0;
     font-size: 1.5rem;
     flex-wrap: wrap;
     word-break: break-word;

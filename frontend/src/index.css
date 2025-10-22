@@ -5,9 +5,10 @@
   --color-surface: #DBE2EF;
   --color-accent: #3F72AF;
   --color-text: #112D4E;
-  --color-on-accent: #FFFFFF;
-  --color-border: #A7B4C6;
   --color-text-secondary: #000000;
+  --color-on-accent: #FFFFFF;
+  --color-warning: #e85151;
+  --color-border: #A7B4C6;
 
   font-family: 'Ubuntu', sans-serif;
   line-height: 1.5;
@@ -35,7 +36,7 @@ main {
   flex: 1 0 auto;
 }
 
-input {
+input, button {
   font-family: 'Ubuntu', sans-serif;
 }
 

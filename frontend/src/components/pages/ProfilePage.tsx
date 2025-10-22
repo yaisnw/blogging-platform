@@ -1,4 +1,4 @@
-import ProfileCard from "../organisms/MyProfileCard"
+import MyProfileCard from "../organisms/MyProfileCard"
 import ProfileTemplate from "../templates/ProfileTemplate"
 import { useSelector } from "react-redux"
 import type { RootState } from "@/store"
@@ -128,7 +128,8 @@ const ProfilePage = () => {
         )
     }
 
-    else if (emptyPostsResponse || emptyCommentsReponse) {
+    else if ((tabState === 'posts' && emptyPostsResponse) ||
+        (tabState === 'comments' && emptyCommentsReponse)) {
         contentTab = (
             <ErrorState mode="normal" message={`There are no ${emptyPostsResponse ? 'posts' : 'comments'} from this user`} />
         )
@@ -180,11 +181,12 @@ const ProfilePage = () => {
             {!activeUser && <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />}
             <ProfileTemplate
                 profileCard={user.id === Number(id) || !Number(id) ?
-                    <ProfileCard
+                    <MyProfileCard
                         username={activeUser?.username}
                         email={activeUser?.email}
                         password={Number(id) === user?.id ? currentUser?.password : undefined}
                         avatar_url={activeUser?.avatar_url}
+                        createdAt={activeUser?.createdAt ?? ''}
                         formData={formData}
                         passwordForm={passwordForm}
                         avatarLoading={avatarLoading}

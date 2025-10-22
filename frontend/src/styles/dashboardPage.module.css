@@ -1,4 +1,4 @@
-.myPostsFlex {
+.dashboardFlex {
     display: flex;
     justify-content: center;
     align-self: center;
@@ -11,12 +11,16 @@
     grid-template-columns: 1;
     gap: 2rem;
 }
+.deleteButton {
+    background-color: var(--color-warning);
+}
 .postCardsBox {
     width: 70vw;
     min-height: 15vw;
     gap: 0;
     overflow-y: auto;
-    border: 1px solid black
+    border: 1px solid var(--color-border);
+
 }
 .centerWrapper {
     grid-column: 1 / -1;

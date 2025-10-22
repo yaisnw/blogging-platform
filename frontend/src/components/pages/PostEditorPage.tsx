@@ -58,7 +58,7 @@ const PostEditorPage = () => {
       await createPost({ title, content, status }).unwrap();
     }
     dispatch(setDraftTitle(''), setDraftContent(''), setPostId(0))
-    navigate("/home/myPosts");
+    navigate("/home/dashboard");
   };
 
   if (createPostLoading || updatePostLoading) {

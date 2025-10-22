@@ -13,6 +13,9 @@ import { Link, useNavigate } from "react-router";
 import AppLoader from "../atoms/AppLoader";
 import { setDraftTitle } from "@/slices/draftPostSlice";
 import slugify from "slugify"
+import AppButton from "../atoms/AppButton";
+import AppLabel from "../atoms/AppLabel";
+import AppInput from "../atoms/AppInput";
 
 type PostCardProps = {
     postId: number,
@@ -103,25 +106,25 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
                 <div className={styles.interactionBox}>
                     {isDeleting && (
-                        <label>
-                            <input
+                        <AppLabel>
+                            <AppInput
                                 checked={deletingPostIds.includes(postId)}
                                 onChange={() => handleDeleteCheck(postId)}
                                 type="checkbox"
                                 aria-label="Select post for deletion"
                             />{" "}
                             Delete
-                        </label>
+                        </AppLabel>
                     )}
                     {editButton && (
-                        <button type="button" onClick={editButton}>
+                        <AppButton type="button" onClick={editButton}>
                             Edit Post
-                        </button>
+                        </AppButton>
                     )}
                     {status === 'published' && (
-                        <button type="button" onClick={() => handlePostClick(title, postId)}>
+                        <AppButton type="button" onClick={() => handlePostClick(title, postId)}>
                             View Post
-                        </button>
+                        </AppButton>
                     )}
                 </div>
             </footer>

@@ -1,17 +1,17 @@
 import styles from "../../styles/dashboardPage.module.css";
 
-type MyPostsProps = {
+type DashBoardTemplateProps = {
     panel: React.ReactNode;
     cards: React.ReactNode[];
 };
 
-const MyPostsTemplate: React.FC<MyPostsProps> = ({ panel, cards }) => {
+const DashboardTemplate: React.FC<DashBoardTemplateProps> = ({ panel, cards }) => {
     return (
-        <main className={styles.myPostsFlex}>
+        <main className={styles.dashboardFlex}>
             <aside>{panel}</aside>
             <section className={styles.postCardsBox}>{cards}</section>
         </main>
     );
 };
 
-export default MyPostsTemplate;
+export default DashboardTemplate;

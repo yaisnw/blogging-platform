@@ -48,12 +48,22 @@
 }
 
 .authFieldContainer {
-    width: 70%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
 }
 
 .authField {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 0.5rem;
     align-items: center;
 }
 
+.authField input,
+.authField textarea {
+    width: 100%;
+    box-sizing: border-box;
+}

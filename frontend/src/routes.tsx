@@ -7,7 +7,7 @@ import LoginPage from './components/pages/LoginPage';
 import OAuth from './components/pages/OAuth';
 import NavBar from './components/organisms/NavBar';
 import HomePage from './components/pages/HomePage';
-import MyPostsPage from './components/pages/DashboardPage';
+import DashboardPage from './components/pages/DashboardPage';
 import PostEditorPage from './components/pages/PostEditorPage';
 import PostViewerPage from './components/pages/PostViewerPage';
 import PublicPostsPage from './components/pages/PublicPostsPage';
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <MyPostsPage />,
+        element: <DashboardPage />,
       },
       {
         path: 'posts',
@@ -56,14 +56,7 @@ const router = createBrowserRouter([
         path: 'profile/:id?',
         element: <ProfilePage />
       },
-      {
-        path: 'createPost',
-        element: <PostEditorPage />
-      },
-      {
-        path: 'createPost/:id',
-        element: <PostEditorPage />
-      },
+      
       {
         path: 'search',
         element: <SearchPage />
@@ -75,9 +68,14 @@ const router = createBrowserRouter([
 
     ],
   },
-
-
-
+  {
+        path: 'createPost',
+        element: <PostEditorPage />
+      },
+      {
+        path: 'createPost/:id',
+        element: <PostEditorPage />
+      },
 
 ]);
 
