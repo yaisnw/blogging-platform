@@ -11,6 +11,7 @@ import ErrorState from "./ErrorState";
 import { INSERT_IMAGE_COMMAND } from "@/lexicalCustom/ImageCommand";
 import AppLoader from "./AppLoader";
 import { createPortal } from "react-dom";
+import AppButton from "./AppButton";
 
 function ImageInsertButton() {
     const dispatch = useAppDispatch();
@@ -73,8 +74,10 @@ function ImageInsertButton() {
     return (
         <div className="image-inputBox">
             <input id="imageUpload" className="image-input" type="file" accept="image/*" onChange={handleFileChange} />
-            <label htmlFor="imageUpload" className="custom-file-label toolbar-button">
-                Add Image
+            <label htmlFor="imageUpload" >
+                <AppButton className="custom-file-label toolbar-button">
+                    Add Image
+                </AppButton>
             </label>
 
             {(submitError || imageError) && <ErrorState message="failed to add image" />}

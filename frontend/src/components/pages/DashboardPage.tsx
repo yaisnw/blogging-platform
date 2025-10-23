@@ -12,6 +12,7 @@ import { useAuthStatus } from "@/hooks/useAuthStatus";
 import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
+import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
 
 const DashboardPage = () => {
     const dispatch = useAppDispatch();
@@ -30,6 +31,8 @@ const DashboardPage = () => {
     }, [loggedIn, navigate, authChecked]);
 
     const handleEditButton = (id: number) => {
+        dispatch(setDraftTitle(''))
+        dispatch(setDraftContent(''))
         dispatch(setPostId(id));
         navigate(`/createPost/${id}`);
     };
@@ -62,7 +65,7 @@ const DashboardPage = () => {
             <DashboardTemplate
                 panel={
                     <PostPanel
-                        createButton={() => navigate("/createPost")}
+                        createButton={() => {navigate("/createPost"); dispatch(resetdraftPost())}}
                         deleteButton={handleDeleteButton}
                         confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)}
                         isDeleting={isDeleting}

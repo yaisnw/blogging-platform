@@ -6,17 +6,24 @@ const ContentPlugin = ({ content }: { content: string }) => {
   const initialized = useRef(false);
 
   useEffect(() => {
-    if (!content || initialized.current) return;
+    if (!content) return;
 
-    editor.update(() => {
+    try {
       const parsed = JSON.parse(content);
-      const editorState = editor.parseEditorState(parsed);
-      editor.setEditorState(editorState);
-      initialized.current = true; 
-    });
-  }, [content, editor]);
+      const newState = editor.parseEditorState(parsed);
 
-  return null;
+      editor.update(() => {
+        editor.setEditorState(newState);
+      });
+
+      initialized.current = true;
+    }
+    catch (err) {
+    console.error("Error parsing editor content:", err);
+  }
+}, [content, editor]);
+
+return null;
 };
 
 export default ContentPlugin;

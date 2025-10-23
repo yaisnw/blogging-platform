@@ -6,12 +6,12 @@ import { $setBlocksType } from '@lexical/selection'
 import "../../styles/editor.css"
 import { $createHeadingNode, $createQuoteNode, $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
 import ImageInsertButton from '../atoms/ImageInsertButton';
+import AppButton from '../atoms/AppButton';
+import AppLink from '../atoms/AppLink';
+import UIstyles from "@/styles/ui.module.css"
 
-function Divider() {
-    return <div className="divider" />;
-}
 
-function ToolBar({ ...props }) {
+function ToolBar() {
     const [editor] = useLexicalComposerContext();
     const [activeBlockType, setActiveBlockType] = useState('paragraph');
     const [canUndo, setCanUndo] = useState(false);
@@ -20,6 +20,8 @@ function ToolBar({ ...props }) {
     const [isItalic, setIsItalic] = useState(false);
     const [isUnderline, setIsUnderline] = useState(false);
     const [isStrikethrough, setIsStrikethrough] = useState(false);
+    const [collapsed, setCollapsed] = useState(false);
+
 
     const $updateToolbar = useCallback(() => {
         const selection = $getSelection();
@@ -122,35 +124,37 @@ function ToolBar({ ...props }) {
     }
 
     return (
-        <div {...props}>
-            <div role="group" aria-label="Text formatting">
-                <button type="button" aria-label="Bold" className={`toolbar-button ${isBold ? 'active' : ''}`} onClick={() => applyFormat('bold')}>Bold</button>
-                <button type="button" aria-label="Italic" className={`toolbar-button ${isItalic ? 'active' : ''}`} onClick={() => applyFormat('italic')}>Italic</button>
-                <button type="button" aria-label="Underline" className={`toolbar-button ${isUnderline ? 'active' : ''}`} onClick={() => applyFormat('underline')}>Underline</button>
-                <button type="button" aria-label="Strikethrough" className={`toolbar-button ${isStrikethrough ? 'active' : ''}`} onClick={() => applyFormat('strikethrough')}>Strikethrough</button>
+        <div className='toolBar-container' >
+            <div className={`nav-container ${collapsed ? "collapsed" : ""}`}>
+                <AppLink to='/home'>Home</AppLink>
+                <AppLink to='/home/dashboard'>Dashboard</AppLink>
             </div>
-            <Divider />
-            <div role="group" aria-label="Alignment">
-                <button type="button" aria-label="Align left" className={'toolbar-button'} onClick={() => applyAlign('left')}>Left</button>
-                <button type="button" aria-label="Align center" className={'toolbar-button'} onClick={() => applyAlign('center')}>Center</button>
-                <button type="button" aria-label="Align right" className={'toolbar-button'} onClick={() => applyAlign('right')}>Right</button>
-                <button type="button" aria-label="Justify text" className={'toolbar-button'} onClick={() => applyAlign('justify')}>Justify</button>
+            <div className='toolBar'>
+                <div className='button-group' role="group" aria-label="Text formatting">
+                    <AppButton type="button" aria-label="Bold" className={`toolbar-button ${isBold ? 'active' : ''}`} onClick={() => applyFormat('bold')}>Bold</AppButton>
+                    <AppButton type="button" aria-label="Italic" className={`toolbar-button ${isItalic ? 'active' : ''}`} onClick={() => applyFormat('italic')}>Italic</AppButton>
+                    <AppButton type="button" aria-label="Underline" className={`toolbar-button ${isUnderline ? 'active' : ''}`} onClick={() => applyFormat('underline')}>Underline</AppButton>
+                    <AppButton type="button" aria-label="Strikethrough" className={`toolbar-button ${isStrikethrough ? 'active' : ''}`} onClick={() => applyFormat('strikethrough')}>Strikethrough</AppButton>
+
+                    <AppButton type="button" aria-label="Align left" className={'toolbar-button'} onClick={() => applyAlign('left')}>Left</AppButton>
+                    <AppButton type="button" aria-label="Align center" className={'toolbar-button'} onClick={() => applyAlign('center')}>Center</AppButton>
+                    <AppButton type="button" aria-label="Align right" className={'toolbar-button'} onClick={() => applyAlign('right')}>Right</AppButton>
+                    <AppButton type="button" aria-label="Justify text" className={'toolbar-button'} onClick={() => applyAlign('justify')}>Justify</AppButton>
+                </div>
+                <div className={`${UIstyles.divider } toolBar-divider`}><span></span></div>
+                <div className='button-group' role="group" aria-label="Block types">
+                    <AppButton type="button" aria-label="Heading 1" className={`toolbar-button ${activeBlockType === 'h1' ? 'active' : ''}`} onClick={() => applyBlockType('h1')}>H1</AppButton>
+                    <AppButton type="button" aria-label="Heading 2" className={`toolbar-button ${activeBlockType === 'h2' ? 'active' : ''}`} onClick={() => applyBlockType('h2')}>H2</AppButton>
+                    <AppButton type="button" aria-label="Heading 3" className={`toolbar-button ${activeBlockType === 'h3' ? 'active' : ''}`} onClick={() => applyBlockType('h3')}>H3</AppButton>
+                    <AppButton type="button" aria-label="Paragraph" className={`toolbar-button ${activeBlockType === 'paragraph' ? 'active' : ''}`} onClick={() => applyBlockType('paragraph')}>Paragraph</AppButton>
+                    <AppButton type="button" aria-label="Quote" className={`toolbar-button ${activeBlockType === 'quote' ? 'active' : ''}`} onClick={() => applyBlockType('quote')}>Quote</AppButton>
+                    <ImageInsertButton />
+                    <AppButton type="button" aria-label="Undo" className={'toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>Undo</AppButton>
+                    <AppButton type="button" aria-label="Redo" className={'toolbar-button'} disabled={!canRedo} onClick={() => applyUndoRedo('redo')}>Redo</AppButton>
+                    <AppButton onClick={() => setCollapsed(!collapsed)} className={' nav-collapse-button'}>{collapsed ? "▼ Expand Navbar" : "▲ Collapse Navbar"}</AppButton>
+
+                </div>
             </div>
-            <Divider />
-            <div role="group" aria-label="Block types">
-                <button type="button" aria-label="Heading 1" className={`toolbar-button ${activeBlockType === 'h1' ? 'active' : ''}`} onClick={() => applyBlockType('h1')}>H1</button>
-                <button type="button" aria-label="Heading 2" className={`toolbar-button ${activeBlockType === 'h2' ? 'active' : ''}`} onClick={() => applyBlockType('h2')}>H2</button>
-                <button type="button" aria-label="Heading 3" className={`toolbar-button ${activeBlockType === 'h3' ? 'active' : ''}`} onClick={() => applyBlockType('h3')}>H3</button>
-                <button type="button" aria-label="Paragraph" className={`toolbar-button ${activeBlockType === 'paragraph' ? 'active' : ''}`} onClick={() => applyBlockType('paragraph')}>Paragraph</button>
-                <button type="button" aria-label="Quote" className={`toolbar-button ${activeBlockType === 'quote' ? 'active' : ''}`} onClick={() => applyBlockType('quote')}>Quote</button>
-            </div>
-            <Divider />
-            <div role="group" aria-label="Undo and redo">
-                <button type="button" aria-label="Undo" className={'toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>Undo</button>
-                <button type="button" aria-label="Redo" className={'toolbar-button'} disabled={!canRedo} onClick={() => applyUndoRedo('redo')}>Redo</button>
-            </div>
-            <Divider />
-            <ImageInsertButton />
         </div>
     );
 }

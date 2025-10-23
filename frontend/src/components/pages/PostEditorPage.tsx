@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PostEditorTemplate from "../templates/PostEditorTemplate";
 import Editor from "../organisms/Editor";
 import type { RootState } from "@/store";
-import { useCreatePostMutation, useLazyGetPostByIdQuery, useUpdatePostMutation } from "@/services/postsApi";
+import { useCreatePostMutation, useGetPostByIdQuery   , useUpdatePostMutation } from "@/services/postsApi";
 import { setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
 import { setPostId } from "@/slices/uiSlice";
 import AppLoader from "../atoms/AppLoader";
@@ -24,20 +24,19 @@ const PostEditorPage = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [createPost, { isLoading: createPostLoading, isError: createPostError }] = useCreatePostMutation();
   const [updatePost, { isLoading: updatePostLoading, isError: updatePostError }] = useUpdatePostMutation();
-  const [trigger] = useLazyGetPostByIdQuery();
+  const {data, isLoading: getPostLoading, isError: getPostError, isSuccess: getPostSuccess} = useGetPostByIdQuery(id ? Number(id) : 0, {skip : !id});
 
   useEffect(() => {
     if (!id) return;
     const fetchDraft = async () => {
-      const result = await trigger(Number(id));
-      if (result.data) {
-        dispatch(setDraftContent(result.data.content))
-        dispatch(setDraftTitle(result.data.title))
+      if (data && getPostSuccess) {
+        dispatch(setDraftContent(data.content))
+        dispatch(setDraftTitle(data.title))
         setIsUpdating(true);
       }
     };
     fetchDraft();
-  }, [id, trigger, dispatch]);
+  }, [id, data, dispatch, getPostSuccess]);
 
   const handleChangeTitle = (val: string) => {
     dispatch(setDraftTitle(val));
@@ -57,17 +56,19 @@ const PostEditorPage = () => {
     } else {
       await createPost({ title, content, status }).unwrap();
     }
-    dispatch(setDraftTitle(''), setDraftContent(''), setPostId(0))
+    dispatch(setDraftTitle(''))
+    dispatch(setDraftContent(''))
+    dispatch(setPostId(0));
     navigate("/home/dashboard");
   };
 
-  if (createPostLoading || updatePostLoading) {
+  if (createPostLoading || updatePostLoading || getPostLoading || (!title && !content)) {
     return (
       <AppLoader mode="page" />
     );
   }
 
-  if (createPostError || updatePostError) {
+  if (createPostError || updatePostError || getPostError) {
     return (
       <ErrorState message='Something went wrong while uploading the post.' onRetry={() => window.location.reload()} actionLabel="View other posts" onAction={() => navigate('/home/posts')} />
     )

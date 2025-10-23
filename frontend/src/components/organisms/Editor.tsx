@@ -17,6 +17,7 @@ import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import ContentPlugin from "@/lexicalCustom/ContentPlugin";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
+import AppButton from "../atoms/AppButton";
 
 type Props = {
   title: string;
@@ -62,12 +63,12 @@ const Editor: React.FC<Props> = ({
   onSubmit,
 }) => {
   const loading = useSelector((state: RootState) => state.ui.imageUploading)
-  
+
   const initialConfig = {
     namespace: "MyEditor",
     theme,
     onError,
-    nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode, ],
+    nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode,],
   };
 
   const handleChangeEditor = (editorState: EditorState) => {
@@ -77,33 +78,35 @@ const Editor: React.FC<Props> = ({
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <ToolBar className='toolbar' />
-      <form className="post-form">
+      <ToolBar />
+      <form className="header-form">
         <input
           type="text"
-          maxLength={80}
-          className="post-input"
+          maxLength={100}
+          className="header-input"
           value={title}
           required
           onChange={(e) => onTitleChange(e.target.value)}
 
         />
-        <button type="button" className="submit-button" onClick={onSubmit}>
-          {isUpdating ? "Update" : "Submit"}
-        </button>
-        <label>
-          <input
-            type="checkbox"
-            checked={status === "draft"}
-            onChange={() =>
-              onStatusChange(status === "published" ? "draft" : "published")
-            }
-          />{" "}
-          Save as draft
-        </label>
+        <div className="header-submit">
+          <AppButton type="button" className="submit-button" onClick={onSubmit}>
+            {isUpdating ? "Update" : "Submit"}
+          </AppButton>
+          <label>
+            <input
+              type="checkbox"
+              checked={status === "draft"}
+              onChange={() =>
+                onStatusChange(status === "published" ? "draft" : "published")
+              }
+            />{" "}
+            Save as draft
+          </label>
+        </div>
       </form>
 
-      <div className="editor-container" style={{pointerEvents: loading ? 'none' : 'auto'}}>
+      <div className="editor-container" style={{ pointerEvents: loading ? 'none' : 'auto' }}>
         <RichTextPlugin contentEditable={<ContentEditable className="editor" />} ErrorBoundary={LexicalErrorBoundary} />
       </div>
 
