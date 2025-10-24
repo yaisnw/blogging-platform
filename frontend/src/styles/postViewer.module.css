@@ -1,6 +1,27 @@
+.viewerContainer {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+
+.viewer {
+    width: 50vw;
+    background-color: var(--color-on-accent);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 3rem auto;
+    min-height: 300px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 20%, white  80%);
+    color: var(--color-text);
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
 .headerBox {
     width: 50vw;
     margin: 0 auto;
+    margin-top: 5rem;
 }
 
 .commentInputs {
@@ -15,13 +36,10 @@
     padding: 1rem;
 }
 
-.commentButton {
-    height: 2rem;
-}
-
 .interactionFlex {
     margin: 0 auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2rem;
@@ -32,18 +50,25 @@
     align-items: center;
     gap: 1rem;
 }
+
 .authorContainer {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1rem;
 }
+
 .postTitle {
     display: flex;
     justify-content: center;
-    margin: 3rem;
+    margin: 3rem 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-accent);
 }
+
 .postInfo {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     gap: 5rem;
 }

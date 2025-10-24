@@ -14,13 +14,12 @@ import type { UiState } from './slices/uiSlice';
 const uiTransform = createTransform<UiState, Partial<UiState>>(
   (inboundState) => ({
     postId: inboundState.postId,
-    searchQuery: inboundState.searchQuery
   }),
   (outboundState) => ({
     postId: outboundState.postId ?? 0,
     deletingPostIds: [],
     tabState: "posts",
-    searchQuery: outboundState.searchQuery ?? "",
+    searchQuery: "",
     imageUploading: false,
   }),
   { whitelist: ["ui"] }

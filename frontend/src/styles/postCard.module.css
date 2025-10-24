@@ -18,12 +18,20 @@
     gap: 1rem;
 }
 .publishedBadge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
     background-color: var(--color-accent);
     color: var(--color-on-accent);
     justify-self: start;
     padding: 10px;
 }
 .draftBadge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
     background-color: var(--color-warning);
     color: var(--color-on-accent);
     justify-self: start;
@@ -73,6 +81,12 @@
     font-size: 1.5rem;
     flex-wrap: wrap;
     word-break: break-word;
+}
+.titleSubContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
 .postCardImage {
     width: 30px;

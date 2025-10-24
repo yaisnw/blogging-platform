@@ -70,9 +70,22 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
                     {title}
                 </AppHeader>
-                <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
-                    {status?.charAt(0).toUpperCase() + status.slice(1)}
-                </span>
+                <div className={styles.titleSubContainer}>
+                    {isDeleting && (
+                        <AppLabel>
+                            <AppInput
+                                checked={deletingPostIds.includes(postId)}
+                                onChange={() => handleDeleteCheck(postId)}
+                                type="checkbox"
+                                aria-label="Select post for deletion"
+                            />{" "}
+                            Delete
+                        </AppLabel>
+                    )}
+                    <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
+                        {status?.charAt(0).toUpperCase() + status.slice(1)}
+                    </span>
+                </div>
             </header>
 
             <section className={styles.postMeta} aria-label="Post meta">
@@ -105,17 +118,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 </div>
 
                 <div className={styles.interactionBox}>
-                    {isDeleting && (
-                        <AppLabel>
-                            <AppInput
-                                checked={deletingPostIds.includes(postId)}
-                                onChange={() => handleDeleteCheck(postId)}
-                                type="checkbox"
-                                aria-label="Select post for deletion"
-                            />{" "}
-                            Delete
-                        </AppLabel>
-                    )}
+
                     {editButton && (
                         <AppButton type="button" onClick={editButton}>
                             Edit Post
@@ -126,6 +129,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                             View Post
                         </AppButton>
                     )}
+
                 </div>
             </footer>
         </article>

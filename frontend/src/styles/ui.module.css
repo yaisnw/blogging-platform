@@ -85,7 +85,6 @@
   align-items: center;
   gap: 2rem;
   padding: 1rem;
-  border: 1px solid var(--color-border);
   border-radius: 10px;
   background: var(--color-bg);
 }
@@ -137,6 +136,8 @@
 }
 
 .avatar {
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
   width: 2rem;
   height: 2rem;
 }
@@ -153,7 +154,7 @@
 }
 
 .appButton {
-  width: 8rem;
+  width: 9rem;
   cursor: pointer;
   color: var(--color-on-accent);
   background-color: var(--color-accent);

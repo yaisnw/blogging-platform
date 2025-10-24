@@ -12,6 +12,9 @@ type CommentForm = {
 const CommentForm: React.FC<CommentForm> = ({ commentContent, setCommentContent, submitComment }) => {
     return (
         <section className={styles.interactionFlex}>
+            <h1>
+                Comments
+            </h1>
             <form
                 className={styles.commentForm}
                 onSubmit={(e) => {

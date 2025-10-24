@@ -38,11 +38,7 @@ const SearchBar = () => {
           className={styles.searchInput}
           aria-label="Search input"
         />
-        {searchQuery && (
-          <AppButton type="button" onClick={handleClear}>
-            X
-          </AppButton>
-        )}
+    
       </div>
       <button className={styles.searchButton} type="submit" aria-label="Go to search">
         <img src="/search.svg" alt="" aria-hidden="true" />

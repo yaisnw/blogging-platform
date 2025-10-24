@@ -146,7 +146,7 @@ const PostViewerPage = () => {
         <>
             <SEO title={post.title ? post.title : 'Post Viewer'} description={post.content ? PlainTextFromEditorState(post.content).slice(0, 150) : 'View any post'} author={post.User.username} />
             <PostViewerTemplate
-                header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} avatar_url={post.User.avatar_url} />}
+                header={<PostHeader likeCount={likeCount} liked={liked} OnLike={handleLike} title={post.title} authorId={post.authorId} author={post.User.username} avatar_url={post.User.avatar_url} createdAt={post.createdAt} />}
                 viewer={<PostViewer content={post.content} />}
                 interactionBox={<CommentForm
                     commentContent={commentContent ?? ""}

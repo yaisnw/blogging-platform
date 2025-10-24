@@ -1,5 +1,5 @@
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-
+import styles from "@/styles/postViewer.module.css"
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { ParagraphNode, RootNode, TextNode } from "lexical";
@@ -42,9 +42,9 @@ const Viewer: React.FC<Props> = ({ content }) => {
 
     return (
         <LexicalComposer initialConfig={initialConfig}>
-            <div className="editor-container">
+            <div className={styles.viewerContainer}>
                 <RichTextPlugin
-                    contentEditable={<ContentEditable className="editor" />}
+                    contentEditable={<ContentEditable className={styles.viewer} />}
                     ErrorBoundary={LexicalErrorBoundary}
                 />
             </div>

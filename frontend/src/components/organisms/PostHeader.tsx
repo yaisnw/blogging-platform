@@ -12,10 +12,16 @@ type Props = {
     title: string,
     authorId: number,
     author: string,
-    avatar_url: string
+    avatar_url: string,
+    createdAt: string,
 }
 
-const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId, author, avatar_url }) => {
+const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId, author, avatar_url, createdAt }) => {
+    const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
     return (
         <header className={styles.headerBox} >
             <AppHeader className={styles.postTitle}>{title}</AppHeader>
@@ -27,6 +33,7 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
                 <div className={styles.authorContainer}>
                     <p>By <Link to={`/home/profile/${authorId}`} >{author}</Link></p>
                     <AppImage src={avatar_url} className={UIstyles.avatar} />
+                    <p>• {formattedCreatedAt}</p>
                 </div>
             </div>
         </header>
