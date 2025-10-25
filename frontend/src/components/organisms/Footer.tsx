@@ -1,12 +1,14 @@
 import AppLink from "../atoms/AppLink";
 import styles from '../../styles/footer.module.css';
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
+
 
 const Footer = () => {
     const [loggedIn, setLoggedIn] = useState(false)
     useEffect(() => {
         const token = localStorage.getItem("token")
-        if(token){
+        if (token) {
             setLoggedIn(true)
         }
         else {
@@ -15,7 +17,11 @@ const Footer = () => {
     }, [setLoggedIn])
 
     return (
-        <footer className={styles.footer}>
+        <motion.footer
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }} 
+            className={styles.footer}>
             <nav className={styles.navSection}>
                 <ul className={styles.linkGroupLeft}>
                     <li><AppLink to="/home">Home</AppLink></li>
@@ -29,7 +35,7 @@ const Footer = () => {
                 </ul>
             </nav>
             <p className={styles.copy}>&copy; {new Date().getFullYear()} YourSiteName. All rights reserved.</p>
-        </footer>
+        </motion.footer>
     );
 };
 

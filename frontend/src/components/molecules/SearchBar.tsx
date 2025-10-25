@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/store"
-import { setSearchQuery, clearSearchQuery } from "@/slices/uiSlice"
+import { setSearchQuery } from "@/slices/uiSlice"
 import styles from "@/styles/nav.module.css"
 import AppInput from "../atoms/AppInput"
-import AppButton from "../atoms/AppButton"
 import { useNavigate } from "react-router"
 
 const SearchBar = () => {
@@ -15,9 +14,7 @@ const SearchBar = () => {
     dispatch(setSearchQuery(e.target.value))
   }
 
-  const handleClear = () => {
-    dispatch(clearSearchQuery())
-  }
+
 
   return (
     <form

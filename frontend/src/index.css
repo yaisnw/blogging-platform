@@ -7,6 +7,7 @@
   --color-text: #112D4E;
   --color-text-secondary: #000000;
   --color-on-accent: #FFFFFF;
+  --color-light-accent: color-mix(in srgb, var(--color-accent) 30%, white 70% );
   --color-warning: #e85151;
   --color-border: #A7B4C6;
 
@@ -34,6 +35,7 @@ body {
 
 main {
   flex: 1 0 auto;
+  overflow-x: hidden;
 }
 
 input, button {

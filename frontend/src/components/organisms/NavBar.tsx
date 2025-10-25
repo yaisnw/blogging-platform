@@ -9,13 +9,13 @@ import { logOut } from '@/slices/authSlice';
 import SearchBar from '../molecules/SearchBar';
 import AppButton from '../atoms/AppButton';
 import Footer from './Footer';
-
+import { motion } from "motion/react"
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
     const { loggedIn, authChecked } = useAuthStatus();
     const navigate = useNavigate();
-    
+
 
 
     useEffect(() => {
@@ -35,7 +35,11 @@ const NavBar = () => {
 
     return (
         <>
-            <nav className={styles.nav}>
+            <motion.nav
+                className={styles.nav}
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}>
                 <div className={styles.nav1}>
                     <AppLink className={styles.navButton} to="/home">Home</AppLink>
                     <AppLink className={styles.navButton} to="/home/posts">Posts</AppLink>
@@ -45,9 +49,9 @@ const NavBar = () => {
                 <div className={styles.nav1}>
                     {loggedIn && <AppLink className={styles.navButton} to="/home/profile">Profile</AppLink>}
                     <AppLink className={styles.navButton} to="/home/about">About</AppLink>
-                    <AppButton className={styles.navButton}  onClick={logOutHandler}>Log out</AppButton>
+                    <AppButton className={styles.navButton} onClick={logOutHandler}>Log out</AppButton>
                 </div>
-            </nav>
+            </motion.nav>
             <Outlet />
             <Footer />
         </>
