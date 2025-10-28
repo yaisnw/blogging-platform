@@ -23,10 +23,12 @@
     align-items: center;
     justify-content: center;
     width: 5rem;
-    background-color: var(--color-accent);
-    color: var(--color-on-accent);
+    background-color: var(--color-affirm);
+    color: var(--color-text);
     justify-self: start;
-    padding: 10px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 .draftBadge {
     display: flex;
@@ -36,7 +38,8 @@
     background-color: var(--color-warning);
     color: var(--color-on-accent);
     justify-self: start;
-    padding: 10px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .engagementBox {
@@ -94,9 +97,4 @@
 .postCardImage {
     width: 30px;
     height: 30px;
-}
-.postCard a {
-    color: black;
-    text-decoration: underline;
-    
 }

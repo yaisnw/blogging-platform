@@ -1,4 +1,5 @@
 import styles from '@/styles/ui.module.css';
+import { motion } from 'motion/react'
 
 type LoaderMode = "page" | "normal" | "mini";
 
@@ -24,9 +25,13 @@ const AppLoader = ({ mode = "normal" }: AppLoaderProps) => {
     }
 
     return (
-        <div className={styles.loaderNormalWrapper}>
+        <motion.div
+            initial={{ opacity: 0}}
+            animate={{ opacity: 1}}
+            transition={{ duration: 0.5 }}
+            className={styles.loaderNormalWrapper}>
             <span className={`${styles.loader} ${styles.loaderNormal}`}></span>
-        </div>
+        </motion.div>
     );
 };
 

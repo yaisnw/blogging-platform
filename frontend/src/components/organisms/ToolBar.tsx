@@ -125,28 +125,30 @@ function ToolBar() {
 
     return (
         <div className='toolBar-container' >
-            <div className={`nav-container ${collapsed ? "collapsed" : ""}`}>
-                <AppLink to='/home'>Home</AppLink>
-                <AppLink to='/home/dashboard'>Dashboard</AppLink>
-            </div>
+
             <div className='toolBar'>
                 <div className='button-group' role="group" aria-label="Text formatting">
                     <AppButton type="button" aria-label="Bold" className={`toolbar-button ${isBold ? 'active' : ''}`} onClick={() => applyFormat('bold')}>Bold</AppButton>
                     <AppButton type="button" aria-label="Italic" className={`toolbar-button ${isItalic ? 'active' : ''}`} onClick={() => applyFormat('italic')}>Italic</AppButton>
                     <AppButton type="button" aria-label="Underline" className={`toolbar-button ${isUnderline ? 'active' : ''}`} onClick={() => applyFormat('underline')}>Underline</AppButton>
                     <AppButton type="button" aria-label="Strikethrough" className={`toolbar-button ${isStrikethrough ? 'active' : ''}`} onClick={() => applyFormat('strikethrough')}>Strikethrough</AppButton>
-
+                </div>
+                
+                <div className='button-group' role="group" aria-label="Text formatting">
                     <AppButton type="button" aria-label="Align left" className={'toolbar-button'} onClick={() => applyAlign('left')}>Left</AppButton>
                     <AppButton type="button" aria-label="Align center" className={'toolbar-button'} onClick={() => applyAlign('center')}>Center</AppButton>
                     <AppButton type="button" aria-label="Align right" className={'toolbar-button'} onClick={() => applyAlign('right')}>Right</AppButton>
                     <AppButton type="button" aria-label="Justify text" className={'toolbar-button'} onClick={() => applyAlign('justify')}>Justify</AppButton>
                 </div>
-                <div className={`${UIstyles.divider } toolBar-divider`}><span></span></div>
+                <div className={`${UIstyles.divider} toolBar-divider`}><span></span></div>
+                <div className={`${UIstyles.divider} vertical-divider`}><span></span></div>
                 <div className='button-group' role="group" aria-label="Block types">
                     <AppButton type="button" aria-label="Heading 1" className={`toolbar-button ${activeBlockType === 'h1' ? 'active' : ''}`} onClick={() => applyBlockType('h1')}>H1</AppButton>
                     <AppButton type="button" aria-label="Heading 2" className={`toolbar-button ${activeBlockType === 'h2' ? 'active' : ''}`} onClick={() => applyBlockType('h2')}>H2</AppButton>
                     <AppButton type="button" aria-label="Heading 3" className={`toolbar-button ${activeBlockType === 'h3' ? 'active' : ''}`} onClick={() => applyBlockType('h3')}>H3</AppButton>
                     <AppButton type="button" aria-label="Paragraph" className={`toolbar-button ${activeBlockType === 'paragraph' ? 'active' : ''}`} onClick={() => applyBlockType('paragraph')}>Paragraph</AppButton>
+                </div>
+                <div className='button-group' role="group" aria-label="Text formatting">
                     <AppButton type="button" aria-label="Quote" className={`toolbar-button ${activeBlockType === 'quote' ? 'active' : ''}`} onClick={() => applyBlockType('quote')}>Quote</AppButton>
                     <ImageInsertButton />
                     <AppButton type="button" aria-label="Undo" className={'toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>Undo</AppButton>
@@ -154,6 +156,10 @@ function ToolBar() {
                     <AppButton onClick={() => setCollapsed(!collapsed)} className={' nav-collapse-button'}>{collapsed ? "▼ Expand Navbar" : "▲ Collapse Navbar"}</AppButton>
 
                 </div>
+            </div>
+            <div className={`nav-container ${collapsed ? "collapsed" : ""}`}>
+                <AppLink to='/home'>Home</AppLink>
+                <AppLink to='/home/dashboard'>Dashboard</AppLink>
             </div>
         </div>
     );

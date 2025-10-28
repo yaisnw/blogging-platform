@@ -9,13 +9,16 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 import HeartButton from "../atoms/HeartButton";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import AppLoader from "../atoms/AppLoader";
 import { setDraftTitle } from "@/slices/draftPostSlice";
 import slugify from "slugify"
 import AppButton from "../atoms/AppButton";
 import AppLabel from "../atoms/AppLabel";
 import AppInput from "../atoms/AppInput";
+import AppLink from "../atoms/AppLink";
+import { motion } from "motion/react"
+
 
 type PostCardProps = {
     postId: number,
@@ -65,7 +68,12 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     }
 
     return (
-        <article className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
+        <motion.article
+
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
             <header>
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
                     {title}
@@ -103,9 +111,9 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
                 {author && (
                     <div className={styles.authorBox}>
-                        <p>
-                            By <Link to={`/home/profile/${authorId}`}>{author}</Link>
-                        </p>
+                        <AppParagraph>
+                            By <AppLink to={`/home/profile/${authorId}`}>{author}</AppLink>
+                        </AppParagraph>
                         <img loading="lazy" className={UIstyles.avatar} src={avatar_url} alt={`${author} avatar`} />
                     </div>
                 )}
@@ -132,7 +140,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
                 </div>
             </footer>
-        </article>
+        </motion.article>
     );
 }
 

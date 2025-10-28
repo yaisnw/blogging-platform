@@ -4,6 +4,7 @@
     background-color: var(--color-surface);
     color: var(--color-text);
     border-top: 1px solid #444;
+    margin-top: 5rem;
 }
 
 .navSection {

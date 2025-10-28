@@ -9,6 +9,7 @@
   --color-on-accent: #FFFFFF;
   --color-light-accent: color-mix(in srgb, var(--color-accent) 30%, white 70% );
   --color-warning: #e85151;
+  --color-affirm: #6FCF97;
   --color-border: #A7B4C6;
 
   font-family: 'Ubuntu', sans-serif;
@@ -31,11 +32,12 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+  overflow-x: hidden;
+
 }
 
 main {
   flex: 1 0 auto;
-  overflow-x: hidden;
 }
 
 input, button {

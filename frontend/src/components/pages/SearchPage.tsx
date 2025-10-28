@@ -28,38 +28,44 @@ const SearchPage = () => {
 
     if (postsLoading || usersLoading) {
         return (
-            <AppLoader mode="page" />
+            <main>
+                <AppLoader mode="page" />
+            </main>
         )
     }
 
     let contentTab
     if (postsError || usersError) {
         contentTab = (
-            <ErrorState message={`Something went wrong while fetching the ${postsError ? "posts." : "users."}`} onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+            <main>
+                <ErrorState message={`Something went wrong while fetching the ${postsError ? "posts." : "users."}`} onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+            </main>
         )
     } else if (
         (tabState === "posts" && (!postsResponse?.posts || postsResponse?.posts.length === 0)) ||
         (tabState === "users" && (!usersResponse?.users || usersResponse?.users.length === 0))
     ) {
         contentTab = (
-            <ErrorState mode="normal" message={`There are no ${tabState === "posts" ? "posts" : "users"} matching  '${searchQuery}'`} />
+            <main>
+                <ErrorState mode="normal" message={`There are no ${tabState === "posts" ? "posts" : "users"} matching  '${searchQuery}'`} />
+            </main>
         )
     } else {
         contentTab =
             tabState === "posts" ? (
                 postsResponse?.posts.map((post: blogPost) => (
                     <PostCard
-                    key={post.id}
-                    postId={post.id}
-                    title={post.title || "This is an incomplete draft."}
-                    likeCount={post.likeCount}
-                    hasLiked={post.hasLiked}
-                    createdAt={post.createdAt}
-                    updatedAt={post.updatedAt}
-                    status={post.status}
-                    author={post.User.username}
-                    avatar_url={post.User.avatar_url}
-                />
+                        key={post.id}
+                        postId={post.id}
+                        title={post.title || "This is an incomplete draft."}
+                        likeCount={post.likeCount}
+                        hasLiked={post.hasLiked}
+                        createdAt={post.createdAt}
+                        updatedAt={post.updatedAt}
+                        status={post.status}
+                        author={post.User.username}
+                        avatar_url={post.User.avatar_url}
+                    />
                 ))
             ) : (
                 usersResponse?.users.map((user: responseUser) => (

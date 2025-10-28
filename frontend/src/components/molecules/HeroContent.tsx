@@ -1,7 +1,7 @@
 import AppHeader from '../atoms/AppHeading'
 import AppParagraph from '../atoms/AppParagraph'
-import AppLink from '../atoms/AppLink'
 import { useAuthStatus } from '@/hooks/useAuthStatus'
+import CTAButton from '../atoms/CTAButton'
 
 const HeroContent = (props: React.HTMLAttributes<HTMLElement>) => {
     const {loggedIn} = useAuthStatus();
@@ -15,9 +15,9 @@ const HeroContent = (props: React.HTMLAttributes<HTMLElement>) => {
                     ? 'Read posts from writers across the platform and find inspiration in their stories.'
                     : 'Browse our community’s stories and discover what makes our platform special.'}
             </AppParagraph>
-            <AppLink to={loggedIn ? '/home/posts' : '/posts'}>
+            <CTAButton to={loggedIn ? '/home/posts' : '/posts'}>
                 {loggedIn ? 'View Posts' : 'Start Reading'}
-            </AppLink>
+            </CTAButton>
         </section>
     );
 }
