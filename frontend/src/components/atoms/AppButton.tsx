@@ -1,17 +1,41 @@
 import React from "react";
 import styles from "@/styles/ui.module.css";
 
-type AppButtonProps = {
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+type Variant = "primary" | "secondary" | "danger";
+
+interface AppButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: Variant;
+    showDisabledPopup?: boolean;
+    onDisabledClick?: () => void;
+}
 
 const AppButton: React.FC<AppButtonProps> = ({
-    className,      
+    className = "",
+    variant = "primary",
+    disabled,
+    showDisabledPopup = false,
+    onDisabledClick,
+    onClick,
     children,
     ...props
 }) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (disabled) {
+            if (showDisabledPopup && onDisabledClick) {
+                e.preventDefault();
+                e.stopPropagation();
+                onDisabledClick();
+            }
+            return; 
+        }
+        onClick?.(e);
+    };
+
     return (
         <button
-            className={`${styles.appButton} ${className || ""}`}   
+            className={`${styles.appButton} ${styles[variant]} ${className}`}
+            disabled={disabled}
+            onClick={handleClick}
             {...props}
         >
             {children}

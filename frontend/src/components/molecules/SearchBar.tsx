@@ -32,14 +32,11 @@ const SearchBar = () => {
           placeholder="Search posts or users..."
           value={searchQuery}
           onChange={handleChange}
-          className={styles.searchInput}
           aria-label="Search input"
         />
     
       </div>
-      <button className={styles.searchButton} type="submit" aria-label="Go to search">
-        <img src="/search.svg" alt="" aria-hidden="true" />
-      </button>
+        <img  className={styles.searchButton} src="/search.svg" alt="" aria-hidden="true" />
     </form>
   );
 }

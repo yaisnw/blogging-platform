@@ -2,15 +2,22 @@
 
 :root {
   --color-bg: #F9F7F7;
-  --color-surface: #DBE2EF;
+  --color-surface: #E8EEF5;
   --color-accent: #3F72AF;
   --color-text: #112D4E;
   --color-text-secondary: #000000;
   --color-on-accent: #FFFFFF;
-  --color-light-accent: color-mix(in srgb, var(--color-accent) 30%, white 70% );
-  --color-warning: #e85151;
+  --color-light-accent: color-mix(in srgb, var(--color-accent) 30%, white 70%);
+  --color-border: #C8D3E1;
+
+  --color-accent-warm: #F2A365;
+
+  --color-accent-hover: #335E99;
+  --color-accent-light: #EAF1FA;
+
+  --color-warning: #E85A5A;
   --color-affirm: #6FCF97;
-  --color-border: #A7B4C6;
+  --color-info: #56CCF2;
 
   font-family: 'Ubuntu', sans-serif;
   line-height: 1.5;
@@ -40,12 +47,9 @@ main {
   flex: 1 0 auto;
 }
 
-input, button {
+input,
+button {
   font-family: 'Ubuntu', sans-serif;
 }
 
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}

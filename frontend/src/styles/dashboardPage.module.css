@@ -12,9 +12,13 @@
     grid-template-columns: 1;
     gap: 2rem;
 }
+.panel button {
+    width: 11rem;
+}
 .deleteButton {
     background-color: var(--color-warning);
 }
+
 .postCardsBox {
     width: 70vw;
     min-height: 15vw;

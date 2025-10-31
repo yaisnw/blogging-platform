@@ -69,6 +69,7 @@ const DashboardPage = () => {
                         deleteButton={handleDeleteButton}
                         confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)}
                         isDeleting={isDeleting}
+                        deletingPostIds={deletingPostIds}
                     />
                 }
                 cards={data?.posts.map((post) => (

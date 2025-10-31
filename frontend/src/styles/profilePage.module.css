@@ -6,15 +6,33 @@
     box-shadow: 1px 1px 5px 1px var(--color-light-accent);
 }
 
+.profileContainer h1 {
+    margin: 0;
+}
+
+.profileContainer {
+    margin: 8rem 0;
+}
+
 .profileCard,
-.publicProfileCard {
+.publicProfileCard,
+.editingProfileCard,
+.passwordFormContainer {
+    margin: 0 auto;
+    height: 45vh;
     width: 35vw;
-    margin: 5rem auto;
+    padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+
+.profileCard button {
+    width: 12rem;
 }
 
 .publicProfileCard {
@@ -22,32 +40,25 @@
     border: 2px solid var(--color-border);
     box-shadow: 1px 1px 5px 2px var(--color-light-accent);
     padding: 2rem;
-
 }
-
-
 
 .labelButton {
     text-align: center;
-    cursor: pointer;
-    color: var(--color-on-accent);
-    background-color: var(--color-accent);
-    padding: 1rem 1.5rem;
-    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .editingProfileCard {
-    width: 40vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 5rem auto;
+    margin: 8rem auto;
     text-align: left;
     gap: 2rem;
 }
 
-.editingFieldset {}
 
 .formContainer {
     width: 25vw;
@@ -59,14 +70,13 @@
 }
 
 .editingFooter {
-    width: 100%;
+    width: 60%;
     display: flex;
     justify-content: space-around;
 }
 
 .passwordFormContainer {
-    width: 40vw;
-    margin: 5rem auto;
+    margin: 8rem auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,6 +86,7 @@
 
 .editingProfileCard button,
 .passwordFormContainer button {
+    width: 11rem;
     text-align: center;
     padding: 1rem 1rem;
 }
@@ -119,22 +130,21 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin: 2rem;
+    margin: 5rem;
 }
 
 .tabPanelButton {
-    background-color: var(--color-surface);
-    color: var(--color-text-secondary);
-    padding: 0.5rem 1rem;
-    border: none;
-}
 
-.tabPanelButton:hover {
-    cursor: pointer;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
 }
 
 .activeTab {
     background-color: var(--color-accent);
     color: var(--color-on-accent);
-    box-shadow: 1px black;
+    cursor: default;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
 }

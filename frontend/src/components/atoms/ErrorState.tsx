@@ -1,4 +1,6 @@
 import styles from "@/styles/ui.module.css";
+import { motion } from "motion/react";
+
 
 type ErrorMode = "page" | "normal";
 
@@ -21,7 +23,11 @@ export default function ErrorState({
     mode === "page" ? styles.pageError : styles.componentErrorWrapper;
 
   return (
-    <div className={wrapperClass}>
+    <motion.div
+      initial={{ opacity: 0, scale: 1.1 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className={wrapperClass}>
       <h1 className={styles.error}>{message}</h1>
       <div className={styles.componentError}>
         {onRetry && (
@@ -35,6 +41,6 @@ export default function ErrorState({
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -72,7 +72,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5 }}
             className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
             <header>
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
