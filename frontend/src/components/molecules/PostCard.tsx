@@ -72,7 +72,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
             <header>
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
@@ -114,7 +114,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                         <AppParagraph>
                             By <AppLink to={`/home/profile/${authorId}`}>{author}</AppLink>
                         </AppParagraph>
-                        <img loading="lazy" className={UIstyles.avatar} src={avatar_url} alt={`${author} avatar`} />
+                        <img loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.avatar} src={avatar_url} alt={`${author} avatar`} />
                     </div>
                 )}
             </section>

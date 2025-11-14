@@ -26,7 +26,7 @@ export default function ErrorState({
     <motion.div
       initial={{ opacity: 0, scale: 1.1 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
       className={wrapperClass}>
       <h1 className={styles.error}>{message}</h1>
       <div className={styles.componentError}>

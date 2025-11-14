@@ -4,9 +4,9 @@ type HeartButtonProps = {
     editable?: boolean,
     liked: boolean,
     OnLike?: () => void
-}
+} & React.SVGAttributes<SVGElement>
 
-const HeartButton: React.FC<HeartButtonProps> = ({ editable, liked, OnLike }) => {
+const HeartButton: React.FC<HeartButtonProps> = ({ editable, liked, OnLike, ...props }) => {
 
 
 
@@ -19,6 +19,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({ editable, liked, OnLike }) =>
             viewBox="0 0 64 64"
             width="32"
             height="32"
+            {...props}
         >
             <path
                 d="M58.714,29.977c0,0-0.612,0.75-1.823,1.961S33.414,55.414,33.414,55.414C33.023,55.805,32.512,56,32,56 

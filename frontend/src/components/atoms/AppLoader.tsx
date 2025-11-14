@@ -28,7 +28,7 @@ const AppLoader = ({ mode = "normal" }: AppLoaderProps) => {
         <motion.div
             initial={{ opacity: 0}}
             animate={{ opacity: 1}}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             className={styles.loaderNormalWrapper}>
             <span className={`${styles.loader} ${styles.loaderNormal}`}></span>
         </motion.div>

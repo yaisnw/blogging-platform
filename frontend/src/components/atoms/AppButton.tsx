@@ -3,11 +3,11 @@ import styles from "@/styles/ui.module.css";
 
 type Variant = "primary" | "secondary" | "danger";
 
-interface AppButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: Variant;
-    showDisabledPopup?: boolean;
-    onDisabledClick?: () => void;
-}
+type AppButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: Variant;
+  showDisabledPopup?: boolean;
+  onDisabledClick?: () => void;
+};
 
 const AppButton: React.FC<AppButtonProps> = ({
     className = "",

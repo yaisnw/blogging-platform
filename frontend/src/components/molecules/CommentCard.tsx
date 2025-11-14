@@ -4,6 +4,8 @@ import UIstyles from "@/styles/ui.module.css";
 import styles from "@/styles/comments.module.css";
 import AppTextArea from "../atoms/AppTextArea";
 import AppButton from "../atoms/AppButton";
+import { motion } from "motion/react"
+
 
 type CommentCardProps = {
     commentId: number,
@@ -41,7 +43,11 @@ const CommentCard: React.FC<CommentCardProps> = ({
         day: "numeric",
     });
     return (
-        <article className={styles.commentCard} aria-labelledby={`comment-${commentId}-author`}>
+        <motion.article
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className={styles.commentCard} aria-labelledby={`comment-${commentId}-author`}>
             <header className={styles.authorBox}>
                 <AppImage className={UIstyles.avatar} src={avatar_url} alt={`${username} avatar`} />
                 <h3 id={`comment-${commentId}-author`}>{username}</h3>
@@ -102,7 +108,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
                     )}
                 </div>
             </footer>
-        </article>
+        </motion.article>
     );
 };
 

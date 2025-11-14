@@ -15,7 +15,7 @@ const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confi
         <motion.nav
             initial={{ opacity: 0.6, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
 
             className={styles.panel} aria-label="Post actions">
             <AppButton onClick={createButton}>Create Post</AppButton>

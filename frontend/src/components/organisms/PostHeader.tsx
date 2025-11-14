@@ -1,9 +1,9 @@
-import { Link } from "react-router";
 import AppHeader from "../atoms/AppHeading";
 import HeartButton from "../atoms/HeartButton";
 import styles from "@/styles/postViewer.module.css"
 import UIstyles from "@/styles/ui.module.css"
 import AppImage from "../atoms/AppImage";
+import AppLink from "../atoms/AppLink";
 
 type Props = {
     OnLike: () => void
@@ -28,10 +28,10 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
             <div className={styles.postInfo}>
                 <div className={styles.heartContainer} >
                     <h2>{likeCount ?? 0}</h2>
-                    <HeartButton OnLike={OnLike} editable={true} liked={liked} />
+                    <HeartButton className={UIstyles.interactiveImage} OnLike={OnLike} editable={true} liked={liked} />
                 </div>
                 <div className={styles.authorContainer}>
-                    <p>By <Link to={`/home/profile/${authorId}`} >{author}</Link></p>
+                    <p>By <AppLink to={`/home/profile/${authorId}`} >{author}</AppLink></p>
                     <AppImage src={avatar_url} className={UIstyles.avatar} />
                     <p>• {formattedCreatedAt}</p>
                 </div>

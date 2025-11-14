@@ -38,7 +38,7 @@ const NavBar = () => {
                 className={styles.nav}
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}>
+                transition={{ duration: 0.4 }}>
                 <div className={styles.nav1}>
                     <AppLink className={styles.navButton} to="/home">Home</AppLink>
                     <AppLink className={styles.navButton} to="/home/posts">Posts</AppLink>
