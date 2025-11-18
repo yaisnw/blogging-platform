@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Comment, User } from "../sequelize/models";
+import { Comment, Post, User } from "../sequelize/models";
 import { AuthRequest, CustomError } from "..";
 import { commentRequestBody } from "../types/controllerTypes";
 
@@ -80,7 +80,7 @@ export const getCommentsByPostId = async (
             where: { postId },
             include: [
                 {
-                    model:User,
+                    model: User,
                     attributes: ["id", "username", "avatar_url"]
                 }
             ]
@@ -111,15 +111,20 @@ export const getCommentsByAuthorId = async (
     }
 
     try {
-        const comments = await Comment.findAll({ 
+        const comments = await Comment.findAll({
             where: { authorId },
             include: [
                 {
-                    model:User,
+                    model: User,
                     attributes: ["id", "username", "avatar_url"]
                 }
+                ,
+                {
+                    model: Post,
+                    attributes: ["title"]
+                }
             ]
-         });
+        });
         if (!comments) {
             const err = new Error("Comment does not exist") as CustomError;
             err.status = 400;

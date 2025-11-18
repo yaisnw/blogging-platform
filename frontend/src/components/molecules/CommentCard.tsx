@@ -5,9 +5,15 @@ import styles from "@/styles/comments.module.css";
 import AppTextArea from "../atoms/AppTextArea";
 import AppButton from "../atoms/AppButton";
 import { motion } from "motion/react"
-
+import AppLink from "../atoms/AppLink";
+import { useAppDispatch } from "@/hooks";
+import { setPostId } from "@/slices/uiSlice";
+import { setDraftTitle } from "@/slices/draftPostSlice";
+import slugify from "slugify"
 
 type CommentCardProps = {
+    postId?: number,
+    postTitle?: string,
     commentId: number,
     content: string,
     username: string,
@@ -19,6 +25,8 @@ type CommentCardProps = {
 } & React.HTMLProps<HTMLDivElement>;
 
 const CommentCard: React.FC<CommentCardProps> = ({
+    postId,
+    postTitle,
     commentId,
     content,
     username,
@@ -28,8 +36,16 @@ const CommentCard: React.FC<CommentCardProps> = ({
     editComment,
     deleteComment
 }) => {
+    const dispatch = useAppDispatch();
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState(content)
+    const slug = slugify(postTitle?? "", { lower: true, strict: true })
+
+    const handlePostClick = async (id: number) => {
+            dispatch(setPostId(id))
+            dispatch(setDraftTitle(postTitle?? ""))
+        }
+    
 
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
         year: "numeric",
@@ -48,9 +64,12 @@ const CommentCard: React.FC<CommentCardProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
             className={styles.commentCard} aria-labelledby={`comment-${commentId}-author`}>
-            <header className={styles.authorBox}>
-                <AppImage className={UIstyles.avatar} src={avatar_url} alt={`${username} avatar`} />
-                <h3 id={`comment-${commentId}-author`}>{username}</h3>
+            <header className={styles.header}>
+                <div className={styles.authorBox}>
+                    <AppImage className={UIstyles.avatar} src={avatar_url} alt={`${username} avatar`} />
+                    <h3 id={`comment-${commentId}-author`}>{username}</h3>
+                </div>
+                <AppLink to={`/home/posts/${postId}/${slug}`} onClick={() => handlePostClick(postId ?? 0)} >Go To Post</AppLink>
             </header>
 
             <div className={styles.commentBody}>

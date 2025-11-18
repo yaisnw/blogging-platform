@@ -12,6 +12,14 @@ import "@/index.css"
 
 const helmetContext = {};
 
+const saved = localStorage.getItem("theme");
+if (saved) {
+  document.documentElement.setAttribute("data-theme", saved);
+} else {
+  document.documentElement.setAttribute("data-theme", "dark");
+}
+
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID!}>

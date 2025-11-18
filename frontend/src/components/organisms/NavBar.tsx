@@ -9,11 +9,22 @@ import { logOut } from '@/slices/authSlice';
 import SearchBar from '../molecules/SearchBar';
 import Footer from './Footer';
 import { motion } from "motion/react"
+import UIstyles from "@/styles/ui.module.css"
+import ThemeButton from '../atoms/ThemeButton';
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
     const { loggedIn, authChecked } = useAuthStatus();
     const navigate = useNavigate();
+
+    function toggleTheme() {
+        const root = document.documentElement;
+        const current = root.getAttribute("data-theme");
+        const next = current === "light" ? "dark" : "light";
+
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+    }
 
 
 
@@ -45,10 +56,12 @@ const NavBar = () => {
                     {loggedIn && <AppLink className={styles.navButton} to="dashboard">Dashboard</AppLink>}
                 </div>
                 <SearchBar />
+                <ThemeButton onClick={toggleTheme}  />
+
                 <div className={styles.nav1}>
                     {loggedIn && <AppLink className={styles.navButton} to="/home/profile">Profile</AppLink>}
                     <AppLink className={styles.navButton} to="/home/about">About</AppLink>
-                    <AppLink  to="/login" className={styles.navButton} onClick={logOutHandler}>Log out</AppLink>
+                    <AppLink to="/login" className={`${styles.navButton} ${UIstyles.danger}`} onClick={logOutHandler}>Log out</AppLink>
                 </div>
             </motion.nav>
             <Outlet />

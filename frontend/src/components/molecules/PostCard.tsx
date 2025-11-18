@@ -11,7 +11,6 @@ import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 import HeartButton from "../atoms/HeartButton";
 import { useNavigate } from "react-router";
 import AppLoader from "../atoms/AppLoader";
-import { setDraftTitle } from "@/slices/draftPostSlice";
 import slugify from "slugify"
 import AppButton from "../atoms/AppButton";
 import AppLabel from "../atoms/AppLabel";
@@ -45,7 +44,6 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
     const handlePostClick = async (title: string, id: number) => {
         dispatch(setPostId(id))
-        dispatch(setDraftTitle(title))
         navigate(`/home/posts/${id}/${slugify(title, { lower: true, strict: true })}`)
     }
 

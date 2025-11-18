@@ -1,14 +1,21 @@
-.authorBox {
+.header {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     gap: 1rem;
     padding: 0 1rem;
 }
+.authorBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
 .commentCard {
     margin: 4rem 0;
     justify-self: center;
-    border: 1px solid black;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
 }
 
 .commentBody {
@@ -16,8 +23,8 @@
     width: 30vw;
     min-height: 3rem;
     padding: 1rem;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
 }
 .commentDate {
     padding: 0 1rem;

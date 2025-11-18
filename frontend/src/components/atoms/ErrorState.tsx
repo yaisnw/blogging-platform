@@ -1,5 +1,6 @@
 import styles from "@/styles/ui.module.css";
 import { motion } from "motion/react";
+import AppButton from "./AppButton";
 
 
 type ErrorMode = "page" | "normal";
@@ -31,14 +32,14 @@ export default function ErrorState({
       <h1 className={styles.error}>{message}</h1>
       <div className={styles.componentError}>
         {onRetry && (
-          <button className={styles.ctaButton} onClick={onRetry}>
+          <AppButton onClick={onRetry}>
             <p>Try again</p>
-          </button>
+          </AppButton>
         )}
         {onAction && actionLabel && (
-          <button className={styles.ctaButton} onClick={onAction}>
+          <AppButton onClick={onAction}>
             <p>{actionLabel}</p>
-          </button>
+          </AppButton>
         )}
       </div>
     </motion.div>

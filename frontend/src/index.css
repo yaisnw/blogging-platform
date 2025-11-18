@@ -1,24 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
-:root {
+:root[data-theme="light"] {
   --color-bg: #F9F7F7;
   --color-surface: #E8EEF5;
   --color-accent: #3F72AF;
   --color-text: #112D4E;
-  --color-text-secondary: #000000;
+  --color-text-secondary: #444343;
   --color-on-accent: #FFFFFF;
+
+  --color-on-affirm: #000000; 
   --color-light-accent: color-mix(in srgb, var(--color-accent) 30%, white 70%);
   --color-border: #C8D3E1;
-
   --color-accent-warm: #F2A365;
-
   --color-accent-hover: #335E99;
   --color-accent-light: #EAF1FA;
-
   --color-warning: #E85A5A;
   --color-affirm: #6FCF97;
   --color-info: #56CCF2;
 
+
+
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #0D1117;
+  --color-surface: #161B22;
+  --color-accent: #3F8CFF;
+  --color-text: #E6EDF3;
+  --color-text-secondary: #9BA4B5;
+  --color-on-accent: #FFFFFF;
+
+  --color-on-affirm: #000000; 
+  --color-light-accent: color-mix(in srgb, var(--color-accent) 30%, black 70%);
+
+  --color-border: #2D333B;
+  --color-accent-warm: #E59B62;
+  --color-accent-hover: #1F6FE0;
+  --color-accent-light: #1D2A40;
+  --color-warning: #E85A5A;
+  --color-affirm: #4CD8A2;
+  --color-info: #52B5FF;
+}
+
+
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: 'Ubuntu', sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -27,20 +56,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
   overflow-x: hidden;
-
+  transition: all 0.3s ease;
 }
 
 main {
@@ -51,5 +73,3 @@ input,
 button {
   font-family: 'Ubuntu', sans-serif;
 }
-
-

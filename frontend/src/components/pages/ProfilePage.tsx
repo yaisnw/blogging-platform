@@ -154,12 +154,15 @@ const ProfilePage = () => {
             commentsResponse?.comments.map((comment: comment) =>
                 <CommentCard
                     key={comment.id}
+                    postTitle={comment.Post.title}
+                    postId={comment.postId}
                     commentId={comment.id}
                     content={comment.content}
                     username={comment.User.username}
                     avatar_url={comment.User.avatar_url}
                     createdAt={comment.createdAt}
                     updatedAt={comment.updatedAt}
+
                 />)
 
     }

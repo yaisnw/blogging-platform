@@ -40,7 +40,10 @@ export interface comment {
         id: number,
         username: string,
         avatar_url: string
-    }
+    },
+    Post: {
+        title: string,
+    },
     createdAt: Date,
     updatedAt: Date
 }

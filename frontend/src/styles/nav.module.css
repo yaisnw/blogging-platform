@@ -2,6 +2,7 @@
     background-color: var(--color-surface);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     text-decoration: none;
     border-bottom: 2px solid var(--color-accent);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -35,14 +36,14 @@
     will-change: font-weight;
     border-right: 1px solid var(--color-border);
     border-left: 1px solid var(--color-border);
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .navButton:hover {
     background-color: var(--color-accent);
     color: var(--color-on-accent);
     transform: scale(1.05);
-    box-shadow: 0px -5px 10px 5px var(--color-light-accent) ;
+    box-shadow: 0px -5px 10px 5px var(--color-light-accent);
 }
 
 .searchBar {
@@ -58,25 +59,11 @@
     font-size: x-large;
     padding: 1rem;
     box-sizing: border-box;
-    border: 1px solid var(--color-bg);
+    border: 1px solid var(--color-border);
 }
 
-.searchButton {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    position: absolute;
-    right: -5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: x-large;
-    border: none;
-    transition: scale 0.3s ease, rotate 0.3s ease;
-}
-.searchButton:hover {
-    scale: 1.1;
-    rotate: 10deg;
-}
+
+
 
 .inputWrapper {
     position: relative;

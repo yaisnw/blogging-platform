@@ -4,6 +4,7 @@ import { setSearchQuery } from "@/slices/uiSlice"
 import styles from "@/styles/nav.module.css"
 import AppInput from "../atoms/AppInput"
 import { useNavigate } from "react-router"
+import SearchButton from "../atoms/SearchButton"
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const SearchBar = () => {
         />
     
       </div>
-        <img  className={styles.searchButton} src="/search.svg" alt="" aria-hidden="true" />
+       <SearchButton /> 
     </form>
   );
 }
