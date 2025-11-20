@@ -18,7 +18,8 @@ const uiTransform = createTransform<UiState, Partial<UiState>>(
   (outboundState) => ({
     postId: outboundState.postId ?? 0,
     deletingPostIds: [],
-    tabState: "posts",
+    searchTab: "posts",
+    profileTab: "posts",
     searchQuery: "",
     imageUploading: false,
   }),

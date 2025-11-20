@@ -15,7 +15,7 @@ import SEO from "../atoms/SEO"
 
 const SearchPage = () => {
     const navigate = useNavigate();
-    const tabState = useSelector((state: RootState) => state.ui.tabState);
+    const searchTab = useSelector((state: RootState) => state.ui.searchTab);
     const searchQuery = useSelector((state: RootState) => state.ui.searchQuery);
 
     const { data: postsResponse, isLoading: postsLoading, isError: postsError } =
@@ -42,17 +42,17 @@ const SearchPage = () => {
             </main>
         )
     } else if (
-        (tabState === "posts" && (!postsResponse?.posts || postsResponse?.posts.length === 0)) ||
-        (tabState === "users" && (!usersResponse?.users || usersResponse?.users.length === 0))
+        (searchTab === "posts" && (!postsResponse?.posts || postsResponse?.posts.length === 0)) ||
+        (searchTab === "users" && (!usersResponse?.users || usersResponse?.users.length === 0))
     ) {
         contentTab = (
             <main>
-                <ErrorState mode="normal" message={`There are no ${tabState === "posts" ? "posts" : "users"} matching  '${searchQuery}'`} />
+                <ErrorState mode="normal" message={`There are no ${searchTab === "posts" ? "posts" : "users"} matching  '${searchQuery}'`} />
             </main>
         )
     } else {
         contentTab =
-            tabState === "posts" ? (
+            searchTab === "posts" ? (
                 postsResponse?.posts.map((post: blogPost) => (
                     <PostCard
                         key={post.id}

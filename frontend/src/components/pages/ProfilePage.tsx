@@ -23,7 +23,7 @@ const ProfilePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.auth.user);
-    const tabState = useSelector((state: RootState) => state.ui.tabState);
+    const profileTab = useSelector((state: RootState) => state.ui.profileTab);
     const [profileUser, setProfileUser] = useState<Omit<responseUser, "password">>({
         id: 0,
         username: '',
@@ -128,14 +128,14 @@ const ProfilePage = () => {
         )
     }
 
-    else if ((tabState === 'posts' && emptyPostsResponse) ||
-        (tabState === 'comments' && emptyCommentsReponse)) {
+    else if ((profileTab === 'posts' && emptyPostsResponse) ||
+        (profileTab === 'comments' && emptyCommentsReponse)) {
         contentTab = (
             <ErrorState mode="normal" message={`There are no ${emptyPostsResponse ? 'posts' : 'comments'} from this user`} />
         )
     }
     else {
-        contentTab = tabState === 'posts' ? (
+        contentTab = profileTab === 'posts' ? (
 
             postsResponse?.posts.map((post: blogPost) =>
                 <PostCard

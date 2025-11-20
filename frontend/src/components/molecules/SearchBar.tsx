@@ -20,10 +20,7 @@ const SearchBar = () => {
   return (
     <form
       className={styles.searchBar}
-      onSubmit={(e) => {
-        e.preventDefault();
-        navigate("search");
-      }}
+      
       role="search"
       aria-label="Search posts and users"
     >
@@ -35,9 +32,9 @@ const SearchBar = () => {
           onChange={handleChange}
           aria-label="Search input"
         />
-    
+
       </div>
-       <SearchButton /> 
+      <SearchButton onClick={() => navigate("search")}  />
     </form>
   );
 }

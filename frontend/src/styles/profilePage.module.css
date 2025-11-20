@@ -18,7 +18,7 @@
 .publicProfileCard,
 .editingProfileCard,
 .passwordFormContainer {
-    margin: 0 auto;
+    margin: 5rem auto;
     height: 45vh;
     width: 35vw;
     padding: 3rem 1rem;
@@ -42,6 +42,20 @@
     padding: 2rem;
 }
 
+.clickableCard {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+
+
+.clickableCard:hover {
+    transform: scale(1.05);
+}
 
 
 .editingProfileCard {

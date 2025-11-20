@@ -2,7 +2,7 @@ import AppLink from '../atoms/AppLink';
 import { Outlet, useNavigate } from 'react-router';
 import styles from '../../styles/nav.module.css'
 import { useEffect } from 'react';
-import { persistor } from '@/store';
+import { persistor, type RootState } from '@/store';
 import { useAuthStatus } from '@/hooks/useAuthStatus';
 import { useAppDispatch } from '@/hooks';
 import { logOut } from '@/slices/authSlice';
@@ -11,10 +11,13 @@ import Footer from './Footer';
 import { motion } from "motion/react"
 import UIstyles from "@/styles/ui.module.css"
 import ThemeButton from '../atoms/ThemeButton';
+import AppImage from '../atoms/AppImage';
+import { useSelector } from 'react-redux';
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
     const { loggedIn, authChecked } = useAuthStatus();
+    const { avatar_url, id: authorId, username: author } = useSelector((state: RootState) => state.auth.user)
     const navigate = useNavigate();
 
     function toggleTheme() {
@@ -56,10 +59,12 @@ const NavBar = () => {
                     {loggedIn && <AppLink className={styles.navButton} to="dashboard">Dashboard</AppLink>}
                 </div>
                 <SearchBar />
-                <ThemeButton onClick={toggleTheme}  />
+                <ThemeButton onClick={toggleTheme} />
 
                 <div className={styles.nav1}>
-                    {loggedIn && <AppLink className={styles.navButton} to="/home/profile">Profile</AppLink>}
+                    {loggedIn && <AppLink className={styles.navButton} to="/home/profile">
+                        <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.avatar} src={avatar_url} alt={`${author} avatar`} />
+                        Profile</AppLink>}
                     <AppLink className={styles.navButton} to="/home/about">About</AppLink>
                     <AppLink to="/login" className={`${styles.navButton} ${UIstyles.danger}`} onClick={logOutHandler}>Log out</AppLink>
                 </div>

@@ -3,7 +3,8 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 interface UiState {
   postId: number
   deletingPostIds: number[]
-  tabState: "posts" | "comments" | "users"
+  searchTab: "posts" | "users"
+  profileTab: "posts" | "comments"
   searchQuery: string
   imageUploading: boolean
 }
@@ -11,7 +12,8 @@ interface UiState {
 const initialState: UiState = {
   postId: 0,
   deletingPostIds: [],
-  tabState: "posts",
+  searchTab: "posts",
+  profileTab: "posts",
   searchQuery: "",
   imageUploading: false,
 }
@@ -33,8 +35,11 @@ const uiSlice = createSlice({
         state.deletingPostIds.push(id)
       }
     },
-    setTabState: (state, action: PayloadAction<"posts" | "comments" | "users">) => {
-      state.tabState = action.payload
+    setSearchTab: (state, action: PayloadAction<"posts" | "users">) => {
+      state.searchTab = action.payload
+    },
+    setProfileTab: (state, action: PayloadAction<"posts" | "comments">) => {
+      state.profileTab = action.payload
     },
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload
@@ -51,7 +56,8 @@ const uiSlice = createSlice({
 export const {
   setPostId,
   addDeletingPostIds,
-  setTabState,
+  setSearchTab,
+  setProfileTab,
   setSearchQuery,
   clearSearchQuery,
   setImageUploading

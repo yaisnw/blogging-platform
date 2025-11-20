@@ -21,6 +21,10 @@
 }
 
 .navButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
     cursor: pointer;
     background-color: var(--color-surface);
     color: var(--color-text);

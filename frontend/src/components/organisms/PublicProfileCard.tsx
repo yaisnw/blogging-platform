@@ -1,5 +1,6 @@
 import styles from "@/styles/profilePage.module.css"
 import AppImage from "../atoms/AppImage"
+import { useLocation, useNavigate } from "react-router"
 
 type PublicProfileCardProps = {
     id: number,
@@ -8,9 +9,12 @@ type PublicProfileCardProps = {
     avatar_url: string,
 }
 
-const PublicProfileCard: React.FC<PublicProfileCardProps> = ({username, email, avatar_url}) => {
+const PublicProfileCard: React.FC<PublicProfileCardProps> = ({id, username, email, avatar_url}) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const onSearchPage = location.pathname == "/home/search";
     return (
-        <section className={styles.publicProfileCard}>
+        <section onClick={() => onSearchPage ? navigate(`/home/profile/${id}`) : null} className={`${styles.publicProfileCard} ${onSearchPage && styles.clickableCard}`}>
                 <AppImage className={styles.profilePicture} src={avatar_url} />
                 <div className={styles.userInfoBox}>
                     <p>Username: <span className={styles.userName}>{username}</span></p>
