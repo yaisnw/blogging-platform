@@ -2,15 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styles from "@/styles/ui.module.css"
 
-type AppLinkProps = {
-    to: string
-} & React.AnchorHTMLAttributes<HTMLAnchorElement>;
+import type { LinkProps } from "react-router-dom";
 
-const AppLink: React.FC<AppLinkProps> = ({ to, children, ...props}) => {
-    return (
-        <Link className={styles.appLink} {...props} to={to}>
-            {children}
-        </Link>
-    )
-}
+type AppLinkProps = LinkProps & {
+  children: React.ReactNode;
+  className?: string;
+};
+const AppLink: React.FC<AppLinkProps> = ({ to, children, className, ...props }) => {
+  return (
+    <Link to={to} {...props} className={`${styles.appLink} ${className || ""}`}>
+      {children}
+    </Link>
+  );
+};
 export default AppLink

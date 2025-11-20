@@ -6,7 +6,7 @@
 
 .viewer {
     width: 50vw;
-    background-color: var(--color-on-accent);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 12px;
     padding: 2rem;
@@ -17,6 +17,7 @@
     line-height: 1.7;
     font-size: 1.05rem;
 }
+
 
 .headerBox {
     width: 50vw;

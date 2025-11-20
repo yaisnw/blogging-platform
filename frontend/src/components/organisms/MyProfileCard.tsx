@@ -1,5 +1,6 @@
 import AppImage from "../atoms/AppImage";
 import styles from "@/styles/profilePage.module.css";
+import UIstyles from "@/styles/ui.module.css"
 import AuthField from "../molecules/AuthField";
 import AppInput from "../atoms/AppInput";
 import AppButton from "../atoms/AppButton";
@@ -199,8 +200,8 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({
                         ) : (
                             <div className={styles.avatarContainer}>
                                 <AppImage className={styles.profilePicture} src={avatar_url} />
-                                <AppLabel className={styles.labelButton} htmlFor="avatar">
-                                    <AppButton>Choose Image</AppButton>
+                                <AppLabel className={UIstyles.appLink} htmlFor="avatar">
+                                    Choose Image
                                 </AppLabel>
                                 <AppInput
                                     style={{ display: "none" }}

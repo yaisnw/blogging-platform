@@ -142,10 +142,33 @@
 }
 
 .editor-quote {
-  background-color: var(--color-surface);
+  color: var(--color-text);
+  background-color: var(--color-accent-light);
   padding: 1rem 1rem;
-  border-bottom: 1px solid var(--color-border);
-  border-top: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-border);
+  position: relative;
+  quotes: "“" "”";
+}
+.editor-quote p {
+  display: inline;  
+}
+
+.editor-quote::before {
+  content: open-quote;
+  font-size: 2rem;
+  position: absolute;
+  left: 0.5rem;
+  top:0rem;
+  line-height: 1;
+}
+
+.editor-quote::after {
+  content: close-quote;
+  font-size: 2rem;
+  position: absolute;
+  bottom: -1rem;
+  line-height: 1;
 }
 
 .header-form {

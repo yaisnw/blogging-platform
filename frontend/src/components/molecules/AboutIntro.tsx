@@ -2,7 +2,7 @@ import AppHeading from "../atoms/AppHeading";
 import AppParagraph from "../atoms/AppParagraph";
 
 const AboutIntro = () => (
-  <div className="text-center mb-8">
+  <div >
     <AppHeading>About Me</AppHeading>
     <AppParagraph>
       Hi, I’m Yasin — a full-stack developer passionate about crafting clean, scalable, and
