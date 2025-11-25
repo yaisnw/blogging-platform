@@ -20,12 +20,13 @@ const SearchBar = () => {
   return (
     <form
       className={styles.searchBar}
-      
+
       role="search"
       aria-label="Search posts and users"
     >
       <div className={styles.inputWrapper}>
         <AppInput
+          name="search"
           type="search"
           placeholder="Search posts or users..."
           value={searchQuery}
@@ -34,7 +35,7 @@ const SearchBar = () => {
         />
 
       </div>
-      <SearchButton onClick={() => navigate("search")}  />
+      <SearchButton onClick={() => navigate("search")} />
     </form>
   );
 }

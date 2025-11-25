@@ -38,3 +38,32 @@
     color: #aaa;
     margin: 0;
 }
+
+@media screen and (max-width: 480px) {
+    .footer {
+        width: 100%;
+    }
+    .navSection {
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 1rem;
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+
+    .linkGroupLeft {
+        justify-content: space-between;
+        gap: 2rem;
+        font-size: 1rem;
+        padding: auto 0;
+    }
+
+    .linkGroupRight {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 2rem;
+        align-items: center;
+        padding: auto 0;
+    }
+    
+}
