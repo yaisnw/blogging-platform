@@ -237,6 +237,8 @@
 }
 
 .ctaButton {
+  text-align: center;
+  width: 35%;
   color: var(--color-accent);
   text-decoration: none;
   font-weight: 600;
@@ -261,24 +263,7 @@
   color: var(--color-text)
 }
 
-.searchButton {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s ease;
-  width: 50px;
-  height: 50px;
-  display: inline-block;
-  vertical-align: middle;
-  color: var(--color-text);
-}
 
-
-.searchButton:hover {
-  scale: 1.1;
-  rotate: 10deg;
-}
 
 .interactiveImage {
   transition: all 0.2s ease;
@@ -383,7 +368,25 @@
     transform: rotate(360deg);
   }
 }
+@media screen and (max-width: 1440px) {
+  
+  .componentErrorWrapper,
+  .componentError {
+    width: 40vw;
+  }
+}
+@media  screen and (max-width: 1024px) {
+  .ctaButton {
+    width: 70%;
+    margin: 0 auto;
+  }
 
+  .componentErrorWrapper,
+  .componentError {
+    width: 50vw;
+  }
+  
+}
 @media screen and (max-width: 768px) {
 
   .componentErrorWrapper,
@@ -391,15 +394,14 @@
     width: 70vw;
     padding: 1.5rem;
   }
-
+  .ctaButton {
+    margin: 0 auto;
+  }
   .loaderNormal {
     width: 7rem;
     height: 7rem;
   }
-  .searchButton {
-    width: 45px;
-    height: auto;
-  }
+  
   .loaderNormalWrapper {
     margin: 3rem 0;
   }
@@ -430,13 +432,6 @@
     font-size: 0.95rem;
   }
 
-  .searchButton {
-    transform: none;
-    display: flex;
-    width: 40px;
-    height: auto;
-    padding: 10px;
-  }
 
   .loaderNormal {
     width: 5rem;

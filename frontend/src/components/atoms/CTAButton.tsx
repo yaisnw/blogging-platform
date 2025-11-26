@@ -1,4 +1,4 @@
-import AppLink from "./AppLink"
+import { Link } from "react-router";
 import styles from "@/styles/ui.module.css"
 
 type CTAButtonProps = {
@@ -7,9 +7,9 @@ type CTAButtonProps = {
 
 const CTAButton: React.FC<CTAButtonProps> = ({children, to}) => {
     return (
-        <AppLink className={styles.ctaButton} to={to}>
+        <Link className={styles.ctaButton} to={to}>
             → {children}
-        </AppLink>
+        </Link>
     )
 }
 

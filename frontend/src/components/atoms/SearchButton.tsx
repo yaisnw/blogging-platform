@@ -1,4 +1,4 @@
-import styles from '@/styles/ui.module.css'
+import styles from '@/styles/nav.module.css'
 
 type SearchButtonProps = React.SVGAttributes<SVGElement>
 

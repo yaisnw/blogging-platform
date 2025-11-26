@@ -8,16 +8,16 @@ const ServicesContent = (props: React.HTMLAttributes<HTMLElement>) => {
 
     return (
         <article {...props}>
-            <header>
+            <div>
                 <AppHeader>
                     {loggedIn ? 'Your Tools & Insights' : 'Discover Our Features'}
                 </AppHeader>
-            </header>
-            <AppParagraph>
-                {loggedIn
-                    ? 'Access tools to write, edit, and track your posts — all in one place.'
-                    : 'Explore features that make writing, sharing, and connecting effortless.'}
-            </AppParagraph>
+                <AppParagraph>
+                    {loggedIn
+                        ? 'Access tools to write, edit, and track your posts — all in one place.'
+                        : 'Explore features that make writing, sharing, and connecting effortless.'}
+                </AppParagraph>
+            </div>
             <CTAButton to={loggedIn ? '/home/dashboard' : '/signup'}>
                 {loggedIn ? 'Go to Dashboard' : 'Get Started'}
             </CTAButton>
