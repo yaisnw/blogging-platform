@@ -1,5 +1,5 @@
 .postCard {
-    width: 60vw;
+    width: 70vw;
     display: grid;
     gap: 2rem;
     justify-self: center;
@@ -12,7 +12,7 @@
     background-color: var(--color-surface);
 
 }
-.postCard header {
+.cardHeader {
     display: flex;
     align-items: center;
     justify-content: space-between; 
@@ -98,3 +98,73 @@
     width: 30px;
     height: 30px;
 }
+@media screen and (max-width: 1024px) {
+    .postCard {
+        width: 80vw;
+        padding: 1.5rem;
+        margin: 1.5rem;
+    }
+    .engagementBox {
+        gap: 6rem;
+    }
+    .title {
+        font-size: 1.3rem;
+    }
+    
+}
+@media screen and (max-width: 768px) {
+    .postCard {
+        width: 80vw;
+        padding: 1rem;
+        margin: 1rem;
+    }
+    .engagementBox {
+        gap: 4rem;
+    }
+    .title {
+        font-size: 1.2rem;
+    }
+}
+@media screen and (max-width: 480px) {
+    .postCard {
+        display: grid;
+        width: 85vw;
+        height: 45vh;
+        grid-template-rows: 1fr 1fr 1fr;
+        justify-content: none;
+        padding: 1rem;
+        margin: 3rem auto;
+        overflow: hidden;
+    }
+    .cardHeader {
+        flex-direction: column;
+        justify-content: start;
+        height: 30%;
+        gap: 0;
+    }
+    .engagementBox {
+        gap: 3rem;
+    }
+    .title {
+        font-size: 1rem;
+        text-align: center;
+    }
+    .postCardImage {
+        width: 25px;
+        height: 25px;
+    }
+    .authorBox {
+        gap: 0.5rem;
+    }
+    .cardFooter {
+        font-size: 0.9rem;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    .postMeta {
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+    }
+}   

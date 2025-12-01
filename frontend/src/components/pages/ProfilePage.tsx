@@ -17,11 +17,14 @@ import PublicProfileCard from "../organisms/PublicProfileCard"
 import AppLoader from "../atoms/AppLoader"
 import ErrorState from "../atoms/ErrorState"
 import SEO from "../atoms/SEO"
+import { setAvatarUrl } from "@/slices/authSlice"
+import { useAppDispatch } from "@/hooks"
 
 
 const ProfilePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const user = useSelector((state: RootState) => state.auth.user);
     const profileTab = useSelector((state: RootState) => state.ui.profileTab);
     const [profileUser, setProfileUser] = useState<Omit<responseUser, "password">>({
@@ -83,8 +86,8 @@ const ProfilePage = () => {
         try {
             const formData = new FormData();
             formData.append('image', file);
-            await changeAvatar({ id: user?.id, formData }).unwrap();
-
+            const responseUser = await changeAvatar({ id: user?.id, formData }).unwrap();
+            dispatch(setAvatarUrl(responseUser.avatar_url));
         }
         catch (e) {
             console.error(e)

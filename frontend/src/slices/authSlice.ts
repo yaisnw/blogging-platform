@@ -33,6 +33,9 @@ const authSlice = createSlice({
             state.user.email = action.payload.email;
             state.user.avatar_url = action.payload.avatar_url
         },
+        setAvatarUrl: (state, action: PayloadAction<string>) => {
+            state.user.avatar_url = action.payload;
+        },
         logOut: (state) => {
             state.user = { id: 0, username: '', email: '', avatar_url: '' }
             state.justRegistered = false;
@@ -40,5 +43,5 @@ const authSlice = createSlice({
     }
 })
 
-export const { setJustRegistered, setTokenData, logOut } = authSlice.actions
+export const { setJustRegistered, setTokenData, setAvatarUrl, logOut } = authSlice.actions
 export default authSlice.reducer

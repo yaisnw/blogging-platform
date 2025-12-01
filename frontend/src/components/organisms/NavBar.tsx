@@ -13,14 +13,15 @@ import UIstyles from "@/styles/ui.module.css"
 import ThemeButton from '../atoms/ThemeButton';
 import AppImage from '../atoms/AppImage';
 import { useSelector } from 'react-redux';
+import { useGetUserQuery } from '@/services/userApi';
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
     const { loggedIn, authChecked } = useAuthStatus();
-    const { avatar_url, id: authorId, username: author } = useSelector((state: RootState) => state.auth.user)
+    const {  id: authorId, username: author } = useSelector((state: RootState) => state.auth.user)
     const navigate = useNavigate();
     const location = useLocation();
-
+    const {data} = useGetUserQuery(authorId, { skip: !loggedIn });
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     function toggleTheme() {
@@ -70,7 +71,7 @@ const NavBar = () => {
 
                     <div className={styles.nav1}>
                         {loggedIn && <AppLink className={styles.navButton} to="/home/profile">
-                            <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.avatar} src={avatar_url} alt={`${author} avatar`} />
+                            <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.avatar} src={data?.avatar_url} alt={`${author} avatar`} />
                             Profile</AppLink>}
                         <AppLink className={styles.navButton} to="/home/about">About</AppLink>
                         <AppLink to="/login" className={`${styles.navButton} ${UIstyles.danger}`} onClick={logOutHandler}>Log out</AppLink>

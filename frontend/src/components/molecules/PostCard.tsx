@@ -72,7 +72,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
             className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
-            <header>
+            <header className={styles.cardHeader}>
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
                     {title}
                 </AppHeader>
@@ -98,7 +98,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <div className={styles.engagementBox}>
                     <div className={styles.engagementContent}>
                         <AppParagraph>{likeCount}</AppParagraph>
-                        <HeartButton liked={hasLiked} editable={false} />
+                        <HeartButton className={styles.postCardImage} liked={hasLiked} editable={false} />
                     </div>
 
                     <div className={styles.engagementContent}>
