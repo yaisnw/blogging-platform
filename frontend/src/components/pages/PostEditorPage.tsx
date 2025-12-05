@@ -20,6 +20,7 @@ const PostEditorPage = () => {
   const title = useSelector((state: RootState) => state.post.title);
   const content = useSelector((state: RootState) => state.post.content)
   const { id } = useParams();
+  const editorKey = id || 'new-post-key';
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
   const [isUpdating, setIsUpdating] = useState(false);
   const [createPost, { isLoading: createPostLoading, isError: createPostError }] = useCreatePostMutation();
@@ -62,7 +63,7 @@ const PostEditorPage = () => {
     navigate("/home/dashboard");
   };
 
-  if (createPostLoading || updatePostLoading || getPostLoading || (!title && !content)) {
+  if (createPostLoading || updatePostLoading || getPostLoading ) {
     return (
       <AppLoader mode="page" />
     );
@@ -78,6 +79,7 @@ const PostEditorPage = () => {
     <PostEditorTemplate>
       <SEO title={title ? title : 'Post Editor'} description={content ? PlainTextFromEditorState(content).slice(0, 150) : 'Create or edit your post'} />
       <Editor
+        key={editorKey}
         title={title}
         status={status}
         draftResult={content}

@@ -14,14 +14,15 @@ import ThemeButton from '../atoms/ThemeButton';
 import AppImage from '../atoms/AppImage';
 import { useSelector } from 'react-redux';
 import { useGetUserQuery } from '@/services/userApi';
+import AppLoader from '../atoms/AppLoader';
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
     const { loggedIn, authChecked } = useAuthStatus();
-    const {  id: authorId, username: author } = useSelector((state: RootState) => state.auth.user)
+    const { id: authorId, username: author } = useSelector((state: RootState) => state.auth.user)
     const navigate = useNavigate();
     const location = useLocation();
-    const {data} = useGetUserQuery(authorId, { skip: !loggedIn });
+    const { data, isLoading } = useGetUserQuery(authorId);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     function toggleTheme() {
@@ -52,6 +53,8 @@ const NavBar = () => {
 
     return (
         <>
+            
+            {isLoading && <main> <AppLoader mode="page" /></main>}
             <motion.nav
                 className={styles.nav}
                 initial={{ opacity: 0, y: -30 }}
@@ -85,7 +88,7 @@ const NavBar = () => {
                     </div>
                     <SearchBar />
                 </div>
-                
+
             </motion.nav>
             <Outlet />
             <Footer />

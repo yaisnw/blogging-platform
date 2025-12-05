@@ -1,7 +1,4 @@
-import React, { useEffect } from "react";
-import {
-  useLexicalComposerContext
-} from "@lexical/react/LexicalComposerContext";
+import React, { useCallback } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -18,6 +15,7 @@ import ContentPlugin from "@/lexicalCustom/ContentPlugin";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import AppButton from "../atoms/AppButton";
+import MyOnChangePlugin from "@/lexicalCustom/MyOnChangePlugin";
 
 type Props = {
   title: string;
@@ -71,10 +69,13 @@ const Editor: React.FC<Props> = ({
     nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode,],
   };
 
-  const handleChangeEditor = (editorState: EditorState) => {
+const handleChangeEditor = useCallback(
+  (editorState: EditorState) => {
     const json = JSON.stringify(editorState.toJSON());
-    onEditorChange(json);
-  };
+    onEditorChange(json); 
+  },
+  [onEditorChange] 
+);
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -117,14 +118,6 @@ const Editor: React.FC<Props> = ({
       <ImagePlugin />
     </LexicalComposer>
   );
-};
-
-const MyOnChangePlugin = ({ onChange }: { onChange: (state: EditorState) => void }) => {
-  const [editor] = useLexicalComposerContext();
-  useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => onChange(editorState));
-  }, [editor, onChange]);
-  return null;
 };
 
 export default Editor;

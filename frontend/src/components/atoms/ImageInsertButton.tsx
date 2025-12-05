@@ -2,6 +2,7 @@ import { useUploadImageMutation } from "@/services/picturesApi";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getSelection, $isRangeSelection, $setSelection, type BaseSelection } from "lexical";
 import '@/styles/editor.css'
+import UIstyles from "@/styles/ui.module.css"
 import { useCreatePostMutation } from "@/services/postsApi";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
@@ -11,7 +12,6 @@ import ErrorState from "./ErrorState";
 import { INSERT_IMAGE_COMMAND } from "@/lexicalCustom/ImageCommand";
 import AppLoader from "./AppLoader";
 import { createPortal } from "react-dom";
-import AppButton from "./AppButton";
 
 function ImageInsertButton() {
     const dispatch = useAppDispatch();
@@ -74,10 +74,8 @@ function ImageInsertButton() {
     return (
         <div className="image-inputBox">
             <input id="imageUpload" className="image-input" type="file" accept="image/*" onChange={handleFileChange} />
-            <label htmlFor="imageUpload" >
-                <AppButton className="custom-file-label toolbar-button">
+            <label className={`${UIstyles.appButton} ${UIstyles.primary} toolbar-button `} htmlFor="imageUpload" >
                     Add Image
-                </AppButton>
             </label>
 
             {(submitError || imageError) && <ErrorState message="failed to add image" />}

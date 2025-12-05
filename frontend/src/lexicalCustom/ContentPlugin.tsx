@@ -3,27 +3,30 @@ import { useEffect, useRef } from "react";
 
 const ContentPlugin = ({ content }: { content: string }) => {
   const [editor] = useLexicalComposerContext();
-  const initialized = useRef(false);
+  const initialLoadCompleted = useRef(false);
 
   useEffect(() => {
-    if (!content) return;
+    if (!content || initialLoadCompleted.current) {
+      return;
+    }
+    console.log(content)
+    initialLoadCompleted.current = true;
 
     try {
       const parsed = JSON.parse(content);
       const newState = editor.parseEditorState(parsed);
-
+      
       editor.update(() => {
         editor.setEditorState(newState);
-      });
-
-      initialized.current = true;
+      }, { tag: 'initial-load' });
+      
+    } catch (err) {
+      console.error("Error parsing editor content:", err);
     }
-    catch (err) {
-    console.error("Error parsing editor content:", err);
-  }
-}, [content, editor]);
 
-return null;
+  }, [editor, content]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null;
 };
 
 export default ContentPlugin;

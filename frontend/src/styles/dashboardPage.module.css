@@ -20,7 +20,7 @@
 }
 
 .postCardsBox {
-    width: 70vw;
+    width: 80vw;
     min-height: 15vw;
     gap: 0;
     overflow-y: auto;
