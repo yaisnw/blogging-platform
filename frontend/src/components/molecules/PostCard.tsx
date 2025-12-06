@@ -78,7 +78,12 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 </AppHeader>
                 <div className={styles.titleSubContainer}>
                     {isDeleting && (
-                        <AppLabel>
+                        <motion.label
+                            initial={{ opacity: 0, }}
+                            animate={{ opacity: 1, }}
+                            exit={{ opacity: 0, }}
+                            transition={{ duration: 0.4 }}
+                            className={styles.deleteLabel}>
                             <AppInput
                                 checked={deletingPostIds.includes(postId)}
                                 onChange={() => handleDeleteCheck(postId)}
@@ -86,7 +91,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                                 aria-label="Select post for deletion"
                             />{" "}
                             Delete
-                        </AppLabel>
+                        </motion.label>
                     )}
                     <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
                         {status?.charAt(0).toUpperCase() + status.slice(1)}

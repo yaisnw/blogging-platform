@@ -10,6 +10,7 @@
     box-shadow: 1px 1px 5px 1px var(--color-light-accent);
     overflow: auto;
     background-color: var(--color-surface);
+    z-index: 1;
 
 }
 .cardHeader {
@@ -41,7 +42,10 @@
     padding: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+.deleteLabel {
+    color: var(--color-warning);
+    font-weight: 500;
+}
 .engagementBox {
     display: flex;
     justify-content: start;
@@ -128,7 +132,7 @@
 @media screen and (max-width: 480px) {
     .postCard {
         display: grid;
-        width: 85vw;
+        width: 85%;
         height: 45vh;
         grid-template-rows: 1fr 1fr 1fr;
         justify-content: none;
