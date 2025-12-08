@@ -126,6 +126,9 @@
 .heartButton {
   cursor: pointer;
 }
+.heartButton path {
+  stroke: var(--color-text)
+}
 
 .responseInfo {
   text-align: center;

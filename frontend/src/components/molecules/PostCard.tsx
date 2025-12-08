@@ -13,7 +13,6 @@ import { useNavigate } from "react-router";
 import AppLoader from "../atoms/AppLoader";
 import slugify from "slugify"
 import AppButton from "../atoms/AppButton";
-import AppLabel from "../atoms/AppLabel";
 import AppInput from "../atoms/AppInput";
 import AppLink from "../atoms/AppLink";
 import { motion } from "motion/react"

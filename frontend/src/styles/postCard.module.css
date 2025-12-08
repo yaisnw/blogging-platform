@@ -45,6 +45,7 @@
 .deleteLabel {
     color: var(--color-warning);
     font-weight: 500;
+    text-align: center;
 }
 .engagementBox {
     display: flex;
@@ -96,7 +97,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 }
 .postCardImage {
     width: 30px;
@@ -112,13 +113,13 @@
         gap: 6rem;
     }
     .title {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
     
 }
 @media screen and (max-width: 768px) {
     .postCard {
-        width: 80vw;
+        width: 85%;
         padding: 1rem;
         margin: 1rem;
     }
@@ -127,6 +128,12 @@
     }
     .title {
         font-size: 1.2rem;
+    }
+    .cardHeader {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
     }
 }
 @media screen and (max-width: 480px) {
@@ -137,7 +144,7 @@
         grid-template-rows: 1fr 1fr 1fr;
         justify-content: none;
         padding: 1rem;
-        margin: 3rem auto;
+        margin: 1rem auto;
         overflow: hidden;
     }
     .cardHeader {
@@ -145,6 +152,10 @@
         justify-content: start;
         height: 30%;
         gap: 0;
+    }
+    .titleSubContainer {
+        flex-direction: column;
+        gap: 0.5rem;
     }
     .engagementBox {
         gap: 3rem;

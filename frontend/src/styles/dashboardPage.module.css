@@ -21,7 +21,7 @@
 
 .postCardsBox {
     padding: 1rem;
-    width: 80vw;
+    width: 80%;
     min-height: 15vw;
     gap: 0;
     overflow-y: auto;
@@ -32,9 +32,45 @@
     grid-column: 1 / -1;
     display: grid;
 }
-
+@media screen and (max-width: 780px) {
+    .dashboardFlex {
+        flex-direction: column;
+        justify-content: center;
+        margin: 4rem auto;
+        padding: 2rem;
+        gap: 4rem;
+        height: auto;
+    }
+    .panel {
+        position: relative;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        grid-template-columns: auto auto;
+        gap: 5rem;
+    }
+    .deleteWrapper {
+        grid-column: span 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .deleteButton {
+        align-items: center;
+    }
+    .postCardsBox {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        padding: 2rem 0;
+        margin: 1rem auto;
+        gap: 2rem;
+    }
+}
 @media screen and (max-width: 480px) {
     .dashboardFlex {
+        width: 90%;
         flex-direction: column;
         justify-content: center;
         margin: 3rem auto;
@@ -45,18 +81,22 @@
     .panel {
         position: relative;
         display: grid;
+        justify-self: center;
         justify-content: center;
         align-items: center;
         grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 0 auto;
     }
-    .deleteButton {
-        width: 100%;
-        position: absolute;
-        left: 25%;
+    .panel button {
+        width: 8rem;
+        height: 4rem;
     }
+    
     .postCardsBox {
         width: 90%;
         padding: 0 1rem;
-        margin: 1rem auto;
+        margin: 2rem auto;
+        gap: 1rem;
     }
 }
