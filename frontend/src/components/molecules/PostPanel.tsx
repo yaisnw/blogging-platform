@@ -20,7 +20,7 @@ const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confi
             aria-label="Post actions">
             <AnimatePresence >
                 <AppButton onClick={createButton}>Create Post</AppButton>
-                <AppButton onClick={deleteButton}>{isDeleting ? 'Cancel Delete' : 'Delete Posts'}</AppButton>
+                <AppButton variant={isDeleting ? "secondary" : "primary"}  onClick={deleteButton}>{isDeleting ? 'Cancel Delete' : 'Delete Posts'}</AppButton>
                 {isDeleting && (
                     <motion.div
                         initial={{ opacity: 0, }}

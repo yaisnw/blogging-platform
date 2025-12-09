@@ -2,10 +2,10 @@
     display: flex;
     justify-content: center;
     align-self: center;
-    margin: 0 5rem;
     height: 80vh;
-    padding: 5rem;
+    padding: 5rem 1rem;
     gap: 5rem;
+    width: 90%;
 }
 .panel {
     display: grid;
@@ -20,8 +20,8 @@
 }
 
 .postCardsBox {
-    padding: 1rem;
-    width: 80%;
+    padding: 2rem 1rem;
+    width: 100%;
     min-height: 15vw;
     gap: 0;
     overflow-y: auto;
@@ -31,6 +31,39 @@
 .centerWrapper {
     grid-column: 1 / -1;
     display: grid;
+}
+@media  screen and (max-width: 1024px) {
+    .dashboardFlex {
+        flex-direction: column;
+        justify-content: center;
+        margin: 4rem auto;
+        padding: 0;
+        gap: 4rem;
+        height: auto;
+    }
+    .panel {
+        position: relative;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        grid-template-columns: auto auto;
+        gap: 5rem;
+    }
+    .postCardsBox {
+        width: 100%;
+        padding: 2rem 0;
+        margin: 1rem auto;
+        gap: 2rem;
+    }
+    .deleteWrapper {
+        grid-column: span 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .deleteButton {
+        align-items: center;
+    }
 }
 @media screen and (max-width: 780px) {
     .dashboardFlex {
