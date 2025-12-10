@@ -183,8 +183,10 @@ const ProfilePage = () => {
     return (
         <>
             <SEO title="Profile" description={`View ${activeUser.username}'s profile to explore their activity.`} />
-            {(postsLoading || commentsLoading || currentUserLoading) && <AppLoader mode="page" />}
-            {!activeUser && <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />}
+            {(postsLoading || commentsLoading || currentUserLoading) && <main> <AppLoader mode="page" /></main>}
+            {!activeUser && <main>
+                <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+            </main>}
             <ProfileTemplate
                 profileCard={user.id === Number(id) || !Number(id) ?
                     <MyProfileCard

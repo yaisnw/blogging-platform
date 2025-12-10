@@ -2,7 +2,7 @@
 .loader {
   border-radius: 50%;
   display: inline-block;
-  border-top: 3px solid #000000;
+  border-top: 3px solid var(--color-text);
   border-right: 3px solid transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;

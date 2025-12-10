@@ -41,7 +41,7 @@
 
 @media screen and (max-width: 480px) {
     .footer {
-        width: 100%;
+        width: 100vw;
     }
     .navSection {
         flex-direction: column;

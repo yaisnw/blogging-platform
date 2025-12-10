@@ -11,7 +11,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ profileCard, tabPanel
         <main className={styles.profileContainer}>
             {profileCard}
             <nav>{tabPanel}</nav>
-            <section>{tabContent}</section>
+            <section className={styles.userPostCardBox}>{tabContent}</section>
         </main>
     );
 };

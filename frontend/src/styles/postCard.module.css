@@ -126,6 +126,7 @@
     .engagementBox {
         gap: 4rem;
     }
+    
     .title {
         font-size: 1.2rem;
     }
@@ -139,19 +140,18 @@
 @media screen and (max-width: 480px) {
     .postCard {
         display: grid;
-        width: 85%;
-        height: 45vh;
+        width: 80%;
+        height: 50vh;
         grid-template-rows: 1fr 1fr 1fr;
         justify-content: none;
         padding: 1rem;
-        margin: 1rem auto;
+        margin: 2rem auto;
         overflow: hidden;
     }
     .cardHeader {
         flex-direction: column;
-        justify-content: start;
-        height: 30%;
-        gap: 0;
+        justify-content: space-between;
+        height: 100%;
     }
     .titleSubContainer {
         flex-direction: column;
@@ -170,6 +170,7 @@
     }
     .authorBox {
         gap: 0.5rem;
+        text-align: center;
     }
     .cardFooter {
         font-size: 0.9rem;
