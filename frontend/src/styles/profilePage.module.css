@@ -18,14 +18,14 @@
 .editingProfileCard,
 .passwordFormContainer {
     margin: 5rem auto;
-    height: 45vh;
-    width: 35vw;
+    height: 60vh;
+    width: 50vw;
     padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 5rem;
     box-shadow: 0 2px 6px var(--color-border);
 }
 
@@ -68,7 +68,7 @@
 
 
 .formContainer {
-    width: 25vw;
+    width: 80%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,6 +80,7 @@
     width: 60%;
     display: flex;
     justify-content: space-around;
+    gap: 1rem;
 }
 
 .passwordFormContainer {
@@ -113,6 +114,7 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    color: var(--color-text-secondary);
 }
 
 .userName {
@@ -159,27 +161,51 @@
 .userPostCardBox {
     margin: 5rem auto;
 }
-
+@media  screen and (max-width: 1024px) {
+    .profileCard,
+    .publicProfileCard,
+    .editingProfileCard,
+    .passwordFormContainer {
+        width: 70vw;
+        height: auto;
+        margin: 5rem auto;
+    }
+    .formContainer {
+        width: 100%;
+        gap: 3rem;
+    }
+    
+}
 @media  screen and (max-width: 768px) {
     .profileCard,
     .publicProfileCard,
     .editingProfileCard,
     .passwordFormContainer {
-        width: 80vw;
+        width: 90vw;
         height: auto;
         margin: 5rem auto;
     }
     .editingFooter {
         width: 70%;
     }
-    
+    .formContainer {
+        width: 70%;
+        gap: 2rem;
+    }
+    .userDetail {
+        text-align: center;
+        font-size: 1.2rem;
+    }
+    .userName {
+        font-size: 1.3rem;
+    }
 }
 @media screen and (max-width: 480px) {
     .profileCard,
     .publicProfileCard,
     .editingProfileCard,
     .passwordFormContainer {
-        width: 80vw;
+        width: 95vw;
         height: auto;
         margin: 5rem auto;
         text-align: center;
@@ -193,23 +219,22 @@
         text-align: center;
         gap: 1rem;
     }
-    .userInfoBox {
-        color: var(--color-text-secondary)
-    }
+    
     .formContainer {
         width: 70vw;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1rem;
     }
 
     .editingFooter {
         width: 80%;
         flex-direction: column;
+        align-items: center;
         gap: 1rem;
     }
     .buttonBox {
         flex-direction: column;
-        gap: 2rem;
+        gap: 1rem;
     }
     .userName {
         font-size: 1.2rem;
