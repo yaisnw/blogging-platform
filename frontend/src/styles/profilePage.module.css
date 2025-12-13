@@ -209,6 +209,8 @@
         height: auto;
         margin: 5rem auto;
         text-align: center;
+        gap: 2rem;
+        padding: 3rem 1rem;
     }
     .infoSection {
         flex-direction: column;
@@ -219,7 +221,10 @@
         text-align: center;
         gap: 1rem;
     }
-    
+    .userInfoBox p {
+        display: flex;
+        flex-direction: column;
+    }
     .formContainer {
         width: 70vw;
         flex-direction: column;

@@ -141,9 +141,9 @@
     .postCard {
         display: grid;
         width: 80%;
-        height: 50vh;
+        min-height: 40vh;
         grid-template-rows: 1fr 1fr 1fr;
-        justify-content: none;
+        justify-content: center;
         padding: 1rem;
         margin: 2rem auto;
         overflow: hidden;

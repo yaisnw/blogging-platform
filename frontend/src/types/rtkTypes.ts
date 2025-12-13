@@ -37,7 +37,6 @@ export interface comment {
     postId: number,
     content: string,
     User: {
-        id: number,
         username: string,
         avatar_url: string
     },

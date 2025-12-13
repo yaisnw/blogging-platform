@@ -132,6 +132,7 @@ const PostViewerPage = () => {
                 commentId={comment.id}
                 content={comment.content}
                 username={comment.User.username}
+                authorId={comment.authorId}
                 avatar_url={comment.User.avatar_url}
                 createdAt={comment.createdAt}
                 updatedAt={comment.updatedAt}

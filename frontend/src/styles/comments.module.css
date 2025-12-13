@@ -5,12 +5,14 @@
     gap: 1rem;
     padding: 0 1rem;
 }
+
 .authorBox {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 }
+
 .commentCard {
     margin: 4rem 0;
     justify-self: center;
@@ -26,17 +28,20 @@
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
 }
+
 .commentDate {
     padding: 0 1rem;
     text-align: start;
     color: gray;
 }
+
 .footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
 }
+
 .interactionBox {
     display: flex;
     justify-content: space-between;
@@ -44,15 +49,70 @@
     gap: 1rem;
     padding: 0 1rem;
 }
+
 .editBox {
     width: 100%;
     display: flex;
     justify-content: center;
 }
+
 .commentTextArea {
     width: 90%;
     max-height: 20vh;
     padding: 1rem;
     overflow-y: auto;
     resize: none;
+}
+
+@media screen and (max-width: 768px) {
+    .commentCard {
+        width: 80vw;
+    }
+    .header {
+        min-height: 100px;
+    }
+    .commentBody {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .header {
+        align-items: center;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .header a {
+        line-height: 1;
+        margin: 0;
+        padding: 0 inherit;
+    }
+
+    .commentCard {
+        width: 90vw;
+    }
+
+    .commentBody {
+        width: 100%;
+    }
+
+    .footer {
+        font-size: 0.8rem;
+    }
+
+    .authorBox img {
+        vertical-align: middle;
+    }
+
+    .authorBox h3,
+    .authorBox a {
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+    }
+
+
+
 }

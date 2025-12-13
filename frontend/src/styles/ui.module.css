@@ -254,21 +254,6 @@
   color: var(--color-text)
 }
 
-.avatar {
-  border: 2px solid var(--color-border);
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  transition: all 0.3s ease;
-  object-fit: contain;
-}
-
-.avatar:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-  box-shadow: 0 0 5px 2px var(--color-accent);
-}
-
 .interactiveImage {
   transition: all 0.2s ease;
 }
@@ -277,6 +262,30 @@
   transform: scale(1.2);
   cursor: pointer;
 }
+.avatar {
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  transition: all 0.3s ease;
+  object-fit: contain;
+}
+.interactiveAvatar {
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  transition: all 0.3s ease;
+  object-fit: contain;
+}
+
+.interactiveAvatar:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  box-shadow: 0 0 5px 2px var(--color-accent);
+}
+
+
 
 .divider {
   position: relative;

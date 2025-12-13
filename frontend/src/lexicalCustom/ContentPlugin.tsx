@@ -9,7 +9,6 @@ const ContentPlugin = ({ content }: { content: string }) => {
     if (!content || initialLoadCompleted.current) {
       return;
     }
-    console.log(content)
     initialLoadCompleted.current = true;
 
     try {

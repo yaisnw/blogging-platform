@@ -27,7 +27,7 @@ const ProfilePage = () => {
     const dispatch = useAppDispatch();
     const user = useSelector((state: RootState) => state.auth.user);
     const profileTab = useSelector((state: RootState) => state.ui.profileTab);
-    const [profileUser, setProfileUser] = useState<Omit<responseUser, "password">>({
+    const [publicUser, setPublicUser] = useState<Omit<responseUser, "password">>({
         id: 0,
         username: '',
         email: '',
@@ -45,7 +45,7 @@ const ProfilePage = () => {
     ]);
     const { data: currentUser, isLoading: currentUserLoading } = useGetUserQuery(user.id)
     const activeUser: responseUser | undefined =
-        id && Number(id) !== user?.id ? profileUser : currentUser;
+        id && Number(id) !== user?.id ? publicUser : currentUser;
     const { data: postsResponse, isLoading: postsLoading, isError: postsError } = useGetMyPostsQuery(activeUser ? { authorId: activeUser.id, publishedOnly: true } : skipToken)
     const { data: commentsResponse, isLoading: commentsLoading, isError: commentsError } = useGetCommentsByAuthorIdQuery(activeUser ? activeUser.id : skipToken)
     const [trigger] = useLazyGetUserQuery();
@@ -55,7 +55,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (id && Number(id) === user.id) {
-            setProfileUser({
+            setPublicUser({
                 id: 0,
                 username: '',
                 email: '',
@@ -66,7 +66,7 @@ const ProfilePage = () => {
         const fetchDraft = async () => {
             const result = await trigger(Number(id));
             if (result.data) {
-                setProfileUser(result.data)
+                setPublicUser(result.data)
             }
         };
         fetchDraft();
@@ -162,6 +162,7 @@ const ProfilePage = () => {
                     commentId={comment.id}
                     content={comment.content}
                     username={comment.User.username}
+                    authorId={comment.authorId}
                     avatar_url={comment.User.avatar_url}
                     createdAt={comment.createdAt}
                     updatedAt={comment.updatedAt}
@@ -179,7 +180,7 @@ const ProfilePage = () => {
 
         )
     }
-
+    
     return (
         <>
             <SEO title="Profile" description={`View ${activeUser.username}'s profile to explore their activity.`} />

@@ -32,7 +32,7 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
                 </div>
                 <div className={styles.authorContainer}>
                     <p>By <AppLink to={`/home/profile/${authorId}`} >{author}</AppLink></p>
-                    <AppImage src={avatar_url} className={UIstyles.avatar} />
+                    <AppImage src={avatar_url} className={UIstyles.interactiveAvatar} />
                     <p>• {formattedCreatedAt}</p>
                 </div>
             </div>

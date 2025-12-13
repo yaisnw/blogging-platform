@@ -74,7 +74,7 @@ const NavBar = () => {
 
                     <div className={styles.nav1}>
                         {loggedIn && <AppLink className={styles.navButton} to="/home/profile">
-                            <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.avatar} src={data?.avatar_url} alt={`${author} avatar`} />
+                            <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.interactiveAvatar} src={data?.avatar_url} alt={`${author} avatar`} />
                             Profile</AppLink>}
                         <AppLink className={styles.navButton} to="/home/about">About</AppLink>
                         <AppLink to="/login" className={`${styles.navButton} ${UIstyles.danger}`} onClick={logOutHandler}>Log out</AppLink>

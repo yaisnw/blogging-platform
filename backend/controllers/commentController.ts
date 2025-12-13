@@ -81,7 +81,7 @@ export const getCommentsByPostId = async (
             include: [
                 {
                     model: User,
-                    attributes: ["id", "username", "avatar_url"]
+                    attributes: ["username", "avatar_url"]
                 }
             ]
         });
@@ -116,7 +116,7 @@ export const getCommentsByAuthorId = async (
             include: [
                 {
                     model: User,
-                    attributes: ["id", "username", "avatar_url"]
+                    attributes: [ "username", "avatar_url"]
                 }
                 ,
                 {

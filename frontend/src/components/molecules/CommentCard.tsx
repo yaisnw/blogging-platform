@@ -10,6 +10,9 @@ import { useAppDispatch } from "@/hooks";
 import { setPostId } from "@/slices/uiSlice";
 import { setDraftTitle } from "@/slices/draftPostSlice";
 import slugify from "slugify"
+import { useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 
 type CommentCardProps = {
     postId?: number,
@@ -17,6 +20,7 @@ type CommentCardProps = {
     commentId: number,
     content: string,
     username: string,
+    authorId?: number,
     avatar_url: string,
     createdAt: Date,
     updatedAt: Date,
@@ -30,22 +34,29 @@ const CommentCard: React.FC<CommentCardProps> = ({
     commentId,
     content,
     username,
+    authorId,
     avatar_url,
     createdAt,
     updatedAt,
     editComment,
     deleteComment
 }) => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const location = useLocation();
+    const { pathname } = location;
+    const isOnProfilePage = pathname.startsWith('/home/profile');
+    const {id} = useSelector((state: RootState) => state.auth.user);
+    const isAuthor = authorId === id;
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState(content)
-    const slug = slugify(postTitle?? "", { lower: true, strict: true })
+    const slug = slugify(postTitle ?? "", { lower: true, strict: true })
 
     const handlePostClick = async (id: number) => {
-            dispatch(setPostId(id))
-            dispatch(setDraftTitle(postTitle?? ""))
-        }
-    
+        dispatch(setPostId(id))
+        dispatch(setDraftTitle(postTitle ?? ""))
+    }
+    console.log(authorId)
 
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
         year: "numeric",
@@ -66,8 +77,9 @@ const CommentCard: React.FC<CommentCardProps> = ({
             className={styles.commentCard} aria-labelledby={`comment-${commentId}-author`}>
             <header className={styles.header}>
                 <div className={styles.authorBox}>
-                    <AppImage className={UIstyles.avatar} src={avatar_url} alt={`${username} avatar`} />
-                    <h3 id={`comment-${commentId}-author`}>{username}</h3>
+                    <AppImage className={!isOnProfilePage ? UIstyles.interactiveAvatar : UIstyles.avatar} onClick={isOnProfilePage ? () => undefined : () => navigate(`/home/profile/${authorId}`)} src={avatar_url} alt={`${username} avatar`} />
+                    {!isOnProfilePage ? <AppLink to={`/home/profile/${authorId}`} onClick={() => handlePostClick(authorId ?? 0)} className={styles.username} id={`comment-${commentId}-author`}>{username}</AppLink> :
+                        <h3 id={`comment-${commentId}-author`}>{username}</h3>}
                 </div>
                 <AppLink to={`/home/posts/${postId}/${slug}`} onClick={() => handlePostClick(postId ?? 0)} >Go To Post</AppLink>
             </header>
@@ -114,18 +126,12 @@ const CommentCard: React.FC<CommentCardProps> = ({
                         Edited: {formattedUpdatedAt}
                     </time>
                 )}
-                <div className={styles.interactionBox}>
-                    {!isEditing && (
-                        <AppButton type="button" onClick={() => setIsEditing(true)}>
-                            Edit
-                        </AppButton>
-                    )}
-                    {!isEditing && deleteComment && (
-                        <AppButton type="button" onClick={() => deleteComment(commentId)}>
-                            Delete
-                        </AppButton>
-                    )}
-                </div>
+                { !isOnProfilePage && isAuthor && editComment && deleteComment && (
+                    <div className={styles.commentActions}>
+                        <AppButton type="button" onClick={() => setIsEditing(true)}>Edit</AppButton>
+                        <AppButton type="button" onClick={() => deleteComment(commentId)}>Delete</AppButton>
+                    </div>
+                )}
             </footer>
         </motion.article>
     );

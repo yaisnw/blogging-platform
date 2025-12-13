@@ -116,7 +116,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                         <AppParagraph>
                             By <AppLink to={`/home/profile/${authorId}`}>{author}</AppLink>
                         </AppParagraph>
-                        <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.avatar} src={avatar_url} alt={`${author} avatar`} />
+                        <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.interactiveAvatar} src={avatar_url} alt={`${author} avatar`} />
                     </div>
                 )}
             </section>
