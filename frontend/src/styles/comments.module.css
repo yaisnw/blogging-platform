@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    padding: 0 1rem;
+    padding: 1rem;
 }
 
 .authorBox {
@@ -41,7 +41,13 @@
     align-items: center;
     padding: 1rem 0;
 }
-
+.commentActions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
 .interactionBox {
     display: flex;
     justify-content: space-between;
@@ -56,7 +62,7 @@
     justify-content: center;
 }
 
-.commentTextArea {
+.commentText {
     width: 90%;
     max-height: 20vh;
     padding: 1rem;
@@ -64,9 +70,28 @@
     resize: none;
 }
 
-@media screen and (max-width: 768px) {
+.commentInputs {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.commentTextArea {
+    width: 30vw;
+    height: 10vh;
+    padding: 1rem;
+}
+.interactionFlex {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+@media screen and (max-width: 1440px) {
     .commentCard {
-        width: 80vw;
+        width: 60vw;
     }
     .header {
         min-height: 100px;
@@ -74,16 +99,64 @@
     .commentBody {
         width: 100%;
     }
+    .commentTextArea {
+        width: 40vw;
+        min-height: 15vh;
+    }
+
+}
+@media screen and (max-width: 1024px) {
+    .commentCard {
+        width: 70vw;
+    }
+    .header {
+        min-height: 90px;
+    }
+    .commentBody {
+        width: 100%;
+    }
+    .commentTextArea {
+        width: 50vw;
+        min-height: 15vh;
+    }
+
+}
+@media screen and (max-width: 768px) {
+    .commentCard {
+        width: 80vw;
+    }
+    .header {
+        min-height: 80px;
+    }
+    .commentBody {
+        width: 100%;
+    }
+    .commentInputs {
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem auto;
+    }
+    .commentTextArea {
+        width: 70vw;
+        min-height: 15vh;
+    }
 
 }
 
 @media screen and (max-width: 480px) {
     .header {
         align-items: center;
-        padding: 1rem;
         font-size: 0.9rem;
+        min-height: 70px;
     }
-
+    .commentInputs {
+        flex-direction: column;
+        align-items: stretch;
+        margin: 1rem auto;
+    }
+    .commentTextArea {
+        width: 80vw;
+    }
     .header a {
         line-height: 1;
         margin: 0;
@@ -101,7 +174,9 @@
     .footer {
         font-size: 0.8rem;
     }
-
+    .footer button {
+        min-width: 5rem;
+    }
     .authorBox img {
         vertical-align: middle;
     }

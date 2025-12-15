@@ -25,13 +25,13 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
     return (
         <header className={styles.headerBox} >
             <AppHeader className={styles.postTitle}>{title}</AppHeader>
-            <div className={styles.postInfo}>
-                <div className={styles.heartContainer} >
+            <div className={styles.heartContainer} >
                     <h2>{likeCount ?? 0}</h2>
                     <HeartButton className={UIstyles.interactiveImage} OnLike={OnLike} editable={true} liked={liked} />
                 </div>
+            <div className={styles.postInfo}>
                 <div className={styles.authorContainer}>
-                    <p>By <AppLink to={`/home/profile/${authorId}`} >{author}</AppLink></p>
+                    <p>•By <AppLink to={`/home/profile/${authorId}`} >{author}</AppLink></p>
                     <AppImage src={avatar_url} className={UIstyles.interactiveAvatar} />
                     <p>• {formattedCreatedAt}</p>
                 </div>

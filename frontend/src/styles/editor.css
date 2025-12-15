@@ -286,3 +286,26 @@
   transform: translateY(-50%);
   left: 50%;
 }
+
+
+@media screen and (max-width: 480px) {
+  .editor {
+    width: 90vw;
+    margin: 2rem;
+    padding: 1rem;
+  }
+
+  .toolBar {
+    grid-template-rows: repeat(4, 1fr);
+    row-gap: 1rem;
+  }
+
+  .header-input {
+    width: 90vw;
+    font-size: 1.2rem;
+  }
+
+  .header-submit {
+    flex-direction: column;
+  }
+}

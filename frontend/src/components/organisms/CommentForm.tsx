@@ -1,4 +1,4 @@
-import styles from "@/styles/postViewer.module.css"
+import styles from "@/styles/comments.module.css"
 import AppButton from "../atoms/AppButton";
 import AppLabel from "../atoms/AppLabel";
 import AppTextArea from "../atoms/AppTextArea";
@@ -24,7 +24,7 @@ const CommentForm: React.FC<CommentForm> = ({ commentContent, setCommentContent,
             >
                 <AppLabel htmlFor="comment" >Share your thoughts:</AppLabel>
                 <div className={styles.commentInputs} >
-                    <AppTextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} className={styles.commentText} name="comment" />
+                    <AppTextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} className={styles.commentTextArea} name="comment" />
                     <AppButton className={styles.commentButton} >Submit</AppButton>
                 </div>
             </form>

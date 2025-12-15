@@ -81,7 +81,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
                     {!isOnProfilePage ? <AppLink to={`/home/profile/${authorId}`} onClick={() => handlePostClick(authorId ?? 0)} className={styles.username} id={`comment-${commentId}-author`}>{username}</AppLink> :
                         <h3 id={`comment-${commentId}-author`}>{username}</h3>}
                 </div>
-                <AppLink to={`/home/posts/${postId}/${slug}`} onClick={() => handlePostClick(postId ?? 0)} >Go To Post</AppLink>
+               {isOnProfilePage &&  <AppLink to={`/home/posts/${postId}/${slug}`} onClick={() => handlePostClick(postId ?? 0)} >Go To Post</AppLink>}
             </header>
 
             <div className={styles.commentBody}>
@@ -101,7 +101,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
                                 e.currentTarget.style.height = "auto";
                                 e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
                             }}
-                            className={styles.commentTextArea}
+                            className={styles.commentText}
                             name="comment"
                             aria-label="Edit comment"
                         />
