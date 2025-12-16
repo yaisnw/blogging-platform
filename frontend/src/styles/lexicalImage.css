@@ -2,6 +2,7 @@
   border: 2px solid blue;
 }
 .image-wrapper {
+  box-sizing: border-box;
   position: relative;
   display: inline;
   min-width: 300px;
@@ -11,40 +12,54 @@
 .lexical-image {
   width: 100%;
   display: block;
+
 }
 
 .resize-handle {
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
   position: absolute;
-  right: -10px;
-  bottom: -10px;
-  background: white;
-  border: 1px solid gray;
+  left: -10px;
+  top: -10px;
   cursor: ew-resize;
-  padding: 2px 4px;
   user-select: none;
   font-size: 16px;
   z-index: 10;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .delete-handle {
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  background-color: var(--color-bg);
   position: absolute;
   right: -10px;
   top: -10px;
-  background-color: white;
-  padding: 2px 4px;
   user-select: none;
-  border: 1px solid gray;
   z-index: 10;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .alignment-buttons {
-  min-width:  200px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
   width: 100%;
   display: inline-flex;
   justify-content: space-around;
   position: absolute;
-  bottom: -25px;
+  bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: black;
+}
+.alignment-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
 }
 .lexical-image-container.align-left {
   display: flex;
@@ -66,4 +81,13 @@
   text-align: right;
   float: right;
   margin-left: 1rem;
+}
+.lexical-image-skeleton {
+    width: 100%;
+    min-height: 150px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-bottom: 8px; 
 }

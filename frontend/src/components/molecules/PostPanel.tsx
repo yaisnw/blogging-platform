@@ -19,14 +19,15 @@ const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confi
             className={styles.panel}
             aria-label="Post actions">
             <AnimatePresence >
-                <AppButton onClick={createButton}>Create Post</AppButton>
-                <AppButton variant={isDeleting ? "secondary" : "primary"}  onClick={deleteButton}>{isDeleting ? 'Cancel Delete' : 'Delete Posts'}</AppButton>
+                <AppButton key="create-btn" onClick={createButton}>Create Post</AppButton>
+                <AppButton key="delete-btn" variant={isDeleting ? "secondary" : "primary"}  onClick={deleteButton}>{isDeleting ? 'Cancel Delete' : 'Delete Posts'}</AppButton>
                 {isDeleting && (
                     <motion.div
                         initial={{ opacity: 0, }}
                         animate={{ opacity: 1, }}
                         exit={{ opacity: 0, }}
                         transition={{ duration: 0.3 }}
+                        key="confirm-delete-group"
                         className={styles.deleteWrapper}
                     >
                         <AppButton

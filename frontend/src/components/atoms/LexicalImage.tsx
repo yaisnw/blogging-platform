@@ -4,6 +4,12 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getNodeByKey } from "lexical";
 import { $isImageNode, } from "@/lexicalCustom/ImageNode";
 import { useDeleteImageMutation } from "@/services/picturesApi";
+import LeftArrow from "./LeftArrow";
+import CenterArrow from "./CenterArrow";
+import RightArrow from "./RightArrow";
+import CrossButton from "./CrossButton";
+import ResizeButton from "./ResizeButton";
+import AppLoader from "./AppLoader";
 
 
 export default function LexicalImage({
@@ -24,6 +30,8 @@ export default function LexicalImage({
   const [currentAlignment, setCurrentAlignment] = useState(alignment);
   const [deleteImage] = useDeleteImageMutation();
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
 
   useEffect(() => {
     return editor.registerUpdateListener(() => {
@@ -35,7 +43,20 @@ export default function LexicalImage({
       });
     });
   }, [editor, nodeKey]);
+  useEffect(() => {
+    setIsLoaded(false); 
+    const img = new Image();
+    img.onload = () => setIsLoaded(true);
+    img.onerror = () => setIsLoaded(true); 
+    img.src = src;
 
+    if (img.complete) {
+        setIsLoaded(true);
+    }
+  }, [src]);
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -43,7 +64,7 @@ export default function LexicalImage({
       const node = $getNodeByKey(nodeKey);
       if (node) node.remove();
     });
-    
+
     await deleteImage(src)
   };
 
@@ -66,10 +87,19 @@ export default function LexicalImage({
         className={`image-wrapper ${isSelected ? ' selected' : ''}`}
         style={{ width }} onClick={() => readOnly ? undefined : setIsSelected(s => !s)}
       >
-        <img src={src} alt={altText} className="lexical-image" />
+        {!isLoaded && (
+          <div
+            className="lexical-image-skeleton"
+          >
+            <AppLoader mode="normal" /> 
+          </div>
+        )}
+        <img onLoad={handleImageLoad} loading="lazy" src={src} alt={altText} className="lexical-image" style={{
+          display: isLoaded ? 'block' : 'none',
+        }} />
         {isSelected && (
           <div >
-            <div className="delete-handle" onClick={handleDelete}>X</div>
+            <div className="delete-handle" onClick={handleDelete}><CrossButton /></div>
             <div
               className="resize-handle"
               onMouseDown={(e) => {
@@ -91,12 +121,12 @@ export default function LexicalImage({
                 window.addEventListener("mouseup", onMouseUp);
               }}
             >
-              ↔
+              <ResizeButton />
             </div>
             <div className="alignment-buttons">
-              <button onClick={() => handleAlignmentChange('left')}>left</button>
-              <button onClick={() => handleAlignmentChange('center')}>center</button>
-              <button onClick={() => handleAlignmentChange('right')}>right</button>
+              <button onClick={() => handleAlignmentChange('left')}><LeftArrow /></button>
+              <button onClick={() => handleAlignmentChange('center')}><CenterArrow /></button>
+              <button onClick={() => handleAlignmentChange('right')}><RightArrow /></button>
             </div>
           </div>
         )}

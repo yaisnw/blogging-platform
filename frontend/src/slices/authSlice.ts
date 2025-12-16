@@ -10,7 +10,7 @@ interface authSliceState {
     justRegistered: boolean;
 }
 
-const initialState = {
+const initialState: authSliceState = {
     user: {
         id: 0,
         username: '',
@@ -18,7 +18,7 @@ const initialState = {
         avatar_url: ''
     },
     justRegistered: false as boolean,
-} satisfies authSliceState
+} 
 
 const authSlice = createSlice({
     name: 'auth',

@@ -88,7 +88,7 @@ const DashboardPage = () => {
                         editButton={() => handleEditButton(post.id)}
                         isDeleting={isDeleting}
                     />
-                )) || [<ErrorState mode="normal" message="No posts available" actionLabel="Create your first post" />]}
+                )) || [<ErrorState key="no-posts" mode="normal" message="No posts available" actionLabel="Create your first post" />]}
             /></>
     );
 };

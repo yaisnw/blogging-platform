@@ -1,6 +1,6 @@
 import { Helmet } from "@dr.pogodin/react-helmet";
 
-interface SEOProps {
+type SEOProps = {
     title: string,
     description: string,
     author?: string

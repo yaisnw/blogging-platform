@@ -5,7 +5,7 @@ import AppButton from "./AppButton";
 
 type ErrorMode = "page" | "normal";
 
-interface ErrorStateProps {
+type ErrorStateProps = {
   message: string;
   onRetry?: () => void;
   actionLabel?: string;
