@@ -1,6 +1,7 @@
 .image-wrapper.selected {
   border: 2px solid blue;
 }
+
 .image-wrapper {
   box-sizing: border-box;
   position: relative;
@@ -9,6 +10,7 @@
   z-index: 10;
   margin: 1rem 0;
 }
+
 .lexical-image {
   width: 100%;
   display: block;
@@ -30,6 +32,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .delete-handle {
   border: 1px solid var(--color-border);
   cursor: pointer;
@@ -44,6 +47,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .alignment-buttons {
   border: 1px solid var(--color-border);
   background-color: var(--color-bg);
@@ -55,12 +59,14 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
 .alignment-buttons button {
   background: none;
   border: none;
   cursor: pointer;
   padding: 5px;
 }
+
 .lexical-image-container.align-left {
   display: flex;
   justify-content: flex-start;
@@ -82,12 +88,13 @@
   float: right;
   margin-left: 1rem;
 }
+
 .lexical-image-skeleton {
-    width: 100%;
-    min-height: 150px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    margin-bottom: 8px; 
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  margin-bottom: 8px;
 }

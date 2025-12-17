@@ -14,6 +14,7 @@ import type { UiState } from './slices/uiSlice';
 const uiTransform = createTransform<UiState, Partial<UiState>>(
   (inboundState) => ({
     postId: inboundState.postId,
+    alertIgnored: inboundState.alertIgnored
   }),
   (outboundState) => ({
     postId: outboundState.postId ?? 0,
@@ -22,6 +23,7 @@ const uiTransform = createTransform<UiState, Partial<UiState>>(
     profileTab: "posts",
     searchQuery: "",
     imageUploading: false,
+    alertIgnored: outboundState.alertIgnored ?? false
   }),
   { whitelist: ["ui"] }
 );

@@ -44,7 +44,8 @@ export default function LexicalImage({
     });
   }, [editor, nodeKey]);
   useEffect(() => {
-    setIsLoaded(false); 
+    setIsLoaded(false);
+    //new image instance to solve race condition with react and browser cache
     const img = new Image();
     img.onload = () => setIsLoaded(true);
     img.onerror = () => setIsLoaded(true); 

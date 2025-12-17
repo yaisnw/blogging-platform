@@ -7,6 +7,7 @@ interface UiState {
   profileTab: "posts" | "comments"
   searchQuery: string
   imageUploading: boolean
+  alertIgnored: boolean
 }
 
 const initialState: UiState = {
@@ -16,6 +17,8 @@ const initialState: UiState = {
   profileTab: "posts",
   searchQuery: "",
   imageUploading: false,
+  alertIgnored: false
+
 }
 
 const uiSlice = createSlice({
@@ -50,6 +53,9 @@ const uiSlice = createSlice({
     setImageUploading: (state, action: PayloadAction<boolean>) => {
       state.imageUploading = action.payload
     },
+    setAlertIgnored: (state, action: PayloadAction<boolean>) => {
+      state.alertIgnored = action.payload
+    }
   },
 })
 
@@ -60,7 +66,8 @@ export const {
   setProfileTab,
   setSearchQuery,
   clearSearchQuery,
-  setImageUploading
+  setImageUploading,
+  setAlertIgnored
 } = uiSlice.actions
 export default uiSlice.reducer
 

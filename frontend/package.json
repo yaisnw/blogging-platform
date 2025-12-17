@@ -27,6 +27,7 @@
     "lexical": "^0.33.1",
     "motion": "^12.23.24",
     "react": "^19.1.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^19.1.0",
     "react-hotkeys-hook": "^5.1.0",
     "react-redux": "^9.2.0",
