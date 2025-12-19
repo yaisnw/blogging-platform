@@ -5,7 +5,7 @@ import PostPanel from "../molecules/PostPanel";
 import DashboardTemplate from "../templates/DashboardTemplate";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { setPostId } from "@/slices/uiSlice";
+import { setAlertIgnored, setPostId } from "@/slices/uiSlice";
 import type { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { useAuthStatus } from "@/hooks/useAuthStatus";
@@ -13,6 +13,7 @@ import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
 import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
+
 
 const DashboardPage = () => {
     const dispatch = useAppDispatch();
@@ -24,6 +25,10 @@ const DashboardPage = () => {
     const { loggedIn, authChecked } = useAuthStatus();
     const [isDeleting, setIsDeleting] = useState(false);
 
+    useEffect(() => {
+        dispatch(setAlertIgnored(false))
+// eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []) 
     useEffect(() => {
         if (authChecked && !loggedIn) {
             navigate("/login");

@@ -28,6 +28,7 @@ body {
     flex-direction: column;
     row-gap: 2vh;
     padding: 7vh 0;
+    overflow-x: hidden;
   }
 
   .homeContent {

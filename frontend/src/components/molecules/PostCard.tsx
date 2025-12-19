@@ -130,7 +130,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <div className={styles.interactionBox}>
 
                     {editButton && (
-                        <AppButton type="button" onClick={editButton}>
+                        <AppButton  type="button" onClick={editButton}>
                             Edit Post
                         </AppButton>
                     )}

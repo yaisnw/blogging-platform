@@ -10,7 +10,7 @@ type postPanelProps = {
     deletingPostIds: number[],
 }
 
-const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confirmDeleteButton, isDeleting, deletingPostIds }) => {
+const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confirmDeleteButton, isDeleting, deletingPostIds, }) => {
     return (
         <motion.nav
             initial={{ opacity: 0.6, scale: 1.1 }}
@@ -19,7 +19,7 @@ const PostPanel: React.FC<postPanelProps> = ({ createButton, deleteButton, confi
             className={styles.panel}
             aria-label="Post actions">
             <AnimatePresence >
-                <AppButton key="create-btn" onClick={createButton}>Create Post</AppButton>
+                <AppButton  key="create-btn" onClick={createButton}>Create Post</AppButton>
                 <AppButton key="delete-btn" variant={isDeleting ? "secondary" : "primary"}  onClick={deleteButton}>{isDeleting ? 'Cancel Delete' : 'Delete Posts'}</AppButton>
                 {isDeleting && (
                     <motion.div

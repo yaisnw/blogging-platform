@@ -6,13 +6,13 @@
     text-decoration: none;
     border-bottom: 2px solid var(--color-accent);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-    height: 5rem;
+    height: var(--nav-h);
     position: sticky;
     top: 0;
     z-index: 2000;
     max-width: 100vw;
-    overflow: hidden;
 }
+
 .navContent {
     display: flex;
     align-items: center;
@@ -21,6 +21,7 @@
     width: 100%;
     height: 100%;
 }
+
 .nav1 {
     position: relative;
     display: grid;
@@ -30,7 +31,7 @@
     column-gap: 2rem;
     font-size: 1.5rem;
     height: 100%;
-    flex: 1; 
+    flex: 1;
 }
 
 .navButton {
@@ -69,7 +70,7 @@
     z-index: 100;
 }
 
-.nav1 > .navButton:first-child:hover {
+.nav1>.navButton:first-child:hover {
     transform-origin: 0% 50%;
 }
 
@@ -180,9 +181,11 @@
         gap: 10px;
         font-size: 1.2rem;
     }
+
     .navButton {
         min-width: 120px;
     }
+
     .searchBar {
         width: 25%;
         gap: 1rem;
@@ -201,6 +204,7 @@
 
 @media screen and (max-width: 1024px) {
     .nav {
+        position: sticky;
         display: flex;
         gap: 1rem;
         width: 100%;
@@ -222,7 +226,7 @@
         z-index: 200;
     }
 
-     .navContent {
+    .navContent {
         display: flex;
         position: fixed;
         top: 5rem;
@@ -275,14 +279,14 @@
         width: 100%;
         font-size: 1rem;
     }
-    .mobileAlertButton {
+
+    .mobileAlertButton,
+    .mobileWarningButton {
         position: fixed;
         top: 90px;
         right: 15px;
         width: 45px;
         height: 45px;
-        background-color: var(--color-accent-warm);
-        color: var(--color-text);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -290,14 +294,24 @@
         z-index: 3001;
         box-shadow: 0 0 10px var(--color-bg);
     }
-    .mobileAlert  {
+
+    .mobileAlertButton {
+        background-color: var(--color-accent-warm);
+        color: var(--color-text);
+    }
+
+    .mobileWarningButton {
+        background-color: var(--color-warning);
+        color: var(--color-text)
+    }
+
+    .mobileAlert,
+    .mobileWarning {
         position: fixed;
         right: 0;
-        top: 80px;
+        top: var(--nav-h);
         width: 100%;
         height: 4rem;
-        color: var(--color-text);
-        background-color: var(--color-accent-warm);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -305,9 +319,19 @@
         text-align: center;
         z-index: 3000;
     }
+
+    .mobileAlert {
+        color: var(--color-text);
+        background-color: var(--color-accent-warm);
+    }
+
+    .mobileWarning {
+        color: var(--color-text);
+        background-color: var(--color-warning);
+    }
+
     .mobileAlertIgnore {
         position: absolute;
-        top: 10px;
         left: 15px;
         width: 45px;
         height: 45px;
@@ -318,10 +342,10 @@
 
 @media screen and (max-width: 480px) {
     .nav {
+        position: sticky;
         display: flex;
         width: 100vw;
         z-index: 3000;
-        overflow: auto;
     }
 
     .hamburger {
@@ -378,7 +402,7 @@
         border-top: 1px solid var(--color-border);
         border-bottom: 1px solid var(--color-border);
         border-radius: 0;
-        
+
     }
 
     .searchBar {
@@ -393,3 +417,5 @@
     }
 
 }
+
+@media screen and (max-width: 320px) {}

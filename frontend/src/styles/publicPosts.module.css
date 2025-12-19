@@ -6,7 +6,11 @@
     grid-template-columns: 1fr;
     width: 70vw;
 }
-
+@media screen and (max-width: 780px) {
+    .cardsContainer {
+        width: 100vw;
+    }
+}
 @media screen and (max-width: 480px) {
     .cardsContainer {
         margin: 3rem auto;

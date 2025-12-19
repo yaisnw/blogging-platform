@@ -69,7 +69,7 @@
     .dashboardFlex {
         flex-direction: column;
         justify-content: center;
-        margin: 4rem auto;
+        margin: 5rem auto;
         padding: 0;
         gap: 4rem;
         height: auto;

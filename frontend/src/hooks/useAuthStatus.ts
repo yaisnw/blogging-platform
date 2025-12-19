@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 
 export function isTokenExpired(token: string | null): boolean {
   if (!token) return true;
@@ -15,18 +16,17 @@ export function isTokenExpired(token: string | null): boolean {
 }
 
 export const useAuthStatus = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [authChecked, setAuthChecked] = useState(false);
-
-  useEffect(() => {
+  
+    const user = useSelector((state: RootState) => state.auth.user);
     const token = localStorage.getItem("token");
-    if (token && !isTokenExpired(token)) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-    setAuthChecked(true);
-  }, []);
 
-  return { loggedIn, authChecked };
+    const hasValidToken = token && !isTokenExpired(token);
+    const hasUserData = user && user.id !== 0;
+
+    const loggedIn = !!(hasValidToken && hasUserData);
+    
+    // authChecked is true once we've at least checked the token
+    const authChecked = true; 
+
+    return { loggedIn, authChecked };
 };
