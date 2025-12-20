@@ -160,16 +160,19 @@
 
 @media screen and (max-width: 1440px) {
     .nav {
+        box-sizing: border-box;
         display: flex;
-        max-width: 100%;
+        width: 100%;
         z-index: 3000;
+        margin: 0;
+        padding: 0;
     }
 
     .hamburgerWrapper {
         display: none;
         position: absolute;
         left: -120%;
-        width: 90%;
+
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -183,7 +186,7 @@
     }
 
     .navButton {
-        min-width: 120px;
+        min-width: 100px;
     }
 
     .searchBar {
@@ -359,7 +362,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 2rem;
+        gap: 1rem;
         z-index: 200;
     }
 
@@ -418,4 +421,47 @@
 
 }
 
-@media screen and (max-width: 320px) {}
+@media screen and (max-width: 320px) {
+
+   .alertWrapper {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    width: 100%;
+    z-index: 3000;
+    pointer-events: none; 
+}
+
+.alertWrapper > * {
+    pointer-events: auto;
+}
+
+.mobileAlert,
+.mobileWarning {
+    width: 100%;
+    min-height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 4rem;
+    text-align: center;
+}
+
+.mobileAlertButton,
+.mobileWarningButton {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobileAlertIgnore {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+}

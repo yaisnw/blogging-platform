@@ -18,6 +18,7 @@ import AppLoader from '../atoms/AppLoader';
 import AlertButton from '../atoms/AlertButton';
 import CrossButton from '../atoms/CrossButton';
 import { setAlertIgnored } from '@/slices/uiSlice';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ const NavBar = () => {
     const { data, isLoading } = useGetUserQuery(authorId);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [alertClicked, setAlertClicked] = useState(false);
+    const isDesktop = useIsDesktop();
 
     function toggleTheme() {
         const root = document.documentElement;
@@ -61,51 +63,7 @@ const NavBar = () => {
     }
     return (
         <>
-          <div>
-             <AnimatePresence>
-            {!alertIgnored && (
-                <motion.div
-                    key="universal-mobile-alert"
-                    onClick={toggleAlert}
-                    className={isOnDashboardPage ? styles.mobileWarningButton : styles.mobileAlertButton}
-                    initial={{ x: 300, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: 300, opacity: 0 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                    <AlertButton />
-                </motion.div>
-            )}
-        </AnimatePresence>
 
-        <AnimatePresence>
-            {alertClicked && !alertIgnored && (
-                <motion.div
-                    key="alert-message"
-                    className={isOnDashboardPage ? styles.mobileWarning : styles.mobileAlert}
-                    initial={{ x: "100%" }}
-                    animate={{ x: 0 }}
-                    exit={{ x: "100%" }}
-                    transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 200 }}
-                >
-                    {!isOnDashboardPage && (
-                        <CrossButton
-                            onClick={() => dispatch(setAlertIgnored(true))}
-                            className={styles.mobileAlertIgnore}
-                        />
-                    )}
-                        <p>
-                            {window.innerWidth < 300 
-                                ? (isOnDashboardPage ? "Desktop Required" : "Use Desktop View")
-                                : (isOnDashboardPage 
-                                    ? "Caution: Dashboard editing is not optimized for mobile. Data errors may occur."
-                                    : "For the best experience, please view this site on a desktop device.")
-                            }
-                        </p>
-                </motion.div>
-            )}
-        </AnimatePresence>
-          </div>
             {isLoading && <main> <AppLoader mode="page" /></main>}
             <motion.nav
                 className={styles.nav}
@@ -141,13 +99,60 @@ const NavBar = () => {
                     </div>
                     <SearchBar />
 
-                    
+
 
 
                 </div>
 
             </motion.nav>
+            <div className={styles.alertWrapper}>
+                <AnimatePresence>
+                    {!alertIgnored && !isDesktop && (
+                        <motion.div
+                            key="universal-mobile-alert"
+                            onClick={toggleAlert}
+                            className={isOnDashboardPage ? styles.mobileWarningButton : styles.mobileAlertButton}
+                            initial={{ x: 300, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            exit={{ x: 300, opacity: 0 }}
+                            transition={{ duration: 0.4 }}
+                        >
+                            <AlertButton />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
+                <AnimatePresence>
+                    {alertClicked && !alertIgnored && (
+                        <motion.div
+                            key="alert-message"
+                            className={isOnDashboardPage ? styles.mobileWarning : styles.mobileAlert}
+                            initial={{ x: "100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "100%" }}
+                            transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 200 }}
+                        >
+                            {!isOnDashboardPage && (
+                                <CrossButton
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        dispatch(setAlertIgnored(true));
+                                    }}
+                                    className={styles.mobileAlertIgnore}
+                                />
+                            )}
+                            <p>
+                                {window.innerWidth < 300
+                                    ? (isOnDashboardPage ? "Desktop Required" : "Use Desktop View")
+                                    : (isOnDashboardPage
+                                        ? "Caution: Dashboard editing is not optimized for mobile."
+                                        : "For the best experience, please view this site on a desktop device.")
+                                }
+                            </p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
             <Outlet />
             <Footer />
         </>

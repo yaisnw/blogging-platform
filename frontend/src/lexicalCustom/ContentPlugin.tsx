@@ -11,17 +11,23 @@ const ContentPlugin = ({ content }: { content: string }) => {
 
     try {
       const parsed = JSON.parse(content);
-      const newState = editor.parseEditorState(parsed);
+      
+      const currentEditorState = editor.getEditorState();
+      const nextState = editor.parseEditorState(parsed);
+
+      if (JSON.stringify(currentEditorState.toJSON()) === JSON.stringify(nextState.toJSON())) {
+        return;
+      }
 
       editor.update(() => {
-        editor.setEditorState(newState);
+        editor.setEditorState(nextState);
       }, { tag: 'initial-load' });
 
     } catch (err) {
       console.error("Error parsing editor content:", err);
     }
 
-  }, [editor, content]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [editor, content]);
 
   return null;
 };

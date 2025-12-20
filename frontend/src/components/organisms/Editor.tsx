@@ -91,9 +91,6 @@ const handleChangeEditor = useCallback(
 
         />
         <div className="header-submit">
-          <AppButton type="button" className="submit-button" onClick={onSubmit}>
-            {isUpdating ? "Update" : "Submit"}
-          </AppButton>
           <label>
             <input
               type="checkbox"
@@ -104,6 +101,10 @@ const handleChangeEditor = useCallback(
             />{" "}
             Save as draft
           </label>
+          <AppButton type="button" className="submit-button" onClick={onSubmit}>
+            {isUpdating ? "Update" : "Submit"}
+          </AppButton>
+          
         </div>
       </form>
 

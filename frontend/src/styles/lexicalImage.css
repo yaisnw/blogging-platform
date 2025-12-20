@@ -6,7 +6,6 @@
   box-sizing: border-box;
   position: relative;
   display: inline;
-  min-width: 300px;
   z-index: 10;
   margin: 1rem 0;
 }

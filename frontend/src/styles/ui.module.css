@@ -345,8 +345,8 @@
 
 .toggleCircle {
   position: absolute;
-  width: 60%;
-  height: 60%;
+  width: 55%;
+  height: 55%;
   transform: translateX(0%);
   border-radius: 50%;
   background: var(--color-text);
@@ -356,13 +356,13 @@
 }
 
 :root[data-theme="dark"] .Blue {
-  transform: translateX(150%);
+  transform: translateX(170%);
   background: var(--color-accent);
   box-shadow: 0 0 15px var(--color-accent);
 }
 
 :root[data-theme="light"] .Black {
-  transform: translateX(-150%);
+  transform: translateX(-170%);
   background: var(--color-accent);
   box-shadow: 0 0 15px var(--color-accent);
 }
@@ -386,6 +386,9 @@
   .componentErrorWrapper,
   .componentError {
     width: 40vw;
+  }
+  .ctaButton {
+    width: 50%;
   }
 }
 @media  screen and (max-width: 1024px) {
@@ -423,6 +426,9 @@
     width: 80%;
     max-width: none;
   }
+  .themeToggle:hover .toggleCircle:hover {
+  box-shadow: 0 0 10px 2px var(--color-accent);
+}
 }
 
 @media screen and (max-width: 480px) {
