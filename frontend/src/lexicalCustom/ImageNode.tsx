@@ -30,7 +30,17 @@ export class ImageNode extends DecoratorNode<ReactNode> {
         this.__altText = altText;
         this.__alignment = alignment
     }
+    getSrc(): string {
+        return this.__src;
+    }
 
+    getAltText(): string {
+        return this.__altText;
+    }
+
+    getAlignment(): 'left' | 'center' | 'right' {
+        return this.__alignment;
+    }
     setAlignment(alignment: 'left' | 'center' | 'right') {
         const writable = this.getWritable();
         writable.__alignment = alignment;
@@ -73,13 +83,13 @@ export class ImageNode extends DecoratorNode<ReactNode> {
         return new ImageNode(serializedNode.src, serializedNode.altText, undefined, serializedNode.alignment || 'center');
     }
 
-    exportJSON() {
+    exportJSON(): SerializedImageNode {
         return {
             type: "image",
             version: 1,
-            src: this.__src,
-            altText: this.__altText,
-            alignment: this.__alignment
+            src: this.getSrc(),
+            altText: this.getAltText(),
+            alignment: this.getAlignment(),
         };
     }
 }

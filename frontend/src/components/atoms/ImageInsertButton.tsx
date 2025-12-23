@@ -3,7 +3,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getSelection, $isRangeSelection, $setSelection, type BaseSelection } from "lexical";
 import '@/styles/editor.css'
 import UIstyles from "@/styles/ui.module.css"
-import { useCreatePostMutation } from "@/services/postsApi";
+import { useCreatePostMutation, useUpdatePostMutation } from "@/services/postsApi";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useAppDispatch } from "@/hooks";
@@ -18,6 +18,7 @@ function ImageInsertButton() {
     const postId = useSelector((state: RootState) => state.ui.postId)
     const [editor] = useLexicalComposerContext();
     const [createPost, { error: submitError }] = useCreatePostMutation();
+    const [updatePost, { error: updateError }] = useUpdatePostMutation();
     const [uploadImage, { error: imageError }] = useUploadImageMutation();
     const loading = useSelector((state: RootState) => state.ui.imageUploading)
 
@@ -25,7 +26,7 @@ function ImageInsertButton() {
         editor.focus();
         const file = e.target.files?.[0];
         if (!file) return;
-
+        
         if (!file.type.startsWith("image/")) {
             alert("Please upload an image file");
             return;
@@ -34,7 +35,7 @@ function ImageInsertButton() {
         editor.update(() => {
             savedSelection = $getSelection()?.clone();
 
-        })  
+        })
         dispatch(setImageUploading(true))
         try {
             let postIdValue = postId;
@@ -55,16 +56,31 @@ function ImageInsertButton() {
             editor.focus(() => {
                 editor.update(() => {
                     if ($isRangeSelection(savedSelection)) {
-                        $setSelection(savedSelection)
-                        editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                            src: response,
-                            alt: file.name,
-                        });
+                        $setSelection(savedSelection);
+                    }
+
+                    editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                        src: response,
+                        alt: file.name,
+                    });
+                }, {
+                    onUpdate: async () => {
+                        const currentContent = JSON.stringify(editor.getEditorState().toJSON());
+
+                        try {
+                            await updatePost({
+                                postId: postIdValue as number,
+                                content: currentContent,
+                            }).unwrap();
+                        } catch (e) {
+                            console.error("Background save failed", e);
+                        } finally {
+                            dispatch(setImageUploading(false));
+                        }
                     }
                 });
             })
 
-            dispatch(setImageUploading(false))
         } catch (err) {
             console.error(err);
         }
@@ -75,10 +91,10 @@ function ImageInsertButton() {
         <div className="image-inputBox">
             <input id="imageUpload" className="image-input" type="file" accept="image/*" onChange={handleFileChange} />
             <label className={`${UIstyles.appButton} ${UIstyles.primary} toolbar-button `} htmlFor="imageUpload" >
-                    Add Image
+                Add Image
             </label>
 
-            {(submitError || imageError) && <ErrorState message="failed to add image" />}
+            {(submitError || imageError || updateError) && <ErrorState message="failed to add image" />}
             {loading && createPortal(
                 <AppLoader mode="page" />,
                 document.body

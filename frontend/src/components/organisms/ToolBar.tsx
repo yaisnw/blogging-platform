@@ -182,12 +182,12 @@ function ToolBar() {
                         <div className="mobile-sidebar-content">
                             <h3>Editor Tools</h3>
                             <div className="mobile-button-grid">
-                                <AppButton className={isBold ? 'active' : ''} onClick={() => applyFormat('bold')}>B</AppButton>
-                                <AppButton className={isItalic ? 'active' : ''} onClick={() => applyFormat('italic')}>I</AppButton>
-                                <AppButton className={isUnderline ? 'active' : ''} onClick={() => applyFormat('underline')}>U</AppButton>
-                                <AppButton onClick={() => applyBlockType('h1')}>H1</AppButton>
-                                <AppButton onClick={() => applyBlockType('paragraph')}>P</AppButton>
-                                <AppButton disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>⟲</AppButton>
+                                <AppButton className={'mobile-toolbar-button ' + (isBold ? 'active' : '')} onClick={() => applyFormat('bold')}>B</AppButton>
+                                <AppButton className={'mobile-toolbar-button ' + (isItalic ? 'active' : '')} onClick={() => applyFormat('italic')}>I</AppButton>
+                                <AppButton className={'mobile-toolbar-button ' + (isUnderline ? 'active' : '')} onClick={() => applyFormat('underline')}>U</AppButton>
+                                <AppButton className={'mobile-toolbar-button'} onClick={() => applyBlockType('h1')}>H1</AppButton>
+                                <AppButton className={'mobile-toolbar-button'} onClick={() => applyBlockType('paragraph')}>P</AppButton>
+                                <AppButton className={'mobile-toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>⟲</AppButton>
                                 <ImageInsertButton />
 
                             </div>

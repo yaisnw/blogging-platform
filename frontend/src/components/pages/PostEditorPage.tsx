@@ -5,7 +5,7 @@ import PostEditorTemplate from "../templates/PostEditorTemplate";
 import Editor from "../organisms/Editor";
 import type { RootState } from "@/store";
 import { useCreatePostMutation, useGetPostByIdQuery, useUpdatePostMutation } from "@/services/postsApi";
-import { setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
+import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
 import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
@@ -30,7 +30,6 @@ const PostEditorPage = () => {
     if (!id) return;
     const fetchDraft = async () => {
       if (data && getPostSuccess) {
-        console.log("Fetched post data:", data);
         dispatch(setDraftContent(data.content))
         dispatch(setDraftTitle(data.title))
         setIsUpdating(true);
@@ -48,10 +47,10 @@ const PostEditorPage = () => {
   }, [createPostSuccess, updatePostSuccess, navigate]);
   useEffect(() => {
     return () => {
-        dispatch(setDraftTitle(''));
-        dispatch(setDraftContent(''));
+      dispatch(setDraftTitle(''));
+      dispatch(setDraftContent(''));
     }
-}, [dispatch]);
+  }, [dispatch]);
 
   const handleChangeTitle = (val: string) => {
     dispatch(setDraftTitle(val));
@@ -64,15 +63,30 @@ const PostEditorPage = () => {
   const handleChangeStatus = (val: 'draft' | 'published') => setStatus(val);
 
   const handleSubmit = async () => {
-        if (!draftTitle || !draftContent) return;
+    const finalTitle = draftTitle || 'This post has no title.';
 
-        if (isUpdating) {
-            await updatePost({ postId: currentPostId, title: draftTitle, content: draftContent, status }).unwrap();
-        } else {
-            await createPost({ title: draftTitle, content: draftContent, status }).unwrap();
-        }
-        
-    };
+    if (!draftContent) return;
+
+    if (isUpdating) {
+      await updatePost({
+        postId: currentPostId,
+        title: finalTitle,
+        content: draftContent,
+        status
+      }).unwrap();
+      
+      dispatch(resetdraftPost());
+    } else {
+      if (!draftTitle) return;
+      await createPost({
+        title: finalTitle,
+        content: draftContent,
+        status
+      }).unwrap();
+
+      dispatch(resetdraftPost());
+    }
+  };
 
   if (createPostLoading || updatePostLoading || getPostLoading) {
     return (

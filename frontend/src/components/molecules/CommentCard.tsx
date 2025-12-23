@@ -56,7 +56,6 @@ const CommentCard: React.FC<CommentCardProps> = ({
         dispatch(setPostId(id))
         dispatch(setDraftTitle(postTitle ?? ""))
     }
-    console.log(authorId)
 
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
         year: "numeric",

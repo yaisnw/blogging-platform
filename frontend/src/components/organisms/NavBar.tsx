@@ -64,7 +64,7 @@ const NavBar = () => {
     return (
         <>
 
-            {isLoading && <main> <AppLoader mode="page" /></main>}
+            {isLoading && <AppLoader mode="page" />}
             <motion.nav
                 className={styles.nav}
                 initial={{ opacity: 0, y: -30 }}

@@ -10,6 +10,7 @@ import RightArrow from "./RightArrow";
 import CrossButton from "./CrossButton";
 import ResizeButton from "./ResizeButton";
 import AppLoader from "./AppLoader";
+import { useIsDesktop } from "@/hooks/useIsDesktop";
 
 
 export default function LexicalImage({
@@ -29,7 +30,7 @@ export default function LexicalImage({
   const [width, setWidth] = useState(300);
   const [currentAlignment, setCurrentAlignment] = useState(alignment);
   const [deleteImage] = useDeleteImageMutation();
-
+  const isDesktop = useIsDesktop();
   const [isLoaded, setIsLoaded] = useState(false);
 
 
@@ -44,17 +45,32 @@ export default function LexicalImage({
     });
   }, [editor, nodeKey]);
   useEffect(() => {
-    setIsLoaded(false);
-    //new image instance to solve race condition with react and browser cache
-    const img = new Image();
-    img.onload = () => setIsLoaded(true);
-    img.onerror = () => setIsLoaded(true); 
-    img.src = src;
+  let isMounted = true;
+  setIsLoaded(false);
 
-    if (img.complete) {
-        setIsLoaded(true);
-    }
-  }, [src]);
+  const img = new Image();
+  img.src = src;
+
+  const handleLoad = () => {
+    if (isMounted) setIsLoaded(true);
+  };
+
+  if (img.complete) {
+    handleLoad();
+  } else {
+    img.onload = handleLoad;
+    img.onerror = handleLoad; 
+  }
+
+  return () => {
+    isMounted = false;
+    img.onload = null;
+    img.onerror = null;
+  };
+}, [src]);
+  const imageStyle = isDesktop 
+  ? { width: `${width}px`, maxWidth: '100%' } 
+  : { width: 'auto', maxWidth: '100%', height: 'auto' };
   const handleImageLoad = () => {
     setIsLoaded(true);
   };
@@ -86,17 +102,20 @@ export default function LexicalImage({
     >
       <div
         className={`image-wrapper ${isSelected ? ' selected' : ''}`}
-        style={{ width }} onClick={() => readOnly ? undefined : setIsSelected(s => !s)}
+        style={imageStyle } onClick={() => readOnly ? undefined : setIsSelected(s => !s)}
       >
         {!isLoaded && (
           <div
             className="lexical-image-skeleton"
           >
-            <AppLoader mode="normal" /> 
+            <AppLoader mode="normal" />
           </div>
         )}
-        <img onLoad={handleImageLoad} loading="lazy" src={src} alt={altText} className="lexical-image" style={{
+        <img onLoad={handleImageLoad}  src={src} alt={altText} className="lexical-image" style={{
           display: isLoaded ? 'block' : 'none',
+          width: '100%',
+          height: 'auto',
+          objectFit: 'contain'
         }} />
         {isSelected && (
           <div >

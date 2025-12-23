@@ -94,8 +94,9 @@ export const postsApi = createApi({
                 method: 'PUT',
                 body: updates,
             }),
-            invalidatesTags: (result, error, { postId }) => [
-                { type: "Posts", id: postId },
+            invalidatesTags: (_result, _error, { postId }) => [
+                { type: "Post", id: postId },
+                { type: "Posts", id: postId }
             ],
         }),
         deletePosts: build.mutation<void, number[]>({
@@ -104,7 +105,7 @@ export const postsApi = createApi({
                 method: "DELETE",
                 body: { postIds },
             }),
-            invalidatesTags: (result, error, postIds) => [
+            invalidatesTags: (_result, _error, postIds) => [
                 { type: "Posts", id: "LIST" },
                 ...postIds.map((id) => ({ type: "Posts" as const, id })),
             ],

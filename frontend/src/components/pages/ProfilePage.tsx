@@ -116,11 +116,6 @@ const ProfilePage = () => {
         })
     }
 
-    if (currentUserLoading || postsLoading || commentsLoading) {
-        return (<main>
-            <AppLoader mode="page" />
-        </main>)
-    }
 
     const emptyPostsResponse = postsResponse?.posts.length === 0 || !postsResponse?.posts;
     const emptyCommentsReponse = commentsResponse?.comments.length === 0 || !commentsResponse?.comments
@@ -130,7 +125,6 @@ const ProfilePage = () => {
             <ErrorState message={`Something went wrong while fetching the ${postsError ? 'posts.' : 'comments.'}`} onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
         )
     }
-
     else if ((profileTab === 'posts' && emptyPostsResponse) ||
         (profileTab === 'comments' && emptyCommentsReponse)) {
         contentTab = (
@@ -171,57 +165,52 @@ const ProfilePage = () => {
 
     }
 
-    if (!activeUser) {
-        return (
 
-            <main>
-                <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
-            </main>
 
-        )
-    }
-    
     return (
         <>
-            <SEO title="Profile" description={`View ${activeUser.username}'s profile to explore their activity.`} />
-            {(postsLoading || commentsLoading || currentUserLoading) && <main> <AppLoader mode="page" /></main>}
-            {!activeUser && <main>
-                <ErrorState message='Something went wrong while fetching the user.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
-            </main>}
+            <SEO title="Profile" description={`View ${activeUser?.username || 'User'}'s profile.`} />
+            
+            {(currentUserLoading || postsLoading || commentsLoading) && <main><AppLoader mode="page" /></main>}
+            
             <ProfileTemplate
-                profileCard={user.id === Number(id) || !Number(id) ?
-                    <MyProfileCard
-                        username={activeUser?.username}
-                        email={activeUser?.email}
-                        password={Number(id) === user?.id ? currentUser?.password : undefined}
-                        avatar_url={activeUser?.avatar_url}
-                        createdAt={activeUser?.createdAt ?? ''}
-                        formData={formData}
-                        passwordForm={passwordForm}
-                        avatarLoading={avatarLoading}
-                        updateUserLoading={updateUserLoading}
-                        changePasswordLoading={changePasswordLoading}
-                        updateUserError={updateUserError && updateUserError}
-                        changePasswordError={changePasswordError}
-                        handleImageInputChange={handleImageInputChange}
-                        handleTextInputChange={handleChange}
-                        handlePasswordInputChange={handlePasswordInputChange}
-                        updateUser={handleUpdateUser}
-                        changePassword={handleChangePassword}
-                    /> :
-                    <PublicProfileCard
-                        id={activeUser?.id}
-                        username={activeUser?.username}
-                        email={activeUser?.email}
-                        avatar_url={activeUser?.avatar_url}
-                    />
+                profileCard={
+                    !activeUser ? (
+                        !currentUserLoading && <ErrorState message='User not found' />
+                    ) : (
+                        user.id === Number(id) || !Number(id) ?
+                        <MyProfileCard
+                            username={activeUser.username}
+                            email={activeUser.email}
+                            password={Number(id) === user?.id ? currentUser?.password : undefined}
+                            avatar_url={activeUser.avatar_url}
+                            createdAt={activeUser.createdAt ?? ''}
+                            formData={formData}
+                            passwordForm={passwordForm}
+                            avatarLoading={avatarLoading}
+                            updateUserLoading={updateUserLoading}
+                            changePasswordLoading={changePasswordLoading}
+                            updateUserError={updateUserError}
+                            changePasswordError={changePasswordError}
+                            handleImageInputChange={handleImageInputChange}
+                            handleTextInputChange={handleChange}
+                            handlePasswordInputChange={handlePasswordInputChange}
+                            updateUser={handleUpdateUser}
+                            changePassword={handleChangePassword}
+                        /> :
+                        <PublicProfileCard
+                            id={activeUser.id}
+                            username={activeUser.username}
+                            email={activeUser.email}
+                            avatar_url={activeUser.avatar_url}
+                        />
+                    )
                 }
                 tabPanel={<TabPanel mode="profile" />}
                 tabContent={contentTab}
             />
         </>
     )
-
 }
 
 export default ProfilePage
