@@ -10,9 +10,10 @@ export function ImagePlugin() {
   useEffect(() => {
     return editor.registerCommand(
       INSERT_IMAGE_COMMAND,
-      ({ src, alt }) => {
+      ({ src, alt, width }) => {
         editor.update(() => {
-          const imageNode = $createImageNode(src ?? "", alt ?? "");
+          const defaultWidth = width || 300;
+          const imageNode = $createImageNode(src ?? "", alt ?? "", defaultWidth);
           const paragraphNode = $createParagraphNode();
           const selection = $getSelection();
 

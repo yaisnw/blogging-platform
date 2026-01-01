@@ -9,24 +9,24 @@ export function initModels(sequelize: Sequelize) {
   initPost(sequelize);
   initComment(sequelize);
   initPicture(sequelize);
-  initLike(sequelize)
+  initLike(sequelize);
 
   User.hasMany(Post, { foreignKey: 'authorId' });
   User.hasMany(Comment, { foreignKey: 'authorId' });
-  User.hasMany(Like, {foreignKey: 'userId'});
+  User.hasMany(Like, { foreignKey: 'authorId' }); 
 
   Post.belongsTo(User, { foreignKey: 'authorId' });
   Post.hasMany(Comment, { foreignKey: 'postId' });
   Post.hasMany(Picture, { foreignKey: 'postId' });
-  Post.hasMany(Like, {foreignKey: 'postId'});
+  Post.hasMany(Like, { foreignKey: 'postId' });
 
   Comment.belongsTo(User, { foreignKey: 'authorId' });
   Comment.belongsTo(Post, { foreignKey: 'postId' });
 
   Picture.belongsTo(Post, { foreignKey: 'postId' });
 
-  Like.belongsTo(User, {foreignKey: 'userId'});
-  Like.belongsTo(Post, {foreignKey: 'postId'});
+  Like.belongsTo(User, { foreignKey: 'authorId' }); 
+  Like.belongsTo(Post, { foreignKey: 'postId' });
 }
 
 export { User, Post, Comment, Picture, Like };

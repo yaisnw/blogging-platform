@@ -1,6 +1,6 @@
 .editor {
   position: relative;
-  width: 50vw;
+  width: 60vw;
   min-height: 90vh;
   border: solid 1px var(--color-border);
   background-color: var(--color-surface);
@@ -8,6 +8,7 @@
   margin: 0;
   box-shadow: 0 4px 12px var(--color-light-accent);
   color: var(--color-text);
+  box-sizing: border-box;
 }
 
 .editor-container {
@@ -312,7 +313,7 @@
   }
 
   img {
-    max-width: 40vw;
+    max-width: 100%;
   }
 
   .toolBar-container {

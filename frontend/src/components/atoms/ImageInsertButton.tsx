@@ -26,7 +26,7 @@ function ImageInsertButton() {
         editor.focus();
         const file = e.target.files?.[0];
         if (!file) return;
-        
+
         if (!file.type.startsWith("image/")) {
             alert("Please upload an image file");
             return;
@@ -64,19 +64,16 @@ function ImageInsertButton() {
                         alt: file.name,
                     });
                 }, {
-                    onUpdate: async () => {
-                        const currentContent = JSON.stringify(editor.getEditorState().toJSON());
+                    onUpdate: () => {
+                        const state = editor.getEditorState();
+                        const currentContent = JSON.stringify(state.toJSON());
 
-                        try {
-                            await updatePost({
-                                postId: postIdValue as number,
-                                content: currentContent,
-                            }).unwrap();
-                        } catch (e) {
-                            console.error("Background save failed", e);
-                        } finally {
+                        updatePost({
+                            postId: postIdValue as number,
+                            content: currentContent,
+                        }).unwrap().finally(() => {
                             dispatch(setImageUploading(false));
-                        }
+                        });
                     }
                 });
             })

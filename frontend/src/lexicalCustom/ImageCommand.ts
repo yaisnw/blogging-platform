@@ -4,6 +4,7 @@ export type InsertImagePayload = {
   file?: File;       
   src?: string;      
   alt?: string;
+  width?: number;
   alignment?: "left" | "center" | "right";
 };
 
