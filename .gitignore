@@ -1,0 +1,16 @@
+# Root .gitignore
+
+# Dependencies
+**/node_modules/
+
+# Production builds
+**/dist/
+**/build/
+
+# Environment variables
+**/.env
+**/.env.local
+
+# IDE / System files
+.DS_Store
+.vscode/
