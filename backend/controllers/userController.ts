@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { User } from "../sequelize/models/User"
+import { User } from "../sequelize/models/User.js"
 import { userRequestBody } from "../types/controllerTypes"
 import { CustomError, AuthRequest } from "../index"
 import bcrypt from "bcryptjs"

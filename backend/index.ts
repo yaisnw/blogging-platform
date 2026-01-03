@@ -15,6 +15,18 @@ import { authLimiter, apiLimiter } from "./middleware/rateLimiter"
 import helmet from "helmet";
 import xss from "xss-clean";
 
+interface MulterFile {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  size: number;
+  destination: string;
+  filename: string;
+  path: string;
+  buffer: Buffer;
+}
+
 export interface CustomError extends Error {
   status: number;
   payload: any
@@ -33,6 +45,7 @@ export interface AuthRequest<
   ReqQuery = any
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
   user?: AuthUser;
+  file?: MulterFile;
 }
 
 dotenv.config();
