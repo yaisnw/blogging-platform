@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import { User } from "../sequelize/models/User.js"
 import { userRequestBody } from "../types/controllerTypes"
-import { CustomError, AuthRequest } from "../index"
+import { CustomError, AuthRequest } from "../index.js"
 import bcrypt from "bcryptjs"
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3"
 import s3 from "../s3"
