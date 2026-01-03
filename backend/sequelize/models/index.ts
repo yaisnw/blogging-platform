@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize';
-import { User, initUser } from './User.js';
-import { Post, initPost } from './Post.js';
-import { Comment, initComment } from './Comment.js';
-import { Picture, initPicture } from './Picture.js';
-import { Like, initLike } from './Like.js'
+import { User, initUser } from './User';
+import { Post, initPost } from './Post';
+import { Comment, initComment } from './Comment';
+import { Picture, initPicture } from './Picture';
+import { Like, initLike } from './Like'
 export function initModels(sequelize: Sequelize) {
   initUser(sequelize);
   initPost(sequelize);
