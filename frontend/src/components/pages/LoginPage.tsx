@@ -9,7 +9,7 @@ import AuthTemplate from "../templates/AuthTemplate";
 import { useAppDispatch } from "@/hooks";
 import { setTokenData } from "@/slices/authSlice";
 import SEO from "../atoms/SEO";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const REDIRECT_URL = import.meta.env.VITE_REDIRECT_URL;
 
 export type ErrorResponse = { message: string };
 
@@ -30,7 +30,7 @@ const LoginPage = () => {
         flow: "auth-code",
         ux_mode: "redirect",
         scope: "openid email profile",
-        redirect_uri: `${BASE_URL}/oauth`,
+        redirect_uri: `${REDIRECT_URL}`,
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
