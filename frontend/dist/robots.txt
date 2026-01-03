@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /editor/
-Disallow: /login/
-
-Sitemap: https://yourdomain.com/sitemap.xml
