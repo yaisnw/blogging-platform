@@ -5,28 +5,19 @@
     "target": "ES2020",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "node16",
-    "moduleResolution": "node16",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": ".",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ],
-    "types": [
-      "node",
-      "express"
-    ]
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force"
   },
   "include": [
-    "controllers/**/*.ts",
-    "routes/**/*.ts",
-    "sequelize/**/*.ts",
-    "types/**/*.ts",
-    "index.ts" 
+    "**/*.ts"
   ],
   "exclude": [
     "node_modules",
