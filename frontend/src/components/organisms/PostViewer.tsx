@@ -7,7 +7,6 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ImageNode } from "@/lexicalCustom/ImageNode";
 import { ImagePlugin } from "@/lexicalCustom/ImagePlugin";
-import ContentPlugin from "@/lexicalCustom/ContentPlugin";
 
 type Props = {
     content: string;
@@ -38,6 +37,7 @@ const Viewer: React.FC<Props> = ({ content }) => {
         onError: console.error,
         nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, QuoteNode, ImageNode],
         editable: false,
+        editorState: content ? content : undefined,
     };
 
     return (
@@ -49,7 +49,6 @@ const Viewer: React.FC<Props> = ({ content }) => {
                 />
             </div>
             <ImagePlugin />
-            <ContentPlugin content={content} />
         </LexicalComposer>
     );
 };

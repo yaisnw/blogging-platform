@@ -11,7 +11,6 @@ import { ImagePlugin } from "@/lexicalCustom/ImagePlugin";
 import { ImageNode } from "@/lexicalCustom/ImageNode";
 import { ParagraphNode, RootNode, TextNode, type EditorState } from "lexical";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import ContentPlugin from "@/lexicalCustom/ContentPlugin";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import AppButton from "../atoms/AppButton";
@@ -67,6 +66,7 @@ const Editor: React.FC<Props> = ({
     theme,
     onError,
     nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode,],
+    editorState: draftResult ? draftResult : undefined,
   };
 
 const handleChangeEditor = useCallback(
@@ -112,7 +112,6 @@ const handleChangeEditor = useCallback(
         <RichTextPlugin contentEditable={<ContentEditable className="editor" />} ErrorBoundary={LexicalErrorBoundary} />
       </div>
 
-      <ContentPlugin content={draftResult || ""} />
       <HistoryPlugin />
       <AutoFocusPlugin />
       <MyOnChangePlugin onChange={handleChangeEditor} />

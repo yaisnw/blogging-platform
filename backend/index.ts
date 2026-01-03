@@ -48,6 +48,7 @@ app.use(cors(
   }
 ))
 
+app.use(express.static('dist'));
 app.use(helmet()); 
 app.use(xss()); 
 app.use(express.json());

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import PostEditorTemplate from "../templates/PostEditorTemplate";
-import Editor from "../organisms/Editor";
 import type { RootState } from "@/store";
 import { useCreatePostMutation, useGetPostByIdQuery, useUpdatePostMutation } from "@/services/postsApi";
 import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
@@ -13,6 +12,7 @@ import { PlainTextFromEditorState } from "@/utils/PlainTextFromEditorState";
 
 
 const PostEditorPage = () => {
+  const Editor = lazy(() => import("../organisms/Editor"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const draftTitle = useSelector((state: RootState) => state.post.title);
@@ -115,7 +115,8 @@ const PostEditorPage = () => {
   return (
     <PostEditorTemplate>
       <SEO title={draftTitle ? draftTitle : 'Post Editor'} description={draftContent ? PlainTextFromEditorState(draftContent).slice(0, 150) : 'Create or edit your post'} />
-      <Editor
+      <Suspense fallback={<AppLoader mode="page" />}>
+        <Editor
         key={editorKey}
         title={draftTitle}
         status={status}
@@ -126,6 +127,7 @@ const PostEditorPage = () => {
         onSubmit={handleSubmit}
         isUpdating={isUpdating}
       />
+      </Suspense>
     </PostEditorTemplate>
   );
 };

@@ -37,6 +37,7 @@ export default function LexicalImage({
   const [currentAlignment, setCurrentAlignment] = useState(alignment);
   const [deleteImage] = useDeleteImageMutation();
   const [isLoaded, setIsLoaded] = useState(false);
+const isSafeSrc = src.startsWith('http') || src.startsWith('/') || src.startsWith('blob:');
 
   useEffect(() => {
     if (nodeWidth !== undefined && nodeWidth !== width) {
@@ -181,7 +182,7 @@ export default function LexicalImage({
             <AppLoader mode="normal" />
           </div>
         )}
-        <img onLoad={handleImageLoad} src={src} alt={altText} className="lexical-image" style={{
+        <img onLoad={handleImageLoad} src={isSafeSrc ? src : '' } alt={altText} className="lexical-image" style={{
           display: isLoaded ? 'block' : 'none',
           width: '100%',
           height: 'auto',

@@ -46,3 +46,9 @@ export interface comment {
     createdAt: Date,
     updatedAt: Date
 }
+export type PostDetailsResponse = {
+    post: blogPost;
+    comments: comment[]; 
+    likeCount: number;
+    hasLiked: boolean;
+};

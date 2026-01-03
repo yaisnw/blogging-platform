@@ -24,7 +24,7 @@ const CommentForm: React.FC<CommentForm> = ({ commentContent, setCommentContent,
             >
                 <AppLabel htmlFor="comment" >Share your thoughts:</AppLabel>
                 <div className={styles.commentInputs} >
-                    <AppTextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} className={styles.commentTextArea} name="comment" />
+                    <AppTextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} className={styles.commentTextArea} id="comment" name="comment" />
                     <AppButton className={styles.commentButton} >Submit</AppButton>
                 </div>
             </form>

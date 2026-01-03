@@ -6,25 +6,16 @@ import { persistor, store } from './store'
 import { Provider } from 'react-redux'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { PersistGate } from 'redux-persist/integration/react';
-import AppLoader from './components/atoms/AppLoader';
 import { HelmetProvider } from '@dr.pogodin/react-helmet'; 
 import "@/index.css"
 
 const helmetContext = {};
 
-const saved = localStorage.getItem("theme");
-if (saved) {
-  document.documentElement.setAttribute("data-theme", saved);
-} else {
-  document.documentElement.setAttribute("data-theme", "dark");
-}
-
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID!}>
       <Provider store={store}>
-        <PersistGate persistor={persistor} loading={<AppLoader mode='page'/>}>
+        <PersistGate persistor={persistor} >
           <HelmetProvider context={helmetContext} >
           <RouterProvider router={router} />
           </HelmetProvider>

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { blogPost } from "../types/rtkTypes";
+import type { blogPost, PostDetailsResponse } from "../types/rtkTypes";
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const postsApi = createApi({
@@ -49,6 +49,11 @@ export const postsApi = createApi({
                         ),
                     ]
                     : [{ type: "Posts", id: "LIST" }],
+        }),
+        getPostDetails: build.query<PostDetailsResponse, number>({
+            query: (postId) => `/details/${postId}`,
+            providesTags: (result, _error, postId) =>
+                result ? [{ type: "Post", id: postId }, { type: "Posts", id: postId }] : [],
         }),
         searchPosts: build.query<
             { posts: blogPost[]; message: string },
@@ -122,6 +127,7 @@ export const {
     useSearchPostsQuery,
     useUpdatePostMutation,
     useDeletePostsMutation,
+    useGetPostDetailsQuery,
 } = postsApi
 
 

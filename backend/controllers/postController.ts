@@ -209,6 +209,59 @@ export const getAllPublishedPosts = async (
     }
 };
 
+export const getPostDetails = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    const { id } = req.params;
+    const userId = req.user?.id;
+
+    if (!id) {
+        const err = new Error("Please provide a post id") as CustomError;
+        err.status = 400;
+        return next(err);
+    }
+
+    try {
+        res.set('Cache-Control', 'public, max-age=60, s-maxage=60');
+
+        const [post, comments] = await Promise.all([
+            Post.findOne({
+                where: { id },
+                attributes: {
+                    include: [
+                        [
+                            Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
+                            "likeCount"
+                        ],
+                        [
+                            Sequelize.literal(`(EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId || 0}))`),
+                            "hasLiked"
+                        ]
+                    ]
+                },
+                include: [{ model: User, attributes: ["id", "username", "avatar_url"] }]
+            }),
+            Comment.findAll({
+                where: { postId: id },
+                include: [{ model: User, attributes: ["id", "username", "avatar_url"] }],
+                order: [['createdAt', 'DESC']]
+            })
+        ]);
+
+        if (!post) {
+            const err = new Error("Post does not exist") as CustomError;
+            err.status = 404;
+            throw err;
+        }
+
+        res.status(200).json({ post, comments });
+    } catch (err) {
+        next(err);
+    }
+};
+
 export const searchPosts = async (
     req: AuthRequest,
     res: Response,
