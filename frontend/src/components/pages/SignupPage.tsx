@@ -9,6 +9,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import type { AppDispatch } from "../../store";
 import type { ErrorResponse } from "./LoginPage";
 import SEO from "../atoms/SEO";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const SignupPage = () => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const SignupPage = () => {
         flow: "auth-code",
         ux_mode: "redirect",
         scope: "openid email profile",
-        redirect_uri: "http://localhost:5173/oauth",
+        redirect_uri: `${BASE_URL}/oauth`,
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
