@@ -23,8 +23,7 @@ export function initModels(sequelize: Sequelize) {
   Comment.belongsTo(User, { foreignKey: 'authorId' });
   Comment.belongsTo(Post, { foreignKey: 'postId' });
 
-  Picture.belongsTo(Post, { foreignKey: 'postId' });
-
+  Picture.belongsTo(Post, { foreignKey: 'postId' }); 
   Like.belongsTo(User, { foreignKey: 'authorId' }); 
   Like.belongsTo(Post, { foreignKey: 'postId' });
 }
