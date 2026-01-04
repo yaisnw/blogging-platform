@@ -3,7 +3,7 @@ import AppButton from '../atoms/AppButton';
 import styles from "@/styles/auth.module.css"
 import UIstyles from "@/styles/ui.module.css"
 import AppLoader from '../atoms/AppLoader';
-import ErrorMessage from '../atoms/ErrorState';
+import ErrorState from '../atoms/ErrorState';
 import AppLink from '../atoms/AppLink';
 import AppImage from '../atoms/AppImage';
 import AppHeader from '../atoms/AppHeading';
@@ -40,7 +40,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <AppHeader>{mode === 'login' ? 'Enter your credentials to log in:' : 'Create your account:'}</AppHeader>
         {mode === "signup" && (
           <>
-            {errors.username && <ErrorMessage message={errors.username} />}
+            {errors.username && <ErrorState mode="normal" message={errors.username} />}
             <AuthField
               name="username"
               label="Enter your username:"
@@ -52,7 +52,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           </>
         )}
 
-        {errorMsg && <ErrorMessage message={errorMsg} />}
+        {errorMsg && <ErrorState mode="normal" message={errorMsg} />}
         {errors.email && <div>{errors.email}</div>}
         <AuthField
           name="email"
@@ -63,7 +63,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           onChange={onChange}
         />
 
-        {errors.password && <ErrorMessage message={errors.password} />}
+        {errors.password && <ErrorState mode="normal" message={errors.password} />}
         <AuthField
           name="password"
           label="Enter your password:"
@@ -75,9 +75,9 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
         {mode === "signup" && (
           <>
-            {errors.confirmPassword && <ErrorMessage message={errors.confirmPassword} />}
+            {errors.confirmPassword && <ErrorState mode="normal" message={errors.confirmPassword} />}
             {errors.confirmPasswordMatch && (
-              <ErrorMessage message={errors.confirmPasswordMatch} />
+              <ErrorState message={errors.confirmPasswordMatch} />
             )}
             <AuthField
               name="confirmPassword"
