@@ -40,7 +40,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <AppHeader>{mode === 'login' ? 'Enter your credentials to log in:' : 'Create your account:'}</AppHeader>
         {mode === "signup" && (
           <>
-            {errors.username && <ErrorState mode="normal" message={errors.username} />}
+            {errors.username && <ErrorState mode="mini" message={errors.username} />}
             <AuthField
               name="username"
               label="Enter your username:"
@@ -52,8 +52,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           </>
         )}
 
-        {errorMsg && <ErrorState mode="normal" message={errorMsg} />}
-        {errors.email && <div>{errors.email}</div>}
+        {errors.email && <ErrorState mode="mini" message={errors.email} />}
         <AuthField
           name="email"
           label="Enter your email:"
@@ -63,7 +62,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           onChange={onChange}
         />
 
-        {errors.password && <ErrorState mode="normal" message={errors.password} />}
+        {errors.password && <ErrorState mode="mini" message={errors.password} />}
         <AuthField
           name="password"
           label="Enter your password:"
@@ -75,7 +74,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
         {mode === "signup" && (
           <>
-            {errors.confirmPassword && <ErrorState mode="normal" message={errors.confirmPassword} />}
+            {errors.confirmPassword && <ErrorState mode="mini" message={errors.confirmPassword} />}
             {errors.confirmPasswordMatch && (
               <ErrorState message={errors.confirmPasswordMatch} />
             )}
@@ -103,6 +102,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
           ><AppImage className={styles.googleImage} src='./google.svg' /></AppButton>
         </div>
         <AppLink to={mode === 'login' ? '/signup' : '/login'}>{mode === 'login' ? "No account? Sign up here." : 'Have an account already? Log in here.'}</AppLink>
+        {errorMsg && <ErrorState mode="mini" message={errorMsg} />}
       </form>
     </div>
   );

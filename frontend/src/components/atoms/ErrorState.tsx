@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import AppButton from "./AppButton";
 
 
-type ErrorMode = "page" | "normal";
+type ErrorMode = "page" | "normal" | "mini";
 
 type ErrorStateProps = {
   message: string;
@@ -21,7 +21,7 @@ export default function ErrorState({
   mode = "page",
 }: ErrorStateProps) {
   const wrapperClass =
-    mode === "page" ? styles.pageError : styles.componentErrorWrapper;
+    mode === "page" ? styles.pageErrorWrapper : (mode === "mini" ? styles.miniErrorWrapper : styles.componentErrorWrapper);
 
   return (
     <motion.div
@@ -30,7 +30,7 @@ export default function ErrorState({
       transition={{ duration: 0.4 }}
       className={wrapperClass}>
       <h1 className={styles.error}>{message}</h1>
-      <div className={styles.componentError}>
+      <div className={onRetry || onAction ? styles.componentError : styles.disabledWrapper  }>
         {onRetry && (
           <AppButton onClick={onRetry}>
             <p>Try again</p>

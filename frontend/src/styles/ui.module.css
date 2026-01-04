@@ -63,7 +63,7 @@
   font-weight: 600;
 }
 
-.pageError {
+.pageErrorWrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,6 +98,19 @@
   gap: 2rem;
 }
 
+.miniErrorWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+}
+.miniErrorWrapper h1{
+  font-size: 1.2rem;
+}
+.disabledWrapper {
+  display: none;
+  pointer-events: none;
+}
 .emptyBox {
   margin: 2rem auto;
   padding: 2rem;
