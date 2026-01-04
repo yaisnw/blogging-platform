@@ -46,14 +46,16 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors(
   {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    credentials: true
+    origin: process.env.FRONTEND_URL || 'https://blogging-platform-pearl-six.vercel.app',
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   }
 ))
 
 app.use(express.static('dist'));
-app.use(helmet()); 
-app.use(xss()); 
+app.use(helmet());
+app.use(xss());
 app.use(express.json());
 app.use(apiLimiter)
 
