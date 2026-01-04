@@ -1,9 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+
 export const picturesApi = createApi({
   reducerPath: "pictureApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/picture",
+    baseUrl: `${BASE_URL}/pictures`,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {
