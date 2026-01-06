@@ -54,6 +54,8 @@ app.use(cors(
 ))
 
 app.options('*', cors());
+app.set('trust proxy', 1);
+
 
 app.use(express.static('dist'));
 app.use(helmet());
