@@ -20,4 +20,18 @@ const sequelize = new Sequelize(
   }
 );
 
+let isConnected = false;
+
+export const connectDB = async () => {
+  if (isConnected) return;
+  try {
+    await sequelize.authenticate();
+    console.log("Database connected.");
+    isConnected = true;
+  } catch (error) {
+    console.error("Connection error:", error);
+    throw error;
+  }
+};
+
 export default sequelize;

@@ -15,8 +15,7 @@ import { authLimiter, apiLimiter } from "./middleware/rateLimiter"
 import helmet from "helmet";
 import xss from "xss-clean";
 import { CustomError } from "./types/controllerTypes";
-
-
+import { connectDB } from "./sequelize/connection";
 
 
 interface AuthUser {
@@ -34,11 +33,22 @@ export interface AuthRequest<
   user?: AuthUser;
   file?: Express.Multer.File;
 }
+
 initModels(sequelize);
+
+const app = express();
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(500).json({ message: "Database connection failed" });
+  }
+});
 
 dotenv.config();
 
-const app = express();
 
 const PORT = process.env.PORT || 3000;
 
@@ -108,12 +118,4 @@ app.get("/", (req: Request, res: Response) => {
 
 
 
-app.listen(PORT, async () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-});
+export default app;
