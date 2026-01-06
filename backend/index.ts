@@ -53,6 +53,8 @@ app.use(cors(
   }
 ))
 
+app.options('*', cors());
+
 app.use(express.static('dist'));
 app.use(helmet());
 app.use(xss());
@@ -101,10 +103,12 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });
 
+initModels(sequelize);
+
+
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   try {
-    initModels(sequelize);
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
   } catch (error) {
