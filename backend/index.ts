@@ -14,13 +14,10 @@ import likeRouter from "./routes/like";
 import { authLimiter, apiLimiter } from "./middleware/rateLimiter"
 import helmet from "helmet";
 import xss from "xss-clean";
+import { CustomError } from "./types/controllerTypes";
 
 
 
-export interface CustomError extends Error {
-  status: number;
-  payload: any
-}
 
 interface AuthUser {
   id: number;
@@ -37,6 +34,7 @@ export interface AuthRequest<
   user?: AuthUser;
   file?: Express.Multer.File;
 }
+initModels(sequelize);
 
 dotenv.config();
 
@@ -105,7 +103,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Express with TypeScript!");
 });
 
-initModels(sequelize);
 
 
 app.listen(PORT, async () => {

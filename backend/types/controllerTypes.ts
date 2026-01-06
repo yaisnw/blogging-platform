@@ -27,3 +27,8 @@ export interface PictureAttributes {
   imageUrl: string;
   postId: number;
 }
+
+export interface CustomError extends Error {
+  status: number;
+  payload: any
+}
