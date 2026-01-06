@@ -51,7 +51,6 @@ app.use(async (req, res, next) => {
 app.use(helmet());
 app.use(xss());
 app.use(express.json());
-app.use(apiLimiter);
 
 interface AuthUser {
   id: number;
