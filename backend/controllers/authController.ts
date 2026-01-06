@@ -18,11 +18,6 @@ declare module 'express-session' {
   }
 }
 
-const client = new OAuth2Client({
-  clientId: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  redirectUri: `${process.env.FRONTEND_URL}/oauth`
-});
 
 
 export const signUpUser = async (
@@ -132,6 +127,13 @@ export const googleOAuth = async (
   next: NextFunction
 ): Promise<Response | void> => {
   const { code } = req.body;
+
+  const client = new OAuth2Client({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    redirectUri: `${process.env.FRONTEND_URL}/oauth`
+  });
+
 
   try {
     const { tokens } = await client.getToken(code);
