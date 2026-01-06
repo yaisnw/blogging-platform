@@ -3,7 +3,7 @@ import { User } from "../sequelize/models/User.js";
 import bcrypt from "bcryptjs";
 import "express-session";
 import { userRequestBody } from "../types/controllerTypes";
-import { CustomError } from "..";
+import { CustomError } from "../index";
 import { Op } from "sequelize";
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
@@ -21,8 +21,9 @@ declare module 'express-session' {
 const client = new OAuth2Client({
   clientId: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  redirectUri: 'http://localhost:5173/oauth'
+  redirectUri: `${process.env.FRONTEND_URL}/oauth`
 });
+
 
 export const signUpUser = async (
   req: Request<{}, {}, userRequestBody, {}>,
