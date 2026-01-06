@@ -14,7 +14,6 @@
     "dependencies": {
         "@aws-sdk/client-s3": "^3.821.0",
         "@aws-sdk/s3-request-presigner": "^3.821.0",
-        "@sequelize/postgres": "^7.0.0-alpha.46",
         "@types/aws-sdk": "^2.7.4",
         "@types/cors": "^2.8.19",
         "@types/node": "^22.13.10",
