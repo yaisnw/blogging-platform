@@ -21,6 +21,8 @@ import likeRouter from "./routes/like";
 import { authLimiter, apiLimiter } from "./middleware/rateLimiter";
 import { CustomError } from "./types/controllerTypes";
 
+console.log("SERVER BOOTING UP");
+
 initModels(sequelize);
 
 const app = express();
@@ -31,7 +33,7 @@ app.use(cors({
   origin: 'https://blogging-platform-pearl-six.vercel.app',
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
 }));
 
 app.options('*', cors());
