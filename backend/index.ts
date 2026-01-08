@@ -29,11 +29,25 @@ const app = express();
 
 app.set('trust proxy', 1);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://blogging-platform-frontend.vercel.app", // Your main production URL
+  /\.vercel\.app$/ // This allows ANY Vercel preview URL
+];
+
 app.use(cors({
-  origin: 'https://blogging-platform-pearl-six.vercel.app',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.some(pattern => 
+      typeof pattern === 'string' ? pattern === origin : pattern.test(origin)
+    )) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.options('*', cors());
