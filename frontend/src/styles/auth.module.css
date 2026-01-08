@@ -6,8 +6,16 @@
     align-items: center;
     margin: 0 auto;
     position: relative;
+}
+.authFormContainer {
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 8px;
+    border-radius: 12px;
+    padding: 3rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    width: 30vw;
+    margin: 1rem;
 }
 .visuallyHidden {
     display: none;
@@ -44,7 +52,6 @@ main {
 }
 
 .authForm {
-    width: 30vw;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -83,8 +90,15 @@ main {
 }
 @media screen and (max-width: 768px) {
     .authForm {
-        width: 80vw;
         margin: 2rem auto;
+    }
+    
+    .authFormContainer {
+        width: 80vw;
+        padding: 2rem 1rem;
+    }
+    .authFormContainer h2 {
+        font-size: 1.3rem;
     }
 
 }
