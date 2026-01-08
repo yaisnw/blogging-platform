@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -61,14 +61,13 @@ const Editor: React.FC<Props> = ({
 }) => {
   const loading = useSelector((state: RootState) => state.ui.imageUploading)
 
-  const initialConfig = {
-    namespace: "MyEditor",
-    theme,
-    onError,
-    nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode,],
-    editorState: draftResult ? draftResult : undefined,
-  };
-
+const initialConfig = useMemo(() => ({
+  namespace: "MyEditor",
+  theme,
+  onError,
+  nodes: [TextNode, ParagraphNode, RootNode, HeadingNode, ImageNode, QuoteNode],
+  editorState: draftResult || undefined,
+}), []); //eslint-disable-line react-hooks/exhaustive-deps
 const handleChangeEditor = useCallback(
   (editorState: EditorState) => {
     const json = JSON.stringify(editorState.toJSON());

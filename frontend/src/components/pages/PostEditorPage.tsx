@@ -9,10 +9,10 @@ import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
 import { PlainTextFromEditorState } from "@/utils/PlainTextFromEditorState";
+const Editor = lazy(() => import("../organisms/Editor"));
 
 
 const PostEditorPage = () => {
-  const Editor = lazy(() => import("../organisms/Editor"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const draftTitle = useSelector((state: RootState) => state.post.title);
