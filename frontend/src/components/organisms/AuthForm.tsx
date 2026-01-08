@@ -55,8 +55,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
             {errors.username && <ErrorState mode="mini" message={errors.username} />}
             <AuthField
               name="username"
-              label="Enter your username:"
               autoComplete="username"
+              placeholder='Username'
               value={formData.username || ""}
               onChange={onChange}
 
@@ -67,7 +67,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         {errors.email && <ErrorState mode="mini" message={errors.email} />}
         <AuthField
           name="email"
-          label="Enter your email:"
+          placeholder='Email'
           type="email"
           autoComplete="email"
           value={formData.email || ""}
@@ -77,7 +77,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         {errors.password && <ErrorState mode="mini" message={errors.password} />}
         <AuthField
           name="password"
-          label="Enter your password:"
+          placeholder='Password'
           type="password"
           autoComplete={mode === "signup" ? "new-password" : "current-password"}
           value={formData.password || ""}
@@ -92,7 +92,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
             )}
             <AuthField
               name="confirmPassword"
-              label="Confirm password:"
+              placeholder='Confirm Password'
               type="password"
               autoComplete="new-password"
               value={formData.confirmPassword || ""}

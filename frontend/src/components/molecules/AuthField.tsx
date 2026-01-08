@@ -4,7 +4,7 @@ import AppInput from "../atoms/AppInput";
 import styles from "@/styles/auth.module.css"
 
 type AuthFieldProps = {
-    label: string,
+    label?: string,
     name: string,
 
 } & React.InputHTMLAttributes<HTMLInputElement>;

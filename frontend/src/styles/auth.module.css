@@ -6,6 +6,8 @@
     align-items: center;
     margin: 0 auto;
     position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
 }
 .visuallyHidden {
     display: none;
@@ -62,7 +64,7 @@ main {
     border: none;
     margin: 0;
     padding: 0;
-    width: 80%;
+    width: 60%;
 
 }
 
