@@ -1,3 +1,7 @@
+.mainEditor {
+  overflow: visible;
+}
+
 .editor {
   position: relative;
   width: 60vw;
