@@ -20,8 +20,8 @@ const PostEditorPage = () => {
   const currentPostId = Number(id);
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
   const [isUpdating, setIsUpdating] = useState(false);
-  const [createPost, {  isError: createPostError, isSuccess: createPostSuccess }] = useCreatePostMutation();
-  const [updatePost, {  isError: updatePostError, isSuccess: updatePostSuccess }] = useUpdatePostMutation();
+  const [createPost, { isLoading: createPostLoading, isError: createPostError, isSuccess: createPostSuccess }] = useCreatePostMutation();
+  const [updatePost, { isLoading: updatePostLoading, isError: updatePostError, isSuccess: updatePostSuccess }] = useUpdatePostMutation();
   const { data, isLoading: getPostLoading, isError: getPostError, isSuccess: getPostSuccess } = useGetPostByIdQuery(id ? Number(id) : 0, { skip: !id });
 
   useEffect(() => {
@@ -86,14 +86,6 @@ const PostEditorPage = () => {
     }
   };
 
-  if (getPostLoading) {
-    return (
-      <main>
-        <AppLoader mode="page" />
-      </main>
-    );
-  }
-
   if (createPostError || updatePostError || getPostError) {
     return (
       <main>
@@ -101,6 +93,15 @@ const PostEditorPage = () => {
       </main>
     )
   }
+
+  if (getPostLoading || (id && !data)) {
+    return (
+      <main>
+        <AppLoader mode="page" />
+      </main>
+    );
+  }
+
 
   if (id && !data) {
     return (
@@ -122,6 +123,8 @@ const PostEditorPage = () => {
         onEditorChange={handleChangeEditor}
         onSubmit={handleSubmit}
         isUpdating={isUpdating}
+        isSubmitting={createPostLoading || updatePostLoading}
+
       />
     </PostEditorTemplate>
   );

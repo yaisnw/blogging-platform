@@ -111,6 +111,38 @@
   display: none;
   pointer-events: none;
 }
+.pageSuccessWrapper,
+.componentSuccessWrapper,
+.miniSuccessWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.pageSuccessWrapper {
+  min-height: 60vh;
+  width: 100%;
+}
+
+.miniSuccessWrapper {
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.successText {
+  color: var(--color-affirm);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.componentSuccess {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 .emptyBox {
   margin: 2rem auto;
   padding: 2rem;
@@ -304,7 +336,7 @@
   position: relative;
   text-align: center;
   margin: 2rem 0;
-  width: 100%;
+  width: 70%;
 }
 
 .divider::before,

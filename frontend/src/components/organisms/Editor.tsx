@@ -25,6 +25,7 @@ type Props = {
   onStatusChange: (val: 'draft' | 'published') => void;
   onEditorChange: (val: string) => void;
   onSubmit: () => void;
+  isSubmitting?: boolean;
 };
 
 const theme = {
@@ -58,6 +59,7 @@ const Editor: React.FC<Props> = ({
   onStatusChange,
   onEditorChange,
   onSubmit,
+  isSubmitting
 }) => {
   const loading = useSelector((state: RootState) => state.ui.imageUploading)
 
@@ -100,7 +102,7 @@ const handleChangeEditor = useCallback(
             />{" "}
             Save as draft
           </label>
-          <AppButton type="button" className="submit-button" onClick={onSubmit}>
+          <AppButton disabled={isSubmitting} type="button" className="submit-button" onClick={onSubmit}>
             {isUpdating ? "Update" : "Submit"}
           </AppButton>
           

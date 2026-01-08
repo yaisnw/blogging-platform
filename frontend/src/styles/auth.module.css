@@ -50,7 +50,7 @@ main {
     border: none;
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 80%;
 
 }
 
@@ -66,4 +66,13 @@ main {
 .authField textarea {
     width: 100%;
     box-sizing: border-box;
+}
+@media screen and (max-width: 768px) {
+    .authForm {
+        width: 80vw;
+        margin: 2rem auto;
+    }
+    .authForm h1 {
+        font-size: 1.5rem;
+    }
 }

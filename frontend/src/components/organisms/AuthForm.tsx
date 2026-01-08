@@ -36,6 +36,21 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <AppLoader mode='page' />}
 
 
+
+      <div className={styles.oAuthContainer}>
+        <AppParagraph>{mode === 'login' ? 'Login with:' : 'Sign up with:'}</AppParagraph>
+        <AppButton
+          type='button'
+          className={styles.googleContainer}
+          onClick={onGoogleLogin}
+        ><AppImage className={styles.googleImage} src='./google.svg' /></AppButton>
+      </div>
+      <AppLink to={mode === 'login' ? '/signup' : '/login'}>{mode === 'login' ? "No account? Sign up here." : 'Have an account already? Log in here.'}</AppLink>
+      {errorMsg && <ErrorState mode="mini" message={errorMsg} />}
+      <AppButton disabled={isLoading}>
+        {mode === "login" ? "Log in" : "Sign up"}
+      </AppButton>
+      <div className={UIstyles.divider}><span>or</span></div>
       <form onSubmit={onSubmit} className={styles.authForm}>
         <AppHeader>{mode === 'login' ? 'Enter your credentials to log in:' : 'Create your account:'}</AppHeader>
         {mode === "signup" && (
@@ -89,20 +104,6 @@ const AuthForm: React.FC<AuthFormProps> = ({
           </>
         )}
 
-        <AppButton disabled={isLoading}>
-          {mode === "login" ? "Log in" : "Sign up"}
-        </AppButton>
-        <div className={UIstyles.divider}><span>or</span></div>
-        <div className={styles.oAuthContainer}>
-          <AppParagraph>{mode === 'login' ? 'Login with:' : 'Sign up with:'}</AppParagraph>
-          <AppButton
-            type='button'
-            className={styles.googleContainer}
-            onClick={onGoogleLogin}
-          ><AppImage className={styles.googleImage} src='./google.svg' /></AppButton>
-        </div>
-        <AppLink to={mode === 'login' ? '/signup' : '/login'}>{mode === 'login' ? "No account? Sign up here." : 'Have an account already? Log in here.'}</AppLink>
-        {errorMsg && <ErrorState mode="mini" message={errorMsg} />}
       </form>
     </div>
   );
