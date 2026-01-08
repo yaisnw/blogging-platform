@@ -19,7 +19,6 @@ const PostEditorPage = () => {
   const draftContent = useSelector((state: RootState) => state.post.content)
   const { id } = useParams();
   const currentPostId = Number(id);
-  const editorKey = id || 'new-post-key';
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
   const [isUpdating, setIsUpdating] = useState(false);
   const [createPost, { isLoading: createPostLoading, isError: createPostError, isSuccess: createPostSuccess }] = useCreatePostMutation();
@@ -117,7 +116,6 @@ const PostEditorPage = () => {
       <SEO title={draftTitle ? draftTitle : 'Post Editor'} description={draftContent ? PlainTextFromEditorState(draftContent).slice(0, 150) : 'Create or edit your post'} />
       <Suspense fallback={<AppLoader mode="page" />}>
         <Editor
-        key={editorKey}
         title={draftTitle}
         status={status}
         draftResult={initialContent || ''}
