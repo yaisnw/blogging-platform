@@ -1,3 +1,14 @@
+.authFormWrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    position: relative;
+    
+    
+}
 .visuallyHidden {
     display: none;
 }
@@ -34,7 +45,7 @@ main {
 
 .authForm {
     width: 30vw;
-    margin: 5rem auto;
+    margin: 3rem auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,7 +57,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto;
+    margin: 3rem auto;
 }
 
 .authFieldContainer {

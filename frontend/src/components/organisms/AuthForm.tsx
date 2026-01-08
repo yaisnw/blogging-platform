@@ -30,7 +30,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   onGoogleLogin
 }) => {
   return (
-    <div>
+    <div className={styles.authFormWrapper}>
       {isLoading &&
         <AppLoader mode='page' />}
 
