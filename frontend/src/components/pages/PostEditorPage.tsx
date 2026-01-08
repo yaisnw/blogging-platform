@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, useState,  } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import PostEditorTemplate from "../templates/PostEditorTemplate";
@@ -9,7 +9,7 @@ import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
 import { PlainTextFromEditorState } from "@/utils/PlainTextFromEditorState";
-const Editor = lazy(() => import("../organisms/Editor"));
+import Editor from "../organisms/Editor";
 
 
 const PostEditorPage = () => {
@@ -114,7 +114,6 @@ const PostEditorPage = () => {
   return (
     <PostEditorTemplate>
       <SEO title={draftTitle ? draftTitle : 'Post Editor'} description={draftContent ? PlainTextFromEditorState(draftContent).slice(0, 150) : 'Create or edit your post'} />
-      <Suspense fallback={<AppLoader mode="page" />}>
         <Editor
         title={draftTitle}
         status={status}
@@ -125,7 +124,6 @@ const PostEditorPage = () => {
         onSubmit={handleSubmit}
         isUpdating={isUpdating}
       />
-      </Suspense>
     </PostEditorTemplate>
   );
 };
