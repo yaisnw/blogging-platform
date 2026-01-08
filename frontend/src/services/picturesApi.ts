@@ -6,7 +6,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const picturesApi = createApi({
   reducerPath: "pictureApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/pictures`,
+    baseUrl: `${BASE_URL}/picture`,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {
