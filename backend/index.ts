@@ -51,7 +51,6 @@ app.use(async (req, res, next) => {
 app.use(helmet());
 app.use(xss());
 app.use(express.json());
-app.use(authLimiter)
 
 interface AuthUser {
   id: number;
@@ -81,7 +80,9 @@ export const verifyJWT = (req: AuthRequest, res: Response, next: NextFunction) =
   }
 };
 
-app.use('/auth', authRouter);
+app.use(apiLimiter);
+
+app.use('/auth', authLimiter, authRouter);
 app.use('/user', verifyJWT, userRouter);
 app.use('/post', verifyJWT, postRouter);
 app.use('/comment', verifyJWT, commentRouter);
