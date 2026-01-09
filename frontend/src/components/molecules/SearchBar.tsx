@@ -14,12 +14,15 @@ const SearchBar = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchQuery(e.target.value))
   }
-
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    navigate("/home/search");
+  };
 
   return (
     <form
       className={styles.searchBar}
-
+      onSubmit={handleSubmit}
       role="search"
       aria-label="Search posts and users"
     >

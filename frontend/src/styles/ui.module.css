@@ -376,45 +376,52 @@
   border: 2px solid var(--color-border);
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* This hides the icon that is 'pushed' out */
   padding: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition: background .3s ease, border-color .3s ease;
 }
 
-
-.toggleCircle {
+.themeIcon {
   position: absolute;
-  width: 55%;
-  height: 55%;
-  transform: translateX(0%);
-  border-radius: 50%;
-  background: var(--color-text);
-  transition: transform .3s cubic-bezier(.4, 0, .2, 1),
-    background .3s,
-    box-shadow .3s cubic-bezier(.4, 0, .2, 1);
+  width: 60%;
+  height: 60%;
+  transition: transform .4s cubic-bezier(.4, 0, .2, 1), 
+              opacity .3s ease, 
+              color .3s ease;
+  color: var(--color-text);
 }
 
-:root[data-theme="dark"] .Blue {
-  transform: translateX(170%);
-  background: var(--color-accent);
-  box-shadow: 0 0 15px var(--color-accent);
+
+:root[data-theme="light"] .sunIcon {
+  transform: translateX(0) rotate(0deg); 
+  opacity: 1;
+  color: var(--color-accent-warm); 
 }
 
-:root[data-theme="light"] .Black {
-  transform: translateX(-170%);
-  background: var(--color-accent);
-  box-shadow: 0 0 15px var(--color-accent);
+:root[data-theme="light"] .moonIcon {
+  transform: translateX(170%) rotate(45deg); 
+  opacity: 0;
 }
 
-.themeToggle:hover .toggleCircle:hover {
-  box-shadow: 0 0 10px 2px var(--color-accent);
-  transform: scale(1.3);
+:root[data-theme="dark"] .moonIcon {
+  transform: translateX(0) rotate(0deg);
+  opacity: 1;
+  color: var(--color-accent);
 }
+
+:root[data-theme="dark"] .sunIcon {
+  transform: translateX(-170%) rotate(-90deg);
+  opacity: 0;
+}
+
+.themeToggle:hover {
+  border-color: var(--color-accent);
+}
+
+
 
 @keyframes rotation {
   0% {

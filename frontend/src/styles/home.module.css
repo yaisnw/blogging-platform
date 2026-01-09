@@ -6,7 +6,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 10vw;
   padding: 10vh 0;
 }
 

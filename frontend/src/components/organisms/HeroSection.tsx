@@ -2,6 +2,7 @@ import AppImage from "../atoms/AppImage"
 import HeroContent from "../molecules/HeroContent"
 import styles from '../../styles/home.module.css'
 import { motion } from "motion/react"
+import heroSvg from '@/assets/hero.svg'
 
 const HeroSection = () => {
     return (
@@ -11,7 +12,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8 }}
             className={styles.contentBox}>
             <HeroContent className={styles.homeContent} />
-            <AppImage className={styles.contentImage} src='/hero.svg' alt="Person typing on a keyboard" />
+            <AppImage className={styles.contentImage} src={heroSvg} alt="Person typing on a keyboard" />
         </motion.header>
     )
 }
