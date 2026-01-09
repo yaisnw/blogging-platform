@@ -16,7 +16,6 @@ const SearchBar = () => {
   }
 
 
-
   return (
     <form
       className={styles.searchBar}
@@ -35,7 +34,7 @@ const SearchBar = () => {
         />
 
       </div>
-      <SearchButton onClick={() => navigate("search")} />
+      <SearchButton onClick={() => navigate("/home/search")} />
     </form>
   );
 }

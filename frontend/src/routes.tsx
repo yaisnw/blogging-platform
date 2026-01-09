@@ -56,7 +56,6 @@ const router = createBrowserRouter([
         path: 'profile/:id?',
         element: <ProfilePage />
       },
-      
       {
         path: 'search',
         element: <SearchPage />

@@ -312,8 +312,7 @@
   width: 2rem;
   height: 2rem;
   transition: all 0.3s ease;
-  object-fit: cover;
-  object-position: center;
+  object-fit: contain;
 }
 .interactiveAvatar {
   border: 2px solid var(--color-border);
@@ -321,8 +320,7 @@
   width: 2rem;
   height: 2rem;
   transition: all 0.3s ease;
-  object-fit: cover;
-  object-position: center;
+  object-fit: contain;
 }
 
 .interactiveAvatar:hover {

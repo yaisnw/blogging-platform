@@ -91,10 +91,6 @@ const NavBar = () => {
                         <span className={isMenuOpen ? styles.barOpen : ''}></span>
                     </div>
                     <SearchBar />
-
-
-
-
                 </div>
 
             </motion.nav>
