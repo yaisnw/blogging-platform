@@ -72,21 +72,23 @@ main {
     margin: 0;
     padding: 0;
     width: 60%;
-
 }
 
 .authField {
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
     align-items: center;
+    justify-content: center;
     margin: 0.5rem 0;
+    height: 100%;
 }
 
 .authField input,
 .authField textarea {
     width: 100%;
     box-sizing: border-box;
+    font-size: 1.3rem;
+
 }
 @media screen and (max-width: 768px) {
     .authForm {
@@ -99,6 +101,9 @@ main {
     }
     .authFormContainer h2 {
         font-size: 1.3rem;
+    }
+    .authFieldContainer {
+        width: 80%;
     }
 
 }

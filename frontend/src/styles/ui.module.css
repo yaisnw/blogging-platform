@@ -336,7 +336,7 @@
   position: relative;
   text-align: center;
   margin: 2rem auto;
-  width: 70%;
+  width: 80%;
 }
 
 .divider::before,
@@ -344,7 +344,7 @@
   content: '';
   position: absolute;
   top: 50%;
-  width: 50%;
+  width: 45%;
   height: 1px;
   background-color: var(--color-border);
   transform: translateY(-50%);
@@ -359,8 +359,8 @@
 }
 
 .divider span {
-  background-color: var(--color-background);
-  padding: 0 1rem;
+  padding: 0 2rem;
+  margin: 0 1rem;
   color: var(--color-text-secondary);
   font-size: 0.9rem;
   font-weight: 500;
