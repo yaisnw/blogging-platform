@@ -200,7 +200,6 @@
 }
 
 .primary:hover:not(:disabled) {
-  scale: 1.03;
   box-shadow: 0 0px 10px var(--color-text-secondary);
   transform: translateY(-3px);
   filter: brightness(1.05);
@@ -313,7 +312,8 @@
   width: 2rem;
   height: 2rem;
   transition: all 0.3s ease;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
 }
 .interactiveAvatar {
   border: 2px solid var(--color-border);
@@ -321,7 +321,8 @@
   width: 2rem;
   height: 2rem;
   transition: all 0.3s ease;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
 }
 
 .interactiveAvatar:hover {

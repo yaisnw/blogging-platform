@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { persistor, type RootState } from '@/store';
 import { useAuthStatus } from '@/hooks/useAuthStatus';
 import { useAppDispatch } from '@/hooks';
-import { logOut } from '@/slices/authSlice';
 import SearchBar from '../molecules/SearchBar';
 import Footer from './Footer';
 import { AnimatePresence, motion } from "motion/react"
@@ -22,7 +21,7 @@ import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
-    const { loggedIn, authChecked } = useAuthStatus();
+    const { loggedIn } = useAuthStatus();
     const { id: authorId, username: author } = useSelector((state: RootState) => state.auth.user)
     const alertIgnored = useSelector((state: RootState) => state.ui.alertIgnored)
     const navigate = useNavigate();
@@ -45,12 +44,6 @@ const NavBar = () => {
         setIsMenuOpen(false);
     }, [location.pathname]);
 
-    useEffect(() => {
-        if (!loggedIn && authChecked) {
-            dispatch(logOut())
-            navigate('/login')
-        }
-    }, [dispatch, navigate, loggedIn, authChecked])
 
     const logOutHandler = (e: React.MouseEvent) => {
         e.preventDefault();

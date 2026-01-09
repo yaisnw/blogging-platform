@@ -17,7 +17,7 @@ const HeroContent = (props: React.HTMLAttributes<HTMLElement>) => {
                         : 'Browse our community’s stories and discover what makes our platform special.'}
                 </AppParagraph>
             </div>
-            <CTAButton to={loggedIn ? '/home/posts' : '/posts'}>
+            <CTAButton to="/home/posts">
                 {loggedIn ? 'View Posts' : 'Start Reading'}
             </CTAButton>
         </section>
