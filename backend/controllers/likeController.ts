@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CustomError, AuthRequest } from "..";
+import { CustomError, AuthRequest } from "../api";
 import {  Post, User, Like } from "../sequelize/models";
 import { Op } from "sequelize";
 
