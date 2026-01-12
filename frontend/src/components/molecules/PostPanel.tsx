@@ -68,7 +68,7 @@ const PostPanel: React.FC<postPanelProps> = ({
                 )}
             </AnimatePresence>
 
-            <div className={styles.divider} />
+            
 
             <div className={styles.sortSection}>
                 <label htmlFor="post-sort" className={styles.label}>Sort By</label>
