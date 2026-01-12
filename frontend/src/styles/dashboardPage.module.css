@@ -8,6 +8,7 @@
 }
 
 .postCardsBox {
+    margin: 0 auto;
     width: 80%;
     height: 60vh;
     gap: 0;
