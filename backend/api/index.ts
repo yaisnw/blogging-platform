@@ -1,10 +1,11 @@
-/// <reference path="../types/xss-clean.d.ts" />
+
 import dotenv from "dotenv";
 dotenv.config();
 
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
+// @ts-ignore
 import xss from "xss-clean";
 
 import sequelize from "../sequelize/connection";
