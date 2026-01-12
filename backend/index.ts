@@ -7,19 +7,18 @@ import cors from "cors";
 import helmet from "helmet";
 import xss from "xss-clean";
 
-import sequelize from "../sequelize/connection";
-import { connectDB } from "../sequelize/connection";
-import { initModels } from "../sequelize/models/index";
-
-import authRouter from "../routes/auth";
-import userRouter from "../routes/user";
-import postRouter from "../routes/post";
-import commentRouter from "../routes/comment";
-import pictureRouter from "../routes/picture";
-import likeRouter from "../routes/like";
-import { authLimiter, apiLimiter } from "../middleware/rateLimiter";
-import { CustomError } from "../types/controllerTypes";
-import { verifyJWT } from "../middleware/verifyJWT";
+import sequelize from "./sequelize/connection";
+import { connectDB } from "./sequelize/connection";
+import { initModels } from "./sequelize/models/index";
+import authRouter from "./routes/auth";
+import userRouter from "./routes/user";
+import postRouter from "./routes/post";
+import commentRouter from "./routes/comment";
+import pictureRouter from "./routes/picture";
+import likeRouter from "./routes/like";
+import { authLimiter, apiLimiter } from "./middleware/rateLimiter";
+import { CustomError } from "./types/controllerTypes";
+import { verifyJWT } from "./middleware/verifyJWT";
 
 console.log("SERVER BOOTING UP");
 
