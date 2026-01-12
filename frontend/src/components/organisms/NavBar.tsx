@@ -81,7 +81,7 @@ const NavBar = () => {
                             <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.interactiveAvatar} src={data?.avatar_url} alt={`${author} avatar`} />
                             Profile</AppLink>}
                         <AppLink className={styles.navButton} to="/home/about">About</AppLink>
-                        <AppLink to="/login" className={`${styles.navButton} ${UIstyles.danger}`} onClick={logOutHandler}>Log out</AppLink>
+                        <AppLink to="/login" className={`${styles.navButton} ${loggedIn ? styles.danger : ''}`} onClick={logOutHandler}>{loggedIn ? "Log out" : "Log in"}</AppLink>
                     </div>
                 </div>
                 <div className={styles.hamburgerWrapper}>

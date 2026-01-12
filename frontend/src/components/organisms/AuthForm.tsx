@@ -109,6 +109,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         </form>
       </div>
       <AppLink to={mode === 'login' ? '/signup' : '/login'}>{mode === 'login' ? "No account? Sign up here." : 'Have an account already? Log in here.'}</AppLink>
+      <AppLink to='/home'>Continue as a guest.</AppLink>
     </div>
   );
 };
