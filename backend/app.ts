@@ -6,7 +6,6 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import xss from "xss-clean";
-import jwt from "jsonwebtoken";
 
 import sequelize from "./sequelize/connection";
 import { connectDB } from "./sequelize/connection";
@@ -21,6 +20,7 @@ import likeRouter from "./routes/like";
 import { authLimiter, apiLimiter } from "./middleware/rateLimiter";
 import { CustomError } from "./types/controllerTypes";
 import { AuthRequest } from "./types/controllerTypes";
+import { verifyJWT } from "middleware/verifyJWT";
 
 console.log("SERVER BOOTING UP");
 
@@ -55,21 +55,6 @@ app.use(express.json());
 
 
 
-export const verifyJWT = (req: AuthRequest, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  try {
-    const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthRequest["user"];
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid or expired token" });
-  }
-};
 
 app.use(apiLimiter);
 
