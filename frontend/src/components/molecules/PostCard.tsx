@@ -16,7 +16,7 @@ import AppButton from "../atoms/AppButton";
 import AppInput from "../atoms/AppInput";
 import AppLink from "../atoms/AppLink";
 import { motion } from "motion/react"
-
+import commentImage from '../../assets/comment.svg'
 
 type PostCardProps = {
     postId: number,
@@ -107,7 +107,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
                     <div className={styles.engagementContent}>
                         {isLoading ? <AppLoader mode="mini" /> : <AppParagraph>{data?.comments.length ?? 0}</AppParagraph>}
-                        <AppImage className={styles.postCardImage} src="/comment.svg" alt="comment icon" />
+                        <AppImage className={styles.postCardImage} src={commentImage} alt="comment icon" />
                     </div>
                 </div>
 
