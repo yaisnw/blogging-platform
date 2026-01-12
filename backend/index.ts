@@ -30,10 +30,10 @@ const app = express();
 app.set('trust proxy', 1);
 
 app.use(cors({
-  origin: 'https://blogging-platform-pearl-six.vercel.app',
+  origin: ["https://blogging-platform-pearl-six.vercel.app", "https://blogging-platform-frontend-bnasrdnrv.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.options('*', cors());

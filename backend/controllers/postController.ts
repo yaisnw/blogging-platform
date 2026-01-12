@@ -161,53 +161,44 @@ export const getAllPublishedPosts = async (
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const userId = req.user?.id;
+    const userId = req.user?.id ? Number(req.user.id) : null;
     const { sort } = req.query;
 
     let orderClause: any[] = [['createdAt', 'DESC']];
-
-    if (sort === 'oldest') {
-        orderClause = [['createdAt', 'ASC']];
-    } else if (sort === 'likes') {
-        orderClause = [[Sequelize.literal('"likeCount"'), 'DESC']];
-    } else if (sort === 'comments') {
-        orderClause = [[Sequelize.literal('"commentCount"'), 'DESC']];
-    }
+    if (sort === 'oldest') orderClause = [['createdAt', 'ASC']];
+    else if (sort === 'likes') orderClause = [[Sequelize.literal('"likeCount"'), 'DESC']];
+    else if (sort === 'comments') orderClause = [[Sequelize.literal('"commentCount"'), 'DESC']];
 
     try {
         const posts = await Post.findAll({
-            where: {
-                status: "published",
-            },
+            where: { status: "published" },
             order: orderClause,
             attributes: {
                 include: [
                     [
                         Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
-                        "likeCount",
+                        "likeCount"
                     ],
                     [
                         Sequelize.literal(`(SELECT COUNT(*) FROM "Comments" WHERE "Comments"."postId" = "Post"."id")`),
-                        "commentCount",
+                        "commentCount"
                     ],
                     [
-                        Sequelize.literal(`EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId || 0})`),
-                        "hasLiked",
+                        Sequelize.literal(`(
+                            SELECT EXISTS (
+                                SELECT 1 FROM likes 
+                                WHERE likes."postId" = "Post"."id" 
+                                AND likes."userId" = ${userId ?? 0}
+                            )
+                        )`),
+                        "hasLiked"
                     ],
                 ],
             },
-            include: [
-                {
-                    model: User,
-                    attributes: ["id", "username", "avatar_url"],
-                },
-            ],
+            include: [{ model: User, attributes: ["id", "username", "avatar_url"] }],
         });
 
-        return res.status(200).json({
-            message: posts.length === 0 ? "No published posts found." : "Published posts retrieved successfully",
-            posts,
-        });
+        return res.status(200).json({ posts });
     } catch (err) {
         next(err);
     }
