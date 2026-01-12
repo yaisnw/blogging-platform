@@ -1,6 +1,5 @@
 .panel {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
@@ -26,10 +25,9 @@
 }
 .actionSection {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: start;
-    margin-bottom: 1rem;
+    gap: 1rem;
 }
 .label {
     display: block;

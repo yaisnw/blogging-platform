@@ -1,17 +1,15 @@
 .dashboardFlex {
-    display: flex;
     justify-content: center;
     align-self: center;
     height: 80vh;
     padding: 5rem 1rem;
     gap: 5rem;
-    width: 90%;
+    width: 100%;
 }
-
 
 .postCardsBox {
     width: 100%;
-    min-height: 15vw;
+    height: 60vh;
     gap: 0;
     overflow-y: auto;
     border: 1px solid var(--color-border);
