@@ -33,7 +33,7 @@ const PostPanel: React.FC<postPanelProps> = ({
             <div className={styles.actionSection}>
                 <AnimatePresence mode="popLayout">
             <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
-                    <div>
+                    <div className={styles.actionButtonsWrapper}>
                         <AppButton key="create-btn" onClick={createButton}>Create Post</AppButton>
 
                     {deleteButton && (

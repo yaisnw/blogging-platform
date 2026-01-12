@@ -8,7 +8,7 @@
 }
 
 .postCardsBox {
-    width: 100%;
+    width: 80%;
     height: 60vh;
     gap: 0;
     overflow-y: auto;
