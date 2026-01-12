@@ -5,7 +5,6 @@ import { CustomError } from "../types/controllerTypes"
 import { Comment, Post, User } from "../sequelize/models"
 import { Op, Sequelize } from "sequelize"
 
-
 export const addPost = async (
     req: AuthRequest,
     res: Response,
@@ -45,7 +44,7 @@ export const getPostById = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const { id } = req.params;
-    const userId = req.user?.id
+    const userId = req.user?.id ? Number(req.user.id) : 0;
 
     if (!id) {
         const err = new Error("Please provide an id for the post") as CustomError;
@@ -59,17 +58,13 @@ export const getPostById = async (
                 where: { id },
                 attributes: {
                     include: [[
-                        Sequelize.literal(`(SELECT COUNT(*)
-                        FROM likes
-                        WHERE likes."postId" = "Post"."id"
-                        )`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
                         "likeCount"
                     ],
                     [
                         Sequelize.literal(`(
-                        EXISTS(SELECT 1 
-                        FROM likes
-                        WHERE likes."postId" = "Post"."id"
+                        EXISTS(SELECT 1 FROM likes 
+                        WHERE likes."postId" = "Post"."id" 
                         AND likes."userId" = ${userId}
                         ))`),
                         "hasLiked"
@@ -130,7 +125,7 @@ export const getAllPostsByAuthorId = async (
                         "likeCount",
                     ],
                     [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM "comments" WHERE "comments"."postId" = "Post"."id")`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM comments WHERE comments."postId" = "Post"."id")`),
                         "commentCount",
                     ],
                     [
@@ -161,7 +156,7 @@ export const getAllPublishedPosts = async (
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
-    const userId = req.user?.id ? Number(req.user.id) : null;
+    const userId = req.user?.id ? Number(req.user.id) : 0;
     const { sort } = req.query;
 
     let orderClause: any[] = [['createdAt', 'DESC']];
@@ -180,7 +175,7 @@ export const getAllPublishedPosts = async (
                         "likeCount"
                     ],
                     [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM "comments" WHERE "comments"."postId" = "Post"."id")`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM comments WHERE comments."postId" = "Post"."id")`),
                         "commentCount"
                     ],
                     [
@@ -188,7 +183,7 @@ export const getAllPublishedPosts = async (
                             SELECT EXISTS (
                                 SELECT 1 FROM likes 
                                 WHERE likes."postId" = "Post"."id" 
-                                AND likes."userId" = ${userId ?? 0}
+                                AND likes."userId" = ${userId}
                             )
                         )`),
                         "hasLiked"
@@ -210,7 +205,7 @@ export const getPostDetails = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const { id } = req.params;
-    const userId = req.user?.id;
+    const userId = req.user?.id ? Number(req.user.id) : 0;
 
     if (!id) {
         const err = new Error("Please provide a post id") as CustomError;
@@ -231,7 +226,7 @@ export const getPostDetails = async (
                             "likeCount"
                         ],
                         [
-                            Sequelize.literal(`(EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId || 0}))`),
+                            Sequelize.literal(`(EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId}))`),
                             "hasLiked"
                         ]
                     ]
@@ -263,7 +258,7 @@ export const searchPosts = async (
     next: NextFunction
 ): Promise<Response | void> => {
     const { q } = req.query;
-    const userId = req.user?.id
+    const userId = req.user?.id ? Number(req.user.id) : 0;
 
     if (!q || q.trim() === "") {
         return res.status(400).json({ message: "Search query is required" });
@@ -282,20 +277,11 @@ export const searchPosts = async (
             attributes: {
                 include: [
                     [
-                        Sequelize.literal(`(
-              SELECT COUNT(*)
-              FROM likes
-              WHERE likes."postId" = "Post"."id"
-            )`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
                         "likeCount",
                     ],
                     [
-                        Sequelize.literal(`EXISTS(
-              SELECT 1
-              FROM likes
-              WHERE likes."postId" = "Post"."id"
-              AND likes."userId" = ${userId || 0}
-            )`),
+                        Sequelize.literal(`EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId})`),
                         "hasLiked",
                     ],
                 ],
