@@ -130,7 +130,7 @@ export const getAllPostsByAuthorId = async (
                         "likeCount",
                     ],
                     [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM "Comments" WHERE "Comments"."postId" = "Post"."id")`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM "comments" WHERE "comments"."postId" = "Post"."id")`),
                         "commentCount",
                     ],
                     [
@@ -180,7 +180,7 @@ export const getAllPublishedPosts = async (
                         "likeCount"
                     ],
                     [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM "Comments" WHERE "Comments"."postId" = "Post"."id")`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM "comments" WHERE "comments"."postId" = "Post"."id")`),
                         "commentCount"
                     ],
                     [
