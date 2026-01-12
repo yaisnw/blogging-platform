@@ -1,11 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { Picture, User } from "../sequelize/models";
-import { PictureAttributes, pictureRequestBody } from "../types/controllerTypes";
+import {  pictureRequestBody } from "../types/controllerTypes";
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import s3 from '../s3';
-import { CustomError } from "..";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { AuthRequest } from "../index"
+import { CustomError, AuthRequest } from "../types/controllerTypes";
 
 export const addPictureWithPost = async (
     req: Request<{}, {}, pictureRequestBody, {}>,

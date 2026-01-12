@@ -1,3 +1,5 @@
+import {Request} from "express";
+
 export type userRequestBody = {
   username: string;
   email?: string;
@@ -31,4 +33,15 @@ export interface PictureAttributes {
 export interface CustomError extends Error {
   status: number;
   payload: any
+}
+interface AuthUser {
+  id: number;
+  email: string;
+  username: string;
+}
+
+export interface AuthRequest<P = any, ResBody = any, ReqBody = any, ReqQuery = any> 
+  extends Request<P, ResBody, ReqBody, ReqQuery> {
+  user?: AuthUser;
+  file?: Express.Multer.File;
 }

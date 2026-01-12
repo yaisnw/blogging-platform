@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Comment, Post, User } from "../sequelize/models";
-import { AuthRequest, CustomError } from "..";
+import { AuthRequest, CustomError } from "../types/controllerTypes";
 import { commentRequestBody } from "../types/controllerTypes";
 
 export const addComment = async (

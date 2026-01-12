@@ -1,6 +1,6 @@
 import express from "express";
 import { deleteAllPostsByAuthorId, deletePosts, getAllPostsByAuthorId, getPostById, addPost, updatePost, getAllPublishedPosts, searchPosts, getPostDetails } from "../controllers/postController";
-import { verifyJWT } from "index";
+import { verifyJWT } from "app";
 const postRouter = express.Router();
 
 postRouter.post('/create', verifyJWT, addPost);

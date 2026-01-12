@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { postRequestBody } from "../types/controllerTypes"
-import { AuthRequest } from "../index"
+import { AuthRequest } from "../types/controllerTypes"
 import { CustomError } from "../types/controllerTypes"
 import { Comment, Post, User } from "../sequelize/models"
 import { Op, Sequelize } from "sequelize"

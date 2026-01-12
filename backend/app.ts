@@ -20,6 +20,7 @@ import pictureRouter from "./routes/picture";
 import likeRouter from "./routes/like";
 import { authLimiter, apiLimiter } from "./middleware/rateLimiter";
 import { CustomError } from "./types/controllerTypes";
+import { AuthRequest } from "./types/controllerTypes";
 
 console.log("SERVER BOOTING UP");
 
@@ -52,17 +53,7 @@ app.use(helmet());
 app.use(xss());
 app.use(express.json());
 
-interface AuthUser {
-  id: number;
-  email: string;
-  username: string;
-}
 
-export interface AuthRequest<P = any, ResBody = any, ReqBody = any, ReqQuery = any> 
-  extends Request<P, ResBody, ReqBody, ReqQuery> {
-  user?: AuthUser;
-  file?: Express.Multer.File;
-}
 
 export const verifyJWT = (req: AuthRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
