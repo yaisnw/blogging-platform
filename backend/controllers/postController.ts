@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import { postRequestBody } from "../types/controllerTypes"
-import { CustomError, AuthRequest } from "../index"
+import { AuthRequest } from "../index"
+import { CustomError } from "../types/controllerTypes"
 import { Comment, Post, User } from "../sequelize/models"
 import { Op, Sequelize } from "sequelize"
 
@@ -96,35 +97,44 @@ export const getPostById = async (
 }
 
 export const getAllPostsByAuthorId = async (
-    req: Request<{ authorId: number }, {}, postRequestBody, { publishedOnly?: string }>,
+    req: Request<{ authorId: number }, {}, postRequestBody, { publishedOnly?: string, sort?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     const authorId = req.params.authorId;
-    const publishedOnly = req.query.publishedOnly === "true";
+    const { publishedOnly, sort } = req.query;
+
+    let orderClause: any[] = [['createdAt', 'DESC']];
+
+    if (sort === 'oldest') {
+        orderClause = [['createdAt', 'ASC']];
+    } else if (sort === 'status') {
+        orderClause = [['status', 'ASC']];
+    } else if (sort === 'likes') {
+        orderClause = [[Sequelize.literal('"likeCount"'), 'DESC']];
+    } else if (sort === 'comments') {
+        orderClause = [[Sequelize.literal('"commentCount"'), 'DESC']];
+    }
+
     try {
         const posts = await Post.findAll({
             where: {
                 authorId,
-                ...(publishedOnly ? { status: "published" } : {})
+                ...(publishedOnly === "true" ? { status: "published" } : {})
             },
+            order: orderClause,
             attributes: {
                 include: [
                     [
-                        Sequelize.literal(`(
-              SELECT COUNT(*)
-              FROM likes
-              WHERE likes."postId" = "Post"."id"
-            )`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
                         "likeCount",
                     ],
                     [
-                        Sequelize.literal(`EXISTS(
-              SELECT 1
-              FROM likes
-              WHERE likes."postId" = "Post"."id"
-              AND likes."userId" = ${authorId || 0}
-            )`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM "Comments" WHERE "Comments"."postId" = "Post"."id")`),
+                        "commentCount",
+                    ],
+                    [
+                        Sequelize.literal(`EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${authorId || 0})`),
                         "hasLiked",
                     ],
                 ],
@@ -135,52 +145,53 @@ export const getAllPostsByAuthorId = async (
                     attributes: ["id", "username", "avatar_url"],
                 },
             ],
-        })
-
-
-        return res.status(200).json({
-            message: posts.length === 0
-                ? "No posts found for this author."
-                : "Posts retrieved successfully",
-            posts: posts,
         });
 
+        return res.status(200).json({
+            message: posts.length === 0 ? "No posts found for this author." : "Posts retrieved successfully",
+            posts,
+        });
+    } catch (err) {
+        next(err);
     }
-    catch (err) {
-        next(err)
-    }
-}
-
+};
 
 export const getAllPublishedPosts = async (
-    req: AuthRequest,
+    req: AuthRequest<any, any, any, { sort?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     const userId = req.user?.id;
+    const { sort } = req.query;
+
+    let orderClause: any[] = [['createdAt', 'DESC']];
+
+    if (sort === 'oldest') {
+        orderClause = [['createdAt', 'ASC']];
+    } else if (sort === 'likes') {
+        orderClause = [[Sequelize.literal('"likeCount"'), 'DESC']];
+    } else if (sort === 'comments') {
+        orderClause = [[Sequelize.literal('"commentCount"'), 'DESC']];
+    }
 
     try {
         const posts = await Post.findAll({
             where: {
                 status: "published",
             },
+            order: orderClause,
             attributes: {
                 include: [
                     [
-                        Sequelize.literal(`(
-              SELECT COUNT(*)
-              FROM likes
-              WHERE likes."postId" = "Post"."id"
-            )`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
                         "likeCount",
                     ],
                     [
-                        Sequelize.literal(`EXISTS(
-              SELECT 1
-              FROM likes
-              WHERE likes."postId" = "Post"."id"
-              AND likes."userId" = ${userId || 0}
-            )`),
+                        Sequelize.literal(`(SELECT COUNT(*) FROM "Comments" WHERE "Comments"."postId" = "Post"."id")`),
+                        "commentCount",
+                    ],
+                    [
+                        Sequelize.literal(`EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId || 0})`),
                         "hasLiked",
                     ],
                 ],
@@ -193,15 +204,8 @@ export const getAllPublishedPosts = async (
             ],
         });
 
-        if (posts.length === 0) {
-            return res.status(200).json({
-                message: "No published posts found.",
-                posts: [],
-            });
-        }
-
         return res.status(200).json({
-            message: "Published posts retrieved successfully",
+            message: posts.length === 0 ? "No published posts found." : "Published posts retrieved successfully",
             posts,
         });
     } catch (err) {
@@ -283,6 +287,7 @@ export const searchPosts = async (
                 ],
                 status: "published",
             },
+            order: [['createdAt', 'DESC']],
             attributes: {
                 include: [
                     [

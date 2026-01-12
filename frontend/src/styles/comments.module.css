@@ -10,7 +10,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
 }
 
 .commentCard {
@@ -18,11 +17,12 @@
     justify-self: center;
     border: 1px solid var(--color-border);
     background-color: var(--color-surface);
+    width: 40vw;
 }
 
 .commentBody {
     margin: 0;
-    width: 30vw;
+    width: 100%;
     min-height: 3rem;
     padding: 1rem;
     border-top: 1px solid var(--color-border);

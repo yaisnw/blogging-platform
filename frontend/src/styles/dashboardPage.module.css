@@ -7,10 +7,51 @@
     gap: 5rem;
     width: 90%;
 }
+
 .panel {
-    display: grid;
-    grid-template-columns: 1;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 10px 0;
+}
+
+.sectionTitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 8px;
+}
+
+.select {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    font-size: 0.875rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.select:focus {
+    border-color: #2563eb;
+    ring: 2px #bfdbfe;
 }
 .panel button {
     width: 11rem;

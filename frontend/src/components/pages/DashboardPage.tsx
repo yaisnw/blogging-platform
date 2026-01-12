@@ -18,12 +18,14 @@ import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPo
 const DashboardPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds);
-    const authorId = useAppSelector((state: RootState) => state.auth.user.id);
-    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({ authorId, publishedOnly: false });
-    const [deletePosts, { isLoading: deletePostsLoading, isError: deletePostsError }] = useDeletePostsMutation();
     const { loggedIn, authChecked } = useAuthStatus();
     const [isDeleting, setIsDeleting] = useState(false);
+    const [sort, setSort] = useState('newest');
+    const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds);
+    const authorId = useAppSelector((state: RootState) => state.auth.user.id);
+    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({ authorId, publishedOnly: false, sort });
+    const [deletePosts, { isLoading: deletePostsLoading, isError: deletePostsError }] = useDeletePostsMutation();
+    
 
     useEffect(() => {
         dispatch(setAlertIgnored(false))
@@ -75,6 +77,7 @@ const DashboardPage = () => {
                         confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)}
                         isDeleting={isDeleting}
                         deletingPostIds={deletingPostIds}
+                        onSortChange={setSort}
                     />
                 }
                 cards={data?.posts.map((post) => (
