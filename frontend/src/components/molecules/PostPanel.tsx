@@ -1,5 +1,5 @@
 import AppButton from "../atoms/AppButton"
-import styles from '../../styles/dashboardPage.module.css'
+import styles from '../../styles/postPanel.module.css'
 import { AnimatePresence, motion } from "motion/react";
 import AppHeadingTwo from "../atoms/AppHeadingTwo";
 
@@ -30,10 +30,11 @@ const PostPanel: React.FC<postPanelProps> = ({
             className={styles.panel}
             aria-label="Post actions">
 
-            <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
-            <div>
+            <div className={styles.actionSection}>
                 <AnimatePresence mode="popLayout">
-                    <AppButton key="create-btn" onClick={createButton}>Create Post</AppButton>
+            <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
+                    <div>
+                        <AppButton key="create-btn" onClick={createButton}>Create Post</AppButton>
 
                     {deleteButton && (
                         <AppButton
@@ -68,6 +69,7 @@ const PostPanel: React.FC<postPanelProps> = ({
                             </AppButton>
                         </motion.div>
                     )}
+                    </div>
                 </AnimatePresence>
 
             </div>

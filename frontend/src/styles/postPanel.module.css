@@ -1,0 +1,61 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 20px;
+}
+
+
+.sectionTitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.sortSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.actionSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 8px;
+}
+
+.select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    font-size: 0.875rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px #bfdbfe;
+}
+.panel button {
+    width: 11rem;
+}
+.deleteButton {
+    background-color: var(--color-warning);
+}
