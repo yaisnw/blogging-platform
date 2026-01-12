@@ -19,8 +19,7 @@ import pictureRouter from "./routes/picture";
 import likeRouter from "./routes/like";
 import { authLimiter, apiLimiter } from "./middleware/rateLimiter";
 import { CustomError } from "./types/controllerTypes";
-import { AuthRequest } from "./types/controllerTypes";
-import { verifyJWT } from "middleware/verifyJWT";
+import { verifyJWT } from "./middleware/verifyJWT";
 
 console.log("SERVER BOOTING UP");
 
