@@ -84,7 +84,7 @@ app.use(apiLimiter);
 
 app.use('/auth', authLimiter, authRouter);
 app.use('/user', verifyJWT, userRouter);
-app.use('/post', verifyJWT, postRouter);
+app.use('/post', postRouter);
 app.use('/comment', verifyJWT, commentRouter);
 app.use('/picture', verifyJWT, pictureRouter);
 app.use('/like', verifyJWT, likeRouter);
