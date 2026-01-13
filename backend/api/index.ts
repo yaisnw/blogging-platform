@@ -20,6 +20,7 @@ import likeRouter from "../routes/like";
 import { authLimiter, apiLimiter } from "../middleware/rateLimiter";
 import { CustomError } from "../types/controllerTypes";
 import { verifyJWT } from "../middleware/verifyJWT";
+import { CorsOptions } from "cors";
 
 console.log("SERVER BOOTING UP");
 
@@ -29,12 +30,22 @@ const app = express();
 
 app.set('trust proxy', 1);
 
-app.use(cors({
-  origin: ["https://blogging-platform-pearl-six.vercel.app", "https://blogging-platform-frontend-bnasrdnrv.vercel.app"],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+const whitelist = [
+  'https://blogging-platform-pearl-six.vercel.app',
+  'https://blogging-platform-frontend-m6abcmq1i.vercel.app'
+];
+const corsOptions: CorsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || whitelist.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.options('*', cors());
 
