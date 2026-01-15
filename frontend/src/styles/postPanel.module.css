@@ -2,8 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 5rem;
     padding: 20px;
+    margin: 0 auto;
+    width: 80%;
 }
 
 
@@ -13,7 +15,7 @@
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 4px;
+    margin: 5px 0;
 }
 
 .sortSection {
@@ -38,23 +40,23 @@
     display: block;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #4b5563;
-    margin-bottom: 8px;
+    color: var(--color-text-secondary);
+    margin: 5px 0;
 }
 
 .select {
     padding: 8px 12px;
     border-radius: 6px;
-    border: 1px solid #d1d5db;
-    background-color: #f9fafb;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-accent-light);
     font-size: 0.875rem;
     outline: none;
     cursor: pointer;
 }
 
 .select:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px #bfdbfe;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-text-secondary);
 }
 .panel button {
     width: 12rem;

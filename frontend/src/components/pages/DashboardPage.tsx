@@ -71,14 +71,16 @@ const DashboardPage = () => {
             {(getPostsLoading || deletePostsLoading) && <AppLoader mode="page" />}
             <DashboardTemplate
                 panel={
-                    <PostPanel
-                        createButton={() => {navigate("/createPost"); dispatch(resetdraftPost())}}
-                        deleteButton={handleDeleteButton}
-                        confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)}
-                        isDeleting={isDeleting}
-                        deletingPostIds={deletingPostIds}
-                        onSortChange={setSort}
-                    />
+                    (getPostsLoading || deletePostsLoading) && (
+                        <PostPanel
+                            createButton={() => { navigate("/createPost"); dispatch(resetdraftPost()) }}
+                            deleteButton={handleDeleteButton}
+                            confirmDeleteButton={() => handleConfirmDelete(deletingPostIds)}
+                            isDeleting={isDeleting}
+                            deletingPostIds={deletingPostIds}
+                            onSortChange={setSort}
+                        />
+                    )
                 }
                 cards={data?.posts.map((post) => (
                     <PostCard

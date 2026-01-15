@@ -1,9 +1,7 @@
 .dashboardFlex {
-    justify-content: center;
-    align-self: center;
-    height: 80vh;
-    padding: 5rem 1rem;
-    gap: 5rem;
+    display: grid;
+    margin: 3rem auto;
+    
     width: 100%;
 }
 

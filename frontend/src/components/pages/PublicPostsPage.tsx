@@ -40,7 +40,18 @@ const PublicPostsPage = () => {
                 <AppLoader mode="page" />
             }
             <SEO title="Public posts" description="Explore the latest posts by other writers." />
-            <PublicPostsTemplate panel={loggedIn ? <PostPanel createButton={() => {navigate("/createPost"); dispatch(resetdraftPost())}} onSortChange={setSort} /> : <AppHeadingTwo>Log in to create your own posts.</AppHeadingTwo>} cards={data?.posts.map(
+            <PublicPostsTemplate panel={
+                    !isLoading && (
+                        loggedIn ? (
+                            <PostPanel 
+                                createButton={() => { navigate("/createPost"); dispatch(resetdraftPost()) }} 
+                                onSortChange={setSort} 
+                            />
+                        ) : (
+                            <AppHeadingTwo>Log in to create your own posts.</AppHeadingTwo>
+                        )
+                    )
+                } cards={data?.posts.map(
                 (post: blogPost) =>
                     <PostCard
                         key={post.id}
