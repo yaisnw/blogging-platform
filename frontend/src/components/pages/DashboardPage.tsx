@@ -71,7 +71,7 @@ const DashboardPage = () => {
             {(getPostsLoading || deletePostsLoading) && <AppLoader mode="page" />}
             <DashboardTemplate
                 panel={
-                    (getPostsLoading || deletePostsLoading) && (
+                    (!getPostsLoading || !deletePostsLoading) && (
                         <PostPanel
                             createButton={() => { navigate("/createPost"); dispatch(resetdraftPost()) }}
                             deleteButton={handleDeleteButton}
