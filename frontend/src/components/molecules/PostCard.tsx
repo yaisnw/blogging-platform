@@ -37,7 +37,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
-    const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
+    const { data, isLoading } = useGetCommentsByPostIdQuery({ postId, page: 1, limit: 1 });
     const createdDate = new Date(createdAt);
     const updatedDate = new Date(updatedAt);
 

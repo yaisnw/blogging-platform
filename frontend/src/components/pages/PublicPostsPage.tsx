@@ -13,6 +13,7 @@ import { useAuthStatus } from "@/hooks/useAuthStatus"
 import AppHeadingTwo from "../atoms/AppHeadingTwo"
 import { useState } from "react"
 import ReactPaginate from "react-paginate"
+import styles from '@styles/ui.module.css'
 
 const PublicPostsPage = () => {
     const { loggedIn } = useAuthStatus();
@@ -37,19 +38,70 @@ const PublicPostsPage = () => {
     if (isError) {
         return (
             <main>
-                <ErrorState message='Something went wrong while fetching the posts.' onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />
+                <ErrorState 
+                    message='Something went wrong while fetching the posts.' 
+                    onRetry={() => window.location.reload()} 
+                    actionLabel="Go back to home page" 
+                    onAction={() => navigate('/home')} 
+                />
             </main>
         )
     }
 
     const totalPages = Math.ceil((data?.totalCount || 0) / limit);
 
+    const renderCards = (() => {
+        if (!isLoading && (!data?.posts || data.posts.length === 0)) {
+            return <ErrorState mode="normal" message="No public posts available at the moment." />;
+        }
+
+        return (
+            <>
+                {data?.posts.map((post: blogPost) => (
+                    <PostCard
+                        key={post.id}
+                        postId={post.id}
+                        title={post.title}
+                        likeCount={post.likeCount}
+                        hasLiked={post.hasLiked}
+                        createdAt={post.createdAt}
+                        updatedAt={post.updatedAt}
+                        status={post.status}
+                        authorId={post.authorId}
+                        author={post.User.username}
+                        avatar_url={post.User.avatar_url}
+                    />
+                ))}
+                
+                {totalPages > 1 && (
+                    <div className={styles.paginationWrapper}>
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel="next >"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={3}
+                            pageCount={totalPages}
+                            previousLabel="< prev"
+                            containerClassName={styles.paginationContainer}
+                            activeClassName={styles.activePage}
+                            pageClassName={styles.pageItem}
+                            previousClassName={styles.pageItem}
+                            nextClassName={styles.pageItem}
+                            breakClassName={styles.pageItem}
+                            forcePage={currentPage}
+                        />
+                    </div>
+                )}
+            </>
+        );
+    })();
+
     return (
         <>
             {isLoading && <AppLoader mode="page" />}
             <SEO title="Public posts" description="Explore the latest posts by other writers." />
             
-            <div className={isFetching ? "fetching-fade" : ""}>
+            <div className={isFetching ? styles.fetchingFade : ""}>
                 <PublicPostsTemplate 
                     panel={
                         !isLoading && (
@@ -63,38 +115,8 @@ const PublicPostsPage = () => {
                             )
                         )
                     } 
-                    cards={data?.posts.map((post: blogPost) =>
-                        <PostCard
-                            key={post.id}
-                            postId={post.id}
-                            title={post.title}
-                            likeCount={post.likeCount}
-                            hasLiked={post.hasLiked}
-                            createdAt={post.createdAt}
-                            updatedAt={post.updatedAt}
-                            status={post.status}
-                            authorId={post.authorId}
-                            author={post.User.username}
-                            avatar_url={post.User.avatar_url}
-                        />
-                    ) || []} 
+                    cards={renderCards} 
                 />
-
-                {totalPages > 1 && (
-                    <div className="pagination-wrapper">
-                        <ReactPaginate
-                            breakLabel="..."
-                            nextLabel="next >"
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={3}
-                            pageCount={totalPages}
-                            previousLabel="< prev"
-                            containerClassName="pagination-container"
-                            activeClassName="active-page"
-                            forcePage={currentPage}
-                        />
-                    </div>
-                )}
             </div>
         </>
     )

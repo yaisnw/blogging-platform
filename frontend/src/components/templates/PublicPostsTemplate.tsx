@@ -2,7 +2,7 @@ import styles from "@/styles/publicPosts.module.css";
 
 type Props = {
     panel: React.ReactNode;
-    cards: React.ReactNode[];
+    cards: React.ReactNode;
 };
 
 const PublicPostsTemplate: React.FC<Props> = ({ panel, cards }) => {
