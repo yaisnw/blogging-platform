@@ -20,7 +20,7 @@ import SEO from "../atoms/SEO"
 import { setAvatarUrl } from "@/slices/authSlice"
 import { useAppDispatch } from "@/hooks"
 import ReactPaginate from "react-paginate"
-import styles from '@styles/ui.module.css'
+import styles from '@/styles/ui.module.css'
 
 const ProfilePage = () => {
     const { id } = useParams();

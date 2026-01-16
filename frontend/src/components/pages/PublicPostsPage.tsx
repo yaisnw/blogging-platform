@@ -13,7 +13,7 @@ import { useAuthStatus } from "@/hooks/useAuthStatus"
 import AppHeadingTwo from "../atoms/AppHeadingTwo"
 import { useState } from "react"
 import ReactPaginate from "react-paginate"
-import styles from '@styles/ui.module.css'
+import styles from '@/styles/ui.module.css'
 
 const PublicPostsPage = () => {
     const { loggedIn } = useAuthStatus();

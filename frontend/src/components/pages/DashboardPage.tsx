@@ -14,7 +14,7 @@ import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
 import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
 import ReactPaginate from "react-paginate";
-import styles from '@styles/ui.module.css'
+import styles from '@/styles/ui.module.css'
 
 const DashboardPage = () => {
     const dispatch = useAppDispatch();
