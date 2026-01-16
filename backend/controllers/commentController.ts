@@ -65,19 +65,29 @@ export const getCommentById = async (
 }
 
 export const getCommentsByPostId = async (
-    req: Request<{ postId: number }, {}, commentRequestBody, {}>,
+    req: Request<{ postId: number }, {}, commentRequestBody, { page?: string, limit?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     const { postId } = req.params;
+    const { page, limit } = req.query;
+
+    const pageNum = parseInt(page || '1');
+    const limitNum = parseInt(limit || '10');
+    const offset = (pageNum - 1) * limitNum;
+
     if (!postId) {
         const err = new Error("Please provide post ID") as CustomError;
         err.status = 400;
-        throw err
+        return next(err);
     }
+
     try {
-        const comments = await Comment.findAll({
+        const { count, rows: comments } = await Comment.findAndCountAll({
             where: { postId },
+            limit: limitNum,
+            offset: offset,
+            order: [['createdAt', 'DESC']],
             include: [
                 {
                     model: User,
@@ -85,55 +95,54 @@ export const getCommentsByPostId = async (
                 }
             ]
         });
-        if (!comments) {
-            const err = new Error("Comment does not exist") as CustomError;
-            err.status = 400;
-            throw err
-        }
-        res.status(200).json({ comments })
+
+        res.status(200).json({ comments, totalCount: count });
     }
     catch (err) {
-        next(err)
+        next(err);
     }
 }
 
 export const getCommentsByAuthorId = async (
-    req: Request<{ authorId: number }, {}, commentRequestBody, {}>,
+    req: Request<{ authorId: number }, {}, commentRequestBody, { page?: string, limit?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
+    const { page, limit } = req.query;
+    const pageNum = parseInt(page || '1');
+    const limitNum = parseInt(limit || '10');
+    const offset = (pageNum - 1) * limitNum;
+
     let authorId;
     if (req.params.authorId) {
-        authorId = req.params.authorId
+        authorId = req.params.authorId;
     }
     else {
-        authorId = req.session.user?.id;
+        authorId = (req as any).session?.user?.id;
     }
 
     try {
-        const comments = await Comment.findAll({
+        const { count, rows: comments } = await Comment.findAndCountAll({
             where: { authorId },
+            limit: limitNum,
+            offset: offset,
+            order: [['createdAt', 'DESC']],
             include: [
                 {
                     model: User,
-                    attributes: [ "username", "avatar_url"]
-                }
-                ,
+                    attributes: ["username", "avatar_url"]
+                },
                 {
                     model: Post,
                     attributes: ["title"]
                 }
             ]
         });
-        if (!comments) {
-            const err = new Error("Comment does not exist") as CustomError;
-            err.status = 400;
-            throw err
-        }
-        res.status(200).json({ comments })
+
+        res.status(200).json({ comments, totalCount: count });
     }
     catch (err) {
-        next(err)
+        next(err);
     }
 }
 

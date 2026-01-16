@@ -92,59 +92,47 @@ export const getPostById = async (
 }
 
 export const getAllPostsByAuthorId = async (
-    req: Request<{ authorId: number }, {}, postRequestBody, { publishedOnly?: string, sort?: string }>,
+    req: Request<{ authorId: number }, {}, postRequestBody, { publishedOnly?: string, sort?: string, page?: string, limit?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     const authorId = req.params.authorId;
-    const { publishedOnly, sort } = req.query;
+    const { publishedOnly, sort, page, limit } = req.query;
+
+    const pageNum = parseInt(page || '1');
+    const limitNum = parseInt(limit || '10');
+    const offset = (pageNum - 1) * limitNum;
 
     let orderClause: any[] = [['createdAt', 'DESC']];
-
-    if (sort === 'oldest') {
-        orderClause = [['createdAt', 'ASC']];
-    } else if (sort === 'status') {
-        orderClause = [['status', 'ASC']];
-    } else if (sort === 'likes') {
-        orderClause = [[Sequelize.literal('"likeCount"'), 'DESC']];
-    } else if (sort === 'comments') {
-        orderClause = [[Sequelize.literal('"commentCount"'), 'DESC']];
-    }
+    if (sort === 'oldest') orderClause = [['createdAt', 'ASC']];
+    else if (sort === 'status') orderClause = [['status', 'ASC']];
+    else if (sort === 'likes') orderClause = [[Sequelize.literal('"likeCount"'), 'DESC']];
+    else if (sort === 'comments') orderClause = [[Sequelize.literal('"commentCount"'), 'DESC']];
 
     try {
-        const posts = await Post.findAll({
+        const { count, rows: posts } = await Post.findAndCountAll({
             where: {
                 authorId,
                 ...(publishedOnly === "true" ? { status: "published" } : {})
             },
             order: orderClause,
+            limit: limitNum,
+            offset: offset,
+            distinct: true,
             attributes: {
                 include: [
-                    [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
-                        "likeCount",
-                    ],
-                    [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM comments WHERE comments."postId" = "Post"."id")`),
-                        "commentCount",
-                    ],
-                    [
-                        Sequelize.literal(`EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${authorId || 0})`),
-                        "hasLiked",
-                    ],
+                    [Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`), "likeCount"],
+                    [Sequelize.literal(`(SELECT COUNT(*) FROM comments WHERE comments."postId" = "Post"."id")`), "commentCount"],
+                    [Sequelize.literal(`EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${authorId || 0})`), "hasLiked"],
                 ],
             },
-            include: [
-                {
-                    model: User,
-                    attributes: ["id", "username", "avatar_url"],
-                },
-            ],
+            include: [{ model: User, attributes: ["id", "username", "avatar_url"] }],
         });
 
         return res.status(200).json({
-            message: posts.length === 0 ? "No posts found for this author." : "Posts retrieved successfully",
+            message: posts.length === 0 ? "No posts found" : "Posts retrieved",
             posts,
+            totalCount: count
         });
     } catch (err) {
         next(err);
@@ -152,12 +140,16 @@ export const getAllPostsByAuthorId = async (
 };
 
 export const getAllPublishedPosts = async (
-    req: AuthRequest<any, any, any, { sort?: string }>,
+    req: AuthRequest<any, any, any, { sort?: string, page?: string, limit?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     const userId = req.user?.id ? Number(req.user.id) : 0;
-    const { sort } = req.query;
+    const { sort, page, limit } = req.query;
+
+    const pageNum = parseInt(page || '1');
+    const limitNum = parseInt(limit || '10');
+    const offset = (pageNum - 1) * limitNum;
 
     let orderClause: any[] = [['createdAt', 'DESC']];
     if (sort === 'oldest') orderClause = [['createdAt', 'ASC']];
@@ -165,47 +157,40 @@ export const getAllPublishedPosts = async (
     else if (sort === 'comments') orderClause = [[Sequelize.literal('"commentCount"'), 'DESC']];
 
     try {
-        const posts = await Post.findAll({
+        const { count, rows: posts } = await Post.findAndCountAll({
             where: { status: "published" },
             order: orderClause,
+            limit: limitNum,
+            offset: offset,
+            distinct: true,
             attributes: {
                 include: [
-                    [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
-                        "likeCount"
-                    ],
-                    [
-                        Sequelize.literal(`(SELECT COUNT(*) FROM comments WHERE comments."postId" = "Post"."id")`),
-                        "commentCount"
-                    ],
-                    [
-                        Sequelize.literal(`(
-                            SELECT EXISTS (
-                                SELECT 1 FROM likes 
-                                WHERE likes."postId" = "Post"."id" 
-                                AND likes."userId" = ${userId}
-                            )
-                        )`),
-                        "hasLiked"
-                    ],
+                    [Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`), "likeCount"],
+                    [Sequelize.literal(`(SELECT COUNT(*) FROM comments WHERE comments."postId" = "Post"."id")`), "commentCount"],
+                    [Sequelize.literal(`(SELECT EXISTS (SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId}))`), "hasLiked"],
                 ],
             },
             include: [{ model: User, attributes: ["id", "username", "avatar_url"] }],
         });
 
-        return res.status(200).json({ posts });
+        return res.status(200).json({ posts, totalCount: count });
     } catch (err) {
         next(err);
     }
 };
 
 export const getPostDetails = async (
-    req: AuthRequest,
+    req: AuthRequest<any, any, any, { page?: string, limit?: string }>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
     const { id } = req.params;
+    const { page, limit } = req.query;
     const userId = req.user?.id ? Number(req.user.id) : 0;
+
+    const pageNum = parseInt(page || '1');
+    const limitNum = parseInt(limit || '10');
+    const offset = (pageNum - 1) * limitNum;
 
     if (!id) {
         const err = new Error("Please provide a post id") as CustomError;
@@ -214,31 +199,16 @@ export const getPostDetails = async (
     }
 
     try {
-        res.set('Cache-Control', 'public, max-age=60, s-maxage=60');
-
-        const [post, comments] = await Promise.all([
-            Post.findOne({
-                where: { id },
-                attributes: {
-                    include: [
-                        [
-                            Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`),
-                            "likeCount"
-                        ],
-                        [
-                            Sequelize.literal(`(EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId}))`),
-                            "hasLiked"
-                        ]
-                    ]
-                },
-                include: [{ model: User, attributes: ["id", "username", "avatar_url"] }]
-            }),
-            Comment.findAll({
-                where: { postId: id },
-                include: [{ model: User, attributes: ["id", "username", "avatar_url"] }],
-                order: [['createdAt', 'DESC']]
-            })
-        ]);
+        const post = await Post.findOne({
+            where: { id },
+            attributes: {
+                include: [
+                    [Sequelize.literal(`(SELECT COUNT(*) FROM likes WHERE likes."postId" = "Post"."id")`), "likeCount"],
+                    [Sequelize.literal(`(EXISTS(SELECT 1 FROM likes WHERE likes."postId" = "Post"."id" AND likes."userId" = ${userId}))`), "hasLiked"]
+                ]
+            },
+            include: [{ model: User, attributes: ["id", "username", "avatar_url"] }]
+        });
 
         if (!post) {
             const err = new Error("Post does not exist") as CustomError;
@@ -246,7 +216,15 @@ export const getPostDetails = async (
             throw err;
         }
 
-        res.status(200).json({ post, comments });
+        const { count: totalComments, rows: comments } = await Comment.findAndCountAll({
+            where: { postId: id },
+            include: [{ model: User, attributes: ["id", "username", "avatar_url"] }],
+            order: [['createdAt', 'DESC']],
+            limit: limitNum,
+            offset: offset
+        });
+
+        res.status(200).json({ post, comments, totalComments });
     } catch (err) {
         next(err);
     }
