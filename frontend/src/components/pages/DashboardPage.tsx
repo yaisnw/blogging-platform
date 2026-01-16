@@ -23,7 +23,7 @@ const DashboardPage = () => {
     const [sort, setSort] = useState('newest');
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds);
     const authorId = useAppSelector((state: RootState) => state.auth.user.id);
-    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({ authorId, publishedOnly: false, sort }, {skip: !authorId || authorId === 0,});
+    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({ authorId, publishedOnly: false, sort, page: 1, limit: 10 }, {skip: !authorId || authorId === 0,});
     const [deletePosts, { isLoading: deletePostsLoading, isError: deletePostsError }] = useDeletePostsMutation();
     
 

@@ -6,11 +6,34 @@
     grid-template-columns: 1fr;
     width: 70vw;
 }
+
+.pagination-container {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 2rem;
+}
+
+.pagination-container li a {
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.active-page a {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+    border-color: var(--color-accent-light);
+}
+
 @media screen and (max-width: 780px) {
     .cardsContainer {
         width: 100vw;
     }
 }
+
 @media screen and (max-width: 480px) {
     .cardsContainer {
         margin: 3rem auto;

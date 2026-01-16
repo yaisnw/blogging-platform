@@ -26,7 +26,7 @@ const PostViewerPage = () => {
         data: details,
         isLoading,
         isError
-    } = useGetPostDetailsQuery(Number(id), {
+    } = useGetPostDetailsQuery({postId: Number(id), page: 1, limit: 10}, {
         skip: !id,
     });
 

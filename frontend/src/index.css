@@ -50,7 +50,6 @@
   font-family: 'Ubuntu', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -58,6 +57,9 @@
   --nav-h: 5rem;
 }
 
+select {
+  font-family: 'Ubuntu', sans-serif;
+}
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
