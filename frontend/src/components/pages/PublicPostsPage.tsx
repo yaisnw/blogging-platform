@@ -21,10 +21,10 @@ const PublicPostsPage = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const limit = 10;
 
-    const { data, isLoading, isError, isFetching } = useGetPublishedPostsQuery({ 
-        sort, 
-        page: currentPage + 1, 
-        limit 
+    const { data, isLoading, isError, isFetching } = useGetPublishedPostsQuery({
+        sort,
+        page: currentPage + 1,
+        limit
     });
 
     const dispatch = useAppDispatch();
@@ -38,11 +38,11 @@ const PublicPostsPage = () => {
     if (isError) {
         return (
             <main>
-                <ErrorState 
-                    message='Something went wrong while fetching the posts.' 
-                    onRetry={() => window.location.reload()} 
-                    actionLabel="Go back to home page" 
-                    onAction={() => navigate('/home')} 
+                <ErrorState
+                    message='Something went wrong while fetching the posts.'
+                    onRetry={() => window.location.reload()}
+                    actionLabel="Go back to home page"
+                    onAction={() => navigate('/home')}
                 />
             </main>
         )
@@ -54,7 +54,8 @@ const PublicPostsPage = () => {
         if (!isLoading && (!data?.posts || data.posts.length === 0)) {
             return <ErrorState mode="normal" message="No public posts available at the moment." />;
         }
-
+        console.log("Total Pages:", totalPages);
+        console.log("Styles object:", styles);
         return (
             <>
                 {data?.posts.map((post: blogPost) => (
@@ -72,7 +73,7 @@ const PublicPostsPage = () => {
                         avatar_url={post.User.avatar_url}
                     />
                 ))}
-                
+
                 {totalPages > 1 && (
                     <div className={styles.paginationWrapper}>
                         <ReactPaginate
@@ -100,22 +101,22 @@ const PublicPostsPage = () => {
         <>
             {isLoading && <AppLoader mode="page" />}
             <SEO title="Public posts" description="Explore the latest posts by other writers." />
-            
+
             <div className={isFetching ? styles.fetchingFade : ""}>
-                <PublicPostsTemplate 
+                <PublicPostsTemplate
                     panel={
                         !isLoading && (
                             loggedIn ? (
-                                <PostPanel 
-                                    createButton={() => { navigate("/createPost"); dispatch(resetdraftPost()) }} 
-                                    onSortChange={(val) => { setSort(val); setCurrentPage(0); }} 
+                                <PostPanel
+                                    createButton={() => { navigate("/createPost"); dispatch(resetdraftPost()) }}
+                                    onSortChange={(val) => { setSort(val); setCurrentPage(0); }}
                                 />
                             ) : (
                                 <AppHeadingTwo>Log in to create your own posts.</AppHeadingTwo>
                             )
                         )
-                    } 
-                    cards={renderCards} 
+                    }
+                    cards={renderCards}
                 />
             </div>
         </>

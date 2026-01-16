@@ -2,9 +2,10 @@
     margin: 5rem auto;
     display: grid;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     grid-template-columns: 1fr;
     width: 70vw;
+    gap: 20px;
 }
 
 
