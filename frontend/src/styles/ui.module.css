@@ -191,8 +191,9 @@
 }
 
 .primary {
-  background-color: var(--color-accent);
-  color: var(--color-on-accent);
+  background-color: var(--color-light-accent);
+  border: 1px solid var(--color-accent);
+  color: var(--color-text);
 }
 
 .primary:hover:not(:disabled) {
@@ -298,7 +299,11 @@
   height: 50px;
   color: var(--color-text)
 }
-
+.buttonSVG {
+  width: 30px;
+  height: 30px;
+  color: var(--color-text)
+}
 .interactiveImage {
   transition: all 0.2s ease;
 }

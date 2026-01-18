@@ -17,6 +17,8 @@ import AppInput from "../atoms/AppInput";
 import AppLink from "../atoms/AppLink";
 import { motion } from "motion/react"
 import commentImage from '../../assets/comment.svg'
+import EditSVG from "../atoms/EditSVG";
+import ViewSVG from "../atoms/ViewSVG";
 
 type PostCardProps = {
     postId: number,
@@ -131,11 +133,13 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
                     {editButton && (
                         <AppButton  type="button" onClick={editButton}>
+                            <EditSVG className={UIstyles.buttonSVG} />
                             Edit Post
                         </AppButton>
                     )}
                     {status === 'published' && (
                         <AppButton type="button" onClick={() => handlePostClick(title, postId)}>
+                            <ViewSVG className={UIstyles.buttonSVG} />
                             View Post
                         </AppButton>
                     )}

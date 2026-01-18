@@ -1,5 +1,6 @@
 import AppButton from "../atoms/AppButton"
 import styles from '../../styles/postPanel.module.css'
+import UIstyles from '@/styles/ui.module.css'
 import { AnimatePresence, motion } from "motion/react";
 import AppHeadingTwo from "../atoms/AppHeadingTwo";
 import PlusSVG from "../atoms/PlusSVG";
@@ -36,7 +37,7 @@ const PostPanel: React.FC<postPanelProps> = ({
                 <AnimatePresence mode="popLayout">
                     <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
                     <div className={styles.actionButtonsWrapper}>
-                        <AppButton key="create-btn" onClick={createButton}><PlusSVG className={styles.buttonLogo} />Create Post</AppButton>
+                        <AppButton key="create-btn" onClick={createButton}><PlusSVG className={UIstyles.buttonSVG} />Create Post</AppButton>
 
                         {deleteButton && (
                             <AppButton
@@ -48,7 +49,7 @@ const PostPanel: React.FC<postPanelProps> = ({
                                     'Cancel Delete'
                                 ) : (
                                     <>
-                                        <TrashSVG className={styles.buttonLogo} />
+                                        <TrashSVG className={UIstyles.buttonSVG} />
                                         <span>Delete Posts</span>
                                     </>
                                 )}

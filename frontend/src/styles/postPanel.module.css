@@ -70,7 +70,7 @@
     background-color: var(--color-warning);
 }
 .buttonLogo {
-    width: 20px;
-    height: 20px;
-    color: var(--color-text);
+    width: 30px;
+    height: 30px;
+    color: var(--color-on-accent);
 }

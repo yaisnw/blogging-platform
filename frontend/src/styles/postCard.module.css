@@ -87,6 +87,12 @@
     align-items: center;
     gap: 1rem
 }
+.interactionBox button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
 .title {
     margin: 1rem 0;
     font-size: 1.5rem;
