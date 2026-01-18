@@ -34,43 +34,50 @@ const PostPanel: React.FC<postPanelProps> = ({
 
             <div className={styles.actionSection}>
                 <AnimatePresence mode="popLayout">
-            <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
+                    <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
                     <div className={styles.actionButtonsWrapper}>
-                        <AppButton key="create-btn" onClick={createButton}><PlusSVG />Create Post</AppButton>
+                        <AppButton key="create-btn" onClick={createButton}><PlusSVG className={styles.buttonLogo} />Create Post</AppButton>
 
-                    {deleteButton && (
-                        <AppButton
-                            key="delete-btn"
-                            variant={isDeleting ? "secondary" : "primary"}
-                            onClick={deleteButton}
-                        >
-                            {isDeleting ? 'Cancel Delete' : <TrashSVG /> + 'Delete Posts'}
-                        </AppButton>
-                    )}
-
-                    {isDeleting && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.3 }}
-                            key="confirm-delete-group"
-                            className={styles.deleteWrapper}
-                        >
+                        {deleteButton && (
                             <AppButton
-                                className={styles.deleteButton}
-                                variant="danger"
-                                disabled={deletingPostIds!.length === 0}
-                                showDisabledPopup
-                                onDisabledClick={() =>
-                                    alert("Select at least one post before deleting.")
-                                }
-                                onClick={confirmDeleteButton}
+                                key="delete-btn"
+                                variant={isDeleting ? "secondary" : "primary"}
+                                onClick={deleteButton}
                             >
-                                Confirm Delete ({deletingPostIds?.length})
+                                {isDeleting ? (
+                                    'Cancel Delete'
+                                ) : (
+                                    <>
+                                        <TrashSVG className={styles.buttonLogo} />
+                                        <span>Delete Posts</span>
+                                    </>
+                                )}
                             </AppButton>
-                        </motion.div>
-                    )}
+                        )}
+
+                        {isDeleting && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                key="confirm-delete-group"
+                                className={styles.deleteWrapper}
+                            >
+                                <AppButton
+                                    className={styles.deleteButton}
+                                    variant="danger"
+                                    disabled={deletingPostIds!.length === 0}
+                                    showDisabledPopup
+                                    onDisabledClick={() =>
+                                        alert("Select at least one post before deleting.")
+                                    }
+                                    onClick={confirmDeleteButton}
+                                >
+                                    Confirm Delete ({deletingPostIds?.length})
+                                </AppButton>
+                            </motion.div>
+                        )}
                     </div>
                 </AnimatePresence>
 

@@ -38,7 +38,7 @@
     display: flex;
     justify-self: center;
     align-items: center;
-    gap: 5px;
+    gap: 1rem;
 }
 .label {
     display: block;
@@ -68,4 +68,9 @@
 }
 .deleteButton {
     background-color: var(--color-warning);
+}
+.buttonLogo {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text);
 }
