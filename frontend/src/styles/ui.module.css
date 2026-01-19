@@ -179,6 +179,9 @@
 }
 
 .appButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: medium;
   height: 3.5rem;
   width: 9rem;

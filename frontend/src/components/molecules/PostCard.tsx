@@ -74,25 +74,25 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
             transition={{ duration: 0.4 }}
             className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
             <header className={styles.cardHeader}>
-                {isDeleting && (
-                        <motion.label
-                            initial={{ opacity: 0, }}
-                            animate={{ opacity: 1, }}
-                            exit={{ opacity: 0, }}
-                            transition={{ duration: 0.4 }}
-                            className={styles.deleteLabel}>
-                            <AppInput
-                                checked={deletingPostIds.includes(postId)}
-                                onChange={() => handleDeleteCheck(postId)}
-                                type="checkbox"
-                                aria-label="Select post for deletion"
-                            />{" "}
-                            Delete
-                        </motion.label>
-                    )}
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
                     {title}
                 </AppHeader>
+                {isDeleting && (
+                    <motion.label
+                        initial={{ opacity: 0, }}
+                        animate={{ opacity: 1, }}
+                        exit={{ opacity: 0, }}
+                        transition={{ duration: 0.4 }}
+                        className={styles.deleteLabel}>
+                        <AppInput
+                            checked={deletingPostIds.includes(postId)}
+                            onChange={() => handleDeleteCheck(postId)}
+                            type="checkbox"
+                            aria-label="Select post for deletion"
+                        />{" "}
+                        Delete
+                    </motion.label>
+                )}
                 <div className={styles.titleSubContainer}>
                     <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
                         {status?.charAt(0).toUpperCase() + status.slice(1)}
@@ -132,7 +132,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <div className={styles.interactionBox}>
 
                     {editButton && (
-                        <AppButton  type="button" onClick={editButton}>
+                        <AppButton type="button" onClick={editButton}>
                             <EditSVG className={UIstyles.buttonSVG} />
                             Edit Post
                         </AppButton>
