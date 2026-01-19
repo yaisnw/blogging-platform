@@ -62,7 +62,7 @@
     border-color: var(--color-accent);
     box-shadow: 0 0 0 2px var(--color-text-secondary);
 }
-.panel button {
+.actionButtonsWrapper button {
     width: 12rem;
     white-space: nowrap; 
 }
@@ -101,8 +101,6 @@
     }
 
     .panel button {
-        width: 100%;
-        max-width: 20rem;
         margin: 0 auto;
     }
 }
