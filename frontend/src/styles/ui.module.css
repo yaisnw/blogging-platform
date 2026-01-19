@@ -180,6 +180,7 @@
 
 .appButton {
   font-size: medium;
+  height: 3.5rem;
   width: 9rem;
   cursor: pointer;
   border: none;
@@ -301,7 +302,12 @@
 .buttonSVG {
   width: 30px;
   height: 30px;
+  display: block;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
   color: var(--color-text)
+
 }
 .interactiveImage {
   transition: all 0.2s ease;

@@ -74,11 +74,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
             transition={{ duration: 0.4 }}
             className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
             <header className={styles.cardHeader}>
-                <AppHeader id={`post-${postId}-title`} className={styles.title}>
-                    {title}
-                </AppHeader>
-                <div className={styles.titleSubContainer}>
-                    {isDeleting && (
+                {isDeleting && (
                         <motion.label
                             initial={{ opacity: 0, }}
                             animate={{ opacity: 1, }}
@@ -94,6 +90,10 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                             Delete
                         </motion.label>
                     )}
+                <AppHeader id={`post-${postId}-title`} className={styles.title}>
+                    {title}
+                </AppHeader>
+                <div className={styles.titleSubContainer}>
                     <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
                         {status?.charAt(0).toUpperCase() + status.slice(1)}
                     </span>

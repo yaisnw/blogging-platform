@@ -45,6 +45,7 @@
 .deleteLabel {
     color: var(--color-warning);
     font-weight: 500;
+    font-size: 1.2rem;
     text-align: center;
 }
 .engagementBox {
@@ -200,7 +201,7 @@
         justify-content: center;
     }
     .interactionBox button {
-        width: 8rem;
+        width: 9rem;
         font-size: 0.9rem;
         gap: 0.5rem;
     }
