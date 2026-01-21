@@ -99,7 +99,7 @@ const PublicPostsPage = () => {
 
     return (
         <>
-            {isLoading && <AppLoader mode="page" />}
+            {(isLoading || isFetching) && <AppLoader mode="page" />}
             <SEO title="Public posts" description="Explore the latest posts by other writers." />
 
             <div className={isFetching ? styles.fetchingFade : ""}>

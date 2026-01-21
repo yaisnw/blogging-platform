@@ -27,7 +27,7 @@ const DashboardPage = () => {
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds);
     const authorId = useAppSelector((state: RootState) => state.auth.user.id);
     
-    const { data, isLoading: getPostsLoading, isError: getPostsError } = useGetMyPostsQuery({
+    const { data, isLoading: getPostsLoading, isError: getPostsError, isFetching } = useGetMyPostsQuery({
         authorId,
         publishedOnly: false,
         sort,
@@ -132,7 +132,7 @@ const DashboardPage = () => {
     return (
         <>
             <SEO title="My Posts" description="Manage and view your own posts." />
-            {(getPostsLoading || deletePostsLoading) && <AppLoader mode="page" />}
+    {(getPostsLoading || deletePostsLoading || isFetching) && <AppLoader mode="page" />}
             <DashboardTemplate
                 panel={
                     (!getPostsLoading || !deletePostsLoading) && (

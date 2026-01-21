@@ -3,7 +3,8 @@
     justify-content: start;
     align-items: center;
     gap: 5rem;
-    padding: 20px;
+    padding: 2rem;
+    padding-top: 0;
     margin: 0 auto;
     width: 80%;
 }
@@ -59,6 +60,7 @@
 }
 .actionButtonsWrapper button {
     width: 12rem;
+    gap: 1rem;
     white-space: nowrap; 
 }
 .deleteButton {
