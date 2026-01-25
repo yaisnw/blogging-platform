@@ -17,6 +17,8 @@ import AppInput from "../atoms/AppInput";
 import AppLink from "../atoms/AppLink";
 import { motion } from "motion/react"
 import commentImage from '../../assets/comment.svg'
+import EditSVG from "../atoms/EditSVG";
+import ViewSVG from "../atoms/ViewSVG";
 
 type PostCardProps = {
     postId: number,
@@ -37,7 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
-    const { data, isLoading } = useGetCommentsByPostIdQuery(postId);
+    const { data, isLoading } = useGetCommentsByPostIdQuery({ postId, page: 1, limit: 1 });
     const createdDate = new Date(createdAt);
     const updatedDate = new Date(updatedAt);
 
@@ -75,23 +77,23 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
                     {title}
                 </AppHeader>
+                {isDeleting && (
+                    <motion.label
+                        initial={{ opacity: 0, }}
+                        animate={{ opacity: 1, }}
+                        exit={{ opacity: 0, }}
+                        transition={{ duration: 0.4 }}
+                        className={styles.deleteLabel}>
+                        <AppInput
+                            checked={deletingPostIds.includes(postId)}
+                            onChange={() => handleDeleteCheck(postId)}
+                            type="checkbox"
+                            aria-label="Select post for deletion"
+                        />{" "}
+                        Delete
+                    </motion.label>
+                )}
                 <div className={styles.titleSubContainer}>
-                    {isDeleting && (
-                        <motion.label
-                            initial={{ opacity: 0, }}
-                            animate={{ opacity: 1, }}
-                            exit={{ opacity: 0, }}
-                            transition={{ duration: 0.4 }}
-                            className={styles.deleteLabel}>
-                            <AppInput
-                                checked={deletingPostIds.includes(postId)}
-                                onChange={() => handleDeleteCheck(postId)}
-                                type="checkbox"
-                                aria-label="Select post for deletion"
-                            />{" "}
-                            Delete
-                        </motion.label>
-                    )}
                     <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
                         {status?.charAt(0).toUpperCase() + status.slice(1)}
                     </span>
@@ -130,12 +132,14 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <div className={styles.interactionBox}>
 
                     {editButton && (
-                        <AppButton  type="button" onClick={editButton}>
+                        <AppButton type="button" onClick={editButton}>
+                            <EditSVG className={UIstyles.buttonSVG} />
                             Edit Post
                         </AppButton>
                     )}
                     {status === 'published' && (
                         <AppButton type="button" onClick={() => handlePostClick(title, postId)}>
+                            <ViewSVG className={UIstyles.buttonSVG} />
                             View Post
                         </AppButton>
                     )}

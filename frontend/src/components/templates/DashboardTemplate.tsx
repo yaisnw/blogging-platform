@@ -2,7 +2,7 @@ import styles from "../../styles/dashboardPage.module.css";
 
 type DashBoardTemplateProps = {
     panel: React.ReactNode;
-    cards: React.ReactNode[];
+    cards: React.ReactNode;
 };
 
 const DashboardTemplate: React.FC<DashBoardTemplateProps> = ({ panel, cards }) => {

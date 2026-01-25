@@ -179,7 +179,11 @@
 }
 
 .appButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: medium;
+  height: 3.5rem;
   width: 9rem;
   cursor: pointer;
   border: none;
@@ -187,12 +191,13 @@
   padding: 1rem 1.5rem;
   font-weight: 500;
   transition: all 0.2s ease;
+  border: 1px solid var(--color-accent);
   will-change: scale;
 }
 
 .primary {
-  background-color: var(--color-accent);
-  color: var(--color-on-accent);
+  background-color: var(--color-light-accent);
+  color: var(--color-text);
 }
 
 .primary:hover:not(:disabled) {
@@ -204,7 +209,6 @@
 .secondary {
   background-color: var(--color-surface);
   color: var(--color-text);
-  border: 1px solid var(--color-border);
 }
 
 .secondary:hover:not(:disabled) {
@@ -232,8 +236,6 @@
   transform: none;
   box-shadow: none;
 }
-
-
 
 .appInput {
   border: 1px solid var(--color-border);
@@ -287,13 +289,27 @@
 .appParagraph {
   margin: 0;
 }
-
+.headingTwo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 auto;
+}
 .appImage {
   width: 50px;
   height: 50px;
   color: var(--color-text)
 }
+.buttonSVG {
+  width: 30px;
+  height: 30px;
+  display: block;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  color: var(--color-text)
 
+}
 .interactiveImage {
   transition: all 0.2s ease;
 }
@@ -325,6 +341,53 @@
 }
 
 
+.paginationWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.paginationContainer {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 0; 
+    margin-top: 2rem;
+}
+
+.pageItem a {
+    padding: 8px 14px;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: block;
+    color: var(--color-text);
+    background-color: transparent;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.pageItem a:hover {
+    background-color: var(--color-surface);
+    border-color: var(--color-accent);
+}
+
+.activePage a {
+    background-color: var(--color-accent) !important;
+    color: var(--color-on-accent) !important;
+    border-color: var(--color-accent) !important;
+}
+
+.pageItem[class*="disabled"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pageItem[class*="disabled"] a {
+    pointer-events: none;
+}
 
 .divider {
   position: relative;

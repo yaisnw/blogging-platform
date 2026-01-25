@@ -17,13 +17,18 @@ export const postsApi = createApi({
     tagTypes: ['Posts', 'Post'],
     endpoints: (build) => ({
         getMyPosts: build.query<
-            { posts: blogPost[]; message: string; author: string },
-            { authorId: number; publishedOnly?: boolean; sort?: string } // Added sort type
+            { posts: blogPost[]; message: string; author: string; totalCount: number },
+            { authorId: number; publishedOnly?: boolean; sort?: string; page: number; limit: number }
         >({
-            query: ({ authorId, publishedOnly, sort }) => {
-                let url = `/getAllPosts/${authorId}?publishedOnly=${publishedOnly ? "true" : "false"}`;
-                if (sort) url += `&sort=${sort}`;
-                return url;
+            query: ({ authorId, publishedOnly, sort, page, limit }) => {
+                const params = new URLSearchParams({
+                    publishedOnly: publishedOnly ? "true" : "false",
+                    page: page.toString(),
+                    limit: limit.toString()
+                });
+                if (sort) params.append("sort", sort);
+
+                return `/getAllPosts/${authorId}?${params.toString()}`;
             },
             providesTags: (result) =>
                 result?.posts
@@ -35,14 +40,19 @@ export const postsApi = createApi({
         }),
 
         getPublishedPosts: build.query<
-            { posts: blogPost[]; message: string },
-            { sort?: string } | void // Changed from void to allow optional sort object
+            { posts: blogPost[]; message: string; totalCount: number },
+            { sort?: string; page: number; limit: number }
         >({
-            query: (args) => {
-                const sort = args && typeof args === 'object' ? args.sort : null;
-                return sort ? `/getAllPublishedPosts?sort=${sort}` : `/getAllPublishedPosts`;
+            query: ({ sort, page, limit }) => {
+                const params = new URLSearchParams({
+                    page: page.toString(),
+                    limit: limit.toString()
+                });
+                if (sort) params.append("sort", sort);
+
+                return `/getAllPublishedPosts?${params.toString()}`;
             },
-            providesTags: (result): { type: "Posts"; id: number | "LIST" }[] =>
+            providesTags: (result) =>
                 result?.posts
                     ? [
                         { type: "Posts", id: "LIST" },
@@ -52,17 +62,21 @@ export const postsApi = createApi({
                     ]
                     : [{ type: "Posts", id: "LIST" }],
         }),
-        
-        // ... rest of your endpoints (getPostById, searchPosts, etc) remain the same
+
         getPostById: build.query<blogPost, number>({
             query: (postId) => `/${postId}`,
             providesTags: (result, _error, postId) =>
                 result ? [{ type: "Post", id: postId }] : [],
         }),
-        getPostDetails: build.query<PostDetailsResponse, number>({
-            query: (postId) => `/details/${postId}`,
-            providesTags: (result, _error, postId) =>
-                result ? [{ type: "Post", id: postId }, { type: "Posts", id: postId }] : [],
+        getPostDetails: build.query<
+            PostDetailsResponse & { totalComments: number },
+            { postId: number; page: number; limit: number }
+        >({
+            query: ({ postId, page, limit }) => `/details/${postId}?page=${page}&limit=${limit}`,
+            providesTags: (result, _error, { postId }) =>
+                result
+                    ? [{ type: "Post", id: postId }, { type: "Posts", id: postId }]
+                    : [],
         }),
         searchPosts: build.query<{ posts: blogPost[]; message: string }, string>({
             query: (searchTerm) => `/search?q=${encodeURIComponent(searchTerm)}`,

@@ -17,32 +17,37 @@ export const commentsApi = createApi({
   }),
   tagTypes: ["Comments", "Comment"],
   endpoints: (build) => ({
-    getCommentsByPostId: build.query<{ comments: comment[] }, number>({
-      query: (postId) => `/post/${postId}`,
-      providesTags: (result, _, postId) =>
+    getCommentsByPostId: build.query<
+      { comments: comment[]; totalCount: number }, 
+      { postId: number; page: number; limit: number }
+    >({
+      query: ({ postId, page, limit }) => `/post/${postId}?page=${page}&limit=${limit}`,
+      providesTags: (result, _, { postId }) =>
         result
           ? [
-            ...result.comments.map(
-              (comment) => ({ type: "Comment", id: comment.id } as const)
-            ),
-            { type: "Comments", id: `POST-${postId}` },
-          ]
+              ...result.comments.map(
+                (comment) => ({ type: "Comment", id: comment.id } as const)
+              ),
+              { type: "Comments", id: `POST-${postId}` },
+            ]
           : [{ type: "Comments", id: `POST-${postId}` }],
     }),
     
-    getCommentsByAuthorId: build.query<{ comments: comment[] }, number>({
-      query: (authorId) => `/author/${authorId}`,
-      providesTags: (result, _, authorId) =>
+    getCommentsByAuthorId: build.query<
+      { comments: comment[]; totalCount: number }, 
+      { authorId: number; page: number; limit: number }
+    >({
+      query: ({ authorId, page, limit }) => `/author/${authorId}?page=${page}&limit=${limit}`,
+      providesTags: (result, _, { authorId }) =>
         result
           ? [
-            ...result.comments.map(
-              (comment) => ({ type: "Comment", id: comment.id } as const)
-            ),
-            { type: "Comments", id: `AUTHOR-${authorId}` },
-          ]
+              ...result.comments.map(
+                (comment) => ({ type: "Comment", id: comment.id } as const)
+              ),
+              { type: "Comments", id: `AUTHOR-${authorId}` },
+            ]
           : [{ type: "Comments", id: `AUTHOR-${authorId}` }],
     }),
-
     addComment: build.mutation<comment, { postId: number; content: string }>({
       query: (body) => ({
         url: "/",
