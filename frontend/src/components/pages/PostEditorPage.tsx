@@ -18,7 +18,7 @@ const PostEditorPage = () => {
   const draftContent = useSelector((state: RootState) => state.post.content)
   const { id } = useParams();
   const currentPostId = Number(id);
-  const [status, setStatus] = useState<'draft' | 'published'>('draft');
+  const [status, setStatus] = useState<'draft' | 'published'>('published');
   const [isUpdating, setIsUpdating] = useState(false);
   const [createPost, { isLoading: createPostLoading, isError: createPostError, isSuccess: createPostSuccess }] = useCreatePostMutation();
   const [updatePost, { isLoading: updatePostLoading, isError: updatePostError, isSuccess: updatePostSuccess }] = useUpdatePostMutation();

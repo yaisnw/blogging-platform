@@ -48,6 +48,7 @@ export const commentsApi = createApi({
             ]
           : [{ type: "Comments", id: `AUTHOR-${authorId}` }],
     }),
+
     addComment: build.mutation<comment, { postId: number; content: string }>({
       query: (body) => ({
         url: "/",
@@ -56,6 +57,7 @@ export const commentsApi = createApi({
       }),
       invalidatesTags: (_result, _error, { postId }) => [
         { type: "Comments", id: `POST-${postId}` },
+        { type: "Comments", id: "LIST" } 
       ],
     }),
 
@@ -69,7 +71,7 @@ export const commentsApi = createApi({
         body: { content },
       }),
       invalidatesTags: (_result, _error, { commentId, postId }) => [
-        { type: "Comment", commentId },
+        { type: "Comment", id: commentId },
         { type: "Comments", id: `POST-${postId}` },
       ],
     }),
@@ -82,10 +84,8 @@ export const commentsApi = createApi({
         url: `/${commentId}`,
         method: "DELETE",
       }),
-
-
       invalidatesTags: (_result, _error, { commentId, postId }) => [
-        { type: "Comment", commentId },
+        { type: "Comment", id: commentId },
         { type: "Comments", id: `POST-${postId}` },
       ],
     }),

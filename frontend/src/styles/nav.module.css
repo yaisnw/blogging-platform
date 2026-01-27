@@ -51,8 +51,6 @@
     border: none;
     border-radius: 5px;
     will-change: font-weight;
-    border-right: 1px solid var(--color-border);
-    border-left: 1px solid var(--color-border);
     transition: all 0.3s ease;
     white-space: nowrap;
     overflow: hidden;

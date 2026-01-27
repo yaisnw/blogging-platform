@@ -95,12 +95,12 @@ const handleChangeEditor = useCallback(
           <label>
             <input
               type="checkbox"
-              checked={status === "draft"}
+              checked={status === "published"}
               onChange={() =>
                 onStatusChange(status === "published" ? "draft" : "published")
               }
             />{" "}
-            Save as draft
+            Save as published
           </label>
           <AppButton disabled={isSubmitting} type="button" className="submit-button" onClick={onSubmit}>
             {isUpdating ? "Update" : "Submit"}

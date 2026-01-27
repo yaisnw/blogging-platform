@@ -1,16 +1,25 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $createParagraphNode, $getSelection, $isParagraphNode, $isRangeSelection, CAN_REDO_COMMAND, CAN_UNDO_COMMAND, COMMAND_PRIORITY_LOW, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, REDO_COMMAND, SELECTION_CHANGE_COMMAND, UNDO_COMMAND } from 'lexical';
 import { mergeRegister } from "@lexical/utils"
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { $setBlocksType } from '@lexical/selection'
 import "../../styles/editor.css"
 import { $createHeadingNode, $createQuoteNode, $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
 import ImageInsertButton from '../atoms/ImageInsertButton';
 import AppButton from '../atoms/AppButton';
 import AppLink from '../atoms/AppLink';
-import UIstyles from "@/styles/ui.module.css"
-import { useIsDesktop } from '@/hooks/useIsDesktop';
 
+const DropDown = ({ label, children, active }: { label: string; children: ReactNode; active?: boolean }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <div className="dropdown-container" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+            <button className={`dropdown-button ${active ? 'active' : ''}`}>
+                {label} <span className="chevron">▼</span>
+            </button>
+            {open && <div className="dropdown-menu">{children}</div>}
+        </div>
+    );
+};
 
 function ToolBar() {
     const [editor] = useLexicalComposerContext();
@@ -21,10 +30,7 @@ function ToolBar() {
     const [isItalic, setIsItalic] = useState(false);
     const [isUnderline, setIsUnderline] = useState(false);
     const [isStrikethrough, setIsStrikethrough] = useState(false);
-    const [collapsed, setCollapsed] = useState(false);
-    const isDesktop = useIsDesktop();
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+    
     const $updateToolbar = useCallback(() => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
@@ -36,8 +42,7 @@ function ToolBar() {
                     blockType = parent.getTag();
                 } else if ($isQuoteNode(parent)) {
                     blockType = 'quote';
-                }
-                else if ($isParagraphNode(parent)) {
+                } else if ($isParagraphNode(parent)) {
                     blockType = 'paragraph';
                 }
                 setActiveBlockType(blockType ?? 'paragraph');
@@ -48,158 +53,79 @@ function ToolBar() {
             setIsUnderline(selection.hasFormat('underline'));
             setIsStrikethrough(selection.hasFormat('strikethrough'));
         }
-        else {
-            setIsBold(false);
-            setIsItalic(false);
-            setIsUnderline(false);
-            setIsStrikethrough(false);
-        }
     }, []);
 
     useEffect(() => {
         return mergeRegister(
             editor.registerUpdateListener(({ editorState }) => {
-                editorState.read(() => {
-                    $updateToolbar();
-                });
+                editorState.read(() => { $updateToolbar(); });
             }),
-            editor.registerCommand(
-                SELECTION_CHANGE_COMMAND,
-                () => {
-                    $updateToolbar();
-                    return false;
-                },
-                COMMAND_PRIORITY_LOW,
-            ),
-            editor.registerCommand(
-                CAN_UNDO_COMMAND,
-                (payload) => {
-                    setCanUndo(payload);
-                    return false;
-                },
-                COMMAND_PRIORITY_LOW
-            ),
-            editor.registerCommand(
-                CAN_REDO_COMMAND,
-                (payload) => {
-                    setCanRedo(payload);
-                    return false;
-                },
-                COMMAND_PRIORITY_LOW
-            )
+            editor.registerCommand(SELECTION_CHANGE_COMMAND, () => {
+                $updateToolbar();
+                return false;
+            }, COMMAND_PRIORITY_LOW),
+            editor.registerCommand(CAN_UNDO_COMMAND, (payload) => {
+                setCanUndo(payload);
+                return false;
+            }, COMMAND_PRIORITY_LOW),
+            editor.registerCommand(CAN_REDO_COMMAND, (payload) => {
+                setCanRedo(payload);
+                return false;
+            }, COMMAND_PRIORITY_LOW)
         );
     }, [$updateToolbar, editor]);
 
-    const applyFormat = (formatType: 'bold' | 'italic' | 'underline' | 'strikethrough') => {
-        editor.focus();
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, formatType);
+    const applyFormat = (type: 'bold' | 'italic' | 'underline' | 'strikethrough') => {
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, type);
     };
-    const applyAlign = (alignType: 'left' | 'center' | 'right' | 'justify') => {
-        editor.focus();
-        editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignType)
-    }
-    const applyUndoRedo = (command: 'undo' | 'redo') => {
-        editor.focus();
-        if (command === 'undo') {
-            editor.dispatchCommand(UNDO_COMMAND, undefined)
-        }
-        else if (command === 'redo') {
-            editor.dispatchCommand(REDO_COMMAND, undefined)
-        }
-    }
-    const applyBlockType = (blockType: 'h1' | 'h2' | 'h3' | 'paragraph' | 'quote') => {
-        editor.focus();
+
+    const applyBlockType = (type: 'h1' | 'h2' | 'h3' | 'paragraph' | 'quote') => {
         editor.update(() => {
             const selection = $getSelection();
             if ($isRangeSelection(selection)) {
-                if (blockType === 'paragraph') {
-                    $setBlocksType(selection, () => $createParagraphNode())
-                }
-                else if (blockType === 'quote') {
-                    $setBlocksType(selection, () => $createQuoteNode())
-                }
-                else {
-                    $setBlocksType(selection, () => $createHeadingNode(blockType))
-                }
+                if (type === 'paragraph') $setBlocksType(selection, () => $createParagraphNode());
+                else if (type === 'quote') $setBlocksType(selection, () => $createQuoteNode());
+                else $setBlocksType(selection, () => $createHeadingNode(type));
             }
-        })
-    }
+        });
+    };
 
     return (
-        <div className='toolBar-container' >
+        <div className='toolBar-container'>
+            <div className='toolBar-main-row'>
+                <nav className="toolbar-nav-group">
+                    <AppLink to='/home' className="nav-link">Home</AppLink>
+                    <AppLink to='/home/dashboard' className="nav-link">Dashboard</AppLink>
+                </nav>
 
-            {isDesktop ? <>
-                <div className='toolBar'>
-                    <div className='button-group-wrapper'>
-                        <div className='button-group' role="group" aria-label="Text formatting">
-                            <AppButton type="button" aria-label="Bold" className={`toolbar-button ${isBold ? 'active' : ''}`} onClick={() => applyFormat('bold')}>Bold</AppButton>
-                            <AppButton type="button" aria-label="Italic" className={`toolbar-button ${isItalic ? 'active' : ''}`} onClick={() => applyFormat('italic')}>Italic</AppButton>
-                            <AppButton type="button" aria-label="Underline" className={`toolbar-button ${isUnderline ? 'active' : ''}`} onClick={() => applyFormat('underline')}>Underline</AppButton>
-                            <AppButton type="button" aria-label="Strikethrough" className={`toolbar-button ${isStrikethrough ? 'active' : ''}`} onClick={() => applyFormat('strikethrough')}>Strikethrough</AppButton>
-                        </div>
+                <div className='toolbar-actions'>
+                    <DropDown label="Format" active={isBold || isItalic || isUnderline}>
+                        <AppButton onClick={() => applyFormat('bold')} className={isBold ? 'active' : ''}>Bold</AppButton>
+                        <AppButton onClick={() => applyFormat('italic')} className={isItalic ? 'active' : ''}>Italic</AppButton>
+                        <AppButton onClick={() => applyFormat('underline')} className={isUnderline ? 'active' : ''}>Underline</AppButton>
+                        <AppButton onClick={() => applyFormat('strikethrough')} className={isStrikethrough ? 'active' : ''}>Strike</AppButton>
+                    </DropDown>
 
-                        <div className='button-group' role="group" aria-label="Text formatting">
-                            <AppButton type="button" aria-label="Align left" className={'toolbar-button'} onClick={() => applyAlign('left')}>Left</AppButton>
-                            <AppButton type="button" aria-label="Align center" className={'toolbar-button'} onClick={() => applyAlign('center')}>Center</AppButton>
-                            <AppButton type="button" aria-label="Align right" className={'toolbar-button'} onClick={() => applyAlign('right')}>Right</AppButton>
-                            <AppButton type="button" aria-label="Justify text" className={'toolbar-button'} onClick={() => applyAlign('justify')}>Justify</AppButton>
-                        </div>
-                    </div>
-                    <div className={`${UIstyles.divider} toolBar-divider`}><span></span></div>
-                    <div className='button-group-wrapper'>
-                        <div className='button-group' role="group" aria-label="Block types">
-                            <AppButton type="button" aria-label="Heading 1" className={`toolbar-button ${activeBlockType === 'h1' ? 'active' : ''}`} onClick={() => applyBlockType('h1')}>H1</AppButton>
-                            <AppButton type="button" aria-label="Heading 2" className={`toolbar-button ${activeBlockType === 'h2' ? 'active' : ''}`} onClick={() => applyBlockType('h2')}>H2</AppButton>
-                            <AppButton type="button" aria-label="Heading 3" className={`toolbar-button ${activeBlockType === 'h3' ? 'active' : ''}`} onClick={() => applyBlockType('h3')}>H3</AppButton>
-                            <AppButton type="button" aria-label="Paragraph" className={`toolbar-button ${activeBlockType === 'paragraph' ? 'active' : ''}`} onClick={() => applyBlockType('paragraph')}>Paragraph</AppButton>
-                        </div>
-                        <div className='button-group' role="group" aria-label="Text formatting">
-                            <AppButton type="button" aria-label="Quote" className={`toolbar-button ${activeBlockType === 'quote' ? 'active' : ''}`} onClick={() => applyBlockType('quote')}>Quote</AppButton>
-                            <ImageInsertButton />
-                            <AppButton type="button" aria-label="Undo" className={'toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>Undo</AppButton>
-                            <AppButton type="button" aria-label="Redo" className={'toolbar-button'} disabled={!canRedo} onClick={() => applyUndoRedo('redo')}>Redo</AppButton>
+                    <DropDown label="Layout">
+                        <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')}>Left</AppButton>
+                        <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')}>Center</AppButton>
+                        <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')}>Right</AppButton>
+                    </DropDown>
 
-                        </div>
+                    <DropDown label="Blocks" active={activeBlockType !== 'paragraph'}>
+                        <AppButton onClick={() => applyBlockType('h1')}>Heading 1</AppButton>
+                        <AppButton onClick={() => applyBlockType('h2')}>Heading 2</AppButton>
+                        <AppButton onClick={() => applyBlockType('paragraph')}>Paragraph</AppButton>
+                        <AppButton onClick={() => applyBlockType('quote')}>Quote</AppButton>
+                    </DropDown>
+
+                    <div className="button-group-mini">
+                        <ImageInsertButton />
+                        <AppButton disabled={!canUndo} onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}>⟲</AppButton>
+                        <AppButton disabled={!canRedo} onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}>⟳</AppButton>
                     </div>
                 </div>
-                <AppButton onClick={() => setCollapsed(!collapsed)} className={' nav-collapse-button'}>{collapsed ? "▼ Expand Navbar" : "▲ Collapse Navbar"}</AppButton>
-
-                <div className={`nav-container ${collapsed ? "collapsed" : ""}`}>
-                    <AppLink to='/home'>Home</AppLink>
-                    <AppLink to='/home/dashboard'>Dashboard</AppLink>
-
-                </div></>
-                :
-                <>
-                    <AppButton
-                        className="mobile-toggle-fab"
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    >
-                        {mobileMenuOpen ? "✕" : "✎"}
-                    </AppButton>
-
-                    <div className={`mobile-sidebar ${mobileMenuOpen ? "open" : ""}`}>
-                        <div className="mobile-sidebar-content">
-                            <h3>Editor Tools</h3>
-                            <div className="mobile-button-grid">
-                                <AppButton className={'mobile-toolbar-button ' + (isBold ? 'active' : '')} onClick={() => applyFormat('bold')}>B</AppButton>
-                                <AppButton className={'mobile-toolbar-button ' + (isItalic ? 'active' : '')} onClick={() => applyFormat('italic')}>I</AppButton>
-                                <AppButton className={'mobile-toolbar-button ' + (isUnderline ? 'active' : '')} onClick={() => applyFormat('underline')}>U</AppButton>
-                                <AppButton className={'mobile-toolbar-button'} onClick={() => applyBlockType('h1')}>H1</AppButton>
-                                <AppButton className={'mobile-toolbar-button'} onClick={() => applyBlockType('paragraph')}>P</AppButton>
-                                <AppButton className={'mobile-toolbar-button'} disabled={!canUndo} onClick={() => applyUndoRedo('undo')}>⟲</AppButton>
-                                <ImageInsertButton />
-
-                            </div>
-                            <hr />
-                            <div className="mobile-nav-links">
-                                <AppLink to='/home'>Home</AppLink>
-                                <AppLink to='/home/dashboard'>Dashboard</AppLink>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            }
+            </div>
         </div>
     );
 }
