@@ -23,89 +23,149 @@
 }
 
 .toolBar-container {
-  background-color: var(--color-surface);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 2px solid var(--color-border);
-  padding: 0.5rem 1rem;
+    background-color: var(--color-surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--color-accent);
+    padding: 0.75rem 1.5rem;
+}
+
+.toolBar-main-row {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
 }
 
 .toolbar-nav-group {
-  display: flex;
-  gap: 1rem;
-  border-right: 1px solid var(--color-border);
-  padding-right: 1rem;
-}
-
-.nav-link {
-  white-space: nowrap;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--color-text);
-  padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    border-right: 1px solid var(--color-border);
+    padding-right: 1.5rem;
 }
 
 .toolbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.toolbar-actions::-webkit-scrollbar {
+    display: none;
 }
 
 .dropdown-container {
-  position: relative;
+    position: relative;
 }
 
 .dropdown-button {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    height: 3.5rem; 
+    min-width: 9rem;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid var(--color-accent);
+    background-color: var(--color-surface);
+    color: var(--color-text);
 }
 
 .dropdown-button.active {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+    background-color: var(--color-light-accent);
+    box-shadow: 0 0px 10px var(--color-text-secondary);
+}
+
+.dropdown-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+.chevron {
+    font-size: 0.7rem;
+    opacity: 0.7;
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  min-width: 140px;
-  z-index: 1000;
-  border-radius: 4px;
-  padding: 4px;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 200;
+    backdrop-filter: blur(3px);
 }
 
 .dropdown-menu button {
-  text-align: left;
-  padding: 0.6rem 1rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .dropdown-menu button:hover {
-  background: var(--color-accent-light);
+    background-color: var(--color-light-accent);
+    color: var(--color-text);
+}
+
+.dropdown-menu button.active {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
 }
 
 .button-group-mini {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding-left: 1rem;
+    border-left: 1px solid var(--color-border);
+}
+
+.button-group-mini button {
+    height: 3.5rem;
+    width: 3.5rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .toolBar-main-row {
+        gap: 0.75rem;
+    }
+    
+    .dropdown-button {
+        min-width: 7rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .toolbar-nav-group {
+        padding-right: 0.75rem;
+    }
 }
 
 .underline {

@@ -3,11 +3,13 @@ import { $createParagraphNode, $getSelection, $isParagraphNode, $isRangeSelectio
 import { mergeRegister } from "@lexical/utils"
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { $setBlocksType } from '@lexical/selection'
-import "../../styles/editor.css"
 import { $createHeadingNode, $createQuoteNode, $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
 import ImageInsertButton from '../atoms/ImageInsertButton';
 import AppButton from '../atoms/AppButton';
 import AppLink from '../atoms/AppLink';
+import "../../styles/editor.css"
+import { $isElementNode } from 'lexical';
+
 
 const DropDown = ({ label, children, active }: { label: string; children: ReactNode; active?: boolean }) => {
     const [open, setOpen] = useState(false);
@@ -24,20 +26,22 @@ const DropDown = ({ label, children, active }: { label: string; children: ReactN
 function ToolBar() {
     const [editor] = useLexicalComposerContext();
     const [activeBlockType, setActiveBlockType] = useState('paragraph');
+    const [activeAlign, setActiveAlign] = useState('left');
     const [canUndo, setCanUndo] = useState(false);
     const [canRedo, setCanRedo] = useState(false);
     const [isBold, setIsBold] = useState(false);
     const [isItalic, setIsItalic] = useState(false);
     const [isUnderline, setIsUnderline] = useState(false);
     const [isStrikethrough, setIsStrikethrough] = useState(false);
-    
+
     const $updateToolbar = useCallback(() => {
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
             const nodes = selection.getNodes();
-            let blockType;
             for (const node of nodes) {
                 const parent = node.getTopLevelElementOrThrow();
+
+                let blockType;
                 if ($isHeadingNode(parent)) {
                     blockType = parent.getTag();
                 } else if ($isQuoteNode(parent)) {
@@ -45,9 +49,14 @@ function ToolBar() {
                 } else if ($isParagraphNode(parent)) {
                     blockType = 'paragraph';
                 }
+
                 setActiveBlockType(blockType ?? 'paragraph');
+                if ($isElementNode(parent)) {
+                    setActiveAlign(parent.getFormatType() || 'left');
+                }
                 break;
             }
+
             setIsBold(selection.hasFormat('bold'));
             setIsItalic(selection.hasFormat('italic'));
             setIsUnderline(selection.hasFormat('underline'));
@@ -92,41 +101,42 @@ function ToolBar() {
 
     return (
         <div className='toolBar-container'>
-            <div className='toolBar-main-row'>
-                <nav className="toolbar-nav-group">
-                    <AppLink to='/home' className="nav-link">Home</AppLink>
-                    <AppLink to='/home/dashboard' className="nav-link">Dashboard</AppLink>
-                </nav>
+            <nav className="toolbar-nav-group">
+                <AppLink to='/home' className="nav-link">Home</AppLink>
+                <AppLink to='/home/dashboard' className="nav-link">Dashboard</AppLink>
+            </nav>
 
-                <div className='toolbar-actions'>
-                    <DropDown label="Format" active={isBold || isItalic || isUnderline}>
-                        <AppButton onClick={() => applyFormat('bold')} className={isBold ? 'active' : ''}>Bold</AppButton>
-                        <AppButton onClick={() => applyFormat('italic')} className={isItalic ? 'active' : ''}>Italic</AppButton>
-                        <AppButton onClick={() => applyFormat('underline')} className={isUnderline ? 'active' : ''}>Underline</AppButton>
-                        <AppButton onClick={() => applyFormat('strikethrough')} className={isStrikethrough ? 'active' : ''}>Strike</AppButton>
-                    </DropDown>
+            <div className='toolbar-actions'>
+                <DropDown label="Format" active={isBold || isItalic || isUnderline || isStrikethrough}>
+                    <AppButton onClick={() => applyFormat('bold')} className={isBold ? 'active' : ''}>Bold</AppButton>
+                    <AppButton onClick={() => applyFormat('italic')} className={isItalic ? 'active' : ''}>Italic</AppButton>
+                    <AppButton onClick={() => applyFormat('underline')} className={isUnderline ? 'active' : ''}>Underline</AppButton>
+                    <AppButton onClick={() => applyFormat('strikethrough')} className={isStrikethrough ? 'active' : ''}>Strike</AppButton>
+                </DropDown>
 
-                    <DropDown label="Layout">
-                        <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')}>Left</AppButton>
-                        <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')}>Center</AppButton>
-                        <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')}>Right</AppButton>
-                    </DropDown>
+                <DropDown label="Layout" active={activeAlign !== 'left'}>
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')} className={activeAlign === 'left' ? 'active' : ''}>Left</AppButton>
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')} className={activeAlign === 'center' ? 'active' : ''}>Center</AppButton>
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')} className={activeAlign === 'right' ? 'active' : ''}>Right</AppButton>
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')} className={activeAlign === 'justify' ? 'active' : ''}>Justify</AppButton>
+                </DropDown>
 
-                    <DropDown label="Blocks" active={activeBlockType !== 'paragraph'}>
-                        <AppButton onClick={() => applyBlockType('h1')}>Heading 1</AppButton>
-                        <AppButton onClick={() => applyBlockType('h2')}>Heading 2</AppButton>
-                        <AppButton onClick={() => applyBlockType('paragraph')}>Paragraph</AppButton>
-                        <AppButton onClick={() => applyBlockType('quote')}>Quote</AppButton>
-                    </DropDown>
+                <DropDown label="Blocks" active={activeBlockType !== 'paragraph'}>
+                    <AppButton onClick={() => applyBlockType('h1')} className={activeBlockType === 'h1' ? 'active' : ''}>H1</AppButton>
+                    <AppButton onClick={() => applyBlockType('h2')} className={activeBlockType === 'h2' ? 'active' : ''}>H2</AppButton>
+                    <AppButton onClick={() => applyBlockType('h3')} className={activeBlockType === 'h3' ? 'active' : ''}>H3</AppButton>
+                    <AppButton onClick={() => applyBlockType('paragraph')} className={activeBlockType === 'paragraph' ? 'active' : ''}>Paragraph</AppButton>
+                    <AppButton onClick={() => applyBlockType('quote')} className={activeBlockType === 'quote' ? 'active' : ''}>Quote</AppButton>
+                </DropDown>
 
-                    <div className="button-group-mini">
-                        <ImageInsertButton />
-                        <AppButton disabled={!canUndo} onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}>⟲</AppButton>
-                        <AppButton disabled={!canRedo} onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}>⟳</AppButton>
-                    </div>
+                <div className="button-group-mini">
+                    <ImageInsertButton />
+                    <AppButton disabled={!canUndo} onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}>⟲</AppButton>
+                    <AppButton disabled={!canRedo} onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}>⟳</AppButton>
                 </div>
             </div>
         </div>
     );
 }
+
 export default ToolBar;
