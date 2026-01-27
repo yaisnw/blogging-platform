@@ -23,150 +23,100 @@
 }
 
 .toolBar-container {
-    background-color: var(--color-surface);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 2px solid var(--color-accent);
-    padding: 0.75rem 1.5rem;
+  background-color: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--color-accent);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .toolBar-main-row {
-    max-width: 1440px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1.5rem;
-}
-
-.toolbar-nav-group {
-    display: flex;
-    gap: 0.5rem;
-    border-right: 1px solid var(--color-border);
-    padding-right: 1.5rem;
-}
-
-.toolbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
-
-.toolbar-actions::-webkit-scrollbar {
-    display: none;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .dropdown-container {
-    position: relative;
+  position: relative;
+  /* This invisible padding bridges the gap so the menu doesn't close on hover */
+  padding-bottom: 10px;
+  margin-bottom: -10px;
 }
 
 .dropdown-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
-    height: 3.5rem; 
-    min-width: 9rem;
-    cursor: pointer;
-    border-radius: 6px;
-    padding: 1rem 1.5rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    border: 1px solid var(--color-accent);
-    background-color: var(--color-surface);
-    color: var(--color-text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  height: 3.5rem;
+  min-width: 9rem;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 1rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-accent);
+  background-color: var(--color-surface);
+  color: var(--color-text);
 }
 
 .dropdown-button.active {
-    background-color: var(--color-light-accent);
-    box-shadow: 0 0px 10px var(--color-text-secondary);
-}
-
-.dropdown-button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.05);
-}
-
-.chevron {
-    font-size: 0.7rem;
-    opacity: 0.7;
+  background-color: var(--color-light-accent);
+  box-shadow: 0 0px 10px var(--color-text-secondary);
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    min-width: 100%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    z-index: 200;
-    backdrop-filter: blur(3px);
+  position: absolute;
+  /* Positioned exactly where the container padding ends */
+  top: 100%;
+  left: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  z-index: 200;
+  backdrop-filter: blur(3px);
 }
 
+/* Ensure buttons inside menu inherit AppButton aesthetics but fit the list */
 .dropdown-menu button {
-    background: transparent;
-    border: none;
-    color: var(--color-text);
-    padding: 0.75rem 1rem;
-    text-align: left;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.dropdown-menu button:hover {
-    background-color: var(--color-light-accent);
-    color: var(--color-text);
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  height: auto;
 }
 
 .dropdown-menu button.active {
-    background-color: var(--color-accent);
-    color: var(--color-on-accent);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
 }
 
 .button-group-mini {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    padding-left: 1rem;
-    border-left: 1px solid var(--color-border);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding-left: 1rem;
+  border-left: 1px solid var(--color-border);
 }
 
-.button-group-mini button {
-    height: 3.5rem;
-    width: 3.5rem;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@media screen and (max-width: 768px) {
-    .toolBar-main-row {
-        gap: 0.75rem;
-    }
-    
-    .dropdown-button {
-        min-width: 7rem;
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
-
-    .toolbar-nav-group {
-        padding-right: 0.75rem;
-    }
-}
 
 .underline {
   text-decoration: underline;
@@ -383,23 +333,25 @@
     gap: 0.5rem;
     overflow-x: auto;
     padding-bottom: 5px;
+    scrollbar-width: none;
   }
 
-  .toolbar-nav-group {
-    padding-right: 0.5rem;
-  }
-
-  .dropdown-button {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
+  .toolBar-main-row::-webkit-scrollbar {
+    display: none;
   }
 
   .dropdown-menu {
-    position: fixed;
-    top: auto;
-    bottom: 60px;
-    left: 5%;
-    width: 90%;
+    position: absolute;
+    bottom: auto;
+    top: 100%;
+    left: 0;
+    width: 200px;
+  }
+
+  .dropdown-button {
+    min-width: 7rem;
+    height: 3rem;
+    padding: 0.5rem 1rem;
   }
 
   .editor {
