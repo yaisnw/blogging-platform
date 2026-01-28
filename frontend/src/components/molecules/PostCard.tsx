@@ -8,7 +8,6 @@ import { addDeletingPostIds, setPostId } from "@/slices/uiSlice";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
-import HeartButton from "../atoms/HeartButton";
 import { useNavigate } from "react-router";
 import AppLoader from "../atoms/AppLoader";
 import slugify from "slugify"
@@ -16,9 +15,7 @@ import AppButton from "../atoms/AppButton";
 import AppInput from "../atoms/AppInput";
 import AppLink from "../atoms/AppLink";
 import { motion } from "motion/react"
-import commentImage from '../../assets/comment.svg'
-import EditSVG from "../atoms/EditSVG";
-import ViewSVG from "../atoms/ViewSVG";
+import {ViewSVG, CommentSVG, EditSVG, HeartSVG} from "../atoms/Icons";
 
 type PostCardProps = {
     postId: number,
@@ -104,12 +101,12 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <div className={styles.engagementBox}>
                     <div className={styles.engagementContent}>
                         <AppParagraph>{likeCount}</AppParagraph>
-                        <HeartButton className={styles.postCardImage} liked={hasLiked} editable={false} />
+                        <HeartSVG className={styles.postCardImage} liked={hasLiked} editable={false} />
                     </div>
 
                     <div className={styles.engagementContent}>
                         {isLoading ? <AppLoader mode="mini" /> : <AppParagraph>{data?.comments.length ?? 0}</AppParagraph>}
-                        <AppImage className={styles.postCardImage} src={commentImage} alt="comment icon" />
+                        <CommentSVG className={styles.postCardImage} />
                     </div>
                 </div>
 

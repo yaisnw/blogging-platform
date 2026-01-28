@@ -87,7 +87,7 @@ function ImageInsertButton() {
     return (
         <div className="image-inputBox">
             <input id="imageUpload" className="image-input" type="file" accept="image/*" onChange={handleFileChange} />
-            <label className={`${UIstyles.appButton} ${UIstyles.primary} toolbar-button `} htmlFor="imageUpload" >
+            <label className={`${UIstyles.appButton} ${UIstyles.primary} addImage-button `} htmlFor="imageUpload" >
                 Add Image
             </label>
 

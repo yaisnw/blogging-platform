@@ -34,3 +34,7 @@
 .contactLinks:hover {
     transform: scale(1.05);
 }
+.contactIcon {
+    width: 3rem;
+    height: 3rem;
+}

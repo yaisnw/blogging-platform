@@ -10,12 +10,17 @@ import AppLink from '../atoms/AppLink';
 import "../../styles/editor.css"
 import { $isElementNode } from 'lexical';
 
+import { 
+    BoldSVG, ItalicSVG, UnderlineSVG, StrikeSVG,
+    AlignLeftSVG, AlignCenterSVG, AlignRightSVG, AlignJustifySVG,
+    H1SVG, H2SVG, H3SVG, ParagraphSVG, QuoteSVG
+} from '../atoms/Icons';
 
-const DropDown = ({ label, children, active }: { label: string; children: ReactNode; active?: boolean }) => {
+const DropDown = ({ label, children, }: { label: string; children: ReactNode; }) => {
     const [open, setOpen] = useState(false);
     return (
         <div className="dropdown-container" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
-            <button className={`dropdown-button ${active ? 'active' : ''}`}>
+            <button className='dropdown-button '>
                 {label} <span className="chevron">▼</span>
             </button>
             {open && <div className="dropdown-menu">{children}</div>}
@@ -107,26 +112,52 @@ function ToolBar() {
             </nav>
 
             <div className='toolbar-actions'>
-                <DropDown label="Format" active={isBold || isItalic || isUnderline || isStrikethrough}>
-                    <AppButton onClick={() => applyFormat('bold')} className={isBold ? 'active' : ''}>Bold</AppButton>
-                    <AppButton onClick={() => applyFormat('italic')} className={isItalic ? 'active' : ''}>Italic</AppButton>
-                    <AppButton onClick={() => applyFormat('underline')} className={isUnderline ? 'active' : ''}>Underline</AppButton>
-                    <AppButton onClick={() => applyFormat('strikethrough')} className={isStrikethrough ? 'active' : ''}>Strike</AppButton>
+                <DropDown label="Format">
+                    <AppButton onClick={() => applyFormat('bold')} className={isBold ? 'active' : ''}>
+                        <BoldSVG /> <span>Bold</span>
+                    </AppButton>
+                    <AppButton onClick={() => applyFormat('italic')} className={isItalic ? 'active' : ''}>
+                        <ItalicSVG /> <span>Italic</span>
+                    </AppButton>
+                    <AppButton onClick={() => applyFormat('underline')} className={isUnderline ? 'active' : ''}>
+                        <UnderlineSVG /> <span>Underline</span>
+                    </AppButton>
+                    <AppButton onClick={() => applyFormat('strikethrough')} className={isStrikethrough ? 'active' : ''}>
+                        <StrikeSVG /> <span>Strike</span>
+                    </AppButton>
                 </DropDown>
 
-                <DropDown label="Layout" active={activeAlign !== 'left'}>
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')} className={activeAlign === 'left' ? 'active' : ''}>Left</AppButton>
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')} className={activeAlign === 'center' ? 'active' : ''}>Center</AppButton>
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')} className={activeAlign === 'right' ? 'active' : ''}>Right</AppButton>
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')} className={activeAlign === 'justify' ? 'active' : ''}>Justify</AppButton>
+                <DropDown label="Layout">
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')} className={activeAlign === 'left' ? 'active' : ''}>
+                        <AlignLeftSVG /> <span>Left</span>
+                    </AppButton>
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')} className={activeAlign === 'center' ? 'active' : ''}>
+                        <AlignCenterSVG /> <span>Center</span>
+                    </AppButton>
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')} className={activeAlign === 'right' ? 'active' : ''}>
+                        <AlignRightSVG /> <span>Right</span>
+                    </AppButton>
+                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')} className={activeAlign === 'justify' ? 'active' : ''}>
+                        <AlignJustifySVG /> <span>Justify</span>
+                    </AppButton>
                 </DropDown>
 
-                <DropDown label="Blocks" active={activeBlockType !== 'paragraph'}>
-                    <AppButton onClick={() => applyBlockType('h1')} className={activeBlockType === 'h1' ? 'active' : ''}>H1</AppButton>
-                    <AppButton onClick={() => applyBlockType('h2')} className={activeBlockType === 'h2' ? 'active' : ''}>H2</AppButton>
-                    <AppButton onClick={() => applyBlockType('h3')} className={activeBlockType === 'h3' ? 'active' : ''}>H3</AppButton>
-                    <AppButton onClick={() => applyBlockType('paragraph')} className={activeBlockType === 'paragraph' ? 'active' : ''}>Paragraph</AppButton>
-                    <AppButton onClick={() => applyBlockType('quote')} className={activeBlockType === 'quote' ? 'active' : ''}>Quote</AppButton>
+                <DropDown label="Blocks">
+                    <AppButton onClick={() => applyBlockType('h1')} className={activeBlockType === 'h1' ? 'active' : ''}>
+                        <H1SVG /> <span>Heading 1</span>
+                    </AppButton>
+                    <AppButton onClick={() => applyBlockType('h2')} className={activeBlockType === 'h2' ? 'active' : ''}>
+                        <H2SVG /> <span>Heading 2</span>
+                    </AppButton>
+                    <AppButton onClick={() => applyBlockType('h3')} className={activeBlockType === 'h3' ? 'active' : ''}>
+                        <H3SVG /> <span>Heading 3</span>
+                    </AppButton>
+                    <AppButton onClick={() => applyBlockType('paragraph')} className={activeBlockType === 'paragraph' ? 'active' : ''}>
+                        <ParagraphSVG /> <span>Paragraph</span>
+                    </AppButton>
+                    <AppButton onClick={() => applyBlockType('quote')} className={activeBlockType === 'quote' ? 'active' : ''}>
+                        <QuoteSVG /> <span>Quote</span>
+                    </AppButton>
                 </DropDown>
 
                 <div className="button-group-mini">

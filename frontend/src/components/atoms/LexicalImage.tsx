@@ -4,11 +4,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getNodeByKey } from "lexical";
 import { $isImageNode } from "@/lexicalCustom/ImageNode";
 import { useDeleteImageMutation } from "@/services/picturesApi";
-import LeftArrow from "./LeftArrow";
-import CenterArrow from "./CenterArrow";
-import RightArrow from "./RightArrow";
-import CrossButton from "./CrossButton";
-import ResizeButton from "./ResizeButton";
+import { CrossSVG, ResizeSVG, LeftArrowSVG, CenterArrowSVG, RightArrowSVG } from "../atoms/Icons";
 import AppLoader from "./AppLoader";
 import { useUpdatePostMutation } from "@/services/postsApi";
 import { useSelector } from "react-redux";
@@ -190,18 +186,18 @@ const isSafeSrc = src.startsWith('http') || src.startsWith('/') || src.startsWit
         }} />
         {isSelected && (
           <div >
-            <div className="delete-handle" onClick={handleDelete}><CrossButton /></div>
+            <div className="delete-handle" onClick={handleDelete}><CrossSVG /></div>
             <div
               className="resize-handle"
               onMouseDown={(e) => handleResizeStart(e.clientX)}
               onTouchStart={(e) => handleResizeStart(e.touches[0].clientX)}
             >
-              <ResizeButton />
+              <ResizeSVG />
             </div>
             <div className="alignment-buttons">
-              <button onClick={() => handleAlignmentChange('left')}><LeftArrow /></button>
-              <button onClick={() => handleAlignmentChange('center')}><CenterArrow /></button>
-              <button onClick={() => handleAlignmentChange('right')}><RightArrow /></button>
+              <button onClick={() => handleAlignmentChange('left')}><LeftArrowSVG /></button>
+              <button onClick={() => handleAlignmentChange('center')}><CenterArrowSVG /></button>
+              <button onClick={() => handleAlignmentChange('right')}><RightArrowSVG /></button>
             </div>
           </div>
         )}
