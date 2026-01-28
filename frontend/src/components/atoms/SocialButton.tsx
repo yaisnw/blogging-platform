@@ -5,10 +5,10 @@ import UIstyles from "@/styles/ui.module.css";
 type SocialButtonProps = {
   href: string;
   label: string;
-  children: React.ReactNode; // This will be your SVG path
+  Icon: React.ElementType; 
 };
 
-const SocialButton = ({ href, label, children }: SocialButtonProps) => {
+const SocialButton = ({ href, label, Icon }: SocialButtonProps) => {
   return (
     <AppLink 
       className={styles.socialLink} 
@@ -21,9 +21,8 @@ const SocialButton = ({ href, label, children }: SocialButtonProps) => {
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor" 
-        fillRule="evenodd"
       >
-        {children}
+        <Icon />
       </svg>
       <span>{label}</span>
     </AppLink>

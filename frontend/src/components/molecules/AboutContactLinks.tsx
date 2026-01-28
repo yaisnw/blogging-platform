@@ -1,25 +1,25 @@
-import AppParagraph from "../atoms/AppParagraph";
-import AppLink from "../atoms/AppLink";
-import UIstyles from "@/styles/ui.module.css"
+import { LinkedInSVG, GithubSVG } from "../atoms/Icons";
+import SocialButton from "../atoms/SocialButton";
 import styles from "@/styles/about.module.css"
-import { GithubSVG, LinkedInSVG } from "../atoms/Icons";
 
 const AboutContactLinks = () => (
-  <article >
-    <AppParagraph className={styles.aboutEmail}>
-      Want to get in touch? Reach me at:
-      <br />
-      <AppLink to="mailto:eliteyasin1@gmail.com">
-        eliteyasin1@gmail.com
-      </AppLink>
-    </AppParagraph>
-    <div className={UIstyles.divider}><span>or</span></div>
+  <article>
+    {/* ... email section ... */}
+    
     <div className={styles.linksContainer}>
-
-      <LinkedInSVG className={styles.contactIcon} />
-      <GithubSVG className={styles.contactIcon} />
+      <SocialButton 
+        label="LinkedIn" 
+        href="https://www.linkedin.com/..." 
+        Icon={LinkedInSVG} 
+      />
+      
+      <SocialButton 
+        label="Github" 
+        href="https://github.com/..." 
+        Icon={GithubSVG} 
+      />
     </div>
   </article>
 );
 
-export default AboutContactLinks;
+export default AboutContactLinks
