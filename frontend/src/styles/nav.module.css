@@ -96,7 +96,7 @@
     flex: 1;
 }
 
-.searchButton {
+.searchIcon {
     display: flex;
     align-items: center;
     cursor: pointer;

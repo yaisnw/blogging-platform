@@ -37,7 +37,7 @@ const SearchBar = () => {
         />
 
       </div>
-      <SearchSVG onClick={() => navigate("/home/search")} />
+      <SearchSVG className={styles.searchIcon} onClick={() => navigate("/home/search")} />
     </form>
   );
 }
