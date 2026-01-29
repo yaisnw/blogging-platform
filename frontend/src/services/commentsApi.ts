@@ -59,35 +59,36 @@ export const commentsApi = createApi({
         body,
       }),
       async onQueryStarted({ postId, content }, { dispatch, getState, queryFulfilled }) {
-  const state = getState() as RootState; 
-  const currentUser = state.auth.user; 
+        const state = getState() as RootState;
+        const currentUser = state.auth.user;
 
-  const patchResult = dispatch(
-    postsApi.util.updateQueryData(
-      'getPostDetails',
-      { postId, page: 1, limit: 10 },
-      (draft) => {
-        const optimisticComment: comment = {
-          id: Date.now(), 
-          content,
-          postId,
-          createdAt: new Date().toISOString(),
-          User: { 
-            username: currentUser?.username || "Me", 
-            avatar_url: currentUser?.avatar_url || "" 
-          },
-        };
-        draft.comments.unshift(optimisticComment);
+        const patchResult = dispatch(
+          postsApi.util.updateQueryData(
+            'getPostDetails',
+            { postId, page: 1, limit: 10 },
+            (draft) => {
+              const optimisticComment: comment = {
+                id: Date.now(),
+                content,
+                postId,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                User: {
+                  username: currentUser?.username || "Me",
+                  avatar_url: currentUser?.avatar_url || ""
+                },
+              };
+              draft.comments.unshift(optimisticComment);
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
       }
-    )
-  );
-  
-  try {
-    await queryFulfilled;
-  } catch {
-    patchResult.undo();
-  }
-}
     }),
 
     editComment: build.mutation<{ message: string }, { commentId: number; content: string; postId: number }>({
@@ -96,7 +97,10 @@ export const commentsApi = createApi({
         const patchResult = dispatch(
           postsApi.util.updateQueryData('getPostDetails', { postId, ...CACHE_KEY }, (draft) => {
             const comment = draft.comments.find((c) => c.id === commentId);
-            if (comment) comment.content = content;
+            if (comment) {
+              comment.content = content;
+              comment.updatedAt = new Date().toISOString();
+            }
           })
         );
         try {

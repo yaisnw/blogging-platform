@@ -30,9 +30,9 @@ const PostViewerPage = () => {
         skip: !id,
     });
 
-    const [editComment, { isError: editCommentError }] = useEditCommentMutation();
-    const [deleteComment, { isError: deleteCommentError }] = useDeleteCommentMutation();
-    const [addComment, { isError: submitCommentError }] = useAddCommentMutation();
+    const [editComment] = useEditCommentMutation();
+    const [deleteComment] = useDeleteCommentMutation();
+    const [addComment] = useAddCommentMutation();
     const [addLike] = useAddLikeMutation();
     const [removeLike] = useRemoveLikeMutation();
 
@@ -112,8 +112,6 @@ const PostViewerPage = () => {
     let commentsSection;
     if (isLoading) {
         commentsSection = Array.from({ length: 3 }).map((_, i) => <CommentSkeleton key={i} />);
-    } else if (editCommentError || deleteCommentError || submitCommentError) {
-        commentsSection = <ErrorState mode="normal" message="Failed to update comments." />;
     } else if (!comments || comments.length === 0) {
         commentsSection = <ErrorState mode="normal" message="There are no comments on this post" />;
     } else {

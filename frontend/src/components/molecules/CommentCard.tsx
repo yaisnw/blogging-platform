@@ -46,7 +46,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
     const location = useLocation();
     const { pathname } = location;
     const isOnProfilePage = pathname.startsWith('/home/profile');
-    const {id} = useSelector((state: RootState) => state.auth.user);
+    const { id } = useSelector((state: RootState) => state.auth.user);
     const isAuthor = authorId === id;
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState(content)
@@ -57,17 +57,21 @@ const CommentCard: React.FC<CommentCardProps> = ({
         dispatch(setDraftTitle(postTitle ?? ""))
     }
 
-    const formattedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    const safeDate = (dateStr: string) => {
+        const d = new Date(dateStr);
+        return isNaN(d.getTime()) ? null : d;
+    };
 
-    const formattedUpdatedAt = new Date(updatedAt).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    const dateCreated = safeDate(createdAt);
+    const dateUpdated = safeDate(updatedAt);
+
+    const formattedCreatedAt = dateCreated
+        ? dateCreated.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+        : "Loading date...";
+
+    const formattedUpdatedAt = dateUpdated
+        ? dateUpdated.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+        : "";
     return (
         <motion.article
             initial={{ opacity: 0, scale: 1.1 }}
@@ -80,7 +84,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
                     {!isOnProfilePage ? <AppLink to={`/home/profile/${authorId}`} onClick={() => handlePostClick(authorId ?? 0)} className={styles.username} id={`comment-${commentId}-author`}>{username}</AppLink> :
                         <h3 id={`comment-${commentId}-author`}>{username}</h3>}
                 </div>
-               {isOnProfilePage &&  <AppLink to={`/home/posts/${postId}/${slug}`} onClick={() => handlePostClick(postId ?? 0)} >Go To Post</AppLink>}
+                {isOnProfilePage && <AppLink to={`/home/posts/${postId}/${slug}`} onClick={() => handlePostClick(postId ?? 0)} >Go To Post</AppLink>}
             </header>
 
             <div className={styles.commentBody}>
@@ -117,15 +121,17 @@ const CommentCard: React.FC<CommentCardProps> = ({
             </div>
 
             <footer className={styles.footer}>
-                <time className={styles.commentDate} dateTime={new Date(createdAt).toISOString()}>
-                    {formattedCreatedAt}
-                </time>
-                {createdAt !== updatedAt && (
-                    <time className={styles.commentDate} dateTime={new Date(updatedAt).toISOString()}>
+                {dateCreated && (
+                    <time className={styles.commentDate} dateTime={dateCreated.toISOString()}>
+                        {formattedCreatedAt}
+                    </time>
+                )}
+                {dateUpdated && createdAt !== updatedAt && (
+                    <time className={styles.commentDate} dateTime={dateUpdated.toISOString()}>
                         Edited: {formattedUpdatedAt}
                     </time>
                 )}
-                { !isOnProfilePage && isAuthor && editComment && deleteComment && (
+                {!isOnProfilePage && isAuthor && editComment && deleteComment && (
                     <div className={styles.commentActions}>
                         <AppButton type="button" onClick={() => setIsEditing(true)}>Edit</AppButton>
                         <AppButton type="button" onClick={() => deleteComment(commentId)}>Delete</AppButton>
