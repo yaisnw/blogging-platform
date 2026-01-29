@@ -22,8 +22,8 @@ type CommentCardProps = {
     username: string,
     authorId?: number,
     avatar_url: string,
-    createdAt: Date,
-    updatedAt: Date,
+    createdAt: string,
+    updatedAt: string,
     editComment?: (commentContent: string, commentId: number) => Promise<void>,
     deleteComment?: (commentId: number) => Promise<void>
 } & React.HTMLProps<HTMLDivElement>;

@@ -43,8 +43,8 @@ export interface comment {
     Post?: {
         title: string,
     },
-    createdAt: Date,
-    updatedAt?: Date
+    createdAt: string,
+    updatedAt?: string
 }
 export type PostDetailsResponse = {
     post: blogPost;

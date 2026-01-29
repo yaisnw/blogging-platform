@@ -68,10 +68,10 @@ export const commentsApi = createApi({
       { postId, page: 1, limit: 10 },
       (draft) => {
         const optimisticComment: comment = {
-          id: Date.now(), // Temp ID
+          id: Date.now(), 
           content,
           postId,
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
           User: { 
             username: currentUser?.username || "Me", 
             avatar_url: currentUser?.avatar_url || "" 
