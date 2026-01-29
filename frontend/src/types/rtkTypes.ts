@@ -33,18 +33,18 @@ export interface blogPost {
 }
 export interface comment {
     id: number,
-    authorId: number,
+    authorId?: number,
     postId: number,
     content: string,
-    User: {
+    User?: {
         username: string,
         avatar_url: string
     },
-    Post: {
+    Post?: {
         title: string,
     },
     createdAt: Date,
-    updatedAt: Date
+    updatedAt?: Date
 }
 export type PostDetailsResponse = {
     post: blogPost;
