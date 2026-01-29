@@ -144,7 +144,7 @@ const ProfilePage = () => {
         return (
             <>
                 {commentsResponse?.comments.map((comment: comment) => (
-                    <CommentCard key={comment.id} postTitle={comment.Post.title} postId={comment.postId} commentId={comment.id} content={comment.content} username={comment.User.username} authorId={comment.authorId} avatar_url={comment.User.avatar_url} createdAt={comment.createdAt} updatedAt={comment.updatedAt} />
+                    <CommentCard key={comment.id} postTitle={comment.Post!.title} postId={comment.postId} commentId={comment.id} content={comment.content} username={comment.User!.username} authorId={comment.authorId} avatar_url={comment.User!.avatar_url} createdAt={comment.createdAt} updatedAt={comment.updatedAt!} />
                 ))}
                 {totalCommentPages > 1 && (
                     <div className={styles.paginationWrapper}>
