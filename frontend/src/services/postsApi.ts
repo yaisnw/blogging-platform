@@ -1,20 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { blogPost, PostDetailsResponse } from "../types/rtkTypes";
-const BASE_URL = import.meta.env.VITE_BASE_URL
+import { baseApi } from "./baseApi";
 
-export const postsApi = createApi({
-    reducerPath: 'postsApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${BASE_URL}/post`,
-        prepareHeaders: (headers) => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`);
-            }
-            return headers;
-        }
-    }),
-    tagTypes: ['Posts', 'Post', 'Comments'],
+export const postsApi = baseApi.injectEndpoints({
+    overrideExisting: false,
     endpoints: (build) => ({
         getMyPosts: build.query<
             { posts: blogPost[]; message: string; author: string; totalCount: number },

@@ -1,18 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { comment } from "../types/rtkTypes";
+import { baseApi } from "./baseApi";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-export const commentsApi = createApi({
-  reducerPath: "commentsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/comment`,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) headers.set("Authorization", `Bearer ${token}`);
-      return headers;
-    },
-  }),
-  tagTypes: ["Comments", "Comment", "Posts", "Post"], 
+export const commentsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getCommentsByPostId: build.query<
       { comments: comment[]; totalCount: number },

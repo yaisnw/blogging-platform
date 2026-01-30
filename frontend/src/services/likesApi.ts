@@ -1,20 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { postsApi } from "./postsApi";
-const BASE_URL = import.meta.env.VITE_BASE_URL
+import { baseApi } from "./baseApi";
 
-export const likesApi = createApi({
-  reducerPath: "likesApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/like`,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      return headers;
-    }
-  }),
-  tagTypes: ["Likes"],
+export const likesApi = baseApi.injectEndpoints({
+  
   endpoints: (build) => ({
     addLike: build.mutation<void, number>({
       query: (postId) => ({ url: `/${postId}/like`, method: 'POST' }),
