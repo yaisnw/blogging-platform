@@ -27,6 +27,7 @@ export interface blogPost {
         avatar_url: string
     }
     likeCount: number,
+    commentCount: number,
     hasLiked: boolean,
     createdAt: string,
     updatedAt: string,

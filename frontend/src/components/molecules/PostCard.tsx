@@ -7,9 +7,7 @@ import { useAppDispatch } from "@/hooks";
 import { addDeletingPostIds, setPostId } from "@/slices/uiSlice";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
-import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
 import { useNavigate } from "react-router";
-import AppLoader from "../atoms/AppLoader";
 import slugify from "slugify"
 import AppButton from "../atoms/AppButton";
 import AppInput from "../atoms/AppInput";
@@ -21,6 +19,7 @@ type PostCardProps = {
     postId: number,
     title: string,
     likeCount: number,
+    commentCount: number,
     hasLiked: boolean,
     createdAt: string,
     updatedAt: string,
@@ -32,11 +31,10 @@ type PostCardProps = {
     isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, commentCount, hasLiked, createdAt, updatedAt, status, isDeleting }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
-    const { data, isLoading } = useGetCommentsByPostIdQuery({ postId, page: 1, limit: 1 });
     const createdDate = new Date(createdAt);
     const updatedDate = new Date(updatedAt);
 
@@ -105,7 +103,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                     </div>
 
                     <div className={styles.engagementContent}>
-                        {isLoading ? <AppLoader mode="mini" /> : <AppParagraph>{data?.comments.length ?? 0}</AppParagraph>}
+                        {commentCount === 0 ? <AppParagraph>0</AppParagraph> : <AppParagraph>{commentCount}</AppParagraph>}
                         <CommentSVG className={styles.postCardImage} />
                     </div>
                 </div>

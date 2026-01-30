@@ -64,6 +64,7 @@ const PublicPostsPage = () => {
                         postId={post.id}
                         title={post.title}
                         likeCount={post.likeCount}
+                        commentCount={post.commentCount}
                         hasLiked={post.hasLiked}
                         createdAt={post.createdAt}
                         updatedAt={post.updatedAt}
