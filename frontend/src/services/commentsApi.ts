@@ -48,7 +48,6 @@ export const commentsApi = createApi({
         method: "POST",
         body,
       }),
-      // Destructure 'postId' from the second argument (arg)
       invalidatesTags: (_result, _error, { postId }) => [
         { type: "Comments", id: `POST-${postId}` },
         { type: "Post", id: postId },

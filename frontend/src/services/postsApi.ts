@@ -14,7 +14,7 @@ export const postsApi = createApi({
             return headers;
         }
     }),
-    tagTypes: ['Posts', 'Post'],
+    tagTypes: ['Posts', 'Post', 'Comments'],
     endpoints: (build) => ({
         getMyPosts: build.query<
             { posts: blogPost[]; message: string; author: string; totalCount: number },
@@ -75,8 +75,12 @@ export const postsApi = createApi({
             query: ({ postId, page, limit }) => `/details/${postId}?page=${page}&limit=${limit}`,
             providesTags: (result, _error, { postId }) =>
                 result
-                    ? [{ type: "Post", id: postId }, { type: "Posts", id: postId }]
-                    : [],
+                    ? [
+                        { type: "Post", id: postId },
+                        { type: "Posts", id: postId },
+                        { type: "Comments", id: `POST-${postId}` } 
+                    ]
+                    : [{ type: "Comments", id: `POST-${postId}` }], 
         }),
         searchPosts: build.query<{ posts: blogPost[]; message: string }, string>({
             query: (searchTerm) => `/search?q=${encodeURIComponent(searchTerm)}`,

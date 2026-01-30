@@ -107,6 +107,10 @@
     transition: all 0.2s ease;
     width: 100%;
     height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .dropdown-menu button.active {
