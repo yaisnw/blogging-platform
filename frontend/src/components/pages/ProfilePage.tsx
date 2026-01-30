@@ -115,7 +115,7 @@ const ProfilePage = () => {
             return (
                 <>
                     {postsResponse?.posts.map((post: blogPost) => (
-                        <PostCard key={post.id} postId={post.id} title={post.title} likeCount={post.likeCount} hasLiked={post.hasLiked} createdAt={post.createdAt} updatedAt={post.updatedAt} status={post.status} author={activeUser?.username} authorId={activeUser?.id} avatar_url={activeUser?.avatar_url} />
+                        <PostCard key={post.id} postId={post.id} title={post.title} likeCount={post.likeCount} commentCount={post.commentCount} hasLiked={post.hasLiked} createdAt={post.createdAt} updatedAt={post.updatedAt} status={post.status} author={activeUser?.username} authorId={activeUser?.id} avatar_url={activeUser?.avatar_url} />
                     ))}
                     {totalPostPages > 1 && (
                         <div className={styles.paginationWrapper}>

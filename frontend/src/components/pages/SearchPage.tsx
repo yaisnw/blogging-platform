@@ -59,6 +59,7 @@ const SearchPage = () => {
                         postId={post.id}
                         title={post.title || "This is an incomplete draft."}
                         likeCount={post.likeCount}
+                        commentCount={post.commentCount}
                         hasLiked={post.hasLiked}
                         createdAt={post.createdAt}
                         updatedAt={post.updatedAt}
