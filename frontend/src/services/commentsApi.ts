@@ -2,12 +2,13 @@ import type { comment } from "../types/rtkTypes";
 import { baseApi } from "./baseApi";
 
 export const commentsApi = baseApi.injectEndpoints({
+  overrideExisting: false,
   endpoints: (build) => ({
     getCommentsByPostId: build.query<
       { comments: comment[]; totalCount: number },
       { postId: number; page: number; limit: number }
     >({
-      query: ({ postId, page, limit }) => `/post/${postId}?page=${page}&limit=${limit}`,
+      query: ({ postId, page, limit }) => `/comment/post/${postId}?page=${page}&limit=${limit}`,
       providesTags: (result, _, { postId }) =>
         result
           ? [
@@ -21,7 +22,7 @@ export const commentsApi = baseApi.injectEndpoints({
       { comments: comment[]; totalCount: number },
       { authorId: number; page: number; limit: number }
     >({
-      query: ({ authorId, page, limit }) => `/author/${authorId}?page=${page}&limit=${limit}`,
+      query: ({ authorId, page, limit }) => `/comment/author/${authorId}?page=${page}&limit=${limit}`,
       providesTags: (result, _, { authorId }) =>
         result
           ? [
@@ -33,7 +34,7 @@ export const commentsApi = baseApi.injectEndpoints({
 
     addComment: build.mutation<comment, { postId: number; content: string }>({
       query: (body) => ({
-        url: "/",
+        url: "/comment",
         method: "POST",
         body,
       }),
@@ -46,7 +47,7 @@ export const commentsApi = baseApi.injectEndpoints({
     }),
 
     editComment: build.mutation<{ message: string }, { commentId: number; content: string; postId: number }>({
-      query: ({ commentId, content }) => ({ url: `/${commentId}`, method: "PUT", body: { content } }),
+      query: ({ commentId, content }) => ({ url: `/comment/${commentId}`, method: "PUT", body: { content } }),
       invalidatesTags: (_result, _error, { commentId, postId }) => [
         { type: "Comment", id: commentId },
         { type: "Comments", id: `POST-${postId}` }
@@ -54,7 +55,7 @@ export const commentsApi = baseApi.injectEndpoints({
     }),
 
     deleteComment: build.mutation<{ message: string }, { commentId: number; postId: number }>({
-      query: ({ commentId }) => ({ url: `/${commentId}`, method: "DELETE" }),
+      query: ({ commentId }) => ({ url: `/comment/${commentId}`, method: "DELETE" }),
       invalidatesTags: (_result, _error, { postId }) => [
         { type: "Comments", id: `POST-${postId}` },
         { type: "Post", id: postId },

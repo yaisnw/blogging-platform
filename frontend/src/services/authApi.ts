@@ -2,6 +2,7 @@ import { baseApi } from "./baseApi";
 import type { responseUser, signUpUser, logInUser } from "../types/rtkTypes";
 
 export const authApi = baseApi.injectEndpoints({
+    overrideExisting: false,
     endpoints: (build) => ({
         signUpUser: build.mutation<void, signUpUser>({
             query: (body) => ({
