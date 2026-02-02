@@ -14,6 +14,7 @@ import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
 import { PlainTextFromEditorState } from "@/utils/PlainTextFromEditorState";
 import PostViewer from "../organisms/PostViewer";
+import AppLoader from "../atoms/AppLoader";
 
 const PostViewerPage = () => {
     const [liked, setLiked] = useState(false);
@@ -32,7 +33,7 @@ const PostViewerPage = () => {
 
     const [editComment] = useEditCommentMutation();
     const [deleteComment] = useDeleteCommentMutation();
-    const [addComment] = useAddCommentMutation();
+    const [addComment, { isLoading: isAddingComment }] = useAddCommentMutation();
     const [addLike] = useAddLikeMutation();
     const [removeLike] = useRemoveLikeMutation();
 
@@ -138,6 +139,7 @@ const PostViewerPage = () => {
                 description={post?.content ? PlainTextFromEditorState(post.content).slice(0, 150) : 'View any post'}
                 author={post?.User.username || ''}
             />
+            {isAddingComment && <AppLoader mode="page" />}
             <PostViewerTemplate
                 header={
                     isLoading ? (

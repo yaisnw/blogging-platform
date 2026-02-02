@@ -216,14 +216,14 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({
                         <div className={styles.editingFieldset}>
                             <AuthField
                                 name="username"
-                                label="Enter your username:"
+                                placeholder="Enter your username"
                                 autoComplete="username"
                                 value={formData.username || ""}
                                 onChange={handleTextInputChange}
                             />
                             <AuthField
                                 name="email"
-                                label="Enter your email:"
+                                placeholder="Enter your email"
                                 type="email"
                                 autoComplete="email"
                                 value={formData.email || ""}

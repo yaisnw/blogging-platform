@@ -138,7 +138,7 @@ export const GoogleSVG: React.FC<IconProps> = (p) => (
 );
 
 export const LinkedInSVG: React.FC<IconProps> = (p) => (
-    <svg {...p} width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zM.02 21h4.96V7H.02v14zm17.11-14c-2.47 0-4.19 1.356-4.83 2.56V7H7.44v14h4.96v-7.84c0-2.1 1.05-3.41 2.87-3.41 1.71 0 2.54 1.16 2.54 3.01V21H22.77v-8.49c0-4.11-2.22-5.51-5.64-5.51z" fill="#0A66C2" /></svg>
+    <svg {...p} width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zM.02 21h4.96V7H.02v14zm17.11-14c-2.47 0-4.19 1.356-4.83 2.56V7H7.44v14h4.96v-7.84c0-2.1 1.05-3.41 2.87-3.41 1.71 0 2.54 1.16 2.54 3.01V21H22.77v-8.49c0-4.11-2.22-5.51-5.64-5.51z" fill="currentColor" /></svg>
 );
 
 export const SearchSVG: React.FC<IconProps> = (p) => (

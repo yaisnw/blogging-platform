@@ -109,12 +109,20 @@
     gap: 1rem;
 }
 
+
 .userInfoBox {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
     justify-content: center;
     text-align: center;
     color: var(--color-text-secondary);
+}
+.userInfoBox p {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    gap: 2rem;
 }
 
 .userName {
@@ -160,6 +168,7 @@
 
 .userPostCardBox {
     margin: 5rem auto;
+    width: 70%;
 }
 @media  screen and (max-width: 1024px) {
     .profileCard,
