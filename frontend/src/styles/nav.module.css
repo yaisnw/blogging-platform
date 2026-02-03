@@ -10,26 +10,25 @@
     position: sticky;
     top: 0;
     z-index: 2000;
-    max-width: 100vw;
+    width: 100%;
 }
 
 .navContent {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: clamp(1rem, 2vw, 2rem);
     width: 100%;
     height: 100%;
 }
 
 .nav1 {
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    display: flex;
     align-items: center;
     justify-content: center;
-    column-gap: 2rem;
-    font-size: 1.5rem;
+    gap: clamp(0.5rem, 1.5vw, 2rem);
+    font-size: clamp(1rem, 1.2vw, 1.5rem);
     height: 100%;
     flex: 1;
 }
@@ -42,79 +41,53 @@
     cursor: pointer;
     background-color: var(--color-surface);
     color: var(--color-text);
-    padding: 0;
-    align-content: center;
-    text-align: center;
     font-weight: 400;
     height: 100%;
+    padding: 0 1rem;
     text-decoration: none;
     border: none;
-    border-radius: 5px;
-    will-change: font-weight;
     transition: all 0.3s ease;
     white-space: nowrap;
-    overflow: hidden;
     position: relative;
     z-index: 1;
-    will-change: transform, box-shadow, font-weight, border;
+    will-change: transform, background-color, color;
 }
 
 .navButton:hover {
     background-color: var(--color-accent);
     color: var(--color-on-accent);
-    box-shadow: 0px -5px 10px 5px var(--color-light-accent);
-    border: none;
     z-index: 100;
 }
 
-.nav1>.navButton:first-child:hover {
-    transform-origin: 0% 50%;
-}
-
 .searchBar {
-    width: 35%;
+    width: clamp(200px, 35%, 500px);
     position: relative;
     display: flex;
     justify-content: center;
-    align-self: center;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .searchBar input {
     width: 100%;
     background-color: var(--color-bg);
-    font-size: x-large;
-    padding: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    padding: 0.75rem 1rem;
     box-sizing: border-box;
     border: 1px solid var(--color-border);
-}
-
-
-.inputWrapper {
-    position: relative;
-    flex: 1;
+    border-radius: 4px;
 }
 
 .searchIcon {
-    display: flex;
-    align-items: center;
     cursor: pointer;
-    border: none;
-    transition: all 0.3s ease;
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-    vertical-align: middle;
+    transition: transform 0.3s ease;
+    width: clamp(30px, 3vw, 45px);
+    height: auto;
     color: var(--color-text);
 }
 
-
-.searchButton:hover {
-    scale: 1.1;
-    rotate: 10deg;
-    cursor: pointer;
-
+.searchIcon:hover {
+    transform: scale(1.1) rotate(10deg);
 }
 
 .hamburgerWrapper {
@@ -122,8 +95,8 @@
 }
 
 .hamburger {
-    display: none;
     cursor: pointer;
+    display: flex;
     flex-direction: column;
     gap: 5px;
     padding: 10px;
@@ -137,109 +110,24 @@
     transition: all 0.3s ease;
 }
 
-.hamburger span.barOpen:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger span.barOpen:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-
-.hamburger span.barOpen:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
-
-
-.mobileAlertButton {
-    display: none;
-}
-
-
-@media screen and (max-width: 1440px) {
-    .nav {
-        box-sizing: border-box;
-        display: flex;
-        width: 100%;
-        z-index: 3000;
-        margin: 0;
-        padding: 0;
-    }
-
-    .hamburgerWrapper {
-        display: none;
-        position: absolute;
-        left: -120%;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 2rem;
-        z-index: 200;
-    }
-
-    .nav1 {
-        gap: 10px;
-        font-size: 1.2rem;
-    }
-
-    .navButton {
-        min-width: 100px;
-    }
-
-    .searchBar {
-        width: 25%;
-        gap: 1rem;
-    }
-
-    .searchBar input {
-        width: 100%;
-    }
-
-    .searchButton {
-        width: 40px;
-        height: auto;
-    }
-
-}
-
 @media screen and (max-width: 1024px) {
-    .nav {
-        position: sticky;
-        display: flex;
-        gap: 1rem;
-        width: 100%;
-        z-index: 3000;
-    }
-
-    .hamburger {
-        display: flex;
-    }
-
     .hamburgerWrapper {
-        position: relative;
-        left: 0;
-        width: 90%;
         display: flex;
+        width: 95%;
         justify-content: space-between;
         align-items: center;
-        gap: 2rem;
-        z-index: 200;
     }
 
     .navContent {
-        display: flex;
         position: fixed;
-        top: 5rem;
+        top: var(--nav-h);
         left: -100%;
-        width: 20%;
-        height: 100%;
+        width: clamp(250px, 40%, 320px);
+        height: calc(100vh - var(--nav-h));
         background-color: var(--color-surface);
         flex-direction: column;
         justify-content: start;
-        gap: 1rem;
-        transition: 0.3s ease-in-out;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        z-index: 100;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border-right: 2px solid var(--color-accent);
     }
 
@@ -247,218 +135,30 @@
         left: 0;
     }
 
-    .navButton:hover {
-        transform: translateY(-10px);
-    }
-
     .nav1 {
         flex-direction: column;
-        row-gap: 1rem;
-        justify-content: center;
-        flex-grow: 0;
         width: 100%;
+        height: auto;
     }
 
     .navButton {
         width: 100%;
-        flex: none;
-        height: 5rem;
-        border: none;
-        border-top: 1px solid var(--color-border);
+        height: 4rem;
         border-bottom: 1px solid var(--color-border);
-        border-radius: 0;
     }
 
     .searchBar {
-        width: 100%;
-        flex-direction: row;
-        gap: 1rem;
-    }
-
-    .searchBar input {
-        width: 100%;
-        font-size: 1rem;
-    }
-
-    .mobileAlertButton,
-    .mobileWarningButton {
-        position: fixed;
-        top: 90px;
-        right: 15px;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 3001;
-        box-shadow: 0 0 10px var(--color-bg);
-    }
-
-    .mobileAlertButton {
-        background-color: var(--color-accent-warm);
-        color: var(--color-text);
-    }
-
-    .mobileWarningButton {
-        background-color: var(--color-warning);
-        color: var(--color-text)
-    }
-
-    .mobileAlert,
-    .mobileWarning {
-        position: fixed;
-        right: 0;
-        top: var(--nav-h);
-        width: 100%;
-        height: 4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem 2rem;
-        text-align: left;
-        z-index: 3000;
-    }
-
-    .mobileAlert {
-        color: var(--color-text);
-        background-color: var(--color-accent-warm);
-    }
-
-    .mobileWarning {
-        color: var(--color-text);
-        background-color: var(--color-warning);
-    }
-
-    .mobileAlertIgnore {
-        position: absolute;
-        left: 15px;
-        width: 45px;
-        height: 45px;
-        box-shadow: 0 0 10px var(--color-bg);
-        border-radius: 50%;
+        width: 90%;
+        padding: 1rem;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .nav {
-        position: sticky;
-        display: flex;
-        width: 100vw;
-        z-index: 3000;
-    }
-
-    .hamburger {
-        display: flex;
-    }
-
-    .hamburgerWrapper {
-        left: 0;
-        position: relative;
-        width: 90%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        z-index: 200;
-    }
-
     .navContent {
-        position: fixed;
-        top: 5rem;
-        left: -100%;
-        width: 40%;
-        height: 100%;
-        background-color: var(--color-surface);
-        flex-direction: column;
-        justify-content: start;
-        gap: 1rem;
-        transition: 0.3s ease-in-out;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-        border-right: 2px solid var(--color-accent);
+        width: 80%;
     }
-
-    .navContent.active {
-        left: 0;
-    }
-
-    .navButton:hover {
-        transform: translateY(-10px);
-    }
-
-    .nav1 {
-        flex-direction: column;
-        row-gap: 1rem;
-        justify-content: start;
-        flex-grow: 0;
-    }
-
-    .navButton {
-        flex: none;
-        width: 100%;
-        height: 5rem;
-        border: none;
-        border-top: 1px solid var(--color-border);
-        border-bottom: 1px solid var(--color-border);
-        border-radius: 0;
-
-    }
-
+    
     .searchBar {
-        width: 100%;
-        flex-direction: row;
-        gap: 1rem;
+        width: 95%;
     }
-
-    .searchBar input {
-        width: 100%;
-        font-size: 1rem;
-    }
-
-}
-
-@media screen and (max-width: 320px) {
-
-   .alertWrapper {
-    position: fixed;
-    top: var(--nav-h);
-    left: 0;
-    width: 100%;
-    z-index: 3000;
-    pointer-events: none; 
-}
-
-.alertWrapper > * {
-    pointer-events: auto;
-}
-
-.mobileAlert,
-.mobileWarning {
-    width: 100%;
-    min-height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 4rem;
-    text-align: center;
-}
-
-.mobileAlertButton,
-.mobileWarningButton {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.mobileAlertIgnore {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-}
 }

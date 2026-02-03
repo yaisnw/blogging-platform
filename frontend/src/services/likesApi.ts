@@ -5,7 +5,11 @@ import type { PostDetailsResponse } from "@/types/rtkTypes";
 export const likesApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     addLike: build.mutation<void, number>({
-      query: (postId) => ({ url: `/like/${postId}/like`, method: 'POST' }),
+      query: (postId) => ({ 
+        url: '/like/add', 
+        method: 'POST',
+        body: { postId } 
+      }),
       async onQueryStarted(postId, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           postsApi.util.updateQueryData('getPostDetails', { postId, page: 1, limit: 10 }, (draft: PostDetailsResponse) => {

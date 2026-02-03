@@ -4,6 +4,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
+    min-height: clamp(70px, 10vh, 100px);
 }
 
 .authorBox {
@@ -13,26 +14,30 @@
 }
 
 .commentCard {
-    margin: 4rem 0;
+    margin: clamp(2rem, 5vh, 4rem) 0;
     justify-self: center;
     border: 1px solid var(--color-border);
     background-color: var(--color-surface);
-    width: 40vw;
+    width: clamp(280px, 90%, 800px);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .commentBody {
     margin: 0;
     width: 100%;
     min-height: 3rem;
-    padding: 1rem;
+    padding: 1.25rem;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
+    line-height: 1.6;
 }
 
 .commentDate {
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
     text-align: start;
     color: gray;
+    font-size: 0.85rem;
 }
 
 .footer {
@@ -40,7 +45,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
 }
+
 .commentActions {
     display: flex;
     justify-content: center;
@@ -48,6 +55,7 @@
     gap: 1rem;
     padding: 0 1rem;
 }
+
 .interactionBox {
     display: flex;
     justify-content: space-between;
@@ -63,131 +71,74 @@
 }
 
 .commentText {
-    width: 90%;
-    max-height: 20vh;
+    width: 95%;
+    max-height: 25vh;
     padding: 1rem;
     overflow-y: auto;
     resize: none;
+    font-family: inherit;
+    font-size: 1rem;
 }
 
 .commentInputs {
     display: flex;
     align-items: center;
     gap: 1rem;
+    width: 100%;
 }
 
 .commentTextArea {
-    width: 30vw;
-    height: 10vh;
+    width: clamp(250px, 60%, 800px);
+    height: clamp(80px, 12vh, 150px);
     padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
 }
+
 .interactionFlex {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: clamp(1rem, 3vh, 2rem);
+    width: 100%;
 }
-@media screen and (max-width: 1440px) {
-    .commentCard {
-        width: 60vw;
-    }
-    .header {
-        min-height: 100px;
-    }
-    .commentBody {
-        width: 100%;
-    }
-    .commentTextArea {
-        width: 40vw;
-        min-height: 15vh;
-    }
 
-}
-@media screen and (max-width: 1024px) {
-    .commentCard {
-        width: 70vw;
-    }
-    .header {
-        min-height: 90px;
-    }
-    .commentBody {
-        width: 100%;
-    }
-    .commentTextArea {
-        width: 50vw;
-        min-height: 15vh;
-    }
-
-}
 @media screen and (max-width: 768px) {
-    .commentCard {
-        width: 80vw;
-    }
-    .header {
-        min-height: 80px;
-    }
-    .commentBody {
-        width: 100%;
-    }
     .commentInputs {
         flex-direction: column;
         align-items: center;
         margin: 1rem auto;
     }
+
     .commentTextArea {
-        width: 70vw;
-        min-height: 15vh;
-    }
-
-}
-
-@media screen and (max-width: 480px) {
-    .header {
-        align-items: center;
-        font-size: 0.9rem;
-        min-height: 70px;
-    }
-    .commentInputs {
-        flex-direction: column;
-        align-items: stretch;
-        margin: 1rem auto;
-    }
-    .commentTextArea {
-        width: 80vw;
-    }
-    .header a {
-        line-height: 1;
-        margin: 0;
-        padding: 0 inherit;
-    }
-
-    .commentCard {
-        width: 90vw;
-    }
-
-    .commentBody {
         width: 100%;
     }
 
     .footer {
-        font-size: 0.8rem;
+        flex-direction: column;
+        gap: 1rem;
     }
-    .footer button {
-        min-width: 5rem;
+}
+
+@media screen and (max-width: 480px) {
+    .header {
+        font-size: 0.9rem;
     }
-    .authorBox img {
-        vertical-align: middle;
+
+    .header a {
+        line-height: 1;
     }
 
     .authorBox h3,
     .authorBox a {
         margin: 0;
         padding: 0;
-        line-height: 1;
+        line-height: 1.2;
     }
 
-
-
+    .footer button {
+        width: 100%;
+    }
 }

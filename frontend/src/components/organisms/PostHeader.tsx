@@ -28,7 +28,7 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
             <AppHeader className={styles.postTitle}>{title}</AppHeader>
             <div className={styles.heartContainer} >
                     <h2>{likeCount ?? 0}</h2>
-                    <HeartSVG className={UIstyles.interactiveImage} OnLike={OnLike} editable={true} liked={liked} />
+                    <HeartSVG className={styles.interactiveImage} OnLike={OnLike} editable={true} liked={liked} />
                 </div>
             <div className={styles.postInfo}>
                 <div className={styles.authorContainer}>

@@ -142,7 +142,7 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({
                     <AppHeading>Change Password</AppHeading>
                     <AuthField
                         name="currentPassword"
-                        label="Enter your current password:"
+                        placeholder="Enter your current password"
                         type="password"
                         autoComplete="current-password"
                         value={passwordForm.currentPassword || ""}
@@ -150,7 +150,7 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({
                     />
                     <AuthField
                         name="newPassword"
-                        label="Enter your new password:"
+                        placeholder="Enter your new password"
                         type="password"
                         autoComplete="new-password"
                         value={passwordForm.newPassword || ""}
@@ -158,7 +158,7 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({
                     />
                     <AuthField
                         name="confirmPassword"
-                        label="Confirm your new password:"
+                        placeholder="Confirm your new password"
                         type="password"
                         autoComplete="confirm-password"
                         value={passwordForm.confirmPassword || ""}
