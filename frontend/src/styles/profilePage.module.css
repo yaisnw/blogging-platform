@@ -1,132 +1,271 @@
 .profilePicture {
-    width: clamp(6rem, 15vw, 10rem);
-    height: clamp(6rem, 15vw, 10rem);
+    width: 10rem;
+    height: 10rem;
     border-radius: 50%;
     border: 2px solid var(--color-border);
     box-shadow: 1px 1px 5px 1px var(--color-light-accent);
     overflow: hidden;
-    object-fit: cover;
+    object-fit: contain;
 }
+
+.profileContainer h1 {
+    margin: 0;
+}
+
 
 .profileCard,
 .publicProfileCard,
 .editingProfileCard,
 .passwordFormContainer {
-    margin: clamp(2rem, 8vh, 5rem) auto;
-    min-height: clamp(300px, 60vh, 600px);
-    width: clamp(280px, 90%, 800px);
-    padding: clamp(1.5rem, 5vw, 3rem) 1rem;
+    margin: 5rem auto;
+    height: 60vh;
+    width: 50vw;
+    padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: clamp(1.5rem, 5vh, 4rem);
+    gap: 5rem;
     box-shadow: 0 2px 6px var(--color-border);
-    background-color: var(--color-surface);
-    border-radius: 12px;
+}
+
+
+.profileCard button {
+    width: 12rem;
 }
 
 .publicProfileCard {
-    max-width: 600px;
+    width: 30vw;
     border: 2px solid var(--color-border);
+    box-shadow: 1px 1px 5px 2px var(--color-light-accent);
+    padding: 2rem;
 }
 
 .clickableCard {
     cursor: pointer;
     text-decoration: none;
     color: inherit;
+    outline: none;
     transition: transform 0.3s ease;
     will-change: transform;
 }
 
+
+
 .clickableCard:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
+
+
+.editingProfileCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    gap: 2rem;
+}
+
 
 .formContainer {
-    width: 100%;
+    width: 80%;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: clamp(1rem, 5vw, 4rem);
+    gap: 5rem;
+
 }
 
-.infoSection {
+.editingFooter {
+    width: 60%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: clamp(1rem, 5vw, 5rem);
-    width: 100%;
+    justify-content: space-around;
+    gap: 1rem;
 }
 
-.userInfoBox {
+.passwordFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.editingProfileCard button,
+.passwordFormContainer button {
+    width: 11rem;
+    text-align: center;
+    padding: 1rem 1rem;
+}
+
+.buttonBox {
+    display: flex;
+    gap: 5rem;
+}
+
+.avatarContainer {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    color: var(--color-text-secondary);
 }
 
+
+.userInfoBox {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
 .userInfoBox p {
     margin: 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-self: center;
     gap: 2rem;
-}
-
-.userName, .userDetail {
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    color: var(--color-text);
 }
 
 .userName {
     font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 1rem;
+    color: var(--color-text);
 }
 
-.editingFooter, .buttonBox {
+.userDetail {
+    font-size: 1.5rem;
+    margin: 0 1rem;
+    color: var(--color-text);
+}
+
+.infoSection {
     display: flex;
-    flex-wrap: wrap;
+    gap: 5rem;
+}
+
+.tabPanel {
+    display: flex;
     justify-content: center;
     gap: 1rem;
-    width: 100%;
+    margin: 2rem;
 }
 
-.profileCard button,
-.editingProfileCard button,
-.passwordFormContainer button {
-    width: clamp(160px, 30vw, 200px);
-    padding: 0.8rem;
+.tabPanelButton {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.activeTab {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    cursor: default;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
 }
 
 .userPostCardBox {
-    margin: 3rem auto;
-    width: clamp(280px, 90%, 1000px);
+    margin: 5rem auto;
+    width: 70%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
 }
-
-@media screen and (max-width: 768px) {
-    .userInfoBox p {
-        flex-direction: column;
-        gap: 0.25rem;
+@media  screen and (max-width: 1024px) {
+    .profileCard,
+    .publicProfileCard,
+    .editingProfileCard,
+    .passwordFormContainer {
+        width: 70vw;
+        height: auto;
+        margin: 5rem auto;
+    }
+    .formContainer {
+        width: 100%;
+        gap: 3rem;
+    }
+    
+}
+@media  screen and (max-width: 768px) {
+    .profileCard,
+    .publicProfileCard,
+    .editingProfileCard,
+    .passwordFormContainer {
+        width: 90vw;
+        height: auto;
+        margin: 5rem auto;
+    }
+    .editingFooter {
+        width: 70%;
+    }
+    .formContainer {
+        width: 70%;
+        gap: 2rem;
+    }
+    .userDetail {
         text-align: center;
+        font-size: 1.2rem;
     }
-
-    .formContainer, .infoSection {
-        flex-direction: column;
+    .userName {
+        font-size: 1.3rem;
     }
-
-    .editingFooter, .buttonBox {
+}
+@media screen and (max-width: 480px) {
+    .profileCard,
+    .publicProfileCard,
+    .editingProfileCard,
+    .passwordFormContainer {
+        width: 95vw;
+        height: auto;
+        margin: 5rem auto;
+        text-align: center;
+        gap: 2rem;
+        padding: 3rem 1rem;
+    }
+    .infoSection {
         flex-direction: column;
         align-items: center;
+        gap: 2rem;
+    }
+    .userInfoBox {
+        text-align: center;
+        gap: 1rem;
+    }
+    .userInfoBox p {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .formContainer {
+        width: 70vw;
+        flex-direction: column;
+        gap: 1rem;
     }
 
-    .profileCard button,
-    .editingProfileCard button,
-    .passwordFormContainer button {
-        width: 100%;
-        max-width: 280px;
+    .editingFooter {
+        width: 80%;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
     }
+    .buttonBox {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .userName {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    .userDetail {
+        font-size: 1rem;
+        text-align: center;
+    }
+    .userPostCardBox {
+    margin: 5rem auto;
+    width: 90%;
+    gap: 0rem;
+}
 }

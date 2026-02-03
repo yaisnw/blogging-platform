@@ -1,13 +1,12 @@
 .panel {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-end;
-    gap: clamp(1.5rem, 5vw, 5rem);
-    padding: clamp(1rem, 3vh, 2rem);
+    justify-content: start;
+    align-items: center;
+    gap: 5rem;
+    padding: 2rem;
     padding-top: 0;
     margin: 0 auto;
-    width: clamp(280px, 90%, 1200px);
+    width: 80%;
 }
 
 .sectionTitle {
@@ -16,24 +15,22 @@
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin: 0 0 8px 0;
+    margin: 5px 0;
 }
 
 .sortSection {
     display: flex;
     flex-direction: column;
-    min-width: 150px;
+    justify-content: center;
 }
-
 .actionSection {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    justify-content: center;
+    align-items: start;
+    gap: 1rem;
 }
-
 .actionButtonsWrapper {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: 1rem;
 }
@@ -43,7 +40,7 @@
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-text-secondary);
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 
 .select {
@@ -55,63 +52,69 @@
     font-size: 0.875rem;
     outline: none;
     cursor: pointer;
-    width: 100%;
-    max-width: 200px;
+    text-align: center;
 }
 
 .select:focus {
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px var(--color-light-accent);
+    box-shadow: 0 0 0 2px var(--color-text-secondary);
 }
-
 .actionButtonsWrapper button {
-    width: clamp(10rem, 25vw, 12rem);
-    height: 3.5rem;
+    width: 12rem;
     gap: 1rem;
-    white-space: nowrap;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    white-space: nowrap; 
 }
-
 .deleteButton {
     background-color: var(--color-warning);
 }
-
 .buttonLogo {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     color: var(--color-on-accent);
-    flex-shrink: 0;
 }
+@media screen and (max-width: 1024px) {
+    .panel {
+        width: 90%;
+        gap: 2rem;
+    }
+}
+
 
 @media screen and (max-width: 768px) {
     .panel {
-        justify-content: center;
+        flex-direction: column; 
+        align-items: stretch; 
+        gap: 1.5rem;
+        width: 95%;
+    }
+
+    .sortSection, .actionSection {
+        align-items: center;
         text-align: center;
     }
 
     .actionButtonsWrapper {
-        justify-content: center;
-    }
-
-    .sortSection, .actionSection {
+        flex-direction: column; 
         width: 100%;
-        align-items: center;
     }
 
-    .select {
-        max-width: 300px;
+    .panel button {
+        margin: 0 auto;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .actionButtonsWrapper button {
-        width: 100%;
+    .panel {
+        padding: 15px 10px;
+        width: auto;
     }
-    
+
+    .sectionTitle {
+        font-size: 0.7rem;
+    }
+
     .select {
-        width: 80vw;
-        max-width: none;
+        margin: 0 auto;
+        width: 40vw; 
     }
 }
