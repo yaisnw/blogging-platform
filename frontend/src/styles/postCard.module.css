@@ -119,12 +119,12 @@
 @media screen and (max-width: 768px) {
     .cardHeader {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .cardFooter, .postMeta {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 1.5rem;
     }
 
@@ -147,9 +147,5 @@
     .engagementBox {
         justify-content: space-between;
         gap: 1rem;
-    }
-
-    .title {
-        text-align: left;
     }
 }
