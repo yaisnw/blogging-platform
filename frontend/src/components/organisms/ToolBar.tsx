@@ -120,14 +120,7 @@ function ToolBar() {
                     <AppLink to='/home' className="nav-link">Home</AppLink>
                     <AppLink to='/home/dashboard' className="nav-link">Dashboard</AppLink>
                 </nav>
-                <button
-                    className={`toolbar-hamburger ${isMobileMenuOpen ? 'active' : ''}`}
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+
             </div>
 
             <AnimatePresence>
@@ -198,6 +191,14 @@ function ToolBar() {
                     </motion.div>
                 )}
             </AnimatePresence>
+            {!isDesktop && <button
+                className={`toolbar-hamburger ${isMobileMenuOpen ? 'active' : ''}`}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>}
         </div>
     );
 }
