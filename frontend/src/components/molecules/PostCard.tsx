@@ -126,19 +126,18 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
                 <div className={styles.interactionBox}>
 
-                    {editButton && (
-                        <AppButton type="button" onClick={editButton}>
-                            <EditSVG className={UIstyles.buttonSVG} />
-                            Edit Post
-                        </AppButton>
-                    )}
                     {status === 'published' && (
                         <AppButton type="button" onClick={() => handlePostClick(title, postId)}>
                             <ViewSVG className={UIstyles.buttonSVG} />
                             View Post
                         </AppButton>
                     )}
-
+                    {editButton && (
+                        <AppButton type="button" onClick={editButton}>
+                            <EditSVG className={UIstyles.buttonSVG} />
+                            Edit Post
+                        </AppButton>
+                    )}
                 </div>
             </footer>
         </motion.article>

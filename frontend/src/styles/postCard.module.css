@@ -1,5 +1,5 @@
 .postCard {
-    width: clamp(280px, 90%, 1000px);
+    width: clamp(280px, 90%, 1200px);
     display: grid;
     gap: clamp(1rem, 3vh, 2rem);
     justify-self: center;
@@ -20,7 +20,8 @@
     flex-wrap: wrap;
 }
 
-.publishedBadge, .draftBadge {
+.publishedBadge,
+.draftBadge {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,7 +45,7 @@
 
 .title {
     margin: 0.5rem 0;
-    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-size: clamp(1.3rem, 2vw, 1.9rem);
     font-weight: 700;
     word-break: break-word;
     line-height: 1.2;
@@ -122,7 +123,8 @@
         align-items: center;
     }
 
-    .cardFooter, .postMeta {
+    .cardFooter,
+    .postMeta {
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
@@ -135,6 +137,10 @@
 
     .interactionBox button {
         flex: 1;
+    }
+
+    .title {
+        text-align: center;
     }
 }
 

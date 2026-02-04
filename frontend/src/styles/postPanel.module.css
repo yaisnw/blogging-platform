@@ -52,6 +52,7 @@
     font-size: 0.875rem;
     outline: none;
     cursor: pointer;
+    text-align: center;
 }
 
 .select:focus {

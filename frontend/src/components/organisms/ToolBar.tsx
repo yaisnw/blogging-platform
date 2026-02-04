@@ -4,6 +4,7 @@ import { mergeRegister } from "@lexical/utils"
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { $setBlocksType } from '@lexical/selection'
 import { $createHeadingNode, $createQuoteNode, $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
+import { AnimatePresence, motion } from "motion/react";
 import ImageInsertButton from '../atoms/ImageInsertButton';
 import AppButton from '../atoms/AppButton';
 import AppLink from '../atoms/AppLink';
@@ -38,6 +39,8 @@ function ToolBar() {
     const [isItalic, setIsItalic] = useState(false);
     const [isUnderline, setIsUnderline] = useState(false);
     const [isStrikethrough, setIsStrikethrough] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1060);
 
     const $updateToolbar = useCallback(() => {
         const selection = $getSelection();
@@ -70,7 +73,10 @@ function ToolBar() {
     }, []);
 
     useEffect(() => {
-        return mergeRegister(
+        const handleResize = () => setIsDesktop(window.innerWidth > 1060);
+        window.addEventListener('resize', handleResize);
+        
+        const unregister = mergeRegister(
             editor.registerUpdateListener(({ editorState }) => {
                 editorState.read(() => { $updateToolbar(); });
             }),
@@ -87,6 +93,11 @@ function ToolBar() {
                 return false;
             }, COMMAND_PRIORITY_LOW)
         );
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            unregister();
+        };
     }, [$updateToolbar, editor]);
 
     const applyFormat = (type: 'bold' | 'italic' | 'underline' | 'strikethrough') => {
@@ -106,66 +117,87 @@ function ToolBar() {
 
     return (
         <div className='toolBar-container'>
-            <nav className="toolbar-nav-group">
-                <AppLink to='/home' className="nav-link">Home</AppLink>
-                <AppLink to='/home/dashboard' className="nav-link">Dashboard</AppLink>
-            </nav>
-
-            <div className='toolbar-actions'>
-                <DropDown label="Format">
-                    <AppButton onClick={() => applyFormat('bold')} className={isBold ? 'active' : ''}>
-                        <BoldSVG /> <span>Bold</span>
-                    </AppButton>
-                    <AppButton onClick={() => applyFormat('italic')} className={isItalic ? 'active' : ''}>
-                        <ItalicSVG /> <span>Italic</span>
-                    </AppButton>
-                    <AppButton onClick={() => applyFormat('underline')} className={isUnderline ? 'active' : ''}>
-                        <UnderlineSVG /> <span>Underline</span>
-                    </AppButton>
-                    <AppButton onClick={() => applyFormat('strikethrough')} className={isStrikethrough ? 'active' : ''}>
-                        <StrikeSVG /> <span>Strike</span>
-                    </AppButton>
-                </DropDown>
-
-                <DropDown label="Layout">
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')} className={activeAlign === 'left' ? 'active' : ''}>
-                        <AlignLeftSVG /> <span>Left</span>
-                    </AppButton>
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')} className={activeAlign === 'center' ? 'active' : ''}>
-                        <AlignCenterSVG /> <span>Center</span>
-                    </AppButton>
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')} className={activeAlign === 'right' ? 'active' : ''}>
-                        <AlignRightSVG /> <span>Right</span>
-                    </AppButton>
-                    <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')} className={activeAlign === 'justify' ? 'active' : ''}>
-                        <AlignJustifySVG /> <span>Justify</span>
-                    </AppButton>
-                </DropDown>
-
-                <DropDown label="Blocks">
-                    <AppButton onClick={() => applyBlockType('h1')} className={activeBlockType === 'h1' ? 'active' : ''}>
-                        <H1SVG /> <span>Heading 1</span>
-                    </AppButton>
-                    <AppButton onClick={() => applyBlockType('h2')} className={activeBlockType === 'h2' ? 'active' : ''}>
-                        <H2SVG /> <span>Heading 2</span>
-                    </AppButton>
-                    <AppButton onClick={() => applyBlockType('h3')} className={activeBlockType === 'h3' ? 'active' : ''}>
-                        <H3SVG /> <span>Heading 3</span>
-                    </AppButton>
-                    <AppButton onClick={() => applyBlockType('paragraph')} className={activeBlockType === 'paragraph' ? 'active' : ''}>
-                        <ParagraphSVG /> <span>Paragraph</span>
-                    </AppButton>
-                    <AppButton onClick={() => applyBlockType('quote')} className={activeBlockType === 'quote' ? 'active' : ''}>
-                        <QuoteSVG /> <span>Quote</span>
-                    </AppButton>
-                </DropDown>
-
-                <div className="button-group-mini">
-                    <ImageInsertButton />
-                    <AppButton disabled={!canUndo} onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}>⟲</AppButton>
-                    <AppButton disabled={!canRedo} onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}>⟳</AppButton>
-                </div>
+            <div className="toolbar-mobile-header">
+                <nav className="toolbar-nav-group">
+                    <AppLink to='/home' className="nav-link">Home</AppLink>
+                    <AppLink to='/home/dashboard' className="nav-link">Dashboard</AppLink>
+                </nav>
+                <button
+                    className={`toolbar-hamburger ${isMobileMenuOpen ? 'active' : ''}`}
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
+
+            <AnimatePresence>
+                {(isDesktop || isMobileMenuOpen) && (
+                    <motion.div 
+                        className={`toolbar-actions ${isMobileMenuOpen ? 'mobile-open' : ''}`}
+                        initial={!isDesktop ? { height: 0, opacity: 0 } : false}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={!isDesktop ? { height: 0, opacity: 0 } : undefined}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        style={{ overflow: isDesktop ? 'visible' : 'hidden' }}
+                    >
+                        <DropDown label="Format">
+                            <AppButton onClick={() => applyFormat('bold')} className={isBold ? 'active' : ''}>
+                                <BoldSVG /> <span>Bold</span>
+                            </AppButton>
+                            <AppButton onClick={() => applyFormat('italic')} className={isItalic ? 'active' : ''}>
+                                <ItalicSVG /> <span>Italic</span>
+                            </AppButton>
+                            <AppButton onClick={() => applyFormat('underline')} className={isUnderline ? 'active' : ''}>
+                                <UnderlineSVG /> <span>Underline</span>
+                            </AppButton>
+                            <AppButton onClick={() => applyFormat('strikethrough')} className={isStrikethrough ? 'active' : ''}>
+                                <StrikeSVG /> <span>Strike</span>
+                            </AppButton>
+                        </DropDown>
+
+                        <DropDown label="Layout">
+                            <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')} className={activeAlign === 'left' ? 'active' : ''}>
+                                <AlignLeftSVG /> <span>Left</span>
+                            </AppButton>
+                            <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')} className={activeAlign === 'center' ? 'active' : ''}>
+                                <AlignCenterSVG /> <span>Center</span>
+                            </AppButton>
+                            <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')} className={activeAlign === 'right' ? 'active' : ''}>
+                                <AlignRightSVG /> <span>Right</span>
+                            </AppButton>
+                            <AppButton onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')} className={activeAlign === 'justify' ? 'active' : ''}>
+                                <AlignJustifySVG /> <span>Justify</span>
+                            </AppButton>
+                        </DropDown>
+
+                        <DropDown label="Blocks">
+                            <AppButton onClick={() => applyBlockType('h1')} className={activeBlockType === 'h1' ? 'active' : ''}>
+                                <H1SVG /> <span>Heading 1</span>
+                            </AppButton>
+                            <AppButton onClick={() => applyBlockType('h2')} className={activeBlockType === 'h2' ? 'active' : ''}>
+                                <H2SVG /> <span>Heading 2</span>
+                            </AppButton>
+                            <AppButton onClick={() => applyBlockType('h3')} className={activeBlockType === 'h3' ? 'active' : ''}>
+                                <H3SVG /> <span>Heading 3</span>
+                            </AppButton>
+                            <AppButton onClick={() => applyBlockType('paragraph')} className={activeBlockType === 'paragraph' ? 'active' : ''}>
+                                <ParagraphSVG /> <span>Paragraph</span>
+                            </AppButton>
+                            <AppButton onClick={() => applyBlockType('quote')} className={activeBlockType === 'quote' ? 'active' : ''}>
+                                <QuoteSVG /> <span>Quote</span>
+                            </AppButton>
+                        </DropDown>
+
+                        <div className="button-group-mini">
+                            <ImageInsertButton />
+                            <AppButton disabled={!canUndo} onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}>⟲</AppButton>
+                            <AppButton disabled={!canRedo} onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}>⟳</AppButton>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
