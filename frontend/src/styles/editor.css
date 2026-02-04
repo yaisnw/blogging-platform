@@ -19,6 +19,7 @@
     max-width: 100% !important;
     height: auto !important;
 }
+
 .editor-container {
     width: 100%;
     display: grid;
@@ -51,9 +52,10 @@
     padding-bottom: 10px;
     margin-bottom: -10px;
 }
+
 .dropdown-container svg {
     flex-shrink: 0;
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 .toolbar-actions {
@@ -63,7 +65,8 @@
     padding: 1rem 0;
 }
 
-.dropdown-button, .addImage-button {
+.dropdown-button,
+.addImage-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -102,12 +105,14 @@
     z-index: 200;
     backdrop-filter: blur(3px);
 }
+
 .dropdown-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 }
+
 .dropdown-menu button {
     background: transparent;
     border: none;
@@ -326,9 +331,48 @@
     transition: all 0.3s linear;
 }
 
-.toolbar-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.toolbar-hamburger.active span:nth-child(2) { opacity: 0; }
-.toolbar-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.toolbar-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.toolbar-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.toolbar-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+
+.toolBar-divider {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.toolBar-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    height: 1px;
+    background-color: var(--color-text);
+    opacity: 0.4;
+    transform: translateY(-50%);
+}
+
+.toolBar-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    height: 1px;
+    background-color: var(--color-text);
+    opacity: 0.4;
+    transform: translateY(-50%);
+    left: 50%;
+}
 
 @media screen and (max-width: 1440px) {
     .toolbar-button {
@@ -357,33 +401,25 @@
         width: 200px;
     }
 
-    .dropdown-button {
-        min-width: 7rem;
-        height: 3rem;
-        padding: 0.5rem 1rem;
-    }
-
     .editor {
         width: 85vw;
     }
+
     .toolbar-actions {
         width: 100%;
         overflow-x: auto;
         padding: 1rem;
         justify-content: flex-start;
-        scrollbar-width: none; 
+        scrollbar-width: none;
     }
 
     .toolbar-actions::-webkit-scrollbar {
         display: none;
     }
 
-    .dropdown-button {
-        min-width: 8rem;
-    }
     .toolBar-container {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         padding: 0.5rem 1rem;
         position: sticky;
@@ -392,10 +428,10 @@
 
     .toolbar-mobile-header {
         display: flex !important;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         height: 3rem;
-        width: 100%;
+        width: auto;
     }
 
     .toolbar-actions {
@@ -406,14 +442,16 @@
         width: 100%;
         overflow-x: hidden;
     }
-    .dropdown-button, .addImage-button, .button-group-mini button {
-    min-width: none;
-    width: clamp(6rem, 20vw, 9rem);
-}
- 
+
+    .dropdown-button,
+    .addImage-button,
+    .button-group-mini button {
+        min-width: none;
+        width: clamp(6rem, 10vw, 9rem);
+    }
 
     .dropdown-menu {
-        position: static; 
+        position: static;
         box-shadow: none;
         background: var(--color-background);
         border: 1px solid var(--color-border);
@@ -426,7 +464,7 @@
         padding: 1rem 0 0.5rem 0;
         margin-top: 0.5rem;
         width: 100%;
-        justify-content: space-around;
+        justify-content: center;
     }
 }
 
@@ -479,12 +517,15 @@
         gap: 1rem;
         width: 70%;
     }
+
     .header-form {
         margin: 3rem 0;
     }
+
     .editor-container {
         margin: 0;
     }
+
     .dropdown-button {
         min-width: 6rem;
         font-size: 0.8rem;
