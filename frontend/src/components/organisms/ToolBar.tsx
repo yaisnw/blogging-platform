@@ -156,7 +156,7 @@ function ToolBar() {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={!isDesktop ? { height: 0, opacity: 0 } : undefined}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        style={{ overflow: isDesktop ? 'visible' : 'hidden' }}
+                        style={{ overflow: isDesktop || isMobileMenuOpen ? 'visible' : 'hidden' }}
                     >
                         <div className='dropdown-container'>
                             <DropDown label="Format">

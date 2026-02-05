@@ -50,11 +50,7 @@ export const AlignRightSVG: React.FC<IconProps> = (p) => (
 
 export const AlignJustifySVG: React.FC<IconProps> = (p) => (
     <svg {...p} width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-        <rect y="38.957" width="512" height="33.391" />
-        <rect y="139.13" width="512" height="33.391" />
-        <rect y="239.304" width="512" height="33.391" />
-        <rect y="339.478" width="512" height="33.391" />
-        <rect y="439.652" width="512" height="33.391" />
+        <path fillRule="evenodd" d="M2 3h20v1H2zm0 6h20V9H2zm0 6h20v-1H2zm0 6h20v-1H2z" />
     </svg>
 );
 

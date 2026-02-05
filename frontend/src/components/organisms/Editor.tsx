@@ -83,6 +83,7 @@ const handleChangeEditor = useCallback(
       <ToolBar />
       <form className="header-form">
         <input
+        placeholder="Enter your title"
           type="text"
           maxLength={100}
           className="header-input"
