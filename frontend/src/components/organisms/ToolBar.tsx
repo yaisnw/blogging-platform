@@ -21,8 +21,8 @@ import { useIsDesktop } from '@/hooks/useIsDesktop';
 const DropDown = ({ label, children, }: { label: string; children: ReactNode; }) => {
     const [open, setOpen] = useState(false);
     return (
-        <div className="dropdown-container" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
-            <button className='dropdown-button '>
+        <div className="dropdown-container" >
+            <button onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className='dropdown-button '>
                 {label} <span className="chevron">▼</span>
             </button>
             {open && <div className="dropdown-menu">{children}</div>}
