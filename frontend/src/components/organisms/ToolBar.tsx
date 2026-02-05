@@ -1,7 +1,7 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $createParagraphNode, $getSelection, $isParagraphNode, $isRangeSelection, CAN_REDO_COMMAND, CAN_UNDO_COMMAND, COMMAND_PRIORITY_LOW, FORMAT_ELEMENT_COMMAND, FORMAT_TEXT_COMMAND, REDO_COMMAND, SELECTION_CHANGE_COMMAND, UNDO_COMMAND } from 'lexical';
 import { mergeRegister } from "@lexical/utils"
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { $setBlocksType } from '@lexical/selection'
 import { $createHeadingNode, $createQuoteNode, $isHeadingNode, $isQuoteNode } from '@lexical/rich-text';
 import { AnimatePresence, motion } from "motion/react";
@@ -18,14 +18,39 @@ import {
 } from '../atoms/Icons';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 
-const DropDown = ({ label, children, }: { label: string; children: ReactNode; }) => {
+const DropDown = ({ label, children }: { label: string; children: ReactNode; }) => {
     const [open, setOpen] = useState(false);
+    const dropDownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [open]);
+
     return (
-        <div className="dropdown-container" >
-            <button onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className='dropdown-button '>
+        <div className="dropdown-container" ref={dropDownRef}>
+            <button 
+                onClick={() => setOpen(!open)} 
+                className={`dropdown-button ${open ? 'active' : ''}`}
+            >
                 {label} <span className="chevron">▼</span>
             </button>
-            {open && <div className="dropdown-menu">{children}</div>}
+            {open && (
+                <div className="dropdown-menu">
+                    {children}
+                </div>
+            )}
         </div>
     );
 };
