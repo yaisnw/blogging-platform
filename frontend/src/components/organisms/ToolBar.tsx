@@ -66,7 +66,7 @@ function ToolBar() {
     const [isUnderline, setIsUnderline] = useState(false);
     const [isStrikethrough, setIsStrikethrough] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const isDesktop = useIsDesktop()
+    const {isDesktop, isMobile} = useIsDesktop()
 
     const $updateToolbar = useCallback(() => {
         const selection = $getSelection();
@@ -216,7 +216,8 @@ function ToolBar() {
                     </motion.div>
                 )}
             </AnimatePresence>
-            {!isDesktop && <button
+            {isMobile && <ImageInsertButton />}
+            {!isDesktop && !isMobile && <button
                 className={`toolbar-hamburger ${isMobileMenuOpen ? 'active' : ''}`}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >

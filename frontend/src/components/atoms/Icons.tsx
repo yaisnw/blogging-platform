@@ -142,7 +142,16 @@ export const SearchSVG: React.FC<IconProps> = (p) => (
         <path fill="currentColor" fillRule="evenodd" d="M1458.948 1305.626c104.637-136.95 167.527-307.187 167.527-492.388C1626.475 364.764 1261.711 0 813.238 0 364.764 0 0 364.764 0 813.238c0 448.473 364.764 813.237 813.238 813.237 185.201 0 355.547-62.89 492.496-167.527L1766.678 1920 1920 1766.678l-461.052-461.052Zm-645.71 103.986c-328.874 0-596.375-267.61-596.375-596.374 0-328.765 267.501-596.375 596.375-596.375 328.873 0 596.374 267.61 596.374 596.375s-267.501 596.374-596.374 596.374Z" />
     </svg>
 );
-
+export const ImageSVG: React.FC<IconProps> = (p) => (
+    <svg {...p} width="18" height="18" viewBox="0 0 16 16" fill="none">
+        <path 
+            fillRule="evenodd" 
+            clipRule="evenodd" 
+            d="M1 1H15V15H1V1ZM6 9L8 11L13 6V13H3V12L6 9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z" 
+            fill="currentColor"
+        />
+    </svg>
+);
 export interface HeartSVGProps extends IconProps {
     liked: boolean;
     editable?: boolean;
