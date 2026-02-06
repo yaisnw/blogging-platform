@@ -332,8 +332,8 @@
   border-radius: 50%;
   transition: all 0.3s ease;
   object-fit: contain;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .interactiveAvatar:hover {
@@ -502,6 +502,7 @@
   .ctaButton {
     width: 50%;
   }
+
 }
 
 @media screen and (max-width: 1024px) {
@@ -547,10 +548,7 @@
     box-shadow: 0 0 10px 2px var(--color-accent);
   }
 
-  .interactiveAvatar {
-    width: 3rem;
-    height: 3rem;
-  }
+
 }
 
 @media screen and (max-width: 480px) {

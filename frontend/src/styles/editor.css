@@ -77,7 +77,7 @@
     font-size: medium;
     cursor: pointer;
     border-radius: 6px;
-    padding: 9.5rem 1rem;
+    padding: 0.5rem 1rem;
     font-weight: 500;
     transition: all 0.2s ease;
     border: 1px solid var(--color-accent);
@@ -493,7 +493,14 @@
     }
 
 }
+@media screen and (max-width: 600px) {
+    .dropdown-button,
+    .addImage-button,
+    .button-group-mini button{
+        width: 9rem;
 
+    }
+}
 @media screen and (max-width: 480px) {
     .editor {
         width: 90vw;
