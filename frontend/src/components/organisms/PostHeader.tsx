@@ -1,9 +1,10 @@
 import AppHeader from "../atoms/AppHeading";
-import HeartButton from "../atoms/HeartButton";
 import styles from "@/styles/postViewer.module.css"
 import UIstyles from "@/styles/ui.module.css"
 import AppImage from "../atoms/AppImage";
 import AppLink from "../atoms/AppLink";
+import { HeartSVG } from "../atoms/Icons";
+
 
 type Props = {
     OnLike: () => void
@@ -27,7 +28,7 @@ const PostHeader: React.FC<Props> = ({ OnLike, likeCount, liked, title, authorId
             <AppHeader className={styles.postTitle}>{title}</AppHeader>
             <div className={styles.heartContainer} >
                     <h2>{likeCount ?? 0}</h2>
-                    <HeartButton className={UIstyles.interactiveImage} OnLike={OnLike} editable={true} liked={liked} />
+                    <HeartSVG className={styles.interactiveImage} OnLike={OnLike} editable={true} liked={liked} />
                 </div>
             <div className={styles.postInfo}>
                 <div className={styles.authorContainer}>

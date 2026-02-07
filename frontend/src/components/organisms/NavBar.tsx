@@ -15,9 +15,10 @@ import { useSelector } from 'react-redux';
 import { useGetUserQuery } from '@/services/userApi';
 import AppLoader from '../atoms/AppLoader';
 import AlertButton from '../atoms/AlertButton';
-import CrossButton from '../atoms/CrossButton';
 import { setAlertIgnored } from '@/slices/uiSlice';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
+import { CrossSVG } from '../atoms/Icons';
+
 
 const NavBar = () => {
     const dispatch = useAppDispatch();
@@ -122,7 +123,7 @@ const NavBar = () => {
                             transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 200 }}
                         >
                             {!isOnDashboardPage && (
-                                <CrossButton
+                                <CrossSVG
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         dispatch(setAlertIgnored(true));

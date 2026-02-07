@@ -109,12 +109,20 @@
     gap: 1rem;
 }
 
+
 .userInfoBox {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
     justify-content: center;
     text-align: center;
     color: var(--color-text-secondary);
+}
+.userInfoBox p {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    gap: 2rem;
 }
 
 .userName {
@@ -139,11 +147,10 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin: 5rem;
+    margin: 2rem;
 }
 
 .tabPanelButton {
-
     background-color: var(--color-surface);
     color: var(--color-text);
     border: 1px solid var(--color-border);
@@ -160,6 +167,12 @@
 
 .userPostCardBox {
     margin: 5rem auto;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
 }
 @media  screen and (max-width: 1024px) {
     .profileCard,
@@ -199,8 +212,11 @@
     .userName {
         font-size: 1.3rem;
     }
+    .infoSection{
+        gap: 2rem;
+    }
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
     .profileCard,
     .publicProfileCard,
     .editingProfileCard,
@@ -224,6 +240,7 @@
     .userInfoBox p {
         display: flex;
         flex-direction: column;
+        gap: 0.5rem;
     }
     .formContainer {
         width: 70vw;
@@ -249,4 +266,9 @@
         font-size: 1rem;
         text-align: center;
     }
+    .userPostCardBox {
+    margin: 5rem auto;
+    width: 90%;
+    gap: 0rem;
+}
 }

@@ -5,9 +5,8 @@ import UIstyles from "@/styles/ui.module.css"
 import AppLoader from '../atoms/AppLoader';
 import ErrorState from '../atoms/ErrorState';
 import AppLink from '../atoms/AppLink';
-import AppImage from '../atoms/AppImage';
 import AppHeadingTwo from '../atoms/AppHeadingTwo';
-import GoogleImage from '../../assets/google.svg'
+import { GoogleSVG } from '../atoms/Icons';
 
 type AuthFormProps = {
   mode: "login" | "signup";
@@ -45,7 +44,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
             type='button'
             className={styles.googleContainer}
             onClick={onGoogleLogin}
-          ><AppImage className={styles.googleImage} src={GoogleImage} /></AppButton>
+          ><GoogleSVG className={styles.googleSVG} /></AppButton>
         </div>
 
 

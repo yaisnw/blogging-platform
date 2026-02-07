@@ -23,7 +23,7 @@
 main {
     overflow: auto;
 }
-.googleImage {
+.googleSVG {
     width: 30px;
     height: 30px;
 }
@@ -71,7 +71,6 @@ main {
     border: none;
     margin: 0;
     padding: 0;
-    width: 60%;
 }
 
 .authField {
@@ -100,6 +99,7 @@ main {
     }
     .authFormContainer h2 {
         font-size: 1.3rem;
+        text-align: center;
     }
     .authFieldContainer {
         width: 80%;

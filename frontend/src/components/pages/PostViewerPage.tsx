@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import PostViewerTemplate from "../templates/PostViewerTemplate";
 import { useGetPostDetailsQuery } from "@/services/postsApi";
 import CommentForm from "../organisms/CommentForm";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAddLikeMutation, useRemoveLikeMutation } from "@/services/likesApi";
 import { useAddCommentMutation, useDeleteCommentMutation, useEditCommentMutation } from "@/services/commentsApi";
 import type { comment } from "@/types/rtkTypes";
@@ -14,6 +14,7 @@ import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
 import { PlainTextFromEditorState } from "@/utils/PlainTextFromEditorState";
 import PostViewer from "../organisms/PostViewer";
+import AppLoader from "../atoms/AppLoader";
 
 const PostViewerPage = () => {
     const [liked, setLiked] = useState(false);
@@ -26,13 +27,13 @@ const PostViewerPage = () => {
         data: details,
         isLoading,
         isError
-    } = useGetPostDetailsQuery({postId: Number(id), page: 1, limit: 10}, {
+    } = useGetPostDetailsQuery({ postId: Number(id), page: 1, limit: 10 }, {
         skip: !id,
     });
 
-    const [editComment, { isError: editCommentError }] = useEditCommentMutation();
-    const [deleteComment, { isError: deleteCommentError }] = useDeleteCommentMutation();
-    const [addComment, { isError: submitCommentError }] = useAddCommentMutation();
+    const [editComment] = useEditCommentMutation();
+    const [deleteComment] = useDeleteCommentMutation();
+    const [addComment, { isLoading: isAddingComment }] = useAddCommentMutation();
     const [addLike] = useAddLikeMutation();
     const [removeLike] = useRemoveLikeMutation();
 
@@ -67,8 +68,12 @@ const PostViewerPage = () => {
 
     const handleCommentSubmit = async (content: string) => {
         if (id) {
-            await addComment({ postId: Number(id), content });
-            setCommentContent('');
+            try {
+                await addComment({ postId: Number(id), content }).unwrap();
+                setCommentContent('');
+            } catch (err) {
+                console.error("Failed to post comment:", err);
+            }
         }
     };
 
@@ -108,8 +113,6 @@ const PostViewerPage = () => {
     let commentsSection;
     if (isLoading) {
         commentsSection = Array.from({ length: 3 }).map((_, i) => <CommentSkeleton key={i} />);
-    } else if (editCommentError || deleteCommentError || submitCommentError) {
-        commentsSection = <ErrorState mode="normal" message="Failed to update comments." />;
     } else if (!comments || comments.length === 0) {
         commentsSection = <ErrorState mode="normal" message="There are no comments on this post" />;
     } else {
@@ -118,11 +121,11 @@ const PostViewerPage = () => {
                 key={c.id}
                 commentId={c.id}
                 content={c.content}
-                username={c.User.username}
+                username={c.User!.username}
                 authorId={c.authorId}
-                avatar_url={c.User.avatar_url}
+                avatar_url={c.User!.avatar_url}
                 createdAt={c.createdAt}
-                updatedAt={c.updatedAt}
+                updatedAt={c.updatedAt!}
                 editComment={handleCommentEdit}
                 deleteComment={handleCommentDelete}
             />
@@ -136,6 +139,7 @@ const PostViewerPage = () => {
                 description={post?.content ? PlainTextFromEditorState(post.content).slice(0, 150) : 'View any post'}
                 author={post?.User.username || ''}
             />
+            {isAddingComment && <AppLoader mode="page" />}
             <PostViewerTemplate
                 header={
                     isLoading ? (
@@ -157,9 +161,9 @@ const PostViewerPage = () => {
                     isLoading ? (
                         <PostViewerSkeleton />
                     ) : (
-                            <PostViewer content={post!.content} />
+                        <PostViewer content={post!.content} />
                     )
-                } 
+                }
                 interactionBox={
                     <CommentForm
                         commentContent={commentContent ?? ""}

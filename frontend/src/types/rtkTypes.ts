@@ -27,24 +27,25 @@ export interface blogPost {
         avatar_url: string
     }
     likeCount: number,
+    commentCount: number,
     hasLiked: boolean,
     createdAt: string,
     updatedAt: string,
 }
 export interface comment {
     id: number,
-    authorId: number,
+    authorId?: number,
     postId: number,
     content: string,
-    User: {
+    User?: {
         username: string,
         avatar_url: string
     },
-    Post: {
+    Post?: {
         title: string,
     },
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: string,
+    updatedAt?: string
 }
 export type PostDetailsResponse = {
     post: blogPost;

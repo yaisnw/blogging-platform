@@ -1,92 +1,66 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { comment } from "../types/rtkTypes";
+import { baseApi } from "./baseApi";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-export const commentsApi = createApi({
-  reducerPath: "commentsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/comment`,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
-  tagTypes: ["Comments", "Comment"],
+export const commentsApi = baseApi.injectEndpoints({
+  overrideExisting: false,
   endpoints: (build) => ({
     getCommentsByPostId: build.query<
-      { comments: comment[]; totalCount: number }, 
+      { comments: comment[]; totalCount: number },
       { postId: number; page: number; limit: number }
     >({
-      query: ({ postId, page, limit }) => `/post/${postId}?page=${page}&limit=${limit}`,
+      query: ({ postId, page, limit }) => `/comment/post/${postId}?page=${page}&limit=${limit}`,
       providesTags: (result, _, { postId }) =>
         result
           ? [
-              ...result.comments.map(
-                (comment) => ({ type: "Comment", id: comment.id } as const)
-              ),
-              { type: "Comments", id: `POST-${postId}` },
-            ]
+            ...result.comments.map((comment) => ({ type: "Comment", id: comment.id } as const)),
+            { type: "Comments", id: `POST-${postId}` },
+          ]
           : [{ type: "Comments", id: `POST-${postId}` }],
     }),
-    
+
     getCommentsByAuthorId: build.query<
-      { comments: comment[]; totalCount: number }, 
+      { comments: comment[]; totalCount: number },
       { authorId: number; page: number; limit: number }
     >({
-      query: ({ authorId, page, limit }) => `/author/${authorId}?page=${page}&limit=${limit}`,
+      query: ({ authorId, page, limit }) => `/comment/author/${authorId}?page=${page}&limit=${limit}`,
       providesTags: (result, _, { authorId }) =>
         result
           ? [
-              ...result.comments.map(
-                (comment) => ({ type: "Comment", id: comment.id } as const)
-              ),
-              { type: "Comments", id: `AUTHOR-${authorId}` },
-            ]
+            ...result.comments.map((comment) => ({ type: "Comment", id: comment.id } as const)),
+            { type: "Comments", id: `AUTHOR-${authorId}` },
+          ]
           : [{ type: "Comments", id: `AUTHOR-${authorId}` }],
     }),
+
     addComment: build.mutation<comment, { postId: number; content: string }>({
       query: (body) => ({
-        url: "/",
+        url: "/comment",
         method: "POST",
         body,
       }),
       invalidatesTags: (_result, _error, { postId }) => [
         { type: "Comments", id: `POST-${postId}` },
+        { type: "Post", id: postId },
+        { type: "Posts", id: postId },
+        { type: "Posts", id: "LIST" }
       ],
     }),
 
-    editComment: build.mutation<
-      { message: string },
-      { commentId: number; content: string; postId: number }
-    >({
-      query: ({ commentId, content }) => ({
-        url: `/${commentId}`,
-        method: "PUT",
-        body: { content },
-      }),
+    editComment: build.mutation<{ message: string }, { commentId: number; content: string; postId: number }>({
+      query: ({ commentId, content }) => ({ url: `/comment/${commentId}`, method: "PUT", body: { content } }),
       invalidatesTags: (_result, _error, { commentId, postId }) => [
-        { type: "Comment", commentId },
-        { type: "Comments", id: `POST-${postId}` },
+        { type: "Comment", id: commentId },
+        { type: "Comments", id: `POST-${postId}` }
       ],
     }),
 
-    deleteComment: build.mutation<
-      { message: string },
-      { commentId: number; postId: number }
-    >({
-      query: ({ commentId }) => ({
-        url: `/${commentId}`,
-        method: "DELETE",
-      }),
-
-
-      invalidatesTags: (_result, _error, { commentId, postId }) => [
-        { type: "Comment", commentId },
+    deleteComment: build.mutation<{ message: string }, { commentId: number; postId: number }>({
+      query: ({ commentId }) => ({ url: `/comment/${commentId}`, method: "DELETE" }),
+      invalidatesTags: (_result, _error, { postId }) => [
         { type: "Comments", id: `POST-${postId}` },
+        { type: "Post", id: postId },
+        { type: "Posts", id: postId },
+        { type: "Posts", id: "LIST" }
       ],
     }),
   }),

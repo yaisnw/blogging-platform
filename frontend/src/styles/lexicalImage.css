@@ -58,12 +58,18 @@
   left: 50%;
   transform: translateX(-50%);
 }
+.alignment-buttons svg {
+  color: var(--color-text)
+}
 
 .alignment-buttons button {
   background: none;
   border: none;
   cursor: pointer;
   padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lexical-image-container.align-left {
