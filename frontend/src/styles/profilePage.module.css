@@ -212,8 +212,11 @@
     .userName {
         font-size: 1.3rem;
     }
+    .infoSection{
+        gap: 2rem;
+    }
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
     .profileCard,
     .publicProfileCard,
     .editingProfileCard,

@@ -137,12 +137,11 @@
     transition: all 0.3s ease;
 }
 
-.hamburger span.barOpen:nth-child(2) {
-    opacity: 0;
-}
-
 .hamburger span.barOpen:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
+}
+.hamburger span.barOpen:nth-child(2) {
+    opacity: 0;
 }
 
 .hamburger span.barOpen:nth-child(3) {
