@@ -1,28 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { responseUser } from "../types/rtkTypes";
+import { baseApi } from "./baseApi";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-export const userApi = createApi({
-    reducerPath: "userApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${BASE_URL}/user`,
-        prepareHeaders: (headers) => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                headers.set("Authorization", `Bearer ${token}`);
-            }
-            return headers;
-        },
-    }),
-    tagTypes: ["User"],
+export const userApi = baseApi.injectEndpoints({
+    overrideExisting: false,
     endpoints: (build) => ({
         getUser: build.query<responseUser, number>({
-            query: (id) => `/${id}`,
+            query: (id) => `/user/${id}`,
             providesTags: (_result, _error, id) => [{ type: "User", id }],
         }),
         searchUsers: build.query<{users: responseUser[], message: string}, string>({
-            query: (searchTerm) => `/search?q=${encodeURIComponent(searchTerm)}`,
+            query: (searchTerm) => `/user/search?q=${encodeURIComponent(searchTerm)}`,
             providesTags: (result) =>
                 result
                     ? [
@@ -33,15 +20,14 @@ export const userApi = createApi({
         }),
         deleteUser: build.mutation<{ msg: string }, number>({
             query: (id) => ({
-                url: `/${id}`,
+                url: `/user/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: (_result, _error, id) => [{ type: "User", id }],
         }),
-
         updateUser: build.mutation<responseUser, { id: number; data: Partial<responseUser> }>({
             query: ({ id, data }) => ({
-                url: `/${id}`,
+                url: `/user/${id}`,
                 method: "PUT",
                 body: data,
             }),
@@ -49,15 +35,14 @@ export const userApi = createApi({
         }),
         changePassword: build.mutation<{ msg: string }, { data: { currentPassword: string; newPassword: string } }>({
             query: ({ data }) => ({
-                url: `/change-password`,
+                url: `/user/change-password`,
                 method: "PUT",
                 body: data,
             }),
         }),
-
         changeAvatar: build.mutation<responseUser, { id: number; formData: FormData }>({
             query: ({ id, formData }) => ({
-                url: `/${id}/avatar`,
+                url: `/user/${id}/avatar`,
                 method: "PUT",
                 body: formData,
             }),

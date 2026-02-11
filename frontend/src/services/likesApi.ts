@@ -1,42 +1,59 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const BASE_URL = import.meta.env.VITE_BASE_URL
+import { postsApi } from "./postsApi";
+import { baseApi } from "./baseApi";
+import type { PostDetailsResponse } from "@/types/rtkTypes";
 
-export const likesApi = createApi({
-  reducerPath: "likesApi",
-  baseQuery: fetchBaseQuery({
-          baseUrl: `${BASE_URL}/like`,
-          prepareHeaders: (headers) => {
-              const token = localStorage.getItem('token');
-              if (token) {
-                  headers.set('Authorization', `Bearer ${token}`);
-              }
-              return headers;
-          }
+export const likesApi = baseApi.injectEndpoints({
+  endpoints: (build) => ({
+    addLike: build.mutation<void, number>({
+      query: (postId) => ({ 
+        url: '/like/add', 
+        method: 'POST',
+        body: { postId } 
       }),
-  tagTypes: ["Likes"],
-  endpoints: (builder) => ({
-    addLike: builder.mutation({
-      query: (postId: number) => ({
-        url: "/add",
-        method: "POST",
-        body: { postId },
-      }),
-      invalidatesTags: ["Likes"],
+      async onQueryStarted(postId, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          postsApi.util.updateQueryData('getPostDetails', { postId, page: 1, limit: 10 }, (draft: PostDetailsResponse) => {
+            if (draft.post) {
+              draft.post.likeCount = Number(draft.post.likeCount) + 1;
+              draft.post.hasLiked = true;
+            }
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      }
     }),
-    removeLike: builder.mutation({
-      query: (postId: number) => ({
-        url: "/remove",
+    removeLike: build.mutation<void, number>({
+      query: (postId) => ({
+        url: "/like/remove",
         method: "DELETE",
         body: { postId },
       }),
-      invalidatesTags: ["Likes"],
+      async onQueryStarted(postId, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          postsApi.util.updateQueryData('getPostDetails', { postId, page: 1, limit: 10 }, (draft: PostDetailsResponse) => {
+            if (draft.post) {
+              draft.post.likeCount = Math.max(0, Number(draft.post.likeCount) - 1);
+              draft.post.hasLiked = false;
+            }
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
-    getLikesByPost: builder.query({
-      query: (postId: number) => `/post/${postId}`,
+    getLikesByPost: build.query({
+      query: (postId: number) => `/like/post/${postId}`,
       providesTags: ["Likes"],
     }),
-    getLikesByUser: builder.query({
-      query: (userId: number) => `/user/${userId}`,
+    getLikesByUser: build.query({
+      query: (userId: number) => `/like/user/${userId}`,
       providesTags: ["Likes"],
     }),
   }),

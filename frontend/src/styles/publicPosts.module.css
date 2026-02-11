@@ -1,24 +1,18 @@
 .cardsContainer {
-    margin: 5rem auto;
+    margin: clamp(2rem, 8vh, 5rem) auto;
     display: grid;
     justify-content: center;
     align-items: start;
     grid-template-columns: 1fr;
-    width: 80vw;
-    gap: 20px;
-}
-
-
-
-@media screen and (max-width: 780px) {
-    .cardsContainer {
-        width: 100vw;
-    }
+    width: clamp(280px, 85%, 1600px);
+    gap: clamp(15px, 3vw, 25px);
 }
 
 @media screen and (max-width: 480px) {
     .cardsContainer {
-        margin: 3rem auto;
-        width: 90vw;
+        width: 100%;
+        gap: 1rem;
+        padding: 0 10px;
+        box-sizing: border-box;
     }
 }

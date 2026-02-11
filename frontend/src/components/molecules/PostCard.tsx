@@ -7,23 +7,19 @@ import { useAppDispatch } from "@/hooks";
 import { addDeletingPostIds, setPostId } from "@/slices/uiSlice";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
-import { useGetCommentsByPostIdQuery } from "@/services/commentsApi";
-import HeartButton from "../atoms/HeartButton";
 import { useNavigate } from "react-router";
-import AppLoader from "../atoms/AppLoader";
 import slugify from "slugify"
 import AppButton from "../atoms/AppButton";
 import AppInput from "../atoms/AppInput";
 import AppLink from "../atoms/AppLink";
 import { motion } from "motion/react"
-import commentImage from '../../assets/comment.svg'
-import EditSVG from "../atoms/EditSVG";
-import ViewSVG from "../atoms/ViewSVG";
+import {ViewSVG, CommentSVG, EditSVG, HeartSVG} from "../atoms/Icons";
 
 type PostCardProps = {
     postId: number,
     title: string,
     likeCount: number,
+    commentCount: number,
     hasLiked: boolean,
     createdAt: string,
     updatedAt: string,
@@ -35,13 +31,15 @@ type PostCardProps = {
     isDeleting?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, hasLiked, createdAt, updatedAt, status, isDeleting }) => {
+const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, avatar_url, editButton, likeCount, commentCount, hasLiked, createdAt, updatedAt, status, isDeleting }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
-    const { data, isLoading } = useGetCommentsByPostIdQuery({ postId, page: 1, limit: 1 });
     const createdDate = new Date(createdAt);
     const updatedDate = new Date(updatedAt);
+    const user = useSelector((state: RootState) => state.auth.user)
+
+    const isAuthor = user?.id === authorId;
 
     const handlePostClick = async (title: string, id: number) => {
         dispatch(setPostId(id))
@@ -104,12 +102,12 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <div className={styles.engagementBox}>
                     <div className={styles.engagementContent}>
                         <AppParagraph>{likeCount}</AppParagraph>
-                        <HeartButton className={styles.postCardImage} liked={hasLiked} editable={false} />
+                        <HeartSVG className={styles.postCardImage} liked={hasLiked} editable={false} />
                     </div>
 
                     <div className={styles.engagementContent}>
-                        {isLoading ? <AppLoader mode="mini" /> : <AppParagraph>{data?.comments.length ?? 0}</AppParagraph>}
-                        <AppImage className={styles.postCardImage} src={commentImage} alt="comment icon" />
+                        {commentCount === 0 ? <AppParagraph>0</AppParagraph> : <AppParagraph>{commentCount}</AppParagraph>}
+                        <CommentSVG className={styles.postCardImage} />
                     </div>
                 </div>
 
@@ -131,19 +129,18 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
 
                 <div className={styles.interactionBox}>
 
-                    {editButton && (
-                        <AppButton type="button" onClick={editButton}>
-                            <EditSVG className={UIstyles.buttonSVG} />
-                            Edit Post
-                        </AppButton>
-                    )}
                     {status === 'published' && (
                         <AppButton type="button" onClick={() => handlePostClick(title, postId)}>
                             <ViewSVG className={UIstyles.buttonSVG} />
                             View Post
                         </AppButton>
                     )}
-
+                    {editButton && isAuthor && (
+                        <AppButton type="button" onClick={editButton}>
+                            <EditSVG className={UIstyles.buttonSVG} />
+                            Edit Post
+                        </AppButton>
+                    )}
                 </div>
             </footer>
         </motion.article>

@@ -4,7 +4,7 @@ import { setSearchQuery } from "@/slices/uiSlice"
 import styles from "@/styles/nav.module.css"
 import AppInput from "../atoms/AppInput"
 import { useNavigate } from "react-router"
-import SearchButton from "../atoms/SearchButton"
+import { SearchSVG } from "../atoms/Icons"
 
 const SearchBar = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const SearchBar = () => {
         />
 
       </div>
-      <SearchButton onClick={() => navigate("/home/search")} />
+      <SearchSVG className={styles.searchIcon} onClick={() => navigate("/home/search")} />
     </form>
   );
 }

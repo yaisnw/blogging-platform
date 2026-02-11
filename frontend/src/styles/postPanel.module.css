@@ -44,7 +44,7 @@
 }
 
 .select {
-    padding: 8px 12px;
+    padding: 10px 0;
     border-radius: 6px;
     border: 1px solid var(--color-border);
     background-color: var(--color-accent-light);
@@ -52,6 +52,7 @@
     font-size: 0.875rem;
     outline: none;
     cursor: pointer;
+    text-align: center;
 }
 
 .select:focus {

@@ -1,3 +1,4 @@
+
 .aboutContainer {
     flex: 1;
     margin: 10rem auto;
@@ -20,11 +21,12 @@
     align-items: center;
 }
 
-.linksContainer a {
+.socialLink {   
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    justify-content: center;
     align-items: center;
+    gap: 1rem;
+    flex-direction: column;
 }
 
 .contactLinks {
@@ -33,4 +35,19 @@
 
 .contactLinks:hover {
     transform: scale(1.05);
+}
+.contactIcon {
+    width: 3rem;
+    height: 3rem;
+    color: var(--color-text)
+}
+@media screen and (max-width: 768px) {
+    .aboutContainer {
+        width: 90vw;
+        margin: 5rem auto;
+    }
+    
+    .aboutEmail {
+        width: 70%;
+    }
 }

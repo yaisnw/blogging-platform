@@ -115,7 +115,7 @@ const ProfilePage = () => {
             return (
                 <>
                     {postsResponse?.posts.map((post: blogPost) => (
-                        <PostCard key={post.id} postId={post.id} title={post.title} likeCount={post.likeCount} hasLiked={post.hasLiked} createdAt={post.createdAt} updatedAt={post.updatedAt} status={post.status} author={activeUser?.username} authorId={activeUser?.id} avatar_url={activeUser?.avatar_url} />
+                        <PostCard key={post.id} postId={post.id} title={post.title} likeCount={post.likeCount} commentCount={post.commentCount} hasLiked={post.hasLiked} createdAt={post.createdAt} updatedAt={post.updatedAt} status={post.status} author={activeUser?.username} authorId={activeUser?.id} avatar_url={activeUser?.avatar_url} />
                     ))}
                     {totalPostPages > 1 && (
                         <div className={styles.paginationWrapper}>
@@ -144,7 +144,7 @@ const ProfilePage = () => {
         return (
             <>
                 {commentsResponse?.comments.map((comment: comment) => (
-                    <CommentCard key={comment.id} postTitle={comment.Post.title} postId={comment.postId} commentId={comment.id} content={comment.content} username={comment.User.username} authorId={comment.authorId} avatar_url={comment.User.avatar_url} createdAt={comment.createdAt} updatedAt={comment.updatedAt} />
+                    <CommentCard key={comment.id} postTitle={comment.Post!.title} postId={comment.postId} commentId={comment.id} content={comment.content} username={comment.User!.username} authorId={comment.authorId} avatar_url={comment.User!.avatar_url} createdAt={comment.createdAt} updatedAt={comment.updatedAt!} />
                 ))}
                 {totalCommentPages > 1 && (
                     <div className={styles.paginationWrapper}>

@@ -8,11 +8,11 @@ type ProfileTemplateProps = {
 
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ profileCard, tabPanel, tabContent }) => {
     return (
-        <main className={styles.profileContainer}>
+        <article className={styles.profileContainer}>
             {profileCard}
             <nav>{tabPanel}</nav>
             <section className={styles.userPostCardBox}>{tabContent}</section>
-        </main>
+        </article>
     );
 };
 

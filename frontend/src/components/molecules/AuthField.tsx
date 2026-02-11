@@ -14,7 +14,7 @@ const AuthField: React.FC<AuthFieldProps> = ({ name, label, ...props }) => {
         <fieldset className={styles.authFieldContainer}>
             <legend className={styles.visuallyHidden}>{label}</legend>
             <div className={styles.authField}>
-                <AppLabel htmlFor={name}>{label}</AppLabel>
+                {label && <AppLabel htmlFor={name} className={styles.authLabel}>{label}</AppLabel>}
                 <AppInput id={name} name={name} type="text" {...props} />
             </div>
         </fieldset>

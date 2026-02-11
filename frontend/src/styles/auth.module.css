@@ -23,7 +23,7 @@
 main {
     overflow: auto;
 }
-.googleImage {
+.googleSVG {
     width: 30px;
     height: 30px;
 }
@@ -71,7 +71,6 @@ main {
     border: none;
     margin: 0;
     padding: 0;
-    width: 60%;
 }
 
 .authField {
@@ -87,8 +86,13 @@ main {
 .authField textarea {
     box-sizing: border-box;
     font-size: 1.3rem;
-
 }
+
+@media screen and (max-width: 1024px) {
+    .authFormContainer {
+        width: 50vw;
+    }
+
 @media screen and (max-width: 768px) {
     .authForm {
         margin: 2rem auto;
@@ -100,14 +104,30 @@ main {
     }
     .authFormContainer h2 {
         font-size: 1.3rem;
-    }
-    .authFieldContainer {
-        width: 80%;
+        text-align: center;
     }
     .authField{
         flex-direction: column;
         align-items: flex-start;
         gap: 0.3rem;
         justify-content: center;
+    }
+}}
+@media screen and (max-width: 480px) {
+    .authFormContainer {
+        width: 90vw;
+        padding: 1rem;
+    }
+    .authFormContainer h2 {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    .authField input {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+        margin: 0 auto;
+        font-size: 1.1rem;
     }
 }

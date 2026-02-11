@@ -1,18 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 import type { responseUser, signUpUser, logInUser } from "../types/rtkTypes";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-
-export const authApi = createApi({
-    reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${BASE_URL}/auth`
-    }),
+export const authApi = baseApi.injectEndpoints({
+    overrideExisting: false,
     endpoints: (build) => ({
         signUpUser: build.mutation<void, signUpUser>({
             query: (body) => ({
-                url: '/signup',
+                url: '/auth/signup',
                 method: 'POST',
                 body,
                 validateStatus: (response, result) =>
@@ -21,32 +15,23 @@ export const authApi = createApi({
         }),
         logInUser: build.mutation<{token: string, user: responseUser}, logInUser>({
             query: (body) => ({
-                url: '/login',
+                url: '/auth/login',
                 method: 'POST',
                 body,
             }),
-            transformResponse: (response: { msg: string, token: string, user: responseUser }) => {
-                return {
-                    token: response.token,
-                    user: response.user
-                }
-            }
+            transformResponse: (response: { msg: string, token: string, user: responseUser }) => ({
+                token: response.token,
+                user: response.user
+            })
         }),
         oAuthLogin: build.mutation<{token: string, user: responseUser}, { code: string }>({
             query: (body) => ({
-                url: '/googleOAuth',
+                url: '/auth/googleOAuth',
                 method: 'POST',
                 body
             }),
-            
         })
-
     })
-})
+});
 
-
-export const {
-    useSignUpUserMutation,
-    useLogInUserMutation,
-    useOAuthLoginMutation
-} = authApi
+export const { useSignUpUserMutation, useLogInUserMutation, useOAuthLoginMutation } = authApi;

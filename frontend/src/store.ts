@@ -1,15 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './rootreducer';
-import { authApi } from './services/authApi';
-import { postsApi } from './services/postsApi';
-import { picturesApi } from './services/picturesApi';
 import { persistStore, persistReducer, createTransform } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { commentsApi } from './services/commentsApi';
-import { likesApi } from './services/likesApi';
-import { userApi } from './services/userApi';
 import type { UiState } from './slices/uiSlice';
+import { baseApi } from './services/baseApi';
 
 const uiTransform = createTransform<UiState, Partial<UiState>>(
   (inboundState) => ({
@@ -32,6 +27,7 @@ const persistConfig = {
   key: "root",
   storage,
   whitelist: ["auth", "ui", "post"],
+  blacklist: [baseApi.reducerPath],
   transforms: [uiTransform],
 };
 
@@ -41,12 +37,7 @@ const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistC
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(authApi.middleware,
-      postsApi.middleware,
-      picturesApi.middleware,
-      commentsApi.middleware,
-      likesApi.middleware,
-      userApi.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(baseApi.middleware),
 });
 
 export const persistor = persistStore(store)

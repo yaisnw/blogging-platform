@@ -18,6 +18,10 @@
     font-size: 1.05rem;
 }
 
+.viewer img {
+    max-width: 100% !important;
+    height: auto !important;
+}
 
 .headerBox {
     display: flex;
@@ -45,9 +49,11 @@
     justify-content: center;
     gap: 1rem;
 }
+
 .authorContainer a {
     padding: 0;
 }
+
 .postTitle {
     display: flex;
     justify-content: center;
@@ -63,9 +69,20 @@
     gap: 5rem;
 }
 
-@media  screen and (max-width: 1440px) {
+.interactiveImage {
+    width: 40px;
+    height: 40px;
+    transition: all 0.2s ease;
+}
+
+.interactiveImage:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1440px) {
     .viewer {
-        width: 80vw; 
+        width: 80vw;
         padding: 2rem;
         margin: 2rem auto;
     }
@@ -74,6 +91,7 @@
         width: 70%;
         gap: 2.5rem;
     }
+
     .postTitle {
         font-size: 2.25rem;
     }
@@ -83,11 +101,12 @@
         gap: 2rem;
         align-items: center;
     }
-    
+
 }
+
 @media screen and (max-width: 1024px) {
     .viewer {
-        width: 80vw; 
+        width: 80vw;
         padding: 2rem;
         margin: 2rem auto;
     }
@@ -96,6 +115,7 @@
         width: 70%;
         gap: 2rem;
     }
+
     .postTitle {
         font-size: 2rem;
     }
@@ -105,12 +125,14 @@
         gap: 1.5rem;
         align-items: center;
     }
-    
+
+
+
 }
 
 @media screen and (max-width: 768px) {
     .viewer {
-        width: 80vw; 
+        width: 80vw;
         padding: 1.5rem;
         margin: 2rem auto;
     }
@@ -120,6 +142,7 @@
         gap: 1.5rem;
         text-align: center;
     }
+
     .postTitle {
         font-size: 1.75rem;
     }
@@ -129,24 +152,33 @@
         gap: 1rem;
         align-items: center;
     }
+
+    .interactiveImage {
+        width: 35px;
+        height: 35px;
+    }
 }
+
 @media screen and (max-width: 480px) {
     .viewer {
-        width: 85vw; 
+        width: 85vw;
         padding: 1rem;
         margin: 2rem auto;
     }
 
     .viewer img {
-        max-width: 100%; 
-        height: auto; 
-        display: block; 
+        max-width: 100%;
+        height: auto;
+        display: block;
         float: none;
     }
 
-    .headerBox, .postTitle, .postInfo {
+    .headerBox,
+    .postTitle,
+    .postInfo {
         width: 90vw;
     }
+
     .headerBox {
         display: flex;
         flex-direction: column;
@@ -155,13 +187,18 @@
         gap: 1rem;
         text-align: center;
     }
+
     .postTitle {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
     }
 
     .postInfo {
         flex-direction: column;
         gap: 1rem;
         align-items: center;
+    }
+
+    .authorContainer p {
+        font-size: 0.9rem;
     }
 }

@@ -7,13 +7,14 @@ import AppLoader from "../atoms/AppLoader"
 import ErrorState from "../atoms/ErrorState"
 import SEO from "../atoms/SEO"
 import PostPanel from "../molecules/PostPanel"
-import { resetdraftPost } from "@/slices/draftPostSlice"
+import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPostSlice"
 import { useAppDispatch } from "@/hooks"
 import { useAuthStatus } from "@/hooks/useAuthStatus"
 import AppHeadingTwo from "../atoms/AppHeadingTwo"
 import { useState } from "react"
 import ReactPaginate from "react-paginate"
 import styles from '@/styles/ui.module.css'
+import { setPostId } from "@/slices/uiSlice"
 
 const PublicPostsPage = () => {
     const { loggedIn } = useAuthStatus();
@@ -34,7 +35,13 @@ const PublicPostsPage = () => {
         setCurrentPage(event.selected);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
+    
+    const handleEditButton = (id: number) => {
+        dispatch(setDraftTitle(''))
+        dispatch(setDraftContent(''))
+        dispatch(setPostId(id));
+        navigate(`/createPost/${id}`);
+    };
     if (isError) {
         return (
             <main>
@@ -64,6 +71,7 @@ const PublicPostsPage = () => {
                         postId={post.id}
                         title={post.title}
                         likeCount={post.likeCount}
+                        commentCount={post.commentCount}
                         hasLiked={post.hasLiked}
                         createdAt={post.createdAt}
                         updatedAt={post.updatedAt}
@@ -71,6 +79,7 @@ const PublicPostsPage = () => {
                         authorId={post.authorId}
                         author={post.User.username}
                         avatar_url={post.User.avatar_url}
+                        editButton={() => handleEditButton(post.id)}
                     />
                 ))}
 

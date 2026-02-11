@@ -1,31 +1,18 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-
-export const picturesApi = createApi({
-  reducerPath: "pictureApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/picture`,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+export const picturesApi = baseApi.injectEndpoints({
+  overrideExisting: false,
   endpoints: (build) => ({
     uploadImage: build.mutation<string, FormData>({
       query: (formData) => ({
-        url: "/",
+        url: "/picture",
         method: "POST",
         body: formData,
       }),
     }),
     deleteImage: build.mutation<string, string>({
       query: (imageUrl) => ({
-        url: "/deleteByUrl",
+        url: "/picture/deleteByUrl",
         method: "DELETE",
         body: { imageUrl }
       })

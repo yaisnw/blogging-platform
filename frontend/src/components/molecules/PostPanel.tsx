@@ -3,9 +3,7 @@ import styles from '../../styles/postPanel.module.css'
 import UIstyles from '@/styles/ui.module.css'
 import { AnimatePresence, motion } from "motion/react";
 import AppHeadingTwo from "../atoms/AppHeadingTwo";
-import PlusSVG from "../atoms/PlusSVG";
-import TrashSVG from "../atoms/TrashSVG";
-
+import { PlusSVG, TrashSVG } from "../atoms/Icons";
 type postPanelProps = {
     createButton: () => void;
     deleteButton?: () => void;
