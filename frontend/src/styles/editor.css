@@ -333,15 +333,13 @@
 }
 
 .toolbar-hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translateY(8px);
+    transform: translateY(8px) rotate(45deg);
 }
-
 .toolbar-hamburger.active span:nth-child(2) {
     opacity: 0;
 }
-
 .toolbar-hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translateY(-8px);
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 

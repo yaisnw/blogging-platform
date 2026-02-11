@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: start;
     grid-template-columns: 1fr;
-    width: clamp(280px, 92%, 1100px);
+    width: clamp(280px, 85%, 1600px);
     gap: clamp(15px, 3vw, 25px);
 }
 
