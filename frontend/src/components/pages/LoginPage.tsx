@@ -27,7 +27,7 @@ const LoginPage = () => {
     const justRegistered = useSelector(
         (state: RootState) => state.auth.justRegistered
     );
-
+    
     const login = useGoogleLogin({
         flow: "auth-code",
         ux_mode: "redirect",
@@ -58,7 +58,7 @@ const LoginPage = () => {
         <AuthTemplate>
             <SEO title="Login" description="Log in to your account to manage your own posts" />
             <LoginSampleComponent />
-            {justRegistered && <SuccessState message="You have successfully signed up!" />}
+            {justRegistered && <SuccessState mode="login" message="You have successfully signed up!" />}
             <AuthForm
                 mode="login"
                 formData={formData}
