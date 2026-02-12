@@ -100,6 +100,9 @@ main {
     padding: 2rem 1rem;
     width: clamp(200px, 25vw, 380px); 
 }
+
+
+
 @media screen and (max-width: 1024px) {
     .authFormContainer {
         width: 60vw;
@@ -116,7 +119,7 @@ main {
         padding: 1.5rem 2rem;
         font-size: 0.9rem;
         width: 50vw;
-        margin: 2.5rem auto;
+        margin: 2rem auto;
     }
 }
 
@@ -126,7 +129,7 @@ main {
     }
     
     .authFormContainer {
-        width: 60vw;
+        width: 80vw;
         padding: 2rem 1rem;
     }
     .authFormContainer h2 {
