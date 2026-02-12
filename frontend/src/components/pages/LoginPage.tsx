@@ -57,8 +57,8 @@ const LoginPage = () => {
     return (
         <AuthTemplate>
             <SEO title="Login" description="Log in to your account to manage your own posts" />
-            {justRegistered && <SuccessState message="You have successfully signed up!" />}
             <LoginSampleComponent />
+            {justRegistered && <SuccessState message="You have successfully signed up!" />}
             <AuthForm
                 mode="login"
                 formData={formData}
