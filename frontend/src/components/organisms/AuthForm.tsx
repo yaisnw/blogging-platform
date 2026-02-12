@@ -10,6 +10,7 @@ import { GoogleSVG } from '../atoms/Icons';
 
 type AuthFormProps = {
   mode: "login" | "signup";
+  hasSample?: boolean;
   formData: Record<string, string>;
   errors: Record<string, string>;
   isLoading: boolean;
@@ -27,17 +28,15 @@ const AuthForm: React.FC<AuthFormProps> = ({
   errorMsg,
   onChange,
   onSubmit,
-  onGoogleLogin
+  onGoogleLogin,
+  hasSample = false,
 }) => {
   return (
-    <div className={styles.authFormWrapper}>
+    <div className={`${styles.authFormWrapper} ${hasSample ? styles.authFormWrapperWithSample : ''}`}>
       {isLoading &&
         <AppLoader mode='page' />}
 
       <div className={styles.authFormContainer}>
-
-
-
         <div className={styles.oAuthContainer}>
           <AppHeadingTwo>{mode === 'login' ? 'Login with:' : 'Sign up with:'}</AppHeadingTwo>
           <AppButton
