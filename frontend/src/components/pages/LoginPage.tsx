@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/hooks";
 import { setTokenData } from "@/slices/authSlice";
 import SEO from "../atoms/SEO";
 import SuccessState from "../atoms/SuccessState";
+import LoginSampleComponent from "../molecules/LoginSampleComponent";
 const REDIRECT_URL = import.meta.env.VITE_REDIRECT_URL;
 
 export type ErrorResponse = { message: string };
@@ -52,11 +53,12 @@ const LoginPage = () => {
         navigate("../home");
 
     };
-
+    
     return (
         <AuthTemplate>
             <SEO title="Login" description="Log in to your account to manage your own posts" />
             {justRegistered && <SuccessState message="You have successfully signed up!" />}
+            <LoginSampleComponent />
             <AuthForm
                 mode="login"
                 formData={formData}
@@ -70,6 +72,7 @@ const LoginPage = () => {
                 onChange={handleChange}
                 onSubmit={handleSubmit}
                 onGoogleLogin={() => login()}
+                hasSample={true}
             />
         </AuthTemplate>
     );

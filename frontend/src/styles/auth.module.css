@@ -13,8 +13,7 @@
     border-radius: 12px;
     padding: 3rem 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: fit-content;
-    width: 30vw;
+    width: clamp(300px, 40vw, 580px); 
     margin: 1rem;
 }
 .visuallyHidden {
@@ -87,11 +86,39 @@ main {
     box-sizing: border-box;
     font-size: 1.3rem;
 }
-
+.loginSampleContainer {
+    position: absolute;
+    left: clamp(1%, 5vw, 15%);
+    top: 50%;
+    transform: translate(-10%, -50%);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: var(--color-text);
+    text-align: center;
+    padding: 2rem 1rem;
+    width: clamp(200px, 25vw, 380px); 
+}
 @media screen and (max-width: 1024px) {
     .authFormContainer {
-        width: 50vw;
+        width: 60vw;
     }
+
+    .authFormWrapperWithSample {
+        justify-content: start;
+        min-height: auto;
+    }
+
+    .loginSampleContainer {
+        position: static;
+        transform: none;
+        padding: 1.5rem 2rem;
+        font-size: 0.9rem;
+        width: 50vw;
+        margin: 2.5rem auto;
+    }
+}
 
 @media screen and (max-width: 768px) {
     .authForm {
@@ -99,7 +126,7 @@ main {
     }
     
     .authFormContainer {
-        width: 80vw;
+        width: 60vw;
         padding: 2rem 1rem;
     }
     .authFormContainer h2 {
@@ -112,14 +139,14 @@ main {
         gap: 0.3rem;
         justify-content: center;
     }
-}}
+}
 @media screen and (max-width: 480px) {
     .authFormContainer {
         width: 90vw;
         padding: 1rem;
     }
     .authFormContainer h2 {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         text-align: center;
     }
     .authField input {
@@ -128,6 +155,11 @@ main {
         align-items: center;
         width: 90%;
         margin: 0 auto;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
+    }
+    .loginSampleContainer {
+        width: 90vw;
+        padding: 1rem;
+        font-size: 1rem;
     }
 }
