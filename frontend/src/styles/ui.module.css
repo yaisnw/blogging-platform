@@ -94,6 +94,10 @@
   gap: 2rem;
 }
 
+.componentError button {
+  width: auto;
+}
+
 .miniErrorWrapper {
   display: flex;
   flex-direction: column;
