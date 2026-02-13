@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import AuthTemplate from "../templates/AuthTemplate";
 import { useAppDispatch } from "@/hooks";
-import { setTokenData } from "@/slices/authSlice";
+import { setJustRegistered, setTokenData } from "@/slices/authSlice";
 import SEO from "../atoms/SEO";
 import SuccessState from "../atoms/SuccessState";
 const REDIRECT_URL = import.meta.env.VITE_REDIRECT_URL;
@@ -21,7 +21,7 @@ const LoginPage = () => {
         "email",
         "password",
     ]);
-    const [logInUser, { isLoading, error }] = useLogInUserMutation();
+    const [logInUser, { isLoading, error, isSuccess }] = useLogInUserMutation();
 
     const justRegistered = useSelector(
         (state: RootState) => state.auth.justRegistered
@@ -48,7 +48,9 @@ const LoginPage = () => {
             email: response.user.email,
             avatar_url: response.user.avatar_url
         }));
-
+        if (isSuccess) {
+            dispatch(setJustRegistered(false));
+        }
         navigate("../home");
 
     };
