@@ -37,6 +37,9 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     const deletingPostIds = useSelector((state: RootState) => state.ui.deletingPostIds)
     const createdDate = new Date(createdAt);
     const updatedDate = new Date(updatedAt);
+    const user = useSelector((state: RootState) => state.auth.user)
+
+    const isAuthor = user?.id === authorId;
 
     const handlePostClick = async (title: string, id: number) => {
         dispatch(setPostId(id))
@@ -72,7 +75,8 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
                     {title}
                 </AppHeader>
-                {isDeleting && (
+                <div className={styles.cardHeaderSub}>
+                    {isDeleting && (
                     <motion.label
                         initial={{ opacity: 0, }}
                         animate={{ opacity: 1, }}
@@ -92,6 +96,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                     <span className={status === 'published' ? styles.publishedBadge : styles.draftBadge}>
                         {status?.charAt(0).toUpperCase() + status.slice(1)}
                     </span>
+                </div>
                 </div>
             </header>
 
@@ -132,7 +137,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                             View Post
                         </AppButton>
                     )}
-                    {editButton && (
+                    {editButton && isAuthor && (
                         <AppButton type="button" onClick={editButton}>
                             <EditSVG className={UIstyles.buttonSVG} />
                             Edit Post

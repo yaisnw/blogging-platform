@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/hooks";
 import { setJustRegistered, setTokenData } from "@/slices/authSlice";
 import SEO from "../atoms/SEO";
 import SuccessState from "../atoms/SuccessState";
+import LoginSampleComponent from "../molecules/LoginSampleComponent";
 const REDIRECT_URL = import.meta.env.VITE_REDIRECT_URL;
 
 export type ErrorResponse = { message: string };
@@ -26,7 +27,7 @@ const LoginPage = () => {
     const justRegistered = useSelector(
         (state: RootState) => state.auth.justRegistered
     );
-
+    
     const login = useGoogleLogin({
         flow: "auth-code",
         ux_mode: "redirect",
@@ -54,11 +55,12 @@ const LoginPage = () => {
         navigate("../home");
 
     };
-
+    
     return (
         <AuthTemplate>
             <SEO title="Login" description="Log in to your account to manage your own posts" />
-            {justRegistered && <SuccessState message="You have successfully signed up!" />}
+            <LoginSampleComponent />
+            {justRegistered && <SuccessState mode="login" message="You have successfully signed up!" />}
             <AuthForm
                 mode="login"
                 formData={formData}
@@ -72,6 +74,7 @@ const LoginPage = () => {
                 onChange={handleChange}
                 onSubmit={handleSubmit}
                 onGoogleLogin={() => login()}
+                hasSample={true}
             />
         </AuthTemplate>
     );

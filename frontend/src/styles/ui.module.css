@@ -94,6 +94,10 @@
   gap: 2rem;
 }
 
+.componentError button {
+  width: auto;
+}
+
 .miniErrorWrapper {
   display: flex;
   flex-direction: column;
@@ -112,7 +116,7 @@
 
 .pageSuccessWrapper,
 .componentSuccessWrapper,
-.miniSuccessWrapper {
+.loginSuccessWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,13 +126,16 @@
 }
 
 .pageSuccessWrapper {
-  min-height: 60vh;
   width: 100%;
 }
 
-.miniSuccessWrapper {
-  padding: 1rem;
+.loginSuccessWrapper {
   gap: 0.5rem;
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .successText {
@@ -516,6 +523,11 @@
     width: 50vw;
   }
 
+  .loginSuccessWrapper {
+    position: static;
+    transform: none;
+  }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -603,8 +615,13 @@
     transform: none;
     scale: 1;
   }
+
   .interactiveAvatar {
     width: 2.5rem;
     height: 2.5rem;
+  }
+
+  .successText {
+    font-size: 1.3rem;
   }
 }
