@@ -1,0 +1,32 @@
+services:
+
+  # ── Backend (Express + Node.js) ────────────────────────────────────────────
+  # Connects to the existing cloud services (Miget postgres, AWS S3, Google OAuth)
+  # using credentials from ./backend/.env (pulled via `vercel env pull .env`)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env.local
+    environment:
+      PORT: 3000
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "3000:3000"
+
+
+  # ── Frontend (React → nginx) ───────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_BASE_URL: http://localhost:3000
+        VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID:-}
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend

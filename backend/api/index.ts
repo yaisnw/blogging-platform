@@ -32,7 +32,9 @@ app.set('trust proxy', 1);
 
 const whitelist = [
   'https://blogging-platform-pearl-six.vercel.app',
-  'https://blogging-platform-frontend-m6abcmq1i.vercel.app'
+  'https://blogging-platform-frontend-m6abcmq1i.vercel.app',
+  // Injected at runtime — used for Docker / local development (e.g. http://localhost:5173)
+  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
 ];
 const corsOptions: CorsOptions = {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
