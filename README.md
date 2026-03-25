@@ -44,7 +44,15 @@
 | JWT + bcryptjs | Auth & password hashing |
 | Multer | File upload handling |
 | Helmet + express-rate-limit | Security |
-| Miget | Backend hosting |
+
+### Infrastructure
+| Technology | Purpose |
+|---|---|
+| Docker + Docker Compose | Containerisation |
+| nginx | Static file serving + SPA routing |
+| Vercel | Production deployment |
+| Miget | Hosted PostgreSQL |
+| AWS S3 | Image storage |
 
 ---
 
@@ -101,6 +109,24 @@ AWS_SECRET_ACCESS_KEY=
 ```
 
 ### Running Locally
+
+**With Docker (recommended):**
+
+```bash
+# Create a root-level .env with your Google Client ID
+echo "VITE_GOOGLE_CLIENT_ID=your_client_id" > .env
+
+docker-compose up --build
+```
+
+Frontend: `http://localhost:5173` — Backend: `http://localhost:3000`
+
+```bash
+# Stop containers
+docker-compose down
+```
+
+**Without Docker:**
 
 ```bash
 # Start the backend (with hot reload)
