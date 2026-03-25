@@ -1,5 +1,7 @@
 # Root .gitignore
-
+CLAUDE.md
+Claude.md
+.claude/
 # Dependencies
 **/node_modules/
 
