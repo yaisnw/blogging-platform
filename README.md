@@ -4,6 +4,9 @@
 
 🔗 **[Live Demo](https://blogging-platform-pearl-six.vercel.app/)**
 
+[![Docker Backend](https://img.shields.io/badge/Docker%20Hub-backend-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/yaisn/blogging-platform-backend)
+[![Docker Frontend](https://img.shields.io/badge/Docker%20Hub-frontend-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/yaisn/blogging-platform-frontend)
+
 ![Blogging Platform Demo](./assets/Animation.gif)
 
 ---
@@ -165,3 +168,4 @@ Don't want to sign up? Use the sample credentials on the login page to explore t
 - **Backend** — hosted on [Miget](https://miget.com)
 - **Database** — PostgreSQL on Miget
 - **Images** — stored on AWS S3
+- **Docker images** — [backend](https://hub.docker.com/r/yaisn/blogging-platform-backend) · [frontend](https://hub.docker.com/r/yaisn/blogging-platform-frontend) on Docker Hub
