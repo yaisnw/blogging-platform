@@ -58,7 +58,13 @@ const PublicPostsPage = () => {
     const totalPages = Math.ceil((data?.totalCount || 0) / limit);
 
     const renderCards = (() => {
-        if (!isLoading && (!data?.posts || data.posts.length === 0)) {
+        // Only the first load has nothing to show; refetches keep the previous
+        // page in `data` and are dimmed via staleList instead.
+        if (isLoading) {
+            return <AppLoader mode="normal" />;
+        }
+
+        if (!data?.posts || data.posts.length === 0) {
             return (
                 <ErrorState
                     mode="normal"
@@ -113,10 +119,9 @@ const PublicPostsPage = () => {
 
     return (
         <>
-            {(isLoading || isFetching) && <AppLoader mode="page" />}
             <SEO title="Public posts" description="Explore the latest posts by other writers." />
 
-            <div className={isFetching ? styles.fetchingFade : ""}>
+            <div>
                 <PublicPostsTemplate
                     panel={
                         !isLoading && (
@@ -130,7 +135,11 @@ const PublicPostsPage = () => {
                             )
                         )
                     }
-                    cards={renderCards}
+                    cards={
+                        <div className={isFetching ? styles.staleList : undefined} aria-busy={isFetching}>
+                            {renderCards}
+                        </div>
+                    }
                 />
             </div>
         </>

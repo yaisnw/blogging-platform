@@ -13,7 +13,6 @@ import ThemeButton from '../atoms/ThemeButton';
 import AppImage from '../atoms/AppImage';
 import { useSelector } from 'react-redux';
 import { useGetUserQuery } from '@/services/userApi';
-import AppLoader from '../atoms/AppLoader';
 import AlertButton from '../atoms/AlertButton';
 import { setAlertIgnored } from '@/slices/uiSlice';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
@@ -58,7 +57,6 @@ const NavBar = () => {
     return (
         <>
 
-            {isLoading && <AppLoader mode="page" />}
             <motion.nav
                 className={styles.nav}
                 initial={{ opacity: 0, y: -30 }}
@@ -79,7 +77,17 @@ const NavBar = () => {
 
                     <div className={styles.nav1}>
                         {loggedIn && <AppLink className={styles.navButton} to="/home/profile">
-                            <AppImage loading="lazy" onClick={() => navigate(`/home/profile/${authorId}`)} className={UIstyles.interactiveAvatar} src={data?.avatar_url} alt={`${author} avatar`} />
+                            {/* Fixed 3rem slot, so the avatar fading in causes no layout
+                                shift. Previously this query drove a full-page blocking
+                                loader on every route the navbar renders on. */}
+                            <AppImage
+                                loading="lazy"
+                                onClick={() => navigate(`/home/profile/${authorId}`)}
+                                className={UIstyles.interactiveAvatar}
+                                src={data?.avatar_url}
+                                alt={`${author} avatar`}
+                                style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}
+                            />
                             Profile</AppLink>}
                         <AppLink className={styles.navButton} to="/home/about">About</AppLink>
                         <AppLink to="/login" className={`${styles.navButton} ${loggedIn ? styles.danger : ''}`} onClick={logOutHandler}>{loggedIn ? "Log out" : "Log in"}</AppLink>

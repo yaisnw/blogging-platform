@@ -91,7 +91,13 @@ const DashboardPage = () => {
     }
 
     const renderCards = (() => {
-        if (!getPostsLoading && (!data?.posts || data.posts.length === 0)) {
+        // Only the very first load has nothing to show. Refetches (paging, sort)
+        // keep the previous page in `data`, so those are dimmed instead below.
+        if (getPostsLoading) {
+            return <AppLoader mode="normal" />;
+        }
+
+        if (!data?.posts || data.posts.length === 0) {
             return <ErrorState mode="normal" message="No posts available" actionLabel="Create your first post" onAction={() => navigate("/createPost")} />;
         }
 
@@ -141,7 +147,9 @@ const DashboardPage = () => {
     return (
         <>
             <SEO title="My Posts" description="Manage and view your own posts." />
-    {(getPostsLoading || deletePostsLoading || isFetching) && <AppLoader mode="page" />}
+    {/* deletePosts is a mutation that rewrites the list — block for it. Reads and
+        pagination get a scoped loader inside the list instead. */}
+    {deletePostsLoading && <AppLoader mode="page" />}
             <DashboardTemplate
                 panel={
                     (!getPostsLoading || !deletePostsLoading) && (
@@ -155,7 +163,11 @@ const DashboardPage = () => {
                         />
                     )
                 }
-                cards={renderCards}
+                cards={
+                    <div className={isFetching ? styles.staleList : undefined} aria-busy={isFetching}>
+                        {renderCards}
+                    </div>
+                }
             />
         </>
     );

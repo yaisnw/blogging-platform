@@ -397,6 +397,16 @@
   pointer-events: none;
 }
 
+/* Applied to a list while a refetch (e.g. pagination) is in flight. RTK Query
+   keeps the previous page's data, so we show it dimmed instead of unmounting it
+   for a spinner — the list never vanishes and nothing shifts. Clicks are blocked
+   because these rows are about to be replaced. */
+.staleList {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
 .divider {
   position: relative;
   text-align: center;
