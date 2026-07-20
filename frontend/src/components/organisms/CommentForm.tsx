@@ -11,24 +11,23 @@ type CommentForm = {
 
 const CommentForm: React.FC<CommentForm> = ({ commentContent, setCommentContent, submitComment }) => {
     return (
-        <section className={styles.interactionFlex}>
-            <h1>
-                Comments
-            </h1>
-            <form
-                className={styles.commentForm}
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    submitComment(commentContent);
-                }}
-            >
-                <AppLabel htmlFor="comment" >Share your thoughts:</AppLabel>
-                <div className={styles.commentInputs} >
-                    <AppTextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} className={styles.commentTextArea} id="comment" name="comment" />
-                    <AppButton className={styles.commentButton} >Submit</AppButton>
-                </div>
-            </form>
-        </section>
+        <form className={styles.commentFormFlex} onSubmit={(e) => {
+            e.preventDefault();
+            submitComment(commentContent);
+        }}>
+            <div className={styles.commentFormHeader}>
+                <h1>
+                    Comments
+                </h1>
+                <AppButton className={styles.commentButton} type="submit">
+                    Submit
+                </AppButton>
+            </div>
+            <AppLabel htmlFor="comment" >Share your thoughts:</AppLabel>
+            <div className={styles.commentInputs} >
+                <AppTextArea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} className={styles.commentTextArea} id="comment" name="comment" />
+            </div>
+        </form>
     )
 }
 

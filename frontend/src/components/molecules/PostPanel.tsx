@@ -88,9 +88,11 @@ const PostPanel: React.FC<postPanelProps> = ({
                     role="status"
                     aria-hidden={!isDeleting}
                 >
-                    {deletingPostIds?.length
-                        ? `${deletingPostIds.length} post${deletingPostIds.length === 1 ? '' : 's'} selected. This can't be undone.`
-                        : 'Select the posts you want to delete.'}
+                    <span>
+                        {deletingPostIds?.length
+                            ? `${deletingPostIds.length} post${deletingPostIds.length === 1 ? '' : 's'} selected. This can't be undone.`
+                            : 'Select the posts you want to delete.'}
+                    </span>
                 </p>
             </div>
 
