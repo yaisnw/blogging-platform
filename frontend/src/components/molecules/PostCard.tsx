@@ -60,6 +60,7 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
     });
 
     const isEdited = createdDate.getTime() !== updatedDate.getTime();
+    const isSelected = deletingPostIds.includes(postId);
     const handleDeleteCheck = (id: number) => {
         dispatch(addDeletingPostIds(id))
     }
@@ -70,7 +71,12 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
-            className={styles.postCard} aria-labelledby={`post-${postId}-title`}>
+            className={`${styles.postCard} ${isDeleting && isSelected ? styles.selected : ''}`}
+            aria-labelledby={`post-${postId}-title`}
+            aria-selected={isDeleting ? isSelected : undefined}
+            // Toggle selection only in delete mode; outside it the card click does nothing.
+            onClick={isDeleting ? () => handleDeleteCheck(postId) : undefined}
+            >
             <header className={styles.cardHeader}>
                 <AppHeader id={`post-${postId}-title`} className={styles.title}>
                     {title}
@@ -84,8 +90,9 @@ const PostCard: React.FC<PostCardProps> = ({ postId, title, authorId, author, av
                         transition={{ duration: 0.4 }}
                         className={styles.deleteLabel}>
                         <AppInput
-                            checked={deletingPostIds.includes(postId)}
+                            checked={isSelected}
                             onChange={() => handleDeleteCheck(postId)}
+                            onClick={(e) => e.stopPropagation()}
                             type="checkbox"
                             aria-label="Select post for deletion"
                         />{" "}

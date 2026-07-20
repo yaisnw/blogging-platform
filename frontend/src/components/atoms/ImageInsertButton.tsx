@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useUploadImageMutation } from "@/services/picturesApi";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getSelection, $isRangeSelection, $setSelection, type BaseSelection } from "lexical";
@@ -16,6 +17,7 @@ import { ImageSVG } from "./Icons";
 
 function ImageInsertButton() {
     const dispatch = useAppDispatch();
+    const [fileTypeError, setFileTypeError] = useState(false);
     const postId = useSelector((state: RootState) => state.ui.postId)
     const [editor] = useLexicalComposerContext();
     const [createPost, { error: submitError }] = useCreatePostMutation();
@@ -29,9 +31,11 @@ function ImageInsertButton() {
         if (!file) return;
 
         if (!file.type.startsWith("image/")) {
-            alert("Please upload an image file");
+            setFileTypeError(true);
+            e.target.value = '';
             return;
         }
+        setFileTypeError(false);
         let savedSelection: BaseSelection | undefined = undefined;
         editor.update(() => {
             savedSelection = $getSelection()?.clone();
@@ -93,6 +97,7 @@ function ImageInsertButton() {
                 Add Image
             </label>
 
+            {fileTypeError && <ErrorState mode="mini" message="That file isn't an image. Choose a JPG, PNG, GIF or WebP." />}
             {(submitError || imageError || updateError) && <ErrorState message="failed to add image" />}
             {loading && createPortal(
                 <AppLoader mode="page" />,

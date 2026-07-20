@@ -59,10 +59,15 @@ const PublicPostsPage = () => {
 
     const renderCards = (() => {
         if (!isLoading && (!data?.posts || data.posts.length === 0)) {
-            return <ErrorState mode="normal" message="No public posts available at the moment." />;
+            return (
+                <ErrorState
+                    mode="normal"
+                    message="No public posts yet. Be the first to publish one."
+                    actionLabel="Write a post"
+                    onAction={() => navigate('/createPost')}
+                />
+            );
         }
-        console.log("Total Pages:", totalPages);
-        console.log("Styles object:", styles);
         return (
             <>
                 {data?.posts.map((post: blogPost) => (

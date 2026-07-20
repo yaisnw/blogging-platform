@@ -250,6 +250,21 @@
     margin-top: 2rem 0;
 }
 
+.status-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.status-hint {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+    /* Both states are one line; reserve it so toggling doesn't shift the row. */
+    min-height: 1.12rem;
+}
+
 .submit-error {
     position: absolute;
     right: -250px;

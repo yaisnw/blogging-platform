@@ -5,6 +5,7 @@ import PostEditorTemplate from "../templates/PostEditorTemplate";
 import type { RootState } from "@/store";
 import { useCreatePostMutation, useGetPostByIdQuery, useUpdatePostMutation } from "@/services/postsApi";
 import { resetdraftPost, setDraftContent, setDraftTitle } from "@/slices/draftPostSlice";
+import { setPostId } from "@/slices/uiSlice";
 import AppLoader from "../atoms/AppLoader";
 import ErrorState from "../atoms/ErrorState";
 import SEO from "../atoms/SEO";
@@ -16,6 +17,7 @@ const PostEditorPage = () => {
   const navigate = useNavigate();
   const draftTitle = useSelector((state: RootState) => state.post.title);
   const draftContent = useSelector((state: RootState) => state.post.content)
+  const editingPostId = useSelector((state: RootState) => state.ui.postId);
   const { id } = useParams();
   const currentPostId = Number(id);
   const [status, setStatus] = useState<'draft' | 'published'>('published');
@@ -43,12 +45,17 @@ const PostEditorPage = () => {
       navigate("/home/dashboard");
     }
   }, [createPostSuccess, updatePostSuccess, navigate]);
+  // The editor owns ui.postId: seed it from the URL (edit mode) or clear it to 0
+  // (fresh post) so a stale id from browsing/commenting can't leak into publish.
+  // ImageInsertButton may later set it to a placeholder draft's id.
   useEffect(() => {
+    dispatch(setPostId(id ? Number(id) : 0));
     return () => {
       dispatch(setDraftTitle(''));
       dispatch(setDraftContent(''));
+      dispatch(setPostId(0));
     }
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   const handleChangeTitle = (val: string) => {
     dispatch(setDraftTitle(val));
@@ -65,14 +72,19 @@ const PostEditorPage = () => {
 
     if (!draftContent) return;
 
-    if (isUpdating) {
+    // A real post already exists if we're editing (URL :id) or if inserting an
+    // image created a placeholder draft (ui.postId). Promote that one instead of
+    // creating a second post. Only create when no post exists yet (text-only, no image).
+    const existingPostId = isUpdating ? currentPostId : editingPostId;
+
+    if (existingPostId) {
       await updatePost({
-        postId: currentPostId,
+        postId: existingPostId,
         title: finalTitle,
         content: draftContent,
         status
       }).unwrap();
-      
+
       dispatch(resetdraftPost());
     } else {
       if (!draftTitle) return;

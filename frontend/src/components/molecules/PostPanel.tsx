@@ -32,28 +32,29 @@ const PostPanel: React.FC<postPanelProps> = ({
             aria-label="Post actions">
 
             <div className={styles.actionSection}>
-                <AnimatePresence mode="popLayout">
-                    <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
-                    <div className={styles.actionButtonsWrapper}>
-                        <AppButton key="create-btn" onClick={createButton}><PlusSVG className={UIstyles.buttonSVG} />Create Post</AppButton>
+                <AppHeadingTwo className={styles.sectionTitle}>Actions</AppHeadingTwo>
+                <div className={styles.actionButtonsWrapper}>
+                    <AppButton onClick={createButton}><PlusSVG className={UIstyles.buttonSVG} />Create Post</AppButton>
 
-                        {deleteButton && (
-                            <AppButton
-                                key="delete-btn"
-                                variant={isDeleting ? "secondary" : "primary"}
-                                onClick={deleteButton}
-                            >
-                                {isDeleting ? (
-                                    'Cancel Delete'
-                                ) : (
-                                    <>
-                                        <TrashSVG className={UIstyles.buttonSVG} />
-                                        <span>Delete Posts</span>
-                                    </>
-                                )}
-                            </AppButton>
-                        )}
+                    {deleteButton && (
+                        <AppButton
+                            variant={isDeleting ? "secondary" : "primary"}
+                            onClick={deleteButton}
+                        >
+                            {isDeleting ? (
+                                'Cancel Delete'
+                            ) : (
+                                <>
+                                    <TrashSVG className={UIstyles.buttonSVG} />
+                                    <span>Delete Posts</span>
+                                </>
+                            )}
+                        </AppButton>
+                    )}
 
+                    {/* Only this block actually mounts/unmounts, so AnimatePresence
+                        wraps just it — each direct child needs a unique key. */}
+                    <AnimatePresence mode="popLayout">
                         {isDeleting && (
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
@@ -77,9 +78,20 @@ const PostPanel: React.FC<postPanelProps> = ({
                                 </AppButton>
                             </motion.div>
                         )}
-                    </div>
-                </AnimatePresence>
+                    </AnimatePresence>
+                </div>
 
+                {/* Always rendered so entering delete mode doesn't reflow the page
+                    (layout shift); only its visibility changes. */}
+                <p
+                    className={`${styles.deleteHint} ${isDeleting ? '' : styles.deleteHintHidden}`}
+                    role="status"
+                    aria-hidden={!isDeleting}
+                >
+                    {deletingPostIds?.length
+                        ? `${deletingPostIds.length} post${deletingPostIds.length === 1 ? '' : 's'} selected. This can't be undone.`
+                        : 'Select the posts you want to delete.'}
+                </p>
             </div>
 
 

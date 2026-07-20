@@ -1,6 +1,6 @@
 .panel {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     gap: 5rem;
     padding: 2rem;
@@ -24,15 +24,20 @@
     justify-content: center;
 }
 .actionSection {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: start;
     gap: 1rem;
 }
 .actionButtonsWrapper {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 1rem;
+    /* Reserve room for the Confirm Delete button (12rem + 1rem gap) so toggling
+       delete mode doesn't widen the row and shift the layout. */
+    min-width: 38rem;
 }
 
 .label {
@@ -64,6 +69,22 @@
     gap: 1rem;
     white-space: nowrap; 
 }
+.deleteHint {
+    margin: 0;
+    padding-top: 0.25rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border);
+    align-self: stretch;
+    transition: opacity 0.3s ease;
+}
+
+/* Keeps the element in flow (no layout shift) while hiding it visually. */
+.deleteHintHidden {
+    opacity: 0;
+    visibility: hidden;
+}
 .deleteButton {
     background-color: var(--color-warning);
 }
@@ -94,8 +115,9 @@
     }
 
     .actionButtonsWrapper {
-        flex-direction: column; 
+        flex-direction: column;
         width: 100%;
+        min-width: 0;
     }
 
     .panel button {

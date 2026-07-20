@@ -5,7 +5,7 @@ import PostPanel from "../molecules/PostPanel";
 import DashboardTemplate from "../templates/DashboardTemplate";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { setAlertIgnored, setPostId } from "@/slices/uiSlice";
+import { setAlertIgnored, setPostId, clearDeletingPostIds } from "@/slices/uiSlice";
 import type { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { useAuthStatus } from "@/hooks/useAuthStatus";
@@ -62,11 +62,19 @@ const DashboardPage = () => {
     };
 
     const handleDeleteButton = () => {
-        setIsDeleting((prev) => !prev);
+        setIsDeleting((prev) => {
+            // Leaving delete mode should discard any pending selection so it
+            // can't linger (persisted) into the next delete session.
+            if (prev) dispatch(clearDeletingPostIds());
+            return !prev;
+        });
     };
 
     const handleConfirmDelete = async (ids: number[]) => {
         await deletePosts(ids).unwrap();
+        // Deleted ids are stale now — clear them and exit delete mode.
+        dispatch(clearDeletingPostIds());
+        setIsDeleting(false);
     };
 
     if (getPostsError || deletePostsError) {

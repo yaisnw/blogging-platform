@@ -12,6 +12,12 @@
     z-index: 1;
 }
 
+.postCard.selected {
+    border-color: var(--color-warning);
+    box-shadow: 0 0 0 2px var(--color-warning);
+    cursor: pointer;
+}
+
 .cardHeader {
     display: flex;
     align-items: center;
@@ -23,8 +29,12 @@
 .cardHeaderSub {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 1rem;
     color: var(--color-text-secondary);
+    /* Reserve the delete-checkbox slot so entering delete mode doesn't shove the
+       status badge sideways (layout shift). */
+    min-width: 11rem;
 }
 
 .publishedBadge,
@@ -131,6 +141,8 @@
     }
     .cardHeaderSub {
         flex-direction: column;
+        justify-content: center;
+        min-width: 0;
     }
     .cardFooter,
     .postMeta {

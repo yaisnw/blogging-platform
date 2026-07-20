@@ -93,20 +93,27 @@ const handleChangeEditor = useCallback(
 
         />
         <div className="header-submit">
-          <label>
-            <input
-              type="checkbox"
-              checked={status === "published"}
-              onChange={() =>
-                onStatusChange(status === "published" ? "draft" : "published")
-              }
-            />{" "}
-            Save as published
-          </label>
+          <div className="status-field">
+            <label>
+              <input
+                type="checkbox"
+                checked={status === "published"}
+                onChange={() =>
+                  onStatusChange(status === "published" ? "draft" : "published")
+                }
+              />{" "}
+              Save as published
+            </label>
+            <p className="status-hint">
+              {status === "published"
+                ? "Visible to everyone once you save."
+                : "Saved as a draft — only you can see it."}
+            </p>
+          </div>
           <AppButton disabled={isSubmitting} type="button" className="submit-button" onClick={onSubmit}>
             {isUpdating ? "Update" : "Submit"}
           </AppButton>
-          
+
         </div>
       </form>
 
