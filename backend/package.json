@@ -2,13 +2,16 @@
     "name": "backend",
     "version": "1.0.0",
     "description": "",
-    "main": "index.ts",
+    "main": "api/index.ts",
     "scripts": {
         "build": "npx tsc",
-        "start": "node index.js",
-        "dev": "nodemon index.ts"
+        "start": "node dist/server.js",
+        "dev": "nodemon --exec tsx server.ts"
     },
     "keywords": [],
+    "ts-node": {
+        "esm": true
+    },
     "author": "",
     "license": "ISC",
     "dependencies": {
@@ -48,6 +51,7 @@
         "prettier": "^3.5.3",
         "sequelize-cli": "^6.6.2",
         "ts-node": "^10.9.2",
+        "tsx": "^4.23.1",
         "typescript": "^5.9.3"
     }
 }

@@ -16,9 +16,12 @@ export function initModels(sequelize: Sequelize) {
   User.hasMany(Like, { foreignKey: 'authorId' }); 
 
   Post.belongsTo(User, { foreignKey: 'authorId' });
-  Post.hasMany(Comment, { foreignKey: 'postId' });
-  Post.hasMany(Picture, { foreignKey: 'postId' });
-  Post.hasMany(Like, { foreignKey: 'postId' });
+  // onDelete CASCADE matches the live FK constraints (see migration
+  // 20260718080132-cascade-delete-post-children). Deleting a post removes its
+  // child rows; S3 files are cleaned up separately in postController.
+  Post.hasMany(Comment, { foreignKey: 'postId', onDelete: 'CASCADE' });
+  Post.hasMany(Picture, { foreignKey: 'postId', onDelete: 'CASCADE' });
+  Post.hasMany(Like, { foreignKey: 'postId', onDelete: 'CASCADE' });
 
   Comment.belongsTo(User, { foreignKey: 'authorId' });
   Comment.belongsTo(Post, { foreignKey: 'postId' });

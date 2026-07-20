@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 
 export const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
@@ -12,7 +12,7 @@ export const authLimiter = rateLimit({
     limit: 20,
     message: { error: "Too many login attempts. Please try again later." },
     keyGenerator: (req) => {
-        return req.headers['x-forwarded-for'] as string || req.ip || 'global';
+        return (req.headers['x-forwarded-for'] as string) || ipKeyGenerator(req.ip || 'global');
     },
     skip: (req) => req.method === 'OPTIONS', 
 });
