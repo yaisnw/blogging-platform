@@ -19,10 +19,14 @@ COPY . .
 # That's why these are ARGs (build-time) not ENVs (runtime).
 ARG VITE_BASE_URL=http://localhost:3000
 ARG VITE_GOOGLE_CLIENT_ID
+# Used verbatim as the Google OAuth redirect_uri (LoginPage/SignupPage). Must
+# match the backend's `${FRONTEND_URL}oauth` and the Google console entry.
+ARG VITE_REDIRECT_URL=http://localhost:5173/oauth
 
 # Expose the ARGs as environment variables so Vite can read them during the build
 ENV VITE_BASE_URL=$VITE_BASE_URL
 ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+ENV VITE_REDIRECT_URL=$VITE_REDIRECT_URL
 
 RUN npm run build
 
