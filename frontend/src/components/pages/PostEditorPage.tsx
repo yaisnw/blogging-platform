@@ -42,7 +42,7 @@ const PostEditorPage = () => {
   }, [id, data, dispatch, getPostSuccess]);
   useEffect(() => {
     if (createPostSuccess || updatePostSuccess) {
-      navigate("/home/dashboard");
+      navigate("/home/posts");
     }
   }, [createPostSuccess, updatePostSuccess, navigate]);
   // The editor owns ui.postId: seed it from the URL (edit mode) or clear it to 0

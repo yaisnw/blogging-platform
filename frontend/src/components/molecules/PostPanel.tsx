@@ -11,7 +11,10 @@ type postPanelProps = {
     isDeleting?: boolean;
     deletingPostIds?: number[];
     onSortChange: (val: string) => void;
+    sort?: string;
     isDashboard?: boolean;
+    showMine?: boolean;
+    onFilterChange?: (mine: boolean) => void;
 }
 
 const PostPanel: React.FC<postPanelProps> = ({
@@ -21,8 +24,23 @@ const PostPanel: React.FC<postPanelProps> = ({
     isDeleting,
     deletingPostIds,
     onSortChange,
-    isDashboard
+    sort = 'newest',
+    isDashboard,
+    showMine,
+    onFilterChange
 }) => {
+    // One hint slot, three states. On "All posts" the delete button is absent
+    // because you can only delete your own posts — say so rather than leaving
+    // its absence unexplained.
+    const canDelete = Boolean(deleteButton);
+    const hintText = isDeleting
+        ? (deletingPostIds?.length
+            ? `${deletingPostIds.length} post${deletingPostIds.length === 1 ? '' : 's'} selected. This can't be undone.`
+            : 'Select the posts you want to delete.')
+        : (onFilterChange && !canDelete
+            ? 'Switch to "My posts" to edit or delete your own posts.'
+            : '');
+
     return (
         <motion.nav
             initial={{ opacity: 0.6, scale: 1.1 }}
@@ -81,27 +99,49 @@ const PostPanel: React.FC<postPanelProps> = ({
                     </AnimatePresence>
                 </div>
 
-                {/* Always rendered so entering delete mode doesn't reflow the page
-                    (layout shift); only its visibility changes. */}
+                {/* Always rendered so showing/hiding the hint doesn't reflow the
+                    page (layout shift); only its visibility changes. Explains the
+                    missing delete button on the All posts view. */}
                 <p
-                    className={`${styles.deleteHint} ${isDeleting ? '' : styles.deleteHintHidden}`}
+                    className={`${styles.deleteHint} ${hintText ? '' : styles.deleteHintHidden}`}
                     role="status"
-                    aria-hidden={!isDeleting}
                 >
-                    <span>
-                        {deletingPostIds?.length
-                            ? `${deletingPostIds.length} post${deletingPostIds.length === 1 ? '' : 's'} selected. This can't be undone.`
-                            : 'Select the posts you want to delete.'}
-                    </span>
+                    <span>{hintText}</span>
                 </p>
             </div>
 
+
+            <div className={styles.sortSectionWrapper}>
+                {onFilterChange && (
+                <div className={styles.sortSection}>
+                    <span className={styles.label}>Show</span>
+                    <div className={styles.filterGroup} role="group" aria-label="Filter posts">
+                        <button
+                            type="button"
+                            className={`${styles.filterButton} ${!showMine ? styles.filterButtonActive : ''}`}
+                            aria-pressed={!showMine}
+                            onClick={() => onFilterChange(false)}
+                        >
+                            All posts
+                        </button>
+                        <button
+                            type="button"
+                            className={`${styles.filterButton} ${showMine ? styles.filterButtonActive : ''}`}
+                            aria-pressed={showMine}
+                            onClick={() => onFilterChange(true)}
+                        >
+                            My posts
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <div className={styles.sortSection}>
                 <label htmlFor="post-sort" className={styles.label}>Sort By</label>
                 <select
                     id="post-sort"
                     className={styles.select}
+                    value={sort}
                     onChange={(e) => onSortChange(e.target.value)}
                 >
                     <option value="newest">Newest First</option>
@@ -110,6 +150,7 @@ const PostPanel: React.FC<postPanelProps> = ({
                     <option value="comments">Most Comments</option>
                     {isDashboard && <option value="status">Status</option>}
                 </select>
+            </div>
             </div>
         </motion.nav>
     );

@@ -26,7 +26,9 @@ const NavBar = () => {
     const alertIgnored = useSelector((state: RootState) => state.ui.alertIgnored)
     const navigate = useNavigate();
     const location = useLocation();
-    const isOnDashboardPage = location.pathname.includes('/dashboard')
+    // The dashboard merged into /home/posts?mine=true — that filtered view is
+    // where post management (edit/delete) happens, so the mobile warning follows it.
+    const isOnDashboardPage = location.pathname.includes('/posts') && location.search.includes('mine=true')
     const { data, isLoading } = useGetUserQuery(authorId);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [alertClicked, setAlertClicked] = useState(false);
@@ -67,7 +69,6 @@ const NavBar = () => {
                     <div className={styles.nav1}>
                         <AppLink className={styles.navButton} to="/home">Home</AppLink>
                         <AppLink className={styles.navButton} to="/home/posts">Posts</AppLink>
-                        {loggedIn && <AppLink className={styles.navButton} to="dashboard">Dashboard</AppLink>}
                     </div>
                     {!isMenuOpen && <SearchBar />}
 
