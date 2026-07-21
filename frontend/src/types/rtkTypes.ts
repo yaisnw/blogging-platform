@@ -49,7 +49,9 @@ export interface comment {
 }
 export type PostDetailsResponse = {
     post: blogPost;
-    comments: comment[]; 
+    comments: comment[];
+    /** Total across all pages — `comments` only holds the current page. */
+    totalComments: number;
     likeCount: number;
     hasLiked: boolean;
 };

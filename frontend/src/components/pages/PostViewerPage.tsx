@@ -172,7 +172,7 @@ const PostViewerPage = () => {
                                 likeCount={likeCount}
                                 liked={liked}
                                 canLike={loggedIn}
-                                commentCount={comments?.length ?? 0}
+                                commentCount={details?.totalComments ?? 0}
                             />
                         )}
                         <CommentForm
