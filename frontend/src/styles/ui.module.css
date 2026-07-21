@@ -53,67 +53,6 @@
   color: #333;
 }
 
-.error {
-  color: #DC2626;
-  text-align: center;
-  font-weight: 600;
-}
-
-.pageErrorWrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: var(--color-bg);
-  z-index: 20;
-}
-
-.componentErrorWrapper {
-  width: 25vw;
-  margin: 2rem auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem;
-  border-radius: 10px;
-  background: var(--color-surface);
-}
-
-.componentError {
-  width: 25vw;
-  margin: 2rem auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.componentError button {
-  width: auto;
-}
-
-.miniErrorWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 10px;
-}
-
-.miniErrorWrapper h1 {
-  font-size: 1.2rem;
-}
-
-.disabledWrapper {
-  display: none;
-  pointer-events: none;
-}
-
 .pageSuccessWrapper,
 .componentSuccessWrapper,
 .loginSuccessWrapper {
@@ -150,29 +89,6 @@
   margin-top: 1rem;
 }
 
-.emptyBox {
-  margin: 2rem auto;
-  padding: 2rem;
-  max-width: 400px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  text-align: center;
-  background-color: var(--color-bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.errorLink {
-  text-decoration: underline;
-  color: rgba(0, 124, 240, 0.986);
-}
-
-.errorLink:hover {
-  cursor: pointer;
-}
-
 
 
 .heartButton {
@@ -181,13 +97,6 @@
 
 .heartButton path {
   stroke: var(--color-text)
-}
-
-.responseInfo {
-  text-align: center;
-  margin-top: 1rem;
-  color: #666;
-  font-size: 0.9rem;
 }
 
 .appButton {
@@ -511,11 +420,6 @@
 
 @media screen and (max-width: 1440px) {
 
-  .componentErrorWrapper,
-  .componentError {
-    width: 40vw;
-  }
-
   .ctaButton {
     width: 50%;
   }
@@ -528,11 +432,6 @@
     margin: 0 auto;
   }
 
-  .componentErrorWrapper,
-  .componentError {
-    width: 50vw;
-  }
-
   .loginSuccessWrapper {
     position: static;
     transform: none;
@@ -541,12 +440,6 @@
 }
 
 @media screen and (max-width: 768px) {
-
-  .componentErrorWrapper,
-  .componentError {
-    width: 70vw;
-    padding: 1.5rem;
-  }
 
   .ctaButton {
     margin: 0 auto;
@@ -561,11 +454,6 @@
     margin: 3rem 0;
   }
 
-  .emptyBox {
-    width: 80%;
-    max-width: none;
-  }
-
   .themeToggle:hover .toggleCircle:hover {
     box-shadow: 0 0 10px 2px var(--color-accent);
   }
@@ -574,23 +462,6 @@
 }
 
 @media screen and (max-width: 480px) {
-
-  .componentErrorWrapper,
-  .componentError {
-    width: 92vw;
-    margin: 3rem auto;
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
-  .error {
-    font-size: 1.8rem;
-  }
-
-  .emptyBox {
-    width: 92%;
-    padding: 1.5rem 1rem;
-  }
 
   .appButton {
     padding: 0.8rem 1rem;
