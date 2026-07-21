@@ -2,8 +2,30 @@ import { NextFunction, Request, Response } from "express"
 import { postRequestBody } from "../types/controllerTypes"
 import { AuthRequest } from "../types/controllerTypes"
 import { CustomError } from "../types/controllerTypes"
-import { Comment, Post, User } from "../sequelize/models"
+import { Comment, Post, User, Picture } from "../sequelize/models"
 import { Op, Sequelize } from "sequelize"
+import { DeleteObjectCommand } from "@aws-sdk/client-s3"
+import s3 from "../s3"
+
+// The FK cascade removes Picture ROWS when a post is deleted, but the S3 objects
+// have no link to Postgres and would leak. Delete the files BEFORE destroying the
+// posts, while the imageUrls are still queryable. Best-effort: a failed S3 delete
+// is logged but doesn't block post deletion (avoids wedging deletes on stale files).
+const deleteS3ObjectsForPosts = async (postIds: number[]): Promise<void> => {
+    if (postIds.length === 0) return;
+    const pictures = await Picture.findAll({ where: { postId: { [Op.in]: postIds } } });
+    await Promise.all(pictures.map(async (pic) => {
+        try {
+            const key = new URL(pic.imageUrl).pathname.slice(1);
+            await s3.send(new DeleteObjectCommand({
+                Bucket: process.env.AWS_BUCKET_NAME!,
+                Key: key,
+            }));
+        } catch (err) {
+            console.error(`Failed to delete S3 object for picture ${pic.id}:`, err);
+        }
+    }));
+};
 
 export const addPost = async (
     req: AuthRequest,
@@ -282,7 +304,7 @@ export const searchPosts = async (
 };
 
 export const updatePost = async (
-    req: Request<{ id: number }, {}, postRequestBody, {}>,
+    req: AuthRequest<{ id: number }, {}, postRequestBody, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -294,6 +316,8 @@ export const updatePost = async (
         return next(err);
     }
     try {
+        // Scope the update to the caller's own post. Without authorId here, any
+        // logged-in user could overwrite any post by id (IDOR).
         const [affectedCount, updatedPosts] = await Post.update(
             {
                 ...(title && { title }),
@@ -302,7 +326,7 @@ export const updatePost = async (
                 ...(likes && { likes }),
             },
             {
-                where: { id },
+                where: { id, authorId: req.user?.id },
                 returning: true,
             }
         );
@@ -321,7 +345,7 @@ export const updatePost = async (
 }
 
 export const deletePosts = async (
-    req: Request<{}, {}, { postIds: number[] }, {}>,
+    req: AuthRequest<{}, {}, { postIds: number[] }, {}>,
     res: Response,
     next: NextFunction
 ): Promise<Response | void> => {
@@ -333,8 +357,18 @@ export const deletePosts = async (
     }
 
     try {
+        // Restrict to the caller's own posts, then clean up S3 files before the
+        // cascade drops the Picture rows (which is where the imageUrls live).
+        const owned = await Post.findAll({
+            where: { id: { [Op.in]: postIds }, authorId: req.user?.id },
+            attributes: ['id'],
+        });
+        const ownedIds = owned.map((p) => p.id);
+
+        await deleteS3ObjectsForPosts(ownedIds);
+
         const deletedCount = await Post.destroy({
-            where: { id: { [Op.in]: postIds } }
+            where: { id: { [Op.in]: ownedIds }, authorId: req.user?.id }
         });
 
         if (deletedCount > 0) {
@@ -358,6 +392,9 @@ export const deleteAllPostsByAuthorId = async (
     next: NextFunction
 ): Promise<Response | void> => {
     try {
+        const posts = await Post.findAll({ where: { authorId: req.user?.id }, attributes: ['id'] });
+        await deleteS3ObjectsForPosts(posts.map((p) => p.id));
+
         const deletedPosts = await Post.destroy({ where: { authorId: req.user?.id } });
         if (deletedPosts !== 0) {
             return res.status(200).json({ message: "Posts deleted successfully" })

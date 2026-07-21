@@ -1,0 +1,96 @@
+/* Styles for ErrorState.tsx. Previously in ui.module.css, where the wrapper was
+   sized in vw (25vw → 40vw → 50vw → 80vw across four breakpoints). That tied the
+   width to the viewport rather than the container, so a "component" error inside
+   a narrow panel still tried to span a quarter of the screen, and each breakpoint
+   existed to undo the previous one.
+
+   Now the wrapper fills its container and caps with max-width, so it adapts to
+   wherever it's placed without any width breakpoints. */
+
+.error {
+  color: var(--color-warning);
+  text-align: center;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* mode="page": full-screen takeover, nothing else is on screen. */
+.pageErrorWrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: var(--color-bg);
+  z-index: 20;
+}
+
+.pageErrorWrapper .error {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+/* mode="normal": sits inside a list or panel. Fills the container it's given,
+   capped so it doesn't stretch on wide screens. */
+.componentErrorWrapper {
+  width: 100%;
+  max-width: 32rem;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 10px;
+  background: var(--color-surface);
+  box-sizing: border-box;
+}
+
+.componentErrorWrapper .error {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+}
+
+/* mode="mini": inline, no card. */
+.miniErrorWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.miniErrorWrapper .error {
+  font-size: 1.2rem;
+}
+
+/* Action row (Try again / custom action). Buttons wrap instead of overflowing
+   on narrow screens. */
+.componentError {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  /* No width here on purpose: the parent's align-items:center shrinks this row
+     to its buttons and centres it. Giving it a width (as the old breakpoints did)
+     made the row dictate the card's size instead of the other way round. */
+}
+
+/* .appButton is a fixed width: 9rem, which long labels ("Go back to home page")
+   overflow. Let these size to their text instead. */
+.componentError button {
+  width: auto;
+  min-width: 9rem;
+}
+
+/* AppButton's children are wrapped in <p>, whose default margin offsets the
+   label inside the button. */
+.componentError button p {
+  margin: 0;
+}
+
+/* No actions passed — collapse entirely rather than leaving an empty gap. */
+.disabledWrapper {
+  display: none;
+}

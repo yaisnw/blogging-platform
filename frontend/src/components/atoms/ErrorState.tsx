@@ -1,4 +1,4 @@
-import styles from "@/styles/ui.module.css";
+import styles from "@/styles/errorState.module.css";
 import { motion } from "motion/react";
 import AppButton from "./AppButton";
 

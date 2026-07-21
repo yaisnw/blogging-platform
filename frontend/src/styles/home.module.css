@@ -6,6 +6,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 5vw;
   padding: 10vh 0;
 }
 
@@ -16,7 +17,7 @@ body {
 }
 
 .contentImage {
-  width: 30vw;
+  width: auto;
   height: 30vh;
 }
 

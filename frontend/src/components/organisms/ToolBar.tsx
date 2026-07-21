@@ -143,7 +143,7 @@ function ToolBar() {
             <div className="toolbar-mobile-header">
                 <nav className="toolbar-nav-group">
                     <AppLink to='/home' className="nav-link">Home</AppLink>
-                    <AppLink to='/home/dashboard' className="nav-link">Dashboard</AppLink>
+                    <AppLink to='/home/posts' className="nav-link">Posts</AppLink>
                 </nav>
 
             </div>

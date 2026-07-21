@@ -37,10 +37,60 @@
     border-top: 2px solid var(--color-border);
 }
 
-.heartContainer {
+/* Interactions (like, comment count) grouped together between the post body and
+   the comments — keeps the header purely content. */
+/* Interactions grouped between the post body and the comments. Centred to match
+   the header/viewer/comment column. No box — the viewer above is already a
+   bordered card, so a second bordered block competes with it. */
+.interactionBar {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    gap: 2rem;
+    width: 60vw;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Button only for semantics/keyboard access. */
+.likeButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-text-secondary);
+    font: inherit;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.likeButton:hover {
+    color: var(--color-text);
+}
+
+.likeButtonActive {
+    color: var(--color-warning);
+}
+
+/* Matches .interactionMeta so the count and comment count read as one line of
+   metadata rather than competing sizes. */
+.likeCount {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.interactionMeta {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+}
+
+.interactionDivider {
+    width: 1px;
+    height: 1.5rem;
+    background-color: var(--color-border);
 }
 
 .authorContainer {
@@ -60,7 +110,6 @@
     margin: 0;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--color-accent);
 }
 
 .postInfo {
@@ -70,14 +119,14 @@
 }
 
 .interactiveImage {
-    width: 40px;
-    height: 40px;
-    transition: all 0.2s ease;
+    width: 1.9rem;
+    height: 1.9rem;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
 }
 
-.interactiveImage:hover {
+.likeButton:hover .interactiveImage {
     transform: scale(1.2);
-    cursor: pointer;
 }
 
 @media screen and (max-width: 1440px) {

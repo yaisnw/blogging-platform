@@ -26,16 +26,16 @@ const SearchPage = () => {
 
 
 
+    let contentTab
+    // Scoped to the results region — an early return here would unmount the
+    // search bar and tabs mid-typing.
     if (postsLoading || usersLoading) {
-        return (
+        contentTab = (
             <main>
-                <AppLoader mode="page" />
+                <AppLoader mode="normal" />
             </main>
         )
-    }
-
-    let contentTab
-    if (postsError || usersError) {
+    } else if (postsError || usersError) {
         contentTab = (
             <main>
                 <ErrorState message={`Something went wrong while fetching the ${postsError ? "posts." : "users."}`} onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />

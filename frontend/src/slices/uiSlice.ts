@@ -38,6 +38,9 @@ const uiSlice = createSlice({
         state.deletingPostIds.push(id)
       }
     },
+    clearDeletingPostIds: (state) => {
+      state.deletingPostIds = []
+    },
     setSearchTab: (state, action: PayloadAction<"posts" | "users">) => {
       state.searchTab = action.payload
     },
@@ -62,6 +65,7 @@ const uiSlice = createSlice({
 export const {
   setPostId,
   addDeletingPostIds,
+  clearDeletingPostIds,
   setSearchTab,
   setProfileTab,
   setSearchQuery,

@@ -18,7 +18,7 @@ const ServicesContent = (props: React.HTMLAttributes<HTMLElement>) => {
                         : 'Explore features that make writing, sharing, and connecting effortless.'}
                 </AppParagraph>
             </div>
-            <CTAButton to={loggedIn ? '/home/dashboard' : '/signup'}>
+            <CTAButton to={loggedIn ? '/home/posts' : '/signup'}>
                 {loggedIn ? 'Go to Dashboard' : 'Get Started'}
             </CTAButton>
         </article>

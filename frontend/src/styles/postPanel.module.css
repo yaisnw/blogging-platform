@@ -1,12 +1,11 @@
 .panel {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     gap: 5rem;
-    padding: 2rem;
     padding-top: 0;
-    margin: 0 auto;
-    width: 80%;
+    margin: 2rem auto;
+    width: 70%;
 }
 
 .sectionTitle {
@@ -17,22 +16,32 @@
     letter-spacing: 0.05em;
     margin: 5px 0;
 }
-
+.sortSectionWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 1rem;
+}
 .sortSection {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 .actionSection {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: start;
     gap: 1rem;
 }
 .actionButtonsWrapper {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 1rem;
+    /* Reserve room for the Confirm Delete button (12rem + 1rem gap) so toggling
+       delete mode doesn't widen the row and shift the layout. */
+    min-width: 38rem;
 }
 
 .label {
@@ -41,6 +50,33 @@
     font-weight: 600;
     color: var(--color-text-secondary);
     margin: 5px 0;
+}
+
+.filterGroup {
+    display: flex;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.filterButton {
+    padding: 10px 1rem;
+    border: none;
+    background-color: var(--color-accent-light);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.filterButton:hover:not(.filterButtonActive) {
+    background-color: var(--color-surface);
+}
+
+.filterButtonActive {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
 }
 
 .select {
@@ -63,6 +99,38 @@
     width: 12rem;
     gap: 1rem;
     white-space: nowrap; 
+}
+.deleteHint {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    border-top: 1px solid var(--color-border);
+    align-self: stretch;
+    /* Collapses to zero when hidden so it leaves no gap, but animates instead of
+       snapping — grid-template-rows is the trick that makes height transitionable. */
+    display: grid;
+    grid-template-rows: 1fr;
+    padding-top: 0.5rem;
+    opacity: 1;
+    margin-bottom: 0;
+    transition: grid-template-rows 0.25s ease, opacity 0.25s ease,
+                padding-top 0.25s ease, border-color 0.25s ease,
+                margin-bottom 0.25s ease;
+}
+
+.deleteHint > span {
+    overflow: hidden;
+}
+
+.deleteHintHidden {
+    grid-template-rows: 0fr;
+    padding-top: 0;
+    opacity: 0;
+    border-top-color: transparent;
+    /* Negative margin cancels .actionSection's 1rem gap so a hidden hint
+       contributes no spacing at all. */
+    margin-bottom: -1rem;
 }
 .deleteButton {
     background-color: var(--color-warning);
@@ -94,8 +162,9 @@
     }
 
     .actionButtonsWrapper {
-        flex-direction: column; 
+        flex-direction: column;
         width: 100%;
+        min-width: 0;
     }
 
     .panel button {

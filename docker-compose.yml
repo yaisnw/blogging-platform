@@ -2,7 +2,8 @@ services:
 
   # ── Backend (Express + Node.js) ────────────────────────────────────────────
   # Connects to the existing cloud services (Miget postgres, AWS S3, Google OAuth)
-  # using credentials from ./backend/.env (pulled via `vercel env pull .env`)
+  # using credentials from ./backend/.env.local (pulled via `vercel env pull .env.local`).
+  # Note: backend/.env is the separate local-dev file used by `npm run dev`.
   backend:
     build:
       context: ./backend
@@ -12,7 +13,9 @@ services:
       - ./backend/.env.local
     environment:
       PORT: 3000
-      FRONTEND_URL: http://localhost:5173
+      # Trailing slash is required: authController builds `${FRONTEND_URL}oauth`.
+      # The CORS whitelist strips it before comparing against the Origin header.
+      FRONTEND_URL: http://localhost:5173/
     ports:
       - "3000:3000"
 
@@ -25,6 +28,8 @@ services:
       args:
         VITE_BASE_URL: http://localhost:3000
         VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID:-}
+        # Baked in at build time by Vite; must match the backend's ${FRONTEND_URL}oauth.
+        VITE_REDIRECT_URL: http://localhost:5173/oauth
     restart: unless-stopped
     ports:
       - "5173:80"

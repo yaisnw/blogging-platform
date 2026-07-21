@@ -50,10 +50,10 @@ const ProfilePage = () => {
     const { data: currentUser, isLoading: currentUserLoading } = useGetUserQuery(user.id)
     const activeUser: responseUser | undefined = id && Number(id) !== user?.id ? publicUser : currentUser;
 
-    const { data: postsResponse, isLoading: postsLoading, isError: postsError } = useGetMyPostsQuery(
+    const { data: postsResponse, isLoading: postsLoading, isFetching: postsFetching, isError: postsError } = useGetMyPostsQuery(
         activeUser ? { authorId: activeUser.id, publishedOnly: true, page: postPage + 1, limit } : skipToken
     )
-    const { data: commentsResponse, isLoading: commentsLoading, isError: commentsError } = useGetCommentsByAuthorIdQuery(
+    const { data: commentsResponse, isLoading: commentsLoading, isFetching: commentsFetching, isError: commentsError } = useGetCommentsByAuthorIdQuery(
         activeUser ? { authorId: activeUser.id, page: commentPage + 1, limit } : skipToken
     )
 
@@ -106,6 +106,12 @@ const ProfilePage = () => {
     const renderTabContent = (() => {
         if (postsError || commentsError) {
             return <ErrorState message="Something went wrong fetching data." onRetry={() => window.location.reload()} actionLabel="Go back to home page" onAction={() => navigate('/home')} />;
+        }
+
+        // Scoped to the tab region: switching tabs or paginating shouldn't blank
+        // the profile card, which isn't changing.
+        if (profileTab === 'posts' ? postsLoading : commentsLoading) {
+            return <AppLoader mode="normal" />;
         }
 
         if (profileTab === 'posts') {
@@ -170,7 +176,7 @@ const ProfilePage = () => {
     return (
         <>
             <SEO title="Profile" description={`View ${activeUser?.username || 'User'}'s profile.`} />
-            {(currentUserLoading || postsLoading || commentsLoading) && <main><AppLoader mode="page" /></main>}
+            {currentUserLoading && <main><AppLoader mode="page" /></main>}
             <ProfileTemplate
                 profileCard={
                     !activeUser ? (
@@ -182,7 +188,14 @@ const ProfilePage = () => {
                     )
                 }
                 tabPanel={<TabPanel mode="profile" />}
-                tabContent={renderTabContent}
+                tabContent={
+                    <div
+                        className={(profileTab === 'posts' ? postsFetching : commentsFetching) ? styles.staleList : undefined}
+                        aria-busy={profileTab === 'posts' ? postsFetching : commentsFetching}
+                    >
+                        {renderTabContent}
+                    </div>
+                }
             />
         </>
     )
