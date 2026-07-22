@@ -8,10 +8,10 @@ const AboutContactLinks = () => (
     <div className={styles.aboutEmail}>
       <h3>Get in touch</h3>
       <AppLink 
-        to="mailto:eliteyasin1@gmail.com" 
+        to="mailto:wafazadayasin@gmail.com" 
         className={styles.contactLinks}
       >
-        eliteyasin1@gmail.com
+        wafazadayasin@gmail.com
       </AppLink>
     </div>
 
